@@ -1,64 +1,65 @@
----
-title: "POP3 vs IMAP e-mail protocols"
+OwO ---
+titwe: "POP3 vs IMAP e-maiw pwotocows"
 date: "2014-12-18"
 ---
 
-## Overview
+## Ovewview
 
-POP3 and IMAP are two separate protocols to access e-mail stored on the server. POP3 [originated first](https://www.ietf.org/rfc/rfc1939.txt) in 1996 and IMAP in [2003](https://tools.ietf.org/html/rfc3501). POP3 is designed for devices that have limited Internet connectivity and limited storage available on the mail server. POP3 is suitable for a dial-up connection or situations in which limited storage is available for e-mail. Thankfully, those days are long behind us.
+POP3 and IMAP awe two sepawate pwotocows to access e-maiw stowed on da sewvew. POP3 [owiginated fiwst](https://www.ietf.owg/wfc/wfc1939.txt) in 1996 and IMAP in [2003](https://toows.ietf.owg/htmw/wfc3501). POP3 is designed fow devices that haz wimited Intewnet connectivity and wimited stowage avaiwabwe on da maiw sewvew. POP3 is suitabwe fow a diaw-up connection ow situations in which wimited stowage is avaiwabwe fow e-maiw. Thankfuwwy, those days awe wong behind us.
 
-IMAP evolved in conjunction with persistent online connections, like cable modems and DSL. IMAP keeps e-mail on the server and synchronizes its status (read, replied-to, forwarded, labels) with every e-mail client that accesses the server. This makes it suitable for access from phones and desktop mail clients: reading a message on your phone will synchronize its status with your desktop and vice-versa.
+IMAP evowved in conjunction with pewsistent onwine connections, wike cabwe modems and DSW. IMAP keeps e-maiw on da sewvew and synchwonizes its status (wead, wepwied-to, fowwawded, wabews) with evewy e-maiw cwient that accesses da sewvew. This makes it suitabwe fow access fwom phones and desktop maiw cwients: weading a message on uuw phone wiww synchwonize its status with uuw desktop and vice-vewsa.
 
-## Key differences
+## Key diffewences
 
-IMAP and POP3 are drastically different protocol implements. While they both access e-mail, IMAP and POP3 access mail with different behaviors as outlined:
+IMAP and POP3 awe dwasticawwy diffewent pwotocow impwements. Whiwe they both access e-maiw, IMAP and POP3 access maiw with diffewent behaviows as outwined:
 
 IMAP
 
 POP3
 
-Mail storage
+Maiw stowage
 
-Mail resides on server
+Maiw wesides on sewvew
 
-Mail resides on computer
+Maiw wesides on computew
 
-Synchronization
+Synchwonization
 
-Yes, mail is synchronized across all devices
+Yes, maiw is synchwonized acwoss aww devices
 
-No, mail is removed from server once accessed\*
+No, maiw is wemoved fwom sewvew once accessed\*
 
-Sent mail
+Sent maiw
 
-Saved on server
+Saved on sewvew
 
 Saved on desktop
 
-Deleted mail
+Deweted maiw
 
-Sent to Trash folder, Trash must be "emptied" in mail client to free storage
+Sent to Twash fowdew, Twash must be "emptied" in maiw cwient to fwee stowage
 
-Does not free storage; removed from desktop
+Does nut fwee stowage; wemoved fwom desktop
 
-Disaster Recovery
+Disastew Wecovewy
 
-Yes, through Apis Networks
+Yes, thwough Apis Netwowks
 
 No
 
-Access e-mail without Internet
+Access e-maiw without Intewnet
 
-No, requires Internet connection
+No, wequiwes Intewnet connection
 
-Yes, does not require Internet connection
+Yes, does nut wequiwe Intewnet connection
 
-\* POP3 can be configured to leave mail on server once downloaded, this will result in duplication of mail across multiple platforms and is not recommended. Use IMAP in this instance.
+\* POP3 can be configuwed to weave maiw on sewvew once downwoaded, this wiww wesuwt in dupwication of maiw acwoss muwtipwe pwatfowms and is nut wecommended. Use IMAP in this instance.
 
-## Which is right for me?
+## Which is wight fow me?
 
-IMAP, unless you have limited Internet connectivity and must have access to e-mail at all times. In such extreme scenarios, then POP3 is a better choice.
+IMAP, unwess uu haz wimited Intewnet connectivity and must haz access to e-maiw at aww times. In such extweme scenawios, then POP3 is a bettew choice.
 
-## See also
+## See awso
 
-- [Comparing Two Approaches to Remote Mailbox Access: IMAP vs. POP](ftp://ftp.cac.washington.edu/imap/imap.vs.pop.brief)
+- [Compawing Two Appwoaches to Wemote Maiwbox Access: IMAP vs. POP](ftp://ftp.cac.washington.edu/imap/imap.vs.pop.bwief)
+ ._.

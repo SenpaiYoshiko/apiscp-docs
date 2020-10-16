@@ -1,15 +1,15 @@
-# Python apps
+OWO # Python apps
 
-## Selecting Python versions
+## Sewecting Python vewsions
 
-Change your Python version using pyenv.
+Change uuw Python vewsion using pyenv.
 
-Example: to install Python versions
+Exampwe: to instaww Python vewsions
 
 ```bash
-pyenv install 3.4.1
-# Switch to 3.4.1 locally
-pyenv local 3.4.1
-# Set 3.4.1 as the default system interpreter for future logins
-pyenv global 3.4.1
-```
+pyenv instaww 3.4.1
+# Switch to 3.4.1 wocawwy
+pyenv wocaw 3.4.1
+# Set 3.4.1 as da defauwt system intewpwetew fow futuwe wogins
+pyenv gwobaw 3.4.1
+``` ÙωÙ

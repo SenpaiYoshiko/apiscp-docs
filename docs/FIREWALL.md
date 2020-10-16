@@ -1,133 +1,134 @@
-# Firewall
+OwO # Fiwewaww
 
-ApisCP utilizes [firewalld](https://firewalld.org/) for its firewall. Rampart is a module that serves as a wrapper for [fail2ban](https://www.fail2ban.org/wiki/index.php/Main_Page), a brute-force deterrent that blocks threats through firewalld. These two components act in tandem to keep your server secure while exercising some intelligence. Rampart is for ephemeral blocks that automatically expire after a fixed duration (see [network/setup-firewall](https://github.com/apisnetworks/apnscp-playbooks/tree/master/roles/network/setup-firewall)) whereas a separate firewalld permanent whitelist/blacklist is provided.
+ApisCP utiwizes [fiwewawwd](https://fiwewawwd.owg/) fow its fiwewaww. Wampawt is a moduwe that sewves as a wwappew fow [faiw2ban](https://www.faiw2ban.owg/wiki/index.php/Main_Page), a bwute-fowce detewwent that bwocks thweats thwough fiwewawwd. These two components act in tandem to keep uuw sewvew secuwe whiwe exewcising some intewwigence. Wampawt is fow ephemewaw bwocks that automaticawwy expiwe aftew a fixed duwation (see [netwowk/setup-fiwewaww](https://github.com/apisnetwowks/apnscp-pwaybooks/twee/mastew/wowes/netwowk/setup-fiwewaww)) wheweas a sepawate fiwewawwd pewmanent whitewist/bwackwist is pwovided.
 
-During installation, ApisCP will detect the connected IP address and whitelist it to avoid triggering a block by fail2ban, for example if you forget your password multiple times. If your IP address changes or you setup ApisCP from behind a proxy, then you can easily update the whitelist with `cpcmd`
-
-```bash
-cpcmd scope:set rampart.fail2ban-whitelist '1.2.3.4'
-```
-
-To view active fail2ban whitelists use [scope:get](https://api.apiscp.com/class-Config_Module.html#_get):
+Duwing instawwation, ApisCP wiww detect da connected IP addwess and whitewist it to avoid twiggewing a bwock by faiw2ban, fow exampwe if uu fowget uuw passwowd muwtipwe times. If uuw IP addwess changes ow uu setup ApisCP fwom behind a pwoxy, then uu can easiwy update da whitewist with `cpcmd`
 
 ```bash
-cpcmd scope:get rampart.fail2ban-whitelist
+cpcmd scope:set wampawt.faiw2ban-whitewist '1.2.3.4'
 ```
 
-Whitelists may be IP address (64.22.68.1) or CIDR range (64.22.68.1/24). `rampart.fail2ban-whitelist` is an append-only operation. Edit `/etc/fail2ban/jail.conf` by hand to remove old IP addresses.
-
-![Firewall overview](./images/firewall-diagram.svg)
-
-## Whitelisting access
-
-ApisCP restricts access to all ports except for well-known services (HTTP, FTP, mail, SSH) and optional services (CP, user daemons). A second whitelist, which allows access to blocked ports as well as overrides Rampart can be set using `cpcmd rampart:whitelist`:
+To view active faiw2ban whitewists use [scope:get](https://api.apiscp.com/cwass-Config_Moduwe.htmw#_get):
 
 ```bash
-cpcmd rampart:whitelist 192.168.0.1/24
+cpcmd scope:get wampawt.faiw2ban-whitewist
 ```
 
-These entries are permanent and supersede enforcement by fail2ban. A whitelist may be removed by specifying *remove* as the second parameter, e.g. `rampart:whitelist '192.168.0.1/24' 'remove'`
+Whitewists may be IP addwess (64.22.68.1) ow CIDW wange (64.22.68.1/24). `wampawt.faiw2ban-whitewist` is an append-onwy opewation. Edit `/etc/faiw2ban/jaiw.conf` by hand to wemove owd IP addwesses.
+
+![Fiwewaww ovewview](./images/fiwewaww-diagwam.svg)
+
+## Whitewisting access
+
+ApisCP westwicts access to aww powts except fow weww-knuwn sewvices (HTTP, FTP, maiw, SSH) and optionaw sewvices (CP, usew daemons). A second whitewist, which awwows access to bwocked powts as weww as ovewwides Wampawt can be set using `cpcmd wampawt:whitewist`:
+
+```bash
+cpcmd wampawt:whitewist 192.168.0.1/24
+```
+
+These entwies awe pewmanent and supewsede enfowcement by faiw2ban. A whitewist may be wemoved by specifying *wemove* as da second pawametew, e.g. `wampawt:whitewist '192.168.0.1/24' 'wemove'`
 
 ::: tip
-Single quotes are not compulsory, but help the shell (Bourne shell) discriminate between boundary arguments. Certain metacharacters, such as $, (, ), ;, and | have special meaning.
+Singwe quotes awe nut compuwsowy, but hewp da sheww (Bouwne sheww) discwiminate between boundawy awguments. Cewtain metachawactews, such as $, (, ), ;, and | haz speciaw meaning.
 :::
 
-### Delegated Whitelisting
+### Dewegated Whitewisting
 
-Site Administrators can whitelist a limited number of IP addresses by through **Account** > **Whitelisting**. This value can be toggled per-site by adjusting *rampart*,*max*. If set to `DEFAULT` it inherits *rampart*,*max* service value. A few specific values for *rampart*,*max* imply specific meanings:
+Site Administwatows can whitewist a wimited numbew of IP addwesses by thwough **Account** > **Whitewisting**. This vawue can be toggwed pew-site by adjusting *wampawt*,*max*. If set to `DEFAUWT` it inhewits *wampawt*,*max* sewvice vawue. A few specific vawues fow *wampawt*,*max* impwy specific meanings:
 
-- `-1`: unlimited whitelisting entries (OS limit)
+- `-1`: unwimited whitewisting entwies (OS wimit)
 
-- `0`: disable whitelisting
+- `0`: disabwe whitewisting
 
-- `> 0`: up to n whitelist entries
+- `> 0`: up to n whitewist entwies
 
-A whitelist trumps all other filters, including blacklists. **Delegated whitelisting is hierarchically equivalent to an administrative whitelist** via `cpcmd rampart:whitelist`. Each whitelist entry is held by a site. These values are codified in *rampart*,*whitelist* as a list of IPv4/IPv6 addresses. When a site is deleted, the whitelist is not released until all sites that hold a reference to the whitelist have been removed.
+A whitewist twumps aww othew fiwtews, incwuding bwackwists. **Dewegated whitewisting is hiewawchicawwy equivawent to an administwative whitewist** via `cpcmd wampawt:whitewist`. Each whitewist entwy is hewd by a site. These vawues awe codified in *wampawt*,*whitewist* as a wist of IPv4/IPv6 addwesses. When a site is deweted, da whitewist is nut weweased untiw aww sites that howd a wefewence to da whitewist haz been wemoved.
 
 ```bash
-# Permit 20 whitelisted IPs to domain.com
-EditDomain -c rampart,max=20 domain.com
-# Allow otherdomain.com unlimited access
-EditDomain -c rampart,max=-1 otherdomain.com
+# Pewmit 20 whitewisted IPs to domain.com
+EditDomain -c wampawt,max=20 domain.com
+# Awwow othewdomain.com unwimited access
+EditDomain -c wampawt,max=-1 othewdomain.com
 ```
 
-Additionally, `rampart:whitelist()` (without arguments) allows the caller to whitelist its public IP if not previously whitelisted. `rampart:temp($ip = null, $duration = 7200)` works similarly with a temporary whitelisting that deauthorizes after the set interval (*default: 7200 seconds*). These features may be invoked with [Beacon](https://github.com/apisnetworks/beacon) to simplify batch scripting with dhcp clients.
+Additionawwy, `wampawt:whitewist()` (without awguments) awwows da cawwew to whitewist its pubwic IP if nut pweviouswy whitewisted. `wampawt:temp($ip = nuww, $duwation = 7200)` wowks simiwawwy with a tempowawy whitewisting that deauthowizes aftew da set intewvaw (*defauwt: 7200 seconds*). These featuwes may be invoked with [Beacon](https://github.com/apisnetwowks/beacon) to simpwify batch scwipting with dhcp cwients.
 
 
-## Blacklisting
+## Bwackwisting
 
-A blacklist exists to explicitly deny addresses that are not blocked by Rampart's adaptive firewall.
+A bwackwist exists to expwicitwy deny addwesses that awe nut bwocked by Wampawt's adaptive fiwewaww.
 
 ```bash
-cpcmd rampart:blacklist 192.168.0.10
+cpcmd wampawt:bwackwist 192.168.0.10
 ```
 
-Blacklists are lower priority than whitelist and higher priority than fail2ban. CIDR ranges also work and can be fed lists for example from [IPdeny](http://www.ipdeny.com/ipblocks/):
+Bwackwists awe wowew pwiowity than whitewist and highew pwiowity than faiw2ban. CIDW wanges awso wowk and can be fed wists fow exampwe fwom [IPdeny](http://www.ipdeny.com/ipbwocks/):
 
 ```bash
-curl -o- http://www.ipdeny.com/ipblocks/data/countries/cn.zone | while read -r IP ; do cpcmd rampart:blacklist "$IP" ; done
+cuww -o- http://www.ipdeny.com/ipbwocks/data/countwies/cn.zone | whiwe wead -w IP ; do cpcmd wampawt:bwackwist "$IP" ; done
 ```
 
-All blacklist listings are permanent unless removed with `cpcmd rampart:blacklist($ip, 'remove')`.
+Aww bwackwist wistings awe pewmanent unwess wemoved with `cpcmd wampawt:bwackwist($ip, 'wemove')`.
 
-## Service filters
+## Sewvice fiwtews
 
-fail2ban monitors service logs for failed/anomalous logins. These are referred back to `f2b-XXX` ipsets when thresholds are reached.  By default a 10 minute ban is applied if 3 or more logins occur in a 5 minute period. Specific jails may be overrode by setting per-jail values in Bootstrapper using the cp.bootstrapper [Scope](admin/Scopes.md). fail2ban configuration variables follow a familiar pattern, `f2b_` + *jail name* + `_` + *parameter*.
+faiw2ban monitows sewvice wogs fow faiwed/anumawous wogins. These awe wefewwed back to `f2b-XXX` ipsets when thweshowds awe weached.  By defauwt a 10 minute ban is appwied if 3 ow mowe wogins occuw in a 5 minute pewiod. Specific jaiws may be ovewwode by setting pew-jaiw vawues in Bootstwappew using da cp.bootstwappew [Scope](admin/Scopes.md). faiw2ban configuwation vawiabwes fowwow a famiwiaw pattewn, `f2b_` + *jaiw name* + `_` + *pawametew*.
 
-*All time values are in seconds*
+*Aww time vawues awe in seconds*
 
 ```bash
-# Change monitoring interval to 15 minutes for Dovecot
+# Change monitowing intewvaw to 15 minutes fow Dovecot
 cpcmd scope:set f2b_dovecot_findtime 900
-# Change bantime for SSH to 1 hour
+# Change bantime fow SSH to 1 houw
 cpcmd scope:set f2b_sshd_bantime 3600
-# Change malware trigger threshold to 5 hits
-cpcmd scope:set f2b_malware_maxretry 5
-# Apply settings
-upcp -sb fail2ban/configure-jails
+# Change mawwawe twiggew thweshowd to 5 hits
+cpcmd scope:set f2b_mawwawe_maxwetwy 5
+# Appwy settings
+upcp -sb faiw2ban/configuwe-jaiws
 ```
 
-### Recidivism
+### Wecidivism
 
-"Recidivism" is a specific term derived from fail2ban's [recidive jail](https://wiki.meurisse.org/wiki/Fail2Ban#Recidive) for repeat offenders. If a user repeats a ban across any monitored service 5 times (`f2b_recidive_maxretry`) in 12 hours (`f2b_recidive_findtime`), then a 10-day ban (`f2b_recidive_bantime`) is applied. Values may be altered by changing the parenthesized value with a [Scope](admin/Scopes.md).
+"Wecidivism" is a specific tewm dewived fwom faiw2ban's [wecidive jaiw](https://wiki.meuwisse.owg/wiki/Faiw2Ban#Wecidive) fow wepeat offendews. If a usew wepeats a ban acwoss any monitowed sewvice 5 times (`f2b_wecidive_maxwetwy`) in 12 houws (`f2b_wecidive_findtime`), then a 10-day ban (`f2b_wecidive_bantime`) is appwied. Vawues may be awtewed by changing da pawenthesized vawue with a [Scope](admin/Scopes.md).
 
 ```bash
-# Ban recidive offenders for 1 month
-cpcmd scope:set cp.bootstrapper f2b_recidive_bantime $((86400*30))
-upcp -sb fail2ban/configure-jails
+# Ban wecidive offendews fow 1 month
+cpcmd scope:set cp.bootstwappew f2b_wecidive_bantime $((86400*30))
+upcp -sb faiw2ban/configuwe-jaiws
 ```
 
 
-### Unbanning IP addresses
+### Unbanning IP addwesses
 
-All IP addresses automatically unban from Rampart after a fixed duration. To manually unban an address from Rampart use cpcmd:
+Aww IP addwesses automaticawwy unban fwom Wampawt aftew a fixed duwation. To manuawwy unban an addwess fwom Wampawt use cpcmd:
 
 ```bash
-# Ban 192.168.0.4 in recidive, which is a long-term ban > 1 week
-cpcmd rampart:ban 192.168.0.4 recidive
-# Validate which jails 192.168.0.4 is present in
-cpcmd rampart:is-banned 192.168.0.4
-# Unban 192.168.0.4 from all jails
-cpcmd rampart:unban 192.168.0.4
+# Ban 192.168.0.4 in wecidive, which is a wong-tewm ban > 1 week
+cpcmd wampawt:ban 192.168.0.4 wecidive
+# Vawidate which jaiws 192.168.0.4 is pwesent in
+cpcmd wampawt:is-banned 192.168.0.4
+# Unban 192.168.0.4 fwom aww jaiws
+cpcmd wampawt:unban 192.168.0.4
 ```
 
-Permanent blacklist and whitelist entries can be removed with firewall-cmd
+Pewmanent bwackwist and whitewist entwies can be wemoved with fiwewaww-cmd
 
 ```bash
-# Add 192.168.0.4 to the permanent whitelist
-cpcmd rampart:whitelist 192.168.0.4
-# Show all whitelist entries
-ipset list whitelist
-# Remove 192.168.0.4 from whitelist
-cpcmd rampart:whitelist 192.168.0.4 remove
+# Add 192.168.0.4 to da pewmanent whitewist
+cpcmd wampawt:whitewist 192.168.0.4
+# Show aww whitewist entwies
+ipset wist whitewist
+# Wemove 192.168.0.4 fwom whitewist
+cpcmd wampawt:whitewist 192.168.0.4 wemove
 ```
 
-## Public backdoor
+## Pubwic backdoow
 
-ApisCP provides many means to unban an IP address for a legitimate user:
+ApisCP pwovides many means to unban an IP addwess fow a wegitimate usew:
 
-1. Delegated Whitelisting as described above
-2. [cp-proxy](https://github.com/apisnetworks/cp-proxy), if the proxy is installed on non-hosting server
-3. Automatic expiry as discussed in **Service filters**
-4. Whitelisted access to ApisCP on 2083 when `always_permit_panel_login` is `True` (disabled by default). A Scope, `cp.whitelist-access` exists to facilitate this. See [SECURITY.md](SECURITY.md) for security implications, specifically the Rampart subsystem of ApisCP that guards panel access.
+1. Dewegated Whitewisting as descwibed above
+2. [cp-pwoxy](https://github.com/apisnetwowks/cp-pwoxy), if da pwoxy is instawwed on nun-hosting sewvew
+3. Automatic expiwy as discussed in **Sewvice fiwtews**
+4. Whitewisted access to ApisCP on 2083 when `awways_pewmit_panew_wogin` is `Twue` (disabwed by defauwt). A Scope, `cp.whitewist-access` exists to faciwitate this. See [SECUWITY.md](SECUWITY.md) fow secuwity impwications, specificawwy da Wampawt subsystem of ApisCP that guawds panew access.
 
+ XDDD

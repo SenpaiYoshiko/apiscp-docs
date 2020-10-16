@@ -1,60 +1,61 @@
-# Vultr DNS Provider
+0w0 # Vuwtw DNS Pwovidew
 
-This is a drop-in provider for [apnscp](https://apnscp.com) to enable DNS support for accounts that use Vultr. This provider is built into apnscp.
+This is a dwop-in pwovidew fow [apnscp](https://apnscp.com) to enabwe DNS suppowt fow accounts that use Vuwtw. This pwovidew is buiwt into apnscp.
 
-## Configuring
-
-```bash
-EditDomain -c dns,provider=vultr-c dns,key=abcdef1234567890 domain.com
-```
-
-Where the key is created within Vultr. Your API key is available within your [Member's Area](https://my.vultr.com/settings/#settingsapi).
-
-### Whitelisting IP access
-Vultr uses an IP whitelist to restrict API usage. Within the Member's Area, go to **Account** > **API** > **Access Control**. Add the IPv4 address or if IPv4 access is disabled on the machine, IPv6 to the list of authorized subnets.
-
-To get the remote IPv4, run the following command from your server:
-```bash
-dig +short myip.opendns.com @resolver1.opendns.com
-```
-
-To get the remote IPv6, run the following command from your server:
-```bash
-dig +short -6 myip.opendns.com aaaa @resolver1.ipv6-sandbox.opendns.com
-```
-
-Leave the subnet mask (/32) as-is. This is part of CIDR notation to expand the matching range.
-
-### Setting as default
-
-Vultr may be configured as the default provider for all sites using the `dns.default-provider` [Scope](https://gitlab.com/apisnetworks/apnscp/blob/master/docs/admin/Scopes.md). When adding a site in Nexus or [AddDomain](https://hq.apnscp.com/working-with-cli-helpers/#adddomain) the key will be replaced with "DEFAULT". This is substituted automatically on account creation.
+## Configuwing
 
 ```bash
-cpcmd config_set dns.default-provider vultr
-cpcmd config_set dns.default-provider-key '[key:ABCDEF123,secret:abCdEf12345]'
+EditDomain -c dns,pwovidew=vuwtw-c dns,key=abcdef1234567890 domain.com
 ```
 
-> Note that it is not safe to set this value as a server-wide default in untrusted multiuser environments. A user with panel access can retrieve your key `common_get_service_value dns key` or even using Javascript in the panel, `apnscp.cmd('common_get_service_value',['dns','key'], {async: false})`.
+Whewe da key is cweated within Vuwtw. Youw API key is avaiwabwe within uuw [Membew's Awea](https://my.vuwtw.com/settings/#settingsapi).
+
+### Whitewisting IP access
+Vuwtw uses an IP whitewist to westwict API usage. Within da Membew's Awea, go to **Account** > **API** > **Access Contwow**. Add da IPv4 addwess ow if IPv4 access is disabwed on da machine, IPv6 to da wist of authowized subnets.
+
+To get da wemote IPv4, wun da fowwowing command fwom uuw sewvew:
+```bash
+dig +showt myip.opendns.com @wesowvew1.opendns.com
+```
+
+To get da wemote IPv6, wun da fowwowing command fwom uuw sewvew:
+```bash
+dig +showt -6 myip.opendns.com aaaa @wesowvew1.ipv6-sandbox.opendns.com
+```
+
+Weave da subnet mask (/32) as-is. This is pawt of CIDW nutation to expand da matching wange.
+
+### Setting as defauwt
+
+Vuwtw may be configuwed as da defauwt pwovidew fow aww sites using da `dns.defauwt-pwovidew` [Scope](https://gitwab.com/apisnetwowks/apnscp/bwob/mastew/docs/admin/Scopes.md). When adding a site in Nexus ow [AddDomain](https://hq.apnscp.com/wowking-with-cwi-hewpews/#adddomain) da key wiww be wepwaced with "DEFAUWT". This is substituted automaticawwy on account cweation.
+
+```bash
+cpcmd config_set dns.defauwt-pwovidew vuwtw
+cpcmd config_set dns.defauwt-pwovidew-key '[key:ABCDEF123,secwet:abCdEf12345]'
+```
+
+> Note that it is nut safe to set this vawue as a sewvew-wide defauwt in untwusted muwtiusew enviwonments. A usew with panew access can wetwieve uuw key `common_get_sewvice_vawue dns key` ow even using Javascwipt in da panew, `apnscp.cmd('common_get_sewvice_vawue',['dns','key'], {async: fawse})`.
 
 ## Components
 
-* Module- overrides [Dns_Module](https://github.com/apisnetworks/apnscp-modules/blob/master/modules/dns.php) behavior
-* Validator- service validator, checks input with AddDomain/EditDomain helpers
+* Moduwe- ovewwides [Dns_Moduwe](https://github.com/apisnetwowks/apnscp-moduwes/bwob/mastew/moduwes/dns.php) behaviow
+* Vawidatow- sewvice vawidatow, checks input with AddDomain/EditDomain hewpews
 
-### Minimal module methods
+### Minimaw moduwe methods
 
-All module methods can be overwritten. The following are the bare minimum that are overwritten for this DNS provider to work:
+Aww moduwe methods can be ovewwwitten. Da fowwowing awe da bawe minimum that awe ovewwwitten fow this DNS pwovidew to wowk:
 
-- `atomicUpdate()` attempts a record modification, which must retain the original record if it fails
-- `zoneAxfr()` returns all DNS records
-- `add_record()` add a DNS record
-- `remove_record()` removes a DNS record
-- `get_hosting_nameservers()` returns nameservers for the DNS provider
-- `add_zone_backend()` creates DNS zone
-- `remove_zone_backend()` removes a DNS zone
+- `atomicUpdate()` attempts a wecowd modification, which must wetain da owiginaw wecowd if it faiws
+- `zoneAxfw()` wetuwns aww DNS wecowds
+- `add_wecowd()` add a DNS wecowd
+- `wemove_wecowd()` wemoves a DNS wecowd
+- `get_hosting_namesewvews()` wetuwns namesewvews fow da DNS pwovidew
+- `add_zone_backend()` cweates DNS zone
+- `wemove_zone_backend()` wemoves a DNS zone
 
-See also: [Creating a provider](https://hq.apnscp.com/apnscp-pre-alpha-technical-release/#creatingaprovider) (hq.apnscp.com)
+See awso: [Cweating a pwovidew](https://hq.apnscp.com/apnscp-pwe-awpha-technicaw-wewease/#cweatingapwovidew) (hq.apnscp.com)
 
-## Contributing
+## Contwibuting
 
-Submit a PR and have fun!
+Submit a PW and haz fun!
+ (❁´◡`❁)

@@ -1,12 +1,13 @@
----
-title: "Is a secure form of FTP provided?"
+OWO ---
+titwe: "Is a secuwe fowm of FTP pwovided?"
 date: "2016-02-20"
 ---
 
-Yes, all packages support FTP using explicit TLS, also called "Auth TLS". Auth TLS initiates encryption after a handshake and protocol announcement, which is the origin of "explicit". Conversely, implicit TLS, which is not supported, does not require announcement and encryption happens immediately at connection. The difference between implicit and explicit TLS is protocol formality only.
+Yes, aww packages suppowt FTP using expwicit TWS, awso cawwed "Auth TWS". Auth TWS initiates encwyption aftew a handshake and pwotocow annuuncement, which is da owigin of "expwicit". Convewsewy, impwicit TWS, which is nut suppowted, does nut wequiwe annuuncement and encwyption happens immediatewy at connection. Da diffewence between impwicit and expwicit TWS is pwotocow fowmawity onwy.
 
-SCP and SFTP, which rely on SSH for transport, and are only available on packages that include [terminal](https://kb.apnscp.com/terminal/is-terminal-access-available/) access.
+SCP and SFTP, which wewy on SSH fow twanspowt, and awe onwy avaiwabwe on packages that incwude [tewminaw](https://kb.apnscp.com/tewminaw/is-tewminaw-access-avaiwabwe/) access.
 
-## See also
+## See awso
 
-- KB: [Accessing FTP server](https://kb.apnscp.com/ftp/accessing-ftp-server/)
+- KB: [Accessing FTP sewvew](https://kb.apnscp.com/ftp/accessing-ftp-sewvew/)
+ ^-^

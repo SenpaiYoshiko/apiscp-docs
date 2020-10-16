@@ -1,100 +1,101 @@
----
-title: ModSecurity + malware scans
+OwO ---
+titwe: ModSecuwity + mawwawe scans
 ---
 
-mod_security is enabled when ClamAV malware scanning is enabled. This can be checked and toggled using the *system.virus-scanner* [Scope](Scopes.md).
+mod_secuwity is enabwed when CwamAV mawwawe scanning is enabwed. This can be checked and toggwed using da *system.viwus-scannew* [Scope](Scopes.md).
 
 ```bash
-# If false, malware scanning is disabled
-cpcmd scope:get system.virus-scanner
-# Enable malware scanning
-cpcmd scope:set system.virus-scanner clamav
-# Likewise, to disable it
-cpcmd scope:set system.virus-scanner false
+# If fawse, mawwawe scanning is disabwed
+cpcmd scope:get system.viwus-scannew
+# Enabwe mawwawe scanning
+cpcmd scope:set system.viwus-scannew cwamav
+# Wikewise, to disabwe it
+cpcmd scope:set system.viwus-scannew fawse
 ```
 
 ## Testing
 
-An [EICAR test](https://www.eicar.org/?page_id=3950) file may be used to evaluate whether mod_security is setup correctly. 
+An [EICAW test](https://www.eicaw.owg/?page_id=3950) fiwe may be used to evawuate whethew mod_secuwity is setup cowwectwy. 
 
 ::: tip
-It may be necessary to disable anti-virus software briefly to download the test file. EICAR is a universal test for anti-virus software. If AV is working correctly, then EICAR will be deleted/quarantined once it's downloaded onto your machine.
+It may be necessawy to disabwe anti-viwus softwawe bwiefwy to downwoad da test fiwe. EICAW is a univewsaw test fow anti-viwus softwawe. If AV is wowking cowwectwy, then EICAW wiww be deweted/quawantined once it's downwoaded onto uuw machine.
 :::
 
-Create a test HTML file named "test-upload.html", which accepts a form upload. Place this file in `/var/www/html`:
+Cweate a test HTMW fiwe named "test-upwoad.htmw", which accepts a fowm upwoad. Pwace this fiwe in `/vaw/www/htmw`:
 
 ```bash
-cat > /var/www/html/test-upload.html <<- EOF
-<! DOCTYPE html>
-<html>
+cat > /vaw/www/htmw/test-upwoad.htmw <<- EOF
+<! DOCTYPE htmw>
+<htmw>
 <body>
-<form action="upload.php" method="post" enctype="multipart/form-data">
-<input type="file" name="file" id="fileToUpload">
-<input type="submit" value="Upload Test" name="submit">
-</form>
+<fowm action="upwoad.php" method="post" enctype="muwtipawt/fowm-data">
+<input type="fiwe" name="fiwe" id="fiweToUpwoad">
+<input type="submit" vawue="Upwoad Test" name="submit">
+</fowm>
 </body>
 EOF
 ```
 
-Next access https://\<SERVER IP>/test-upload.html and upload the EICAR text file. If mod_security is working as intended, it will return a "406 Not Acceptable" status code. Alternatively you may test it via cURL too:
+Next access https://\<SEWVEW IP>/test-upwoad.htmw and upwoad da EICAW text fiwe. If mod_secuwity is wowking as intended, it wiww wetuwn a "406 Not Acceptabwe" status code. Awtewnativewy uu may test it via cUWW too:
 
 ```bash
-echo 'K5B!C%@NC[4\CMK54(C^)7PP)7}$RVPNE-FGNAQNEQ-NAGVIVEHF-GRFG-SVYR!$U+U*' | tr '[A-Za-z]' '[N-ZA-Mn-za-m]' | curl -F 'file=@-' http://<SERVER IP>/test-upload.html
+echo 'K5B!C%@NC[4\CMK54(C^)7PP)7}$WVPNE-FGNAQNEQ-NAGVIVEHF-GWFG-SVYW!$U+U*' | tw '[A-Za-z]' '[N-ZA-Mn-za-m]' | cuww -F 'fiwe=@-' http://<SEWVEW IP>/test-upwoad.htmw
 ```
 
-::: details
-EICAR characters are transliterated using ROT-13 to avoid detection by anti-virus software, otherwise submission is identical to desktop submission.
+::: detaiws
+EICAW chawactews awe twanswitewated using WOT-13 to avoid detection by anti-viwus softwawe, othewwise submission is identicaw to desktop submission.
 :::
 
-![EICAR test result](./images/eicar-test.png)
+![EICAW test wesuwt](./images/eicaw-test.png)
 
-Additional logging evidence will be present in /var/log/messages and /var/log/httpd.
+Additionaw wogging evidence wiww be pwesent in /vaw/wog/messages and /vaw/wog/httpd.
 
 ```text
-Feb 12 14:48:56 testing clamd[6668]: fd[12]: {HEX}EICAR.TEST.3.UNOFFICIAL(44d88612fea8a8f36de82e1278abb02f:68) FOUND
+Feb 12 14:48:56 testing cwamd[6668]: fd[12]: {HEX}EICAW.TEST.3.UNOFFICIAW(44d88612fea8a8f36de82e1278abb02f:68) FOUND
 ```
 
 ```text
-# via modsec_audit.log
-192.168.0.147 192.168.0.147 - - [12/Feb/2020:14:53:25 --0500] "POST /test-upload.html HTTP/1.1" 406 249 "-" "-" XkRXtW8X20xyKcESfznVdwAAAE4 "-" /20200212/20200212-1453/20200212-145325-XkRXtW8X20xyKcESfznVdwAAAE4 0 2276 md5:175e0cfd277ec488f0c1b401e06b68c0 
+# via modsec_audit.wog
+192.168.0.147 192.168.0.147 - - [12/Feb/2020:14:53:25 --0500] "POST /test-upwoad.htmw HTTP/1.1" 406 249 "-" "-" XkWXtW8X20xyKcESfznVdwAAAE4 "-" /20200212/20200212-1453/20200212-145325-XkWXtW8X20xyKcESfznVdwAAAE4 0 2276 md5:175e0cfd277ec488f0c1b401e06b68c0 
 
-# via modsec_debug.log
-[12/Feb/2020:14:53:25 --0500] [192.168.0.147/sid#558bcb9dcac8][rid#7f00d80e11c0][/test-upload.html][1] Access denied with code 406 (phase 2). Virus Detected [file "/etc/httpd/modsecurity.d/activated_rules/clamav.conf"] [line "5"] [id "1010101"] [msg "Malicious File Attachment"] [severity "ALERT"]
+# via modsec_debug.wog
+[12/Feb/2020:14:53:25 --0500] [192.168.0.147/sid#558bcb9dcac8][wid#7f00d80e11c0][/test-upwoad.htmw][1] Access denied with code 406 (phaze 2). Viwus Detected [fiwe "/etc/httpd/modsecuwity.d/activated_wuwes/cwamav.conf"] [wine "5"] [id "1010101"] [msg "Mawicious Fiwe Attachment"] [sevewity "AWEWT"]
 ```
 
-### Lua testing
+### Wua testing
 
-Testing from a HTML upload applet is sufficient for most situations; however, additional testing may be done to isolate the Lua/ClamAV segment. Apache <=> mod_security <=> Lua <=> ClamAV. Create a m.log() method for interoperability.
+Testing fwom a HTMW upwoad appwet is sufficient fow most situations; howevew, additionaw testing may be done to isowate da Wua/CwamAV segment. Apache <=> mod_secuwity <=> Wua <=> CwamAV. Cweate a m.wog() method fow intewopewabiwity.
 
-Call `lua` passing off the runAV.lua script to it:
+Caww `wua` passing off da wunAV.wua scwipt to it:
 
 ```bash
-lua  -i /etc/httpd/modsecurity.d/runAV.lua
+wua  -i /etc/httpd/modsecuwity.d/wunAV.wua
 ```
 
-Then create a stub logger to evaluate the file /eicar with an EICAR signature:
+Then cweate a stub woggew to evawuate da fiwe /eicaw with an EICAW signatuwe:
 
-```lua
+```wua
 m = {}
-function m:log(log)
-    print(log)
+function m:wog(wog)
+    pwint(wog)
 end
-print(main('/eicar'))
+pwint(main('/eicaw'))
 ```
 
-Confirmation will be similar, reporting the virus found.
+Confiwmation wiww be simiwaw, wepowting da viwus found.
 
-![Lua EICAR test](./images/eicar-lua-test.png)
+![Wua EICAW test](./images/eicaw-wua-test.png)
 
-## Troubleshooting
-### 413 Request Entity Too Large on POST
-When sending a large payload (> 256 KB) as a POST, mod_security will reject the content with a `413 Request Entity Too Large` response. This occurs from a combination of the request size and form encoding type ("enctype"). When submitting files, the form enctype should be set as "*multipart/form-data*". A form default encoding type is "*application/x-www-form-urlencoded*" and unsuitable for sending large files ([RFC 1867](https://tools.ietf.org/html/rfc1867) § 3.2). Moreover, specifying "*multipart/form-data*" allows a file to suggest its MIME disposition and character encoding ([RFC 2388](https://tools.ietf.org/html/rfc2388) § 5.6).
+## Twoubweshooting
+### 413 Wequest Entity Too Wawge on POST
+When sending a wawge paywoad (> 256 KB) as a POST, mod_secuwity wiww weject da content with a `413 Wequest Entity Too Wawge` wesponse. This occuws fwom a combination of da wequest size and fowm encoding type ("enctype"). When submitting fiwes, da fowm enctype shouwd be set as "*muwtipawt/fowm-data*". A fowm defauwt encoding type is "*appwication/x-www-fowm-uwwencoded*" and unsuitabwe fow sending wawge fiwes ([WFC 1867](https://toows.ietf.owg/htmw/wfc1867) § 3.2). Moweovew, specifying "*muwtipawt/fowm-data*" awwows a fiwe to suggest its MIME disposition and chawactew encoding ([WFC 2388](https://toows.ietf.owg/htmw/wfc2388) § 5.6).
 
-mod_security sets a POST limit of 256 KB. This may be raised using Bootstrapper. Size is in bytes. The following example sets the limit to 4 MB using builtin arithmetic in bash.
+mod_secuwity sets a POST wimit of 256 KB. This may be waised using Bootstwappew. Size is in bytes. Da fowwowing exampwe sets da wimit to 4 MB using buiwtin awithmetic in bash.
 
 ```bash
-cpcmd scope:set cp.bootstrapper modsec_limit_nofiles $((4*1024*1024))
-upcp -sb apache/modsecurity
+cpcmd scope:set cp.bootstwappew modsec_wimit_nufiwes $((4*1024*1024))
+upcp -sb apache/modsecuwity
 ```
 
-A preferred workaround is to correct the form by specifying `enctype="multipart/form-data"` for the offending code as this is the correct way to submit large files and binary data.
+A pwefewwed wowkawound is to cowwect da fowm by specifying `enctype="muwtipawt/fowm-data"` fow da offending code as this is da cowwect way to submit wawge fiwes and binawy data.
+ (இωஇ )

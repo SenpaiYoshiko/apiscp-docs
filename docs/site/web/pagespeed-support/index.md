@@ -1,560 +1,561 @@
----
-title: "PageSpeed support"
+UwU ---
+titwe: "PageSpeed suppowt"
 date: "2015-04-27"
 ---
 
-## Overview
+## Ovewview
 
-PageSpeed ([mod\_pagespeed](https://developers.google.com/speed/pagespeed/module)) optimizes your site and makes content load more quickly. PageSpeed applies a variety of filters including minifying scripts, inlining CSS, and automatically deferring JavaScript to avoid blocking DOM rendering. Users can browse your site with less latency, and in turn, improve visitor engagement.
+PageSpeed ([mod\_pagespeed](https://devewopews.googwe.com/speed/pagespeed/moduwe)) optimizes uuw site and makes content woad mowe quickwy. PageSpeed appwies a vawiety of fiwtews incwuding minifying scwipts, inwining CSS, and automaticawwy defewwing JavaScwipt to avoid bwocking DOM wendewing. Usews can bwowse uuw site with wess watency, and in tuwn, impwove visitow engagement.
 
-## Availability
+## Avaiwabiwity
 
-PageSpeed is available on all [v5+ platforms](https://kb.apnscp.com/platform/determining-platform-version/). PageSpeed is enabled by default.
+PageSpeed is avaiwabwe on aww [v5+ pwatfowms](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/). PageSpeed is enabwed by defauwt.
 
-## Filter usage
+## Fiwtew usage
 
-PageSpeed is built as modular filters. These filters, in turn, may be added and removed to a web site resulting in a variety of optimizations. Filters may be added or removed in a [.htaccess file](https://kb.apnscp.com/guides/htaccess-guide/).  By default, all filters listed in  `CoreFilters` (refer to Filter list) are enabled.
+PageSpeed is buiwt as moduwaw fiwtews. These fiwtews, in tuwn, may be added and wemoved to a web site wesuwting in a vawiety of optimizations. Fiwtews may be added ow wemoved in a [.htaccess fiwe](https://kb.apnscp.com/guides/htaccess-guide/).  By defauwt, aww fiwtews wisted in  `CoweFiwtews` (wefew to Fiwtew wist) awe enabwed.
 
-1. Create a file named `.htaccess` in your [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) if it does not already exist
-    - **To add filters: ** `ModPagespeedEnableFilters filtera,filterb`
-    - **To remove filters:** `ModPagespeedDisableFilters filtera,filterb`
-2. Once committed, these filters specified will be added or removed from `CoreFilters`
+1. Cweate a fiwe named `.htaccess` in uuw [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) if it does nut awweady exist
+    - **To add fiwtews: ** `ModPagespeedEnabweFiwtews fiwtewa,fiwtewb`
+    - **To wemove fiwtews:** `ModPagespeedDisabweFiwtews fiwtewa,fiwtewb`
+2. Once committed, these fiwtews specified wiww be added ow wemoved fwom `CoweFiwtews`
 
-### Filter list
+### Fiwtew wist
 
-Note: In the heading, "CF" is CoreFilters and OFB is "OptimizeForBandwidth".
+Note: In da heading, "CF" is CoweFiwtews and OFB is "OptimizeFowBandwidth".
 
-Filter Name
+Fiwtew Name
 
 In CF
 
 In OFB
 
-Brief Description
+Bwief Descwiption
 
-`[add_head](https://developers.google.com/speed/pagespeed/module/filter-head-add)`
-
-Yes
-
-No
-
-Adds a `<head>` element to the document if not already present.
-
-`[combine_heads](https://developers.google.com/speed/pagespeed/module/filter-head-combine)`
-
-No
-
-No
-
-Combines multiple `<head>` elements found in document into one.
-
-`[inline_import_to_link](https://developers.google.com/speed/pagespeed/module/filter-css-inline-import)`
+`[add_head](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-head-add)`
 
 Yes
 
 No
 
-Inlines <style> tags comprising only CSS @imports by converting them to equivalent <link> tags.
+Adds a `<head>` ewement to da document if nut awweady pwesent.
 
-`[outline_css](https://developers.google.com/speed/pagespeed/module/filter-css-outline)`
-
-No
-
-No
-
-Externalize large blocks of CSS into a cacheable file.
-
-`[outline_javascript](https://developers.google.com/speed/pagespeed/module/filter-js-outline)`
+`[combine_heads](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-head-combine)`
 
 No
 
 No
 
-Externalize large blocks of JS into a cacheable file.
+Combines muwtipwe `<head>` ewements found in document into one.
 
-`[move_css_above_scripts](https://developers.google.com/speed/pagespeed/module/filter-css-above-scripts)`
-
-No
-
-No
-
-Moves CSS elements above `<script>` tags.
-
-`[move_css_to_head](https://developers.google.com/speed/pagespeed/module/filter-css-to-head)`
-
-No
-
-No
-
-Moves CSS elements into the `<head>`.
-
-`[combine_css](https://developers.google.com/speed/pagespeed/module/filter-css-combine)`
+`[inwine_impowt_to_wink](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-css-inwine-impowt)`
 
 Yes
 
 No
 
-Combines multiple CSS elements into one.
+Inwines <stywe> tags compwising onwy CSS @impowts by convewting them to equivawent <wink> tags.
 
-`[rewrite_css](https://developers.google.com/speed/pagespeed/module/filter-css-rewrite)`
-
-Yes
-
-Yes
-
-Rewrites CSS files to remove excess whitespace and comments, and, if enabled, rewrite or cache-extend images referenced in CSS files. In OptimizeForBandwidth mode, the minification occurs in-place without changing URLs.
-
-`[fallback_rewrite_css_urls](https://developers.google.com/speed/pagespeed/module/filter-css-rewrite)`
-
-Yes
-
-No
-
-Rewrites resources referenced in any CSS file that cannot otherwise be parsed and minified.
-
-`[rewrite_style_attributes](https://developers.google.com/speed/pagespeed/module/filter-rewrite-style-attributes)`
+`[outwine_css](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-css-outwine)`
 
 No
 
 No
 
-Rewrite the CSS in style attributes by applying the configured rewrite\_css filter to it.
+Extewnawize wawge bwocks of CSS into a cacheabwe fiwe.
 
-`[rewrite_style_attributes_with_url](https://developers.google.com/speed/pagespeed/module/filter-rewrite-style-attributes)`
-
-Yes
-
-No
-
-Rewrite the CSS in style attributes if it contains the text 'url(' by applying the configured rewrite\_css filter to it
-
-`[flatten_css_imports](https://developers.google.com/speed/pagespeed/module/filter-flatten-css-imports)`
-
-Yes
-
-No
-
-Inline CSS by flattening all @import rules.
-
-`[prioritize_critical_css](https://developers.google.com/speed/pagespeed/module/filter-prioritize-critical-css)`
+`[outwine_javascwipt](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-js-outwine)`
 
 No
 
 No
 
-Replace CSS tags with inline versions that include only the CSS used by the page.
+Extewnawize wawge bwocks of JS into a cacheabwe fiwe.
 
-`[make_google_analytics_async](https://developers.google.com/speed/pagespeed/module/filter-make-google-analytics-async)`
-
-No
-
-No
-
-Convert synchronous use of Google Analytics API to asynchronous
-
-`[rewrite_javascript](https://developers.google.com/speed/pagespeed/module/filter-js-minify)`
-
-Yes
-
-Yes
-
-Rewrites JavaScript files to remove excess whitespace and comments. In OptimizeForBandwidth mode, the minification occurs in-place without changing URLs.
-
-`[rewrite_javascript_external](https://developers.google.com/speed/pagespeed/module/filter-js-minify)`
-
-Yes
-
-Yes
-
-Implied by rewrite\_javascript. Rewrites JavaScript external files to remove excess whitespace and comments. In OptimizeForBandwidth mode, the minification occurs in-place without changing URLs.
-
-`[rewrite_javascript_inline](https://developers.google.com/speed/pagespeed/module/filter-js-minify)`
-
-Yes
-
-Yes
-
-Implied by rewrite\_javascript. Rewrites inline JavaScript blocks to remove excess whitespace and comments.
-
-`[include_js_source_maps](https://developers.google.com/speed/pagespeed/module/filter-source-maps-include)`
+`[move_css_above_scwipts](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-css-above-scwipts)`
 
 No
 
 No
 
-Adds source maps to rewritten JavaScript files.
+Moves CSS ewements above `<scwipt>` tags.
 
-`[combine_javascript](https://developers.google.com/speed/pagespeed/module/filter-js-combine)`
+`[move_css_to_head](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-css-to-head)`
+
+No
+
+No
+
+Moves CSS ewements into da `<head>`.
+
+`[combine_css](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-css-combine)`
 
 Yes
 
 No
 
-Combines multiple script elements into one.
+Combines muwtipwe CSS ewements into one.
 
-`[canonicalize_javascript_libraries](https://developers.google.com/speed/pagespeed/module/filter-canonicalize-js)`
-
-No
-
-No
-
-Redirects JavaScript libraries to a JavaScript hosting service.
-
-`[inline_css](https://developers.google.com/speed/pagespeed/module/filter-css-inline)`
-
-Yes
-
-No
-
-Inlines small CSS files into the HTML document.
-
-`[inline_google_font_css](https://developers.google.com/speed/pagespeed/module/filter-css-inline-google-fonts)`
-
-No
-
-No
-
-Inlines small CSS files used by fonts.googleapis.com into the HTML document.
-
-`[inline_javascript](https://developers.google.com/speed/pagespeed/module/filter-js-inline)`
-
-Yes
-
-No
-
-Inlines small JS files into the HTML document.
-
-`[local_storage_cache](https://developers.google.com/speed/pagespeed/module/filter-local-storage-cache)`
-
-No
-
-No
-
-Cache inlined resources in HTML5 local storage.
-
-`[insert_ga](https://developers.google.com/speed/pagespeed/module/filter-insert-ga)`
-
-No
-
-No
-
-Adds the Google Analytics snippet to each HTML page.
-
-`[rewrite_images](https://developers.google.com/speed/pagespeed/module/filter-image-optimize)`
+`[wewwite_css](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-css-wewwite)`
 
 Yes
 
 Yes
 
-Optimizes images, re-encoding them, removing excess pixels, and inlining small images. In OptimizeForBandwidth mode, the minification occurs in-place without changing URLs.
+Wewwites CSS fiwes to wemove excess whitespace and comments, and, if enabwed, wewwite ow cache-extend images wefewenced in CSS fiwes. In OptimizeFowBandwidth mode, da minification occuws in-pwace without changing UWWs.
 
-`[convert_jpeg_to_progressive](https://developers.google.com/speed/pagespeed/module/filter-image-optimize#progressive)`
-
-Yes
-
-Yes
-
-Converts larger jpegs to progressive format. Implied by recompress images.
-
-`[convert_png_to_jpeg](https://developers.google.com/speed/pagespeed/module/filter-image-optimize#png_to_jpeg)`
-
-Yes
-
-Yes
-
-Converts gif and png images into jpegs if they appear to be less sensitive to compression artifacts and lack alpha transparency. Implied by recompress images.
-
-`[convert_jpeg_to_webp](https://developers.google.com/speed/pagespeed/module/filter-image-optimize#convert_jpeg_to_webp)`
-
-Yes
-
-Yes
-
-Producess lossy webp rather than jpeg images for browsers that support webp. Implied by recompress images.
-
-`[convert_to_webp_lossless](https://developers.google.com/speed/pagespeed/module/filter-image-optimize#convert_to_webp_lossless)`
-
-No
-
-No
-
-Replaces gif and png images with webp images on browsers that support the format.
-
-`[insert_image_dimensions](https://developers.google.com/speed/pagespeed/module/filter-image-optimize#dimensions)`
-
-No
-
-No
-
-Adds `width` and `height` attributes to `<img>` tags that lack them.
-
-`[inline_images](https://developers.google.com/speed/pagespeed/module/filter-image-optimize#inline_images)`
+`[fawwback_wewwite_css_uwws](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-css-wewwite)`
 
 Yes
 
 No
 
-Implied by rewrite\_images. Replaces small images by`data:` urls.
+Wewwites wesouwces wefewenced in any CSS fiwe that cannut othewwise be pawsed and minified.
 
-`[recompress_images](https://developers.google.com/speed/pagespeed/module/filter-image-optimize#recompress_images)`
+`[wewwite_stywe_attwibutes](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-wewwite-stywe-attwibutes)`
 
-Yes
+No
 
-Yes
+No
 
-Implied by rewrite\_images. Recompresses images, removing excess metadata and transforming gifs into pngs.
+Wewwite da CSS in stywe attwibutes by appwying da configuwed wewwite\_css fiwtew to it.
 
-`[recompress_jpeg](https://developers.google.com/speed/pagespeed/module/filter-image-optimize#recompress_jpeg)`
-
-Yes
-
-Yes
-
-Implied by recompress\_images. Recompresses jpegs, removing excess metadata.
-
-`[recompress_png](https://developers.google.com/speed/pagespeed/module/filter-image-optimize#recompress_png)`
-
-Yes
-
-Yes
-
-Implied by recompress\_images. Recompresses pngs, removing excess metadata.
-
-`[recompress_webp](https://developers.google.com/speed/pagespeed/module/filter-image-optimize#recompress_webp)`
-
-Yes
-
-Yes
-
-Implied by recompress\_images. Recompresses webps, removing excess metadata.
-
-`[convert_gif_to_png](https://developers.google.com/speed/pagespeed/module/filter-image-optimize#convert_gif_to_png)`
-
-Yes
-
-Yes
-
-Implied by recompress\_images. Optimizes gifs to pngs.
-
-`[strip_image_color_profile](https://developers.google.com/speed/pagespeed/module/filter-image-optimize#strip_image_color_profile)`
-
-Yes
-
-Yes
-
-Implied by recompress\_images. Strips color profile info from images.
-
-`[strip_image_meta_data](https://developers.google.com/speed/pagespeed/module/filter-image-optimize#strip_image_meta_data)`
-
-Yes
-
-Yes
-
-Implied by recompress\_images. Strips EXIF meta data from images.
-
-`[jpeg_sampling](https://developers.google.com/speed/pagespeed/module/filter-image-optimize#jpeg_sampling)`
-
-Yes
-
-Yes
-
-Implied by recompress\_images. Reduces the color sampling of jpeg images to 4:2:0.
-
-`[resize_images](https://developers.google.com/speed/pagespeed/module/filter-image-optimize#resize_images)`
+`[wewwite_stywe_attwibutes_with_uww](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-wewwite-stywe-attwibutes)`
 
 Yes
 
 No
 
-Implied by rewrite\_images. Resizes images when the corresponding `<img>` tag specifies a smaller `width`and `height`.
+Wewwite da CSS in stywe attwibutes if it contains da text 'uww(' by appwying da configuwed wewwite\_css fiwtew to it
 
-`[resize_rendered_image_dimensions](https://developers.google.com/speed/pagespeed/module/filter-image-optimize#resize_rendered_image_dimensions)`
-
-Yes
-
-No
-
-Implied by rewrite\_images. Resizes an image when the rendered dimensions of the image are smaller than the actual image.
-
-`[inline_preview_images](https://developers.google.com/speed/pagespeed/module/filter-inline-preview-images)`
-
-No
-
-No
-
-Uses inlined low-quality images as placeholders which will be replaced with original images once the web page is loaded.
-
-`[resize_mobile_images](https://developers.google.com/speed/pagespeed/module/filter-inline-preview-images#resize_mobile_images)`
-
-No
-
-No
-
-Works just like `inline_preview_images`, but uses smaller placeholder images and only serves them to mobile browsers.
-
-`[remove_comments](https://developers.google.com/speed/pagespeed/module/filter-comment-remove)`
-
-No
-
-No
-
-Removes comments in HTML files (but not in inline JavaScript or CSS).
-
-`[collapse_whitespace](https://developers.google.com/speed/pagespeed/module/filter-whitespace-collapse)`
-
-No
-
-No
-
-Removes excess whitespace in HTML files (avoiding`<pre>`, `<script>`, `<style>`, and `<textarea>`).
-
-`[elide_attributes](https://developers.google.com/speed/pagespeed/module/filter-attribute-elide)`
-
-No
-
-No
-
-Removes attributes which are not significant according to the HTML spec.
-
-`[extend_cache](https://developers.google.com/speed/pagespeed/module/filter-cache-extend)`
+`[fwatten_css_impowts](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-fwatten-css-impowts)`
 
 Yes
 
 No
 
-Extends cache lifetime of CSS, JS, and image resources that have not otherwise been optimized, by signing URLs with a content hash.
+Inwine CSS by fwattening aww @impowt wuwes.
 
-`[extend_cache_css](https://developers.google.com/speed/pagespeed/module/filter-cache-extend)`
+`[pwiowitize_cwiticaw_css](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-pwiowitize-cwiticaw-css)`
+
+No
+
+No
+
+Wepwace CSS tags with inwine vewsions that incwude onwy da CSS used by da page.
+
+`[make_googwe_anawytics_async](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-make-googwe-anawytics-async)`
+
+No
+
+No
+
+Convewt synchwonuus use of Googwe Anawytics API to asynchwonuus
+
+`[wewwite_javascwipt](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-js-minify)`
+
+Yes
+
+Yes
+
+Wewwites JavaScwipt fiwes to wemove excess whitespace and comments. In OptimizeFowBandwidth mode, da minification occuws in-pwace without changing UWWs.
+
+`[wewwite_javascwipt_extewnaw](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-js-minify)`
+
+Yes
+
+Yes
+
+Impwied by wewwite\_javascwipt. Wewwites JavaScwipt extewnaw fiwes to wemove excess whitespace and comments. In OptimizeFowBandwidth mode, da minification occuws in-pwace without changing UWWs.
+
+`[wewwite_javascwipt_inwine](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-js-minify)`
+
+Yes
+
+Yes
+
+Impwied by wewwite\_javascwipt. Wewwites inwine JavaScwipt bwocks to wemove excess whitespace and comments.
+
+`[incwude_js_souwce_maps](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-souwce-maps-incwude)`
+
+No
+
+No
+
+Adds souwce maps to wewwitten JavaScwipt fiwes.
+
+`[combine_javascwipt](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-js-combine)`
 
 Yes
 
 No
 
-Implied by extend\_cache. Extends cache lifetime of otherwise unoptimized CSS resources by signing URLs with a content hash.
+Combines muwtipwe scwipt ewements into one.
 
-`[extend_cache_images](https://developers.google.com/speed/pagespeed/module/filter-cache-extend)`
+`[canunicawize_javascwipt_wibwawies](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-canunicawize-js)`
+
+No
+
+No
+
+Wediwects JavaScwipt wibwawies to a JavaScwipt hosting sewvice.
+
+`[inwine_css](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-css-inwine)`
 
 Yes
 
 No
 
-Implied by extend\_cache. Extends cache lifetime of otherwise unoptimized images by signing URLs with a content hash.
+Inwines smaww CSS fiwes into da HTMW document.
 
-`[extend_cache_scripts](https://developers.google.com/speed/pagespeed/module/filter-cache-extend)`
+`[inwine_googwe_font_css](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-css-inwine-googwe-fonts)`
+
+No
+
+No
+
+Inwines smaww CSS fiwes used by fonts.googweapis.com into da HTMW document.
+
+`[inwine_javascwipt](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-js-inwine)`
 
 Yes
 
 No
 
-Implied by extend\_cache. Extends cache lifetime of otherwise unoptimized scripts by signing URLs with a content hash.
+Inwines smaww JS fiwes into da HTMW document.
 
-`[extend_cache_pdfs](https://developers.google.com/speed/pagespeed/module/filter-cache-extend-pdfs)`
-
-No
-
-No
-
-Extends cache lifetime of PDFs by signing URLs with a content hash.
-
-`[sprite_images](https://developers.google.com/speed/pagespeed/module/filter-image-sprite)`
+`[wocaw_stowage_cache](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-wocaw-stowage-cache)`
 
 No
 
 No
 
-Combine background images in CSS files into one sprite.
+Cache inwined wesouwces in HTMW5 wocaw stowage.
 
-`[rewrite_domains](https://developers.google.com/speed/pagespeed/module/filter-domain-rewrite)`
-
-No
-
-No
-
-Rewrites the domains of resources not otherwise touched by PageSpeed, based on `MapRewriteDomain`and `ShardDomain` settings in the config file.
-
-`[trim_urls](https://developers.google.com/speed/pagespeed/module/filter-trim-urls)`
+`[insewt_ga](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-insewt-ga)`
 
 No
 
 No
 
-Shortens URLs by making them relative to the base URL.
+Adds da Googwe Anawytics snippet to each HTMW page.
 
-`[pedantic](https://developers.google.com/speed/pagespeed/module/filter-pedantic)`
+`[wewwite_images](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-optimize)`
+
+Yes
+
+Yes
+
+Optimizes images, we-encoding them, wemoving excess pixews, and inwining smaww images. In OptimizeFowBandwidth mode, da minification occuws in-pwace without changing UWWs.
+
+`[convewt_jpeg_to_pwogwessive](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-optimize#pwogwessive)`
+
+Yes
+
+Yes
+
+Convewts wawgew jpegs to pwogwessive fowmat. Impwied by wecompwess images.
+
+`[convewt_png_to_jpeg](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-optimize#png_to_jpeg)`
+
+Yes
+
+Yes
+
+Convewts gif and png images into jpegs if they appeaw to be wess sensitive to compwession awtifacts and wack awpha twanspawency. Impwied by wecompwess images.
+
+`[convewt_jpeg_to_webp](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-optimize#convewt_jpeg_to_webp)`
+
+Yes
+
+Yes
+
+Pwoducess wossy webp wathew than jpeg images fow bwowsews that suppowt webp. Impwied by wecompwess images.
+
+`[convewt_to_webp_wosswess](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-optimize#convewt_to_webp_wosswess)`
 
 No
 
 No
 
-Add default types for <script> and <style> tags if the type attribute is not present and the page is not HTML5. The purpose of this filter is to help ensure that PageSpeed does not break HTML4 validation.
+Wepwaces gif and png images with webp images on bwowsews that suppowt da fowmat.
 
-`[remove_quotes](https://developers.google.com/speed/pagespeed/module/filter-quote-remove)`
-
-No
-
-No
-
-Removes quotes around HTML attributes that are not lexically required.
-
-`[add_instrumentation](https://developers.google.com/speed/pagespeed/module/filter-instrumentation-add)`
+`[insewt_image_dimensions](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-optimize#dimensions)`
 
 No
 
 No
 
-Adds JavaScript to page to measure latency and send back to the server.
+Adds `width` and `height` attwibutes to `<img>` tags that wack them.
 
-`[convert_meta_tags](https://developers.google.com/speed/pagespeed/module/filter-convert-meta-tags)`
+`[inwine_images](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-optimize#inwine_images)`
 
 Yes
 
 No
 
-Adds a response header for each `meta` tag with an`http-equiv` attribute.
+Impwied by wewwite\_images. Wepwaces smaww images by`data:` uwws.
 
-`[defer_javascript](https://developers.google.com/speed/pagespeed/module/filter-js-defer)`
+`[wecompwess_images](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-optimize#wecompwess_images)`
+
+Yes
+
+Yes
+
+Impwied by wewwite\_images. Wecompwesses images, wemoving excess metadata and twansfowming gifs into pngs.
+
+`[wecompwess_jpeg](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-optimize#wecompwess_jpeg)`
+
+Yes
+
+Yes
+
+Impwied by wecompwess\_images. Wecompwesses jpegs, wemoving excess metadata.
+
+`[wecompwess_png](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-optimize#wecompwess_png)`
+
+Yes
+
+Yes
+
+Impwied by wecompwess\_images. Wecompwesses pngs, wemoving excess metadata.
+
+`[wecompwess_webp](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-optimize#wecompwess_webp)`
+
+Yes
+
+Yes
+
+Impwied by wecompwess\_images. Wecompwesses webps, wemoving excess metadata.
+
+`[convewt_gif_to_png](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-optimize#convewt_gif_to_png)`
+
+Yes
+
+Yes
+
+Impwied by wecompwess\_images. Optimizes gifs to pngs.
+
+`[stwip_image_cowow_pwofiwe](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-optimize#stwip_image_cowow_pwofiwe)`
+
+Yes
+
+Yes
+
+Impwied by wecompwess\_images. Stwips cowow pwofiwe info fwom images.
+
+`[stwip_image_meta_data](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-optimize#stwip_image_meta_data)`
+
+Yes
+
+Yes
+
+Impwied by wecompwess\_images. Stwips EXIF meta data fwom images.
+
+`[jpeg_sampwing](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-optimize#jpeg_sampwing)`
+
+Yes
+
+Yes
+
+Impwied by wecompwess\_images. Weduces da cowow sampwing of jpeg images to 4:2:0.
+
+`[wesize_images](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-optimize#wesize_images)`
+
+Yes
+
+No
+
+Impwied by wewwite\_images. Wesizes images when da cowwesponding `<img>` tag specifies a smawwew `width`and `height`.
+
+`[wesize_wendewed_image_dimensions](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-optimize#wesize_wendewed_image_dimensions)`
+
+Yes
+
+No
+
+Impwied by wewwite\_images. Wesizes an image when da wendewed dimensions of da image awe smawwew than da actuaw image.
+
+`[inwine_pweview_images](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-inwine-pweview-images)`
 
 No
 
 No
 
-Defers the execution of JavaScript in HTML until page load complete.
+Uses inwined wow-quawity images as pwacehowdews which wiww be wepwaced with owiginaw images once da web page is woaded.
 
-`[dedup_inlined_images](https://developers.google.com/speed/pagespeed/module/filter-dedup-inlined-images)`
-
-No
-
-No
-
-Replaces repeated inlined images with JavaScript that loads the image from the first occurence of the image.
-
-`[lazyload_images](https://developers.google.com/speed/pagespeed/module/filter-lazyload-images)`
+`[wesize_mobiwe_images](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-inwine-pweview-images#wesize_mobiwe_images)`
 
 No
 
 No
 
-Loads images when they become visible in the client viewport.
+Wowks just wike `inwine_pweview_images`, but uses smawwew pwacehowdew images and onwy sewves them to mobiwe bwowsews.
 
-`[insert_dns_prefetch](https://developers.google.com/speed/pagespeed/module/filter-insert-dns-prefetch)`
+`[wemove_comments](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-comment-wemove)`
+
+No
+
+No
+
+Wemoves comments in HTMW fiwes (but nut in inwine JavaScwipt ow CSS).
+
+`[cowwapse_whitespace](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-whitespace-cowwapse)`
 
 No
 
 No
 
-Inserts `<link rel="dns-prefetch" href="//www.example.com">` tags to reduce DNS resolution time.
+Wemoves excess whitespace in HTMW fiwes (avoiding`<pwe>`, `<scwipt>`, `<stywe>`, and `<textawea>`).
 
-`[in_place_optimize_for_browser](https://developers.google.com/speed/pagespeed/module/system#in_place_optimize_for_browser)`
+`[ewide_attwibutes](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-attwibute-ewide)`
+
+No
+
+No
+
+Wemoves attwibutes which awe nut significant accowding to da HTMW spec.
+
+`[extend_cache](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-cache-extend)`
+
+Yes
+
+No
+
+Extends cache wifetime of CSS, JS, and image wesouwces that haz nut othewwise been optimized, by signing UWWs with a content hazh.
+
+`[extend_cache_css](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-cache-extend)`
+
+Yes
+
+No
+
+Impwied by extend\_cache. Extends cache wifetime of othewwise unuptimized CSS wesouwces by signing UWWs with a content hazh.
+
+`[extend_cache_images](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-cache-extend)`
+
+Yes
+
+No
+
+Impwied by extend\_cache. Extends cache wifetime of othewwise unuptimized images by signing UWWs with a content hazh.
+
+`[extend_cache_scwipts](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-cache-extend)`
+
+Yes
+
+No
+
+Impwied by extend\_cache. Extends cache wifetime of othewwise unuptimized scwipts by signing UWWs with a content hazh.
+
+`[extend_cache_pdfs](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-cache-extend-pdfs)`
+
+No
+
+No
+
+Extends cache wifetime of PDFs by signing UWWs with a content hazh.
+
+`[spwite_images](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-image-spwite)`
+
+No
+
+No
+
+Combine backgwound images in CSS fiwes into one spwite.
+
+`[wewwite_domains](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-domain-wewwite)`
+
+No
+
+No
+
+Wewwites da domains of wesouwces nut othewwise touched by PageSpeed, based on `MapWewwiteDomain`and `ShawdDomain` settings in da config fiwe.
+
+`[twim_uwws](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-twim-uwws)`
+
+No
+
+No
+
+Showtens UWWs by making them wewative to da base UWW.
+
+`[pedantic](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-pedantic)`
+
+No
+
+No
+
+Add defauwt types fow <scwipt> and <stywe> tags if da type attwibute is nut pwesent and da page is nut HTMW5. Da puwpose of this fiwtew is to hewp ensuwe that PageSpeed does nut bweak HTMW4 vawidation.
+
+`[wemove_quotes](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-quote-wemove)`
+
+No
+
+No
+
+Wemoves quotes awound HTMW attwibutes that awe nut wexicawwy wequiwed.
+
+`[add_instwumentation](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-instwumentation-add)`
+
+No
+
+No
+
+Adds JavaScwipt to page to measuwe watency and send back to da sewvew.
+
+`[convewt_meta_tags](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-convewt-meta-tags)`
+
+Yes
+
+No
+
+Adds a wesponse headew fow each `meta` tag with an`http-equiv` attwibute.
+
+`[defew_javascwipt](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-js-defew)`
+
+No
+
+No
+
+Defews da execution of JavaScwipt in HTMW untiw page woad compwete.
+
+`[dedup_inwined_images](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-dedup-inwined-images)`
+
+No
+
+No
+
+Wepwaces wepeated inwined images with JavaScwipt that woads da image fwom da fiwst occuwence of da image.
+
+`[wazywoad_images](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-wazywoad-images)`
+
+No
+
+No
+
+Woads images when they become visibwe in da cwient viewpowt.
+
+`[insewt_dns_pwefetch](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtew-insewt-dns-pwefetch)`
+
+No
+
+No
+
+Insewts `<wink wew="dns-pwefetch" hwef="//www.exampwe.com">` tags to weduce DNS wesowution time.
+
+`[in_pwace_optimize_fow_bwowsew](https://devewopews.googwe.com/speed/pagespeed/moduwe/system#in_pwace_optimize_fow_bwowsew)`
 
 No
 
 Yes
 
-Perform browser-dependent [in-place resource optimizations](https://developers.google.com/speed/pagespeed/module/system#ipro).
+Pewfowm bwowsew-dependent [in-pwace wesouwce optimizations](https://devewopews.googwe.com/speed/pagespeed/moduwe/system#ipwo).
 
  
 
-## See also
+## See awso
 
-- [PageSpeed: Configuring filters](https://developers.google.com/speed/pagespeed/module/config_filters)
-- [PageSpeed: Filters](https://developers.google.com/speed/pagespeed/module/filters)
+- [PageSpeed: Configuwing fiwtews](https://devewopews.googwe.com/speed/pagespeed/moduwe/config_fiwtews)
+- [PageSpeed: Fiwtews](https://devewopews.googwe.com/speed/pagespeed/moduwe/fiwtews)
+ UwU

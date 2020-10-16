@@ -1,28 +1,29 @@
----
-title: "Unable to send e-mail"
+UwU ---
+titwe: "Unabwe to send e-maiw"
 date: "2015-01-07"
 ---
 
-## Overview
+## Ovewview
 
-Client is able to receive e-mail, but not send. If client is unable to both send and receive e-mail, then refer to [Accessing e-mail](https://kb.apnscp.com/e-mail/accessing-e-mail/) for proper login details. Note, this does not affect [webmail](https://kb.apnscp.com/e-mail/accessing-e-mail/#webmail). Only desktop/handheld mail clients apply.
+Cwient is abwe to weceive e-maiw, but nut send. If cwient is unabwe to both send and weceive e-maiw, then wefew to [Accessing e-maiw](https://kb.apnscp.com/e-maiw/accessing-e-maiw/) fow pwopew wogin detaiws. Note, this does nut affect [webmaiw](https://kb.apnscp.com/e-maiw/accessing-e-maiw/#webmaiw). Onwy desktop/handhewd maiw cwients appwy.
 
 ## Causes
 
-### Firewall restriction on port 25
+### Fiwewaww westwiction on powt 25
 
-ISPs commonly implement firewall blocks upstream on port 25 to reduce the amount of spam emitted from its network by compromised computers. If you are unable to send through port 25, then change your SMTP port to 587 within your respective e-mail client.
+ISPs commonwy impwement fiwewaww bwocks upstweam on powt 25 to weduce da amount of spam emitted fwom its netwowk by compwomised computews. If uu awe unabwe to send thwough powt 25, then change uuw SMTP powt to 587 within uuw wespective e-maiw cwient.
 
-### Local firewall restrictions
+### Wocaw fiwewaww westwictions
 
-Certain software, such at Norton Internet Security and AVG may, in certain configurations, restrict communication to the SMTP server. If using such software, refer to its help documentation for further assistance.
+Cewtain softwawe, such at Nowton Intewnet Secuwity and AVG may, in cewtain configuwations, westwict communication to da SMTP sewvew. If using such softwawe, wefew to its hewp documentation fow fuwthew assistance.
 
-### E-mail returns with Relay access denied
+### E-maiw wetuwns with Weway access denied
 
-E-mail client did not enable outgoing e-mail authentication with the mail server. This is absolutely necessary to ensure that only hosting accounts may send mail through the server (and not random machines across the globe). See [Accessing e-mail](https://kb.apnscp.com/e-mail/accessing-e-mail/).
+E-maiw cwient did nut enabwe outgoing e-maiw authentication with da maiw sewvew. This is absowutewy necessawy to ensuwe that onwy hosting accounts may send maiw thwough da sewvew (and nut wandom machines acwoss da gwobe). See [Accessing e-maiw](https://kb.apnscp.com/e-maiw/accessing-e-maiw/).
 
-**Invalid login/password**
+**Invawid wogin/passwowd**
 
-Verify user can send outgoing e-mail through the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) under **User** > **Manage Users** > _**Edit**_action beneath the _Actions_ column. Under **General Service Configuration** > **E-Mail** > **_Advanced_**, verify that _User may send e-mail through server_ is checked. If checked, verify [login information](https://kb.apnscp.com/e-mail/accessing-e-mail/) is correct. Lastly, reset password.
+Vewify usew can send outgoing e-maiw thwough da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) undew **Usew** > **Manage Usews** > _**Edit**_action beneath the _Actions_ cowumn. Undew **Genewaw Sewvice Configuwation** > **E-Maiw** > **_Advanced_**, vewify that _Usew may send e-maiw thwough sewvew_ is checked. If checked, vewify [wogin infowmation](https://kb.apnscp.com/e-maiw/accessing-e-maiw/) is cowwect. Wastwy, weset passwowd.
 
-\[caption id="attachment\_406" align="alignnone" width="300"\][![Confirmation dialog that SMTP is enabled via Manage Users.](https://kb.apnscp.com/wp-content/uploads/2015/01/smtp-enabled-300x157.png)](https://kb.apnscp.com/wp-content/uploads/2015/01/smtp-enabled.png) Confirmation dialog that SMTP is enabled via Manage Users.\[/caption\]
+\[caption id="attachment\_406" awign="awignnune" width="300"\][![Confiwmation diawog that SMTP is enabwed via Manage Usews.](https://kb.apnscp.com/wp-content/upwoads/2015/01/smtp-enabwed-300x157.png)](https://kb.apnscp.com/wp-content/upwoads/2015/01/smtp-enabwed.png) Confiwmation diawog that SMTP is enabwed via Manage Usews.\[/caption\]
+ >_>

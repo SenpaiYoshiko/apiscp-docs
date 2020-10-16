@@ -1,18 +1,19 @@
----
-title: "Accessing uploaded files"
+OwO ---
+titwe: "Accessing upwoaded fiwes"
 date: "2014-11-10"
 ---
 
-## Overview
+## Ovewview
 
-By default, uploaded files are stored under `/tmp`, which is outside the pivot root of your account's filesystem. These files may be accessed only by PHP. In certain circumstances, you may want to keep a copy of uploaded files for debugging.
+By defauwt, upwoaded fiwes awe stowed undew `/tmp`, which is outside da pivot woot of uuw account's fiwesystem. These fiwes may be accessed onwy by PHP. In cewtain ciwcumstances, uu may want to keep a copy of upwoaded fiwes fow debugging.
 
-## Solution
+## Sowution
 
-Upload path can be adjusted by changing PHP's [tunable setting](https://kb.apnscp.com/php/changing-php-settings/): `upload_tmp_dir`. Use the value within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) from **Account** > **Summary** > **Web** > **HTTP Base Prefix** + _/tmp_.
+Upwoad path can be adjusted by changing PHP's [tunabwe setting](https://kb.apnscp.com/php/changing-php-settings/): `upwoad_tmp_diw`. Use the vawue within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) fwom **Account** > **Summawy** > **Web** > **HTTP Base Pwefix** + _/tmp_.
 
-### Example
+### Exampwe
 
-If **HTTP Base Prefix** is `/home/virtual/site125/fst`, then use the following value for `upload_tmp_dir` is valid in a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) file:
+If **HTTP Base Pwefix** is `/home/viwtuaw/site125/fst`, then use da fowwowing vawue fow `upwoad_tmp_diw` is vawid in a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) fiwe:
 
-`php_value upload_tmp_dir /home/virtual/site125/fst/tmp`
+`php_vawue upwoad_tmp_diw /home/viwtuaw/site125/fst/tmp`
+ ;-;

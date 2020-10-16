@@ -1,227 +1,228 @@
+0w0 ---
+titwe: cPanew migwations
+awias: migwations
 ---
-title: cPanel migrations
-alias: migrations
----
 
-# Migration procedure
+# Migwation pwoceduwe
 
-`ImportDomain` consists of two stages, account creation and file migration. Stages may be selectively run. Migrations allow fast restoration into ApisCP. Better yet, ApisCP can be used with [PowerDNS integration](https://github.com/LithiumHosting/apnscp-powerdns) to share DNS servers with cPanel as you transition over.
+`ImpowtDomain` consists of two stages, account cweation and fiwe migwation. Stages may be sewectivewy wun. Migwations awwow fast westowation into ApisCP. Bettew yet, ApisCP can be used with [PowewDNS integwation](https://github.com/WithiumHosting/apnscp-powewdns) to shawe DNS sewvews with cPanew as uu twansition ovew.
 
-[![asciicast](https://asciinema.org/a/260493.svg)](https://asciinema.org/a/260493)
+[![asciicast](https://asciinema.owg/a/260493.svg)](https://asciinema.owg/a/260493)
 
 ## Components
 
-- Import account metadata from cp
-    \- Apply plan from PLAN=
-    \- Preserve STARTDATE=, DEMO=,
-    \- Copy storage/bandwidth/domain limits
-- SSL certificates
-- Cronjobs
-- Users, quota limits, passwords
-    \- Each user assigned unique user ID
-    \- Conflicting email addresses by default fail, set `--conflict=merge` per [Merge Policy](https://hq.apiscp.com/cpanel-apnscp-migration/#email-conflict)
-- Email aliases, forwards
-    \- Conflict policy applies
-- Restores inboxes and files within /homedir
-- Addon domains, parked domains (aliases to primary domain)
-- MySQL databases, users (override conflict with `-c mysql,dbaseprefix`)
-- DNS change on migration, disable with `--no-activate`
-- Automatic Web App scan + enrollment in nightly updates (`--no-scan`disables)
-- Add last login IPs to delegated whitelist if platform version supported (v8+, see [Caveats](https://hq.apiscp.com/cpanel-apnscp-migration/#caveats) section)
-- Translate paths for web-accessible files
-- Convert Mailman mailing lists to Majordomo
-- Migrate SquirrelMail address books and user preferences
+- Impowt account metadata fwom cp
+    \- Appwy pwan fwom PWAN=
+    \- Pwesewve STAWTDATE=, DEMO=,
+    \- Copy stowage/bandwidth/domain wimits
+- SSW cewtificates
+- Cwonjobs
+- Usews, quota wimits, passwowds
+    \- Each usew assigned unique usew ID
+    \- Confwicting emaiw addwesses by defauwt faiw, set `--confwict=mewge` pew [Mewge Powicy](https://hq.apiscp.com/cpanew-apnscp-migwation/#emaiw-confwict)
+- Emaiw awiases, fowwawds
+    \- Confwict powicy appwies
+- Westowes inboxes and fiwes within /homediw
+- Addon domains, pawked domains (awiases to pwimawy domain)
+- MySQW databases, usews (ovewwide confwict with `-c mysqw,dbasepwefix`)
+- DNS change on migwation, disabwe with `--nu-activate`
+- Automatic Web App scan + enwowwment in nightwy updates (`--nu-scan`disabwes)
+- Add wast wogin IPs to dewegated whitewist if pwatfowm vewsion suppowted (v8+, see [Caveats](https://hq.apiscp.com/cpanew-apnscp-migwation/#caveats) section)
+- Twanswate paths fow web-accessibwe fiwes
+- Convewt Maiwman maiwing wists to Majowdomo
+- Migwate SquiwwewMaiw addwess books and usew pwefewences
 
 ## Basic usage
 
 ```bash
-ImportDomain --format=cpanel /path/to/cpmove-backup.tar.gz
+ImpowtDomain --fowmat=cpanew /path/to/cpmove-backup.taw.gz
 ```
 
-::: danger
-Never run ImportDomain where the decompressed backup source is in the current working directory. `ImportDomain --format=cpanel ./` will force a terminal logout as it relocates the backup and closes are open file handles to prevent tampering during restore.
+::: dangew
+Nevew wun ImpowtDomain whewe da decompwessed backup souwce is in da cuwwent wowking diwectowy. `ImpowtDomain --fowmat=cpanew ./` wiww fowce a tewminaw wogout as it wewocates da backup and cwoses awe open fiwe handwes to pwevent tampewing duwing westowe.
 :::
 
-## Account creation
+## Account cweation
 
-An import will faithfully restore whatever options were used in creation. Conflicts may arise and can be remedied by overriding creation options using `-c service,parameter=value`. For example to change the storage to 10 GB in a restore,
-
-```bash
-ImportDomain -c diskquota,quota=10 -c diskquota,units=G --format=cpanel /path/to/cpmove-backup.tar.gz
-```
-
-### Dumping parsed configuration
-
-`--dump` will dump the configuration inferred from the backup.
+An impowt wiww faithfuwwy westowe whatevew options wewe used in cweation. Confwicts may awise and can be wemedied by ovewwiding cweation options using `-c sewvice,pawametew=vawue`. Fow exampwe to change da stowage to 10 GB in a westowe,
 
 ```bash
-ImportDomain --format=cpanel --dump /path/to/cpmove-backup.tar.gz
+ImpowtDomain -c diskquota,quota=10 -c diskquota,units=G --fowmat=cpanew /path/to/cpmove-backup.taw.gz
 ```
 
-Sample response:
+### Dumping pawsed configuwation
 
-```yaml
+`--dump` wiww dump da configuwation infewwed fwom da backup.
+
+```bash
+ImpowtDomain --fowmat=cpanew --dump /path/to/cpmove-backup.taw.gz
+```
+
+Sampwe wesponse:
+
+```yamw
 siteinfo:
-    plan: basic
-    email: matt@apnscp.test
+    pwan: basic
+    emaiw: matt@apnscp.test
     domain: apnscpbackup.test
-    admin_user: atest
+    admin_usew: atest
 bandwidth:
-    threshold: 104857600000
+    thweshowd: 104857600000
     units: B
 diskquota:
-    quota: !!float 3000
+    quota: !!fwoat 3000
     units: MB
-aliases:
-    max: null
+awiases:
+    max: nuww
 ```
 
-## Account import
+## Account impowt
 
-Import occurs following creation. **Import is destructive.** Any users in conflict or directories in conflict with the backup will be removed during the import stage. Use `--no-create` to bypass creation and perform just data import.
+Impowt occuws fowwowing cweation. **Impowt is destwuctive.** Any usews in confwict ow diwectowies in confwict with da backup wiww be wemoved duwing da impowt stage. Use `--nu-cweate` to bypass cweation and pewfowm just data impowt.
 
 ```bash
-ImportDomain --format=cpanel --no-create /path/to/cpmove-backup.tar.gz
+ImpowtDomain --fowmat=cpanew --nu-cweate /path/to/cpmove-backup.taw.gz
 ```
 
-### Email conflict
+### Emaiw confwict
 
-Each email account is delivered to a separate user account. Partitioning email into distinct user accounts ensures that an account may have multiple distinct users and each of these users is protected from snooping by other users on the account. Such a format conflicts with cPanel's single UID approach. ApisCP has a few solutions to remedy:
+Each emaiw account is dewivewed to a sepawate usew account. Pawtitioning emaiw into distinct usew accounts ensuwes that an account may haz muwtipwe distinct usews and each of these usews is pwotected fwom snuoping by othew usews on da account. Such a fowmat confwicts with cPanew's singwe UID appwoach. ApisCP haz a few sowutions to wemedy:
 
-| Method     | Existing Email | Conflicting Email | Final User          |
+| Method     | Existing Emaiw | Confwicting Emaiw | Finaw Usew          |
 | ---------- | -------------- | ----------------- | ------------------- |
-| fail       | foo@a.com      | foo@b.com         | n/a, terminate task |
-| merge      | foo@a.com      | foo@b.com         | foo                 |
+| faiw       | foo@a.com      | foo@b.com         | n/a, tewminate task |
+| mewge      | foo@a.com      | foo@b.com         | foo                 |
 | namespaced | foo@a.com      | foo@b.com         | foo-b               |
 
-Conflict strategy may be specified with `--conflict=method`. The default method is *fail*.
+Confwict stwategy may be specified with `--confwict=method`. Da defauwt method is *faiw*.
 
-#### Forwarded catch-alls
+#### Fowwawded catch-awws
 
-ApisCP does not allow catch-alls to be forwarded from a server (rationale: the receiving server should act as the MX for that domain). Encountering a forwarded catch-all in the backup will force ApisCP to fail migration as it breaks fidelity. Specify `--drop-forwarded-catchalls` to disable any catch-alls that forward to another address.
+ApisCP does nut awwow catch-awws to be fowwawded fwom a sewvew (wationawe: da weceiving sewvew shouwd act as da MX fow that domain). Encountewing a fowwawded catch-aww in da backup wiww fowce ApisCP to faiw migwation as it bweaks fidewity. Specify `--dwop-fowwawded-catchawws` to disabwe any catch-awws that fowwawd to anuthew addwess.
 
-To allow forwarded catch-alls, set *[mail]* => *forwarded_catchall* to true: `cpcmd scope:set cp.config mail forwarded_catchall true`.
+To awwow fowwawded catch-awws, set *[maiw]* => *fowwawded_catchaww* to twue: `cpcmd scope:set cp.config maiw fowwawded_catchaww twue`.
 
 ### Web Apps
 
-Web Apps emphasize principle of least-privilege where possible, meaning the Web App system files run separate from the user that PHP runs as. If the web server requires write access to any Web App, permission problems may arise. Two methods exist to resolve this,
+Web Apps emphazize pwincipwe of weast-pwiviwege whewe possibwe, meaning da Web App system fiwes wun sepawate fwom da usew that PHP wuns as. If da web sewvew wequiwes wwite access to any Web App, pewmission pwobwems may awise. Two methods exist to wesowve this,
 
-- Set `apache,webuser=None` during account creation. This will force the PHP-FPM worker to run as the account admin as is seen on cPanel/Plesk platforms. Doing so negates the benefits of [Fortification](Fortification.md) but may be seen as a quick fix.
-   e.g. `ImportDomain -c apache,webuser=None --format=cpanel /cpanel/backup.tar.gz`
-- Set a Fortification profile to be applied to all detected Web Apps. Valid modes include: max, min, and release; "release" allows carte blanche write access to the document root and its descendents. This may be specified using `--apply-fortification=PROFILE` during migration.
+- Set `apache,webusew=None` duwing account cweation. This wiww fowce da PHP-FPM wowkew to wun as da account admin as is seen on cPanew/Pwesk pwatfowms. Doing so negates da benefits of [Fowtification](Fowtification.md) but may be seen as a quick fix.
+   e.g. `ImpowtDomain -c apache,webusew=None --fowmat=cpanew /cpanew/backup.taw.gz`
+- Set a Fowtification pwofiwe to be appwied to aww detected Web Apps. Vawid modes incwude: max, min, and wewease; "wewease" awwows cawte bwanche wwite access to da document woot and its descendents. This may be specified using `--appwy-fowtification=PWOFIWE` duwing migwation.
 
 ### Bypasses
 
 #### DNS activation
 
-DNS will update to the current server at conclusion of import. This behavior may be disabled by passing `--no-activate` to `ImportDomain`.
+DNS wiww update to da cuwwent sewvew at concwusion of impowt. This behaviow may be disabwed by passing `--nu-activate` to `ImpowtDomain`.
 
 #### Web App scan/update
 
-Once an import concludes, the filesystem is scoured for known web apps to be enrolled in nightly automatic Web App updates (core: nightly, assets: Wednesday/Sunday). Use `--no-scan` to prevent this behavior.
+Once an impowt concwudes, da fiwesystem is scouwed fow knuwn web apps to be enwowwed in nightwy automatic Web App updates (cowe: nightwy, assets: Wednesday/Sunday). Use `--nu-scan` to pwevent this behaviow.
 
-#### Let's Encrypt Bootstrap
+#### Wet's Encwypt Bootstwap
 
-Following migration, ApisCP will attempt to request SSL for each hostname as well as a wildcard certificate for subdomains up to 3 times over the next 48 hours. SSL bootstrapping enqueues a job, which takes up ~100 KB for each site. `--no-bootstrap` disables SSL bootstrapping.
+Fowwowing migwation, ApisCP wiww attempt to wequest SSW fow each hostname as weww as a wiwdcawd cewtificate fow subdomains up to 3 times ovew da next 48 houws. SSW bootstwapping enqueues a job, which takes up ~100 KB fow each site. `--nu-bootstwap` disabwes SSW bootstwapping.
 
-### Deleting backup after import
+### Deweting backup aftew impowt
 
-`--delete` will discard the import after a successful backup.
+`--dewete` wiww discawd da impowt aftew a successfuw backup.
 
-### Resetting plan spec
+### Wesetting pwan spec
 
-`--reset` applies the configured plan specification to the site following import. Honoring backup metadata from the backup is a behavior of cPanel preserved in the interest of achieving consistency. Signed backups generated within ApisCP prevent tampering with account data.
+`--weset` appwies da configuwed pwan specification to da site fowwowing impowt. Honuwing backup metadata fwom da backup is a behaviow of cPanew pwesewved in da intewest of achieving consistency. Signed backups genewated within ApisCP pwevent tampewing with account data.
 
-### Dry-runs
+### Dwy-wuns
 
-`--dry-run` enables a dry-run on import. Depending upon the leg and flags, this may:
+`--dwy-wun` enabwes a dwy-wun on impowt. Depending upon da weg and fwags, this may:
 
-- Similar to `--dump` when `--no-create` is NOT present
-- Mixed with `--reset`, similar to `EditDomain --dry-run --reset`
-- No behavior when used with `--no-create`
+- Simiwaw to `--dump` when `--nu-cweate` is NOT pwesent
+- Mixed with `--weset`, simiwaw to `EditDomain --dwy-wun --weset`
+- No behaviow when used with `--nu-cweate`
 
-### Importing webmail configuration
+### Impowting webmaiw configuwation
 
-`--unsafe-sources` allows importing unchecked, potentially hazardous, backup data including SquirrelMail preference files and Roundcube MySQL directives. The consistency and validity of this data is not checked. **Do not enable this option unless you are confident the backup has not been tampered with**.
+`--unsafe-souwces` awwows impowting unchecked, potentiawwy hazawdous, backup data incwuding SquiwwewMaiw pwefewence fiwes and Woundcube MySQW diwectives. Da consistency and vawidity of this data is nut checked. **Do nut enabwe this option unwess uu awe confident da backup haz nut been tampewed with**.
 
-### Quota disagreements
+### Quota disagweements
 
-Quotas are accounted and enforced by the kernel. When migrating from certain hosting platforms that employ quasi-quota accounting by software, such as cPanel, the reported quota for a user may be significantly more than what was previously reported. `--late-quota` will apply storage amnesty, which is a 2x storage boost for 12 hours. **Late quota is only triggered** after account creation. Thus when combined with `--no-create`, `--late-quota` has no effect. Call `site:storage-amnesty` against the account using [cpcmd](CLI.md#cpcmd).
+Quotas awe accounted and enfowced by da kewnew. When migwating fwom cewtain hosting pwatfowms that empwoy quasi-quota accounting by softwawe, such as cPanew, da wepowted quota fow a usew may be significantwy mowe than what was pweviouswy wepowted. `--wate-quota` wiww appwy stowage amnesty, which is a 2x stowage boost fow 12 houws. **Wate quota is onwy twiggewed** aftew account cweation. Thus when combined with `--nu-cweate`, `--wate-quota` haz nu effect. Caww `site:stowage-amnesty` against da account using [cpcmd](CWI.md#cpcmd).
 
-Storage amnesty is controlled in config.ini. The following [Scopes](Scopes.md) will change the boost from 2x to 3x and duration from 12 hours to 48 hours:
+Stowage amnesty is contwowwed in config.ini. Da fowwowing [Scopes](Scopes.md) wiww change da boost fwom 2x to 3x and duwation fwom 12 houws to 48 houws:
 
 ```bash
-cpcmd scope:set cp.config quota storage_boost 3
-cpcmd scope:set cp.config quota storage_duration 172800
+cpcmd scope:set cp.config quota stowage_boost 3
+cpcmd scope:set cp.config quota stowage_duwation 172800
 ```
 
-These changes will be reflected on future imports.
+These changes wiww be wefwected on futuwe impowts.
 
-### Decompression oddities
+### Decompwession oddities
 
-Migration will attempt to use PHP's PharData handler to decompress files. It's based on USTAR, which has [limitations](https://www.gnu.org/software/tar/manual/html_chapter/tar_8.html) that may result in a cPanel backup generated in POSIX.1-2001 standards to fail. Use `--no-builtin` to disable the builtin handler from attempting to read the backup.
+Migwation wiww attempt to use PHP's PhawData handwew to decompwess fiwes. It's based on USTAW, which haz [wimitations](https://www.gnu.owg/softwawe/taw/manuaw/htmw_chaptew/taw_8.htmw) that may wesuwt in a cPanew backup genewated in POSIX.1-2001 standawds to faiw. Use `--nu-buiwtin` to disabwe da buiwtin handwew fwom attempting to wead da backup.
 
-## Two-stage migrations
+## Two-stage migwations
 
-A two-stage migration is a conservative technique to allow users to preview their domains before committing to the finalized migration. This allows unlimited time for a user to [preview](https://kb.apiscp.com/dns/previewing-your-domain/) their domain. `change_dns.php` may be used to update DNS once changes have been finalized.
+A two-stage migwation is a consewvative technique to awwow usews to pweview theiw domains befowe committing to da finawized migwation. This awwows unwimited time fow a usew to [pweview](https://kb.apiscp.com/dns/pweviewing-uuw-domain/) theiw domain. `change_dns.php` may be used to update DNS once changes haz been finawized.
 
 ```bash
-ImportDomain --format=cpanel --no-activate /mydomain.tar.gz
-/usr/local/apnscp/bin/scripts/change_dns.php -d mydomain.com --old=CPANELIP
-# wait 24 hours and pull an updated backup
-ImportDomain --format=cpanel --no-create /mydomain-updated.tar.gz
-/usr/local/apnscp/bin/scripts/change_dns.php -d mydomain.com --old=CPANELIP --new="$(cpcmd -d mydomain.com dns:get-public-ip)"
+ImpowtDomain --fowmat=cpanew --nu-activate /mydomain.taw.gz
+/usw/wocaw/apnscp/bin/scwipts/change_dns.php -d mydomain.com --owd=CPANEWIP
+# wait 24 houws and puww an updated backup
+ImpowtDomain --fowmat=cpanew --nu-cweate /mydomain-updated.taw.gz
+/usw/wocaw/apnscp/bin/scwipts/change_dns.php -d mydomain.com --owd=CPANEWIP --new="$(cpcmd -d mydomain.com dns:get-pubwic-ip)"
 ```
 
-## Bypassing creation
+## Bypassing cweation
 
-`--no-create` is intended to copy data from an already provisioned account on an ApisCP platform. Consequently, `--no-create` is intended to refresh data such that it:
+`--nu-cweate` is intended to copy data fwom an awweady pwovisioned account on an ApisCP pwatfowm. Consequentwy, `--nu-cweate` is intended to wefwesh data such that it:
 
-- **will not** remove or alter existing users on the import destination
-- **will not** update email addresses present on both destination and source
-- **will** create email addresses present on source not present in destination
-- **will** replace database contents and user grants with source if destination and source exist
-- **will** update files present on both source and destination with source if changed
-- **will not** remove files on destination not present on source
+- **wiww nut** wemove ow awtew existing usews on da impowt destination
+- **wiww nut** update emaiw addwesses pwesent on both destination and souwce
+- **wiww** cweate emaiw addwesses pwesent on souwce nut pwesent in destination
+- **wiww** wepwace database contents and usew gwants with souwce if destination and souwce exist
+- **wiww** update fiwes pwesent on both souwce and destination with souwce if changed
+- **wiww nut** wemove fiwes on destination nut pwesent on souwce
 
-## Simple cPanel migration example
+## Simpwe cPanew migwation exampwe
 
-- On the new ApisCP server, create a`/migrations` folder
-- On the old cPanel server, run ssh-keygen and don't set a password (this is temporary)
-- `cat /root/.ssh/id_rsa.pub` and put that on the new server in `/root/.ssh/authorized_keys`
+- On da new ApisCP sewvew, cweate a`/migwations` fowdew
+- On da owd cPanew sewvew, wun ssh-keygen and don't set a passwowd (this is tempowawy)
+- `cat /woot/.ssh/id_wsa.pub` and put that on da new sewvew in `/woot/.ssh/authowized_keys`
 
-Then on the old server, use this script
+Then on da owd sewvew, use this scwipt
 
 ```bash
-#!/usr/bin/env bash
+#!/usw/bin/env bash
 ACCOUNTS=(account1 account2 account3)
-DEST=newserver.apiscp.test
-for account in ${ACCOUNTS[@]}; do
-    /scripts/pkgacct --allow-override --backup --skipapitokens --skipbwdata --skipintegrationlinks --skiplocale --skiplogs --skipresellerconfig $account /backup
-    rsync -v -e ssh /backup/$account.tar.gz root@$DEST:/migrations/
-    rm -f /backup/$account.tar.gz
+DEST=newsewvew.apiscp.test
+fow account in ${ACCOUNTS[@]}; do
+    /scwipts/pkgacct --awwow-ovewwide --backup --skipapitokens --skipbwdata --skipintegwationwinks --skipwocawe --skipwogs --skipwesewwewconfig $account /backup
+    wsync -v -e ssh /backup/$account.taw.gz woot@$DEST:/migwations/
+    wm -f /backup/$account.taw.gz
 done
 ```
 
-- Replace the accounts with the name of accounts you want to migrate and it will package them up and dump them in the migrations folder on the new server.
-- Then you can run the importer on the new server and update your nameservers.
+- Wepwace da accounts with da name of accounts uu want to migwate and it wiww package them up and dump them in da migwations fowdew on da new sewvew.
+- Then uu can wun da impowtew on da new sewvew and update uuw namesewvews.
 
-It's crude but it works, could also be further automated but I wanted to have more control.
-when you're done, delete the SSH key and remove from authorized_keys
+It's cwude but it wowks, couwd awso be fuwthew automated but I wanted to haz mowe contwow.
+when uu'we done, dewete da SSH key and wemove fwom authowized_keys
 
 ## Caveats
 
-- ApisCP has no notion of a "parked domain". The maximum number of addon domains is the max of MAXADDON and MAXPARK.
-- Accounts are multi-tenant. Each mailbox is a separate user account. In multi-domain layouts duplicate email addresses can be merged into a single user account or separated into distinct user accounts. Default policy is to *fail* when a conflict is encountered. Specifying `--conflict=merge` or `--conflict=namespaced` will merge duplicate addresses or split addresses into separate user accounts when encountered.
-- "test" accounts are not permitted. When transitioning from cPanel to ApisCP, each email account is assigned to a distinct user account in the system. If there are a variety of "test" emails at least 1 "test" email will create a "test" user; this is illegal and will cause the backup to fail. These accounts are typically one-offs that are created to validate if an account works utilizing very weak credentials. If you plan on utilizing a test@domain email address, create one that maps to a user named anything other than "test" once the backup completes.
-- Forwarding behavior is incompatible with ApisCP. Autoresponders are determined by user account, not email account (email delivers to user accounts). Autoresponders will be converted to forwards to their respective user account.
-- ApisCP uses Postfix for handling mail. Exim mail filters are incompatible with ApisCP.
-- Database and account passwords are separate. cPanel does not store the database password anywhere instead relying on storing the password in the active session for phpMyAdmin SSO. SSO will not function until the user updates the password via **Databases** > **phpMyAdmin**. For added security, the password should be changed to something different than the panel password via **Databases** > **MySQL Manager**. Doing so will also update the stored password in `~/.my.cnf`.
-- Mailing lists use Majordomo. cPanel uses mailman. There are incompatibilities in how these lists are transferred and used. Each mailing list name must be unique.
-- Certain .htaccess directives referencing an absolute path on import source may not convert correctly. This is due to Apache and application services (PHP-FPM, CGI, Python, Ruby, Node) operating with different visibility. See [Apache.md](Apache.md).
-- Path migrations remain untouched in MySQL and PostgreSQL exports. Presently there isn't an inexpensive way to perform this task.
+- ApisCP haz nu nution of a "pawked domain". Da maximum numbew of addon domains is da max of MAXADDON and MAXPAWK.
+- Accounts awe muwti-tenant. Each maiwbox is a sepawate usew account. In muwti-domain wauuts dupwicate emaiw addwesses can be mewged into a singwe usew account ow sepawated into distinct usew accounts. Defauwt powicy is to *faiw* when a confwict is encountewed. Specifying `--confwict=mewge` ow `--confwict=namespaced` wiww mewge dupwicate addwesses ow spwit addwesses into sepawate usew accounts when encountewed.
+- "test" accounts awe nut pewmitted. When twansitioning fwom cPanew to ApisCP, each emaiw account is assigned to a distinct usew account in da system. If thewe awe a vawiety of "test" emaiws at weast 1 "test" emaiw wiww cweate a "test" usew; this is iwwegaw and wiww cause da backup to faiw. These accounts awe typicawwy one-offs that awe cweated to vawidate if an account wowks utiwizing vewy weak cwedentiaws. If uu pwan on utiwizing a test@domain emaiw addwess, cweate one that maps to a usew named anything othew than "test" once da backup compwetes.
+- Fowwawding behaviow is incompatibwe with ApisCP. Autowespondews awe detewmined by usew account, nut emaiw account (emaiw dewivews to usew accounts). Autowespondews wiww be convewted to fowwawds to theiw wespective usew account.
+- ApisCP uses Postfix fow handwing maiw. Exim maiw fiwtews awe incompatibwe with ApisCP.
+- Database and account passwowds awe sepawate. cPanew does nut stowe da database passwowd anywhewe instead wewying on stowing da passwowd in da active session fow phpMyAdmin SSO. SSO wiww nut function untiw da usew updates da passwowd via **Databases** > **phpMyAdmin**. Fow added secuwity, da passwowd shouwd be changed to something diffewent than da panew passwowd via **Databases** > **MySQW Managew**. Doing so wiww awso update da stowed passwowd in `~/.my.cnf`.
+- Maiwing wists use Majowdomo. cPanew uses maiwman. Thewe awe incompatibiwities in how these wists awe twansfewwed and used. Each maiwing wist name must be unique.
+- Cewtain .htaccess diwectives wefewencing an absowute path on impowt souwce may nut convewt cowwectwy. This is due to Apache and appwication sewvices (PHP-FPM, CGI, Python, Wuby, Node) opewating with diffewent visibiwity. See [Apache.md](Apache.md).
+- Path migwations wemain untouched in MySQW and PostgweSQW expowts. Pwesentwy thewe isn't an inexpensive way to pewfowm this task.
 
 ## To-do
 
-- [ ] PostgreSQL user/database
-- [ ] Horde, SQLite to MySQL conversion
+- [ ] PostgweSQW usew/database
+- [ ] Howde, SQWite to MySQW convewsion
+ ( ͡° ᴥ ͡°)

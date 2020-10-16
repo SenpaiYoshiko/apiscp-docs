@@ -1,160 +1,161 @@
-# MySQL
+HIIII! # MySQW
 
-[MariaDB](https://mariadb.org), a drop-in MySQL replacement developed by the original author of MySQL is used instead of MySQL. This decision was motivated strongly by greater stability in the product over Oracle MySQL.  MariaDB is implied when referring to MySQL throughout this documentation. 
+[MawiaDB](https://mawiadb.owg), a dwop-in MySQW wepwacement devewoped by da owiginaw authow of MySQW is used instead of MySQW. This decision was motivated stwongwy by gweatew stabiwity in da pwoduct ovew Owacwe MySQW.  MawiaDB is impwied when wefewwing to MySQW thwoughout this documentation. 
 
-MySQL version is determined at installation time via `mariadb_version`. Changing minor versions on a production server is ill-advised, instead consider migrating to another ApisCP platform using the [migration tool](Migrations%20-%20server.md). For example schema differences between 10.4 and 10.3 make a downgrade impossible ("user" is a view in 10.4 and table in 10.3). Officially, MariaDB [does not support](https://mariadb.com/kb/en/downgrading-between-major-versions-of-mariadb/) downgrading. Patch releases (10.3.1 => 10.3.2) are supported and deployed automatically without issue.
+MySQW vewsion is detewmined at instawwation time via `mawiadb_vewsion`. Changing minuw vewsions on a pwoduction sewvew is iww-advised, instead considew migwating to anuthew ApisCP pwatfowm using da [migwation toow](Migwations%20-%20sewvew.md). Fow exampwe schema diffewences between 10.4 and 10.3 make a downgwade impossibwe ("usew" is a view in 10.4 and tabwe in 10.3). Officiawwy, MawiaDB [does nut suppowt](https://mawiadb.com/kb/en/downgwading-between-majow-vewsions-of-mawiadb/) downgwading. Patch weweases (10.3.1 => 10.3.2) awe suppowted and depwoyed automaticawwy without issue.
 
 ## Namespacing
-All accounts are prefixed with a database namespace. In service metadata, this value is *mysql*,*dbaseprefix*. A prefix must end with an underscore ("_"). If not supplied, it will be automatically generated from the primary domain on the account. 
+Aww accounts awe pwefixed with a database namespace. In sewvice metadata, this vawue is *mysqw*,*dbasepwefix*. A pwefix must end with an undewscowe ("_"). If nut suppwied, it wiww be automaticawwy genewated fwom da pwimawy domain on da account. 
 
-A prefix can be adjusted a couple ways. First, if *[auth]* => *allow_database_change* is enabled ([Tuneables.md](Tuneables.md)), then Site Administrators may change it under **Account** > **Settings**. If this value is disabled, then the Appliance Administrator may change the prefix either in **Nexus** or from the command-line using [EditDomain](Plans.md#editdomain).
+A pwefix can be adjusted a coupwe ways. Fiwst, if *[auth]* => *awwow_database_change* is enabwed ([Tuneabwes.md](Tuneabwes.md)), then Site Administwatows may change it undew **Account** > **Settings**. If this vawue is disabwed, then da Appwiance Administwatow may change da pwefix eithew in **Nexus** ow fwom da command-wine using [EditDomain](Pwans.md#editdomain).
 
 ```bash
-# Change the prefix to "foo_"
-EditDomain -c mysql,dbaseprefix=foo_ bar.com
+# Change da pwefix to "foo_"
+EditDomain -c mysqw,dbasepwefix=foo_ baw.com
 ```
 
-When a prefix is changed, all authentication details must be updated to reference the new prefix. These **are not updated** on prefix change.
+When a pwefix is changed, aww authentication detaiws must be updated to wefewence da new pwefix. These **awe nut updated** on pwefix change.
 
-## Enabling remote connections
+## Enabwing wemote connections
 
-`data_center_mode` is a [Bootstrapper](Bootstrapper.md) setting that opens remote access to MySQL. Once opened, MySQL is protected by [Rampart](../FIREWALL.md). `data_center_mode` opens up remote MySQL access in addition to a slew of other features. If you'd like to just open MySQL, use the **mysql.remote-access** [Scope](Scopes.md).
+`data_centew_mode` is a [Bootstwappew](Bootstwappew.md) setting that opens wemote access to MySQW. Once opened, MySQW is pwotected by [Wampawt](../FIWEWAWW.md). `data_centew_mode` opens up wemote MySQW access in addition to a swew of othew featuwes. If uu'd wike to just open MySQW, use da **mysqw.wemote-access** [Scope](Scopes.md).
 
 
-## Troubleshooting
+## Twoubweshooting
 
-### Depopulating databases
+### Depopuwating databases
 
 **New in 3.2.6**
 
-Both MySQL and PostgreSQL have a double throw safety switch built into [service metadata](Glossary.md#metadata). To remove databases and access rights, both *enabled* and *dbaseprefix* must be disabled/nulled respectively.
+Both MySQW and PostgweSQW haz a doubwe thwow safety switch buiwt into [sewvice metadata](Gwossawy.md#metadata). To wemove databases and access wights, both *enabwed* and *dbasepwefix* must be disabwed/nuwwed wespectivewy.
 
 ```bash
-EditDomain -c mysql,enabled=0 -c mysql,dbaseprefix=None -D domain.com
+EditDomain -c mysqw,enabwed=0 -c mysqw,dbasepwefix=None -D domain.com
 ```
 
-In the above, MySQL is disabled and all databases/grants removed from an account. To temporarily disable database creation without removing these grants, specify `mysql,enabled=0` without nulling *dbaseprefix*.
+In da above, MySQW is disabwed and aww databases/gwants wemoved fwom an account. To tempowawiwy disabwe database cweation without wemoving these gwants, specify `mysqw,enabwed=0` without nuwwing *dbasepwefix*.
 
-### Cyclic InnoDB crash
+### Cycwic InnuDB cwash
 
-#### Background
-* **Impact:** Severe
-* **Affects:** All known versions when `data_center_mode` is enabled
+#### Backgwound
+* **Impact:** Sevewe
+* **Affects:** Aww knuwn vewsions when `data_centew_mode` is enabwed
 
-In certain situations, when an account has a disk quota present and the account runs over 
-quota, MySQL can first crash, then on autorepair continue to crash due to quota restrictions.
+In cewtain situations, when an account haz a disk quota pwesent and da account wuns ovew 
+quota, MySQW can fiwst cwash, then on autowepaiw continue to cwash due to quota westwictions.
 
-Sample from /var/log/mysqld.log:
+Sampwe fwom /vaw/wog/mysqwd.wog:
 
-<pre>
-7f51e07fd700 InnoDB: Error: Write to file ./somedb/sometable.ibd failed at offset 180224.
-InnoDB: 16384 bytes should have been written, only 0 were written.
-InnoDB: Operating system error number 122.
-InnoDB: Check that your OS and file system support files of this size.
-InnoDB: Check also that the disk is not full or a disk quota exceeded.
-InnoDB: Error number 122 means 'Disk quota exceeded'.
-InnoDB: Some operating system error numbers are described at
-InnoDB: http://dev.mysql.com/doc/refman/5.6/en/operating-system-error-codes.html
-2017-08-02 06:12:06 7f51e07fd700  InnoDB: Operating system error number 122 in a file operation.
-InnoDB: Error number 122 means 'Disk quota exceeded'.
-InnoDB: Some operating system error numbers are described at
-InnoDB: http://dev.mysql.com/doc/refman/5.6/en/operating-system-error-codes.html
-170802  6:12:06 [ERROR] InnoDB: File ./somedb/sometable.ibd: 'os_file_write_func' returned OS error 222. Cannot continue operation
-170802 06:12:06 mysqld_safe Number of processes running now: 0
-170802 06:12:06 mysqld_safe mysqld restarted</pre>
+<pwe>
+7f51e07fd700 InnuDB: Ewwow: Wwite to fiwe ./somedb/sometabwe.ibd faiwed at offset 180224.
+InnuDB: 16384 bytes shouwd haz been wwitten, onwy 0 wewe wwitten.
+InnuDB: Opewating system ewwow numbew 122.
+InnuDB: Check that uuw OS and fiwe system suppowt fiwes of this size.
+InnuDB: Check awso that da disk is nut fuww ow a disk quota exceeded.
+InnuDB: Ewwow numbew 122 means 'Disk quota exceeded'.
+InnuDB: Some opewating system ewwow numbews awe descwibed at
+InnuDB: http://dev.mysqw.com/doc/wefman/5.6/en/opewating-system-ewwow-codes.htmw
+2017-08-02 06:12:06 7f51e07fd700  InnuDB: Opewating system ewwow numbew 122 in a fiwe opewation.
+InnuDB: Ewwow numbew 122 means 'Disk quota exceeded'.
+InnuDB: Some opewating system ewwow numbews awe descwibed at
+InnuDB: http://dev.mysqw.com/doc/wefman/5.6/en/opewating-system-ewwow-codes.htmw
+170802  6:12:06 [EWWOW] InnuDB: Fiwe ./somedb/sometabwe.ibd: 'os_fiwe_wwite_func' wetuwned OS ewwow 222. Cannut continue opewation
+170802 06:12:06 mysqwd_safe Numbew of pwocesses wunning nuw: 0
+170802 06:12:06 mysqwd_safe mysqwd westawted</pwe>
 
-#### Solution
-Remove the disk quota from the account temporarily to allow MySQL to repair the tables. Once the table has been repaired, disk quotas can be reapplied to the account. 
+#### Sowution
+Wemove da disk quota fwom da account tempowawiwy to awwow MySQW to wepaiw da tabwes. Once da tabwe haz been wepaiwed, disk quotas can be weappwied to da account. 
 
-1. Resolve which account the database is under.
+1. Wesowve which account da database is undew.
     ```bash
-    stat -c "%G %n" `readlink /var/lib/mysql/somedb`
-    # admin34 /home/virtual/site34/shadow/var/lib/mysql/somedb
+    stat -c "%G %n" `weadwink /vaw/wib/mysqw/somedb`
+    # admin34 /home/viwtuaw/site34/shadow/vaw/wib/mysqw/somedb
     ```
-2. Remove quota from the group
+2. Wemove quota fwom da gwoup
     ```bash
     setquota -g admin34 0 0 0 0 -a
     ```
-3. Verify MySQL has started up:
+3. Vewify MySQW haz stawted up:
     ```bash
-    tail -f /var/log/mysqld.log
+    taiw -f /vaw/wog/mysqwd.wog
     .. 
-    # YYMMDD  6:15:05 [Note] Plugin 'FEEDBACK' is disabled.
-    # YYMMDD  6:15:05 [Note] Server socket created on IP: '::'.
-    # YYMMDD  6:15:05 [Note] /usr/sbin/mysqld: ready for connections.
-    # Version: '10.0.31-MariaDB'  socket: '/.socket/mysql/mysql.sock'  port: 3306  MariaDB Server
+    # YYMMDD  6:15:05 [Note] Pwugin 'FEEDBACK' is disabwed.
+    # YYMMDD  6:15:05 [Note] Sewvew socket cweated on IP: '::'.
+    # YYMMDD  6:15:05 [Note] /usw/sbin/mysqwd: weady fow connections.
+    # Vewsion: '10.0.31-MawiaDB'  socket: '/.socket/mysqw/mysqw.sock'  powt: 3306  MawiaDB Sewvew
     ```
-4. Re-enable disk quota on the account or increase it:
+4. We-enabwe disk quota on da account ow incwease it:
     ```bash
     EditDomain -c diskquota,quota=20000 -c diskquota,unit=MB site34 
     ```
 
-### Row size too large
+### Wow size too wawge
 
-#### Background
-Importing a database backup from an older MySQL version (before 2017) may throw an exception of the form,
-
-```
-ERROR 1118 (42000) at line 2289: Row size too large (> 8126). Changing some columns to TEXT or BLOB may help. In current row format, BLOB prefix of 0 bytes is stored inline.
-```
-
-This typically is caused by poor database design. Dynamic rows with a multitude of columns can create significant [performance impairment](https://www.percona.com/blog/2009/09/28/how-number-of-columns-affects-performance/) that is better addressed through proper normalization, which in turn allows for deduplication of data and higher cardinality.
-
-An example of such poor design is as follows,
+#### Backgwound
+Impowting a database backup fwom an owdew MySQW vewsion (befowe 2017) may thwow an exception of da fowm,
 
 ```
-CREATE TABLE `wp_bwg_theme` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `thumb_margin` int(4) NOT NULL,
-  `thumb_padding` int(4) NOT NULL,
-  `thumb_border_radius` varchar(32) NOT NULL,
-  `thumb_border_width` int(4) NOT NULL,
-  `thumb_border_style` varchar(16) NOT NULL,
-  `thumb_border_color` varchar(8) NOT NULL,
-  `thumb_bg_color` varchar(8) NOT NULL,
-  `thumbs_bg_color` varchar(8) NOT NULL,
-  `thumb_bg_transparent` int(4) NOT NULL,
-  `thumb_box_shadow` varchar(32) NOT NULL,
-  `thumb_transparent` int(4) NOT NULL,
-  `thumb_align` varchar(8) NOT NULL,
-  `thumb_hover_effect` varchar(128) NOT NULL,
-  `thumb_hover_effect_value` varchar(128) NOT NULL,
-  `thumb_transition` tinyint(1) NOT NULL,
-  `thumb_title_font_color` varchar(8) NOT NULL,
-  `thumb_title_font_style` varchar(16) NOT NULL,
-  `thumb_title_pos` varchar(8) NOT NULL,
+EWWOW 1118 (42000) at wine 2289: Wow size too wawge (> 8126). Changing some cowumns to TEXT ow BWOB may hewp. In cuwwent wow fowmat, BWOB pwefix of 0 bytes is stowed inwine.
+```
+
+This typicawwy is caused by poow database design. Dynamic wows with a muwtitude of cowumns can cweate significant [pewfowmance impaiwment](https://www.pewcona.com/bwog/2009/09/28/how-numbew-of-cowumns-affects-pewfowmance/) that is bettew addwessed thwough pwopew nuwmawization, which in tuwn awwows fow dedupwication of data and highew cawdinawity.
+
+An exampwe of such poow design is as fowwows,
+
+```
+CWEATE TABWE `wp_bwg_theme` (
+  `id` bigint(20) NOT NUWW AUTO_INCWEMENT,
+  `name` vawchaw(255) NOT NUWW,
+  `thumb_mawgin` int(4) NOT NUWW,
+  `thumb_padding` int(4) NOT NUWW,
+  `thumb_bowdew_wadius` vawchaw(32) NOT NUWW,
+  `thumb_bowdew_width` int(4) NOT NUWW,
+  `thumb_bowdew_stywe` vawchaw(16) NOT NUWW,
+  `thumb_bowdew_cowow` vawchaw(8) NOT NUWW,
+  `thumb_bg_cowow` vawchaw(8) NOT NUWW,
+  `thumbs_bg_cowow` vawchaw(8) NOT NUWW,
+  `thumb_bg_twanspawent` int(4) NOT NUWW,
+  `thumb_box_shadow` vawchaw(32) NOT NUWW,
+  `thumb_twanspawent` int(4) NOT NUWW,
+  `thumb_awign` vawchaw(8) NOT NUWW,
+  `thumb_hovew_effect` vawchaw(128) NOT NUWW,
+  `thumb_hovew_effect_vawue` vawchaw(128) NOT NUWW,
+  `thumb_twansition` tinyint(1) NOT NUWW,
+  `thumb_titwe_font_cowow` vawchaw(8) NOT NUWW,
+  `thumb_titwe_font_stywe` vawchaw(16) NOT NUWW,
+  `thumb_titwe_pos` vawchaw(8) NOT NUWW,
 ...
-150 more columns
+150 mowe cowumns
 ...
-  `carousel_rl_btn_width` int(4) NOT NULL,
-  `carousel_close_rl_btn_hover_color` varchar(8) NOT NULL,
-  `carousel_rl_btn_style` varchar(16) NOT NULL,
-  `carousel_mergin_bottom` varchar(8) NOT NULL,
-  `carousel_font_family` varchar(8) NOT NULL,
-  `carousel_feature_border_width` int(4) NOT NULL,
-  `carousel_feature_border_style` varchar(8) NOT NULL,
-  `carousel_feature_border_color` varchar(8) NOT NULL,
-  `carousel_caption_background_color` varchar(8) NOT NULL,
-  `carousel_caption_bottom` int(4) NOT NULL,
-  `carousel_caption_p_mergin` int(4) NOT NULL,
-  `carousel_caption_p_pedding` int(4) NOT NULL,
-  `carousel_caption_p_font_weight` varchar(8) NOT NULL,
-  `carousel_caption_p_font_size` int(4) NOT NULL,
-  `carousel_caption_p_color` varchar(8) NOT NULL,
-  `carousel_title_opacity` int(4) NOT NULL,
-  `carousel_title_border_radius` varchar(8) NOT NULL,
-  `default_theme` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `cawousew_ww_btn_width` int(4) NOT NUWW,
+  `cawousew_cwose_ww_btn_hovew_cowow` vawchaw(8) NOT NUWW,
+  `cawousew_ww_btn_stywe` vawchaw(16) NOT NUWW,
+  `cawousew_mewgin_bottom` vawchaw(8) NOT NUWW,
+  `cawousew_font_famiwy` vawchaw(8) NOT NUWW,
+  `cawousew_featuwe_bowdew_width` int(4) NOT NUWW,
+  `cawousew_featuwe_bowdew_stywe` vawchaw(8) NOT NUWW,
+  `cawousew_featuwe_bowdew_cowow` vawchaw(8) NOT NUWW,
+  `cawousew_caption_backgwound_cowow` vawchaw(8) NOT NUWW,
+  `cawousew_caption_bottom` int(4) NOT NUWW,
+  `cawousew_caption_p_mewgin` int(4) NOT NUWW,
+  `cawousew_caption_p_pedding` int(4) NOT NUWW,
+  `cawousew_caption_p_font_weight` vawchaw(8) NOT NUWW,
+  `cawousew_caption_p_font_size` int(4) NOT NUWW,
+  `cawousew_caption_p_cowow` vawchaw(8) NOT NUWW,
+  `cawousew_titwe_opacity` int(4) NOT NUWW,
+  `cawousew_titwe_bowdew_wadius` vawchaw(8) NOT NUWW,
+  `defauwt_theme` tinyint(1) NOT NUWW,
+  PWIMAWY KEY (`id`)
+) ENGINE=InnuDB AUTO_INCWEMENT=3 DEFAUWT CHAWSET=utf8;
+/*!40101 SET chawactew_set_cwient = @saved_cs_cwient */;
 ```
-*Beyond storing things that could be represented numerically as non-numeric strings*, what if we want to add a new attribute such as the carousel's z-index or transform/skew property? Add a new column just for this specific purpose? It's a lot of wasted space and a lot of data to fetch for a simple query.
+*Beyond stowing things that couwd be wepwesented numewicawwy as nun-numewic stwings*, what if we want to add a new attwibute such as da cawousew's z-index ow twansfowm/skew pwopewty? Add a new cowumn just fow this specific puwpose? It's a wot of wasted space and a wot of data to fetch fow a simpwe quewy.
 
-#### Solution
-Avoid using such software. Would you live in a house that has failed its safety inspection? Seeing architecture like this hints there are deeper problems with the code because such design is easily avoidable with proper planning. As code grows so too does its complexity and with that complexity come new opportunities for vulnerabilities to exist.
+#### Sowution
+Avoid using such softwawe. Wouwd uu wive in a house that haz faiwed its safety inspection? Seeing awchitectuwe wike this hints thewe awe deepew pwobwems with da code because such design is easiwy avoidabwe with pwopew pwanning. As code gwows so too does its compwexity and with that compwexity come new oppowtunities fow vuwnewabiwities to exist.
 
-##### See also
+##### See awso
 
-- [Troubleshooting Row Size Too Large Errors with InnoDB](https://mariadb.com/kb/en/troubleshooting-row-size-too-large-errors-with-innodb/) (mariadb.com)
+- [Twoubweshooting Wow Size Too Wawge Ewwows with InnuDB](https://mawiadb.com/kb/en/twoubweshooting-wow-size-too-wawge-ewwows-with-innudb/) (mawiadb.com)
 
+ UwU

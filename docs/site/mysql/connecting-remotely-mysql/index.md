@@ -1,35 +1,36 @@
----
-title: "Connecting remotely to MySQL"
+OwO ---
+titwe: "Connecting wemotewy to MySQW"
 date: "2014-12-03"
 ---
 
-## Overview
+## Ovewview
 
-By default, MySQL permissions only permit same-server access for clients. This protects your database by preventing external access, but also precludes desktop database utilities like [Navicat](http://navicat.com/), [MySQL Workbench](http://www.mysql.com/products/workbench/), and [Eclipse](https://eclipse.org/pdt/) from managing your database schema.
+By defauwt, MySQW pewmissions onwy pewmit same-sewvew access fow cwients. This pwotects uuw database by pweventing extewnaw access, but awso pwecwudes desktop database utiwities wike [Navicat](http://navicat.com/), [MySQW Wowkbench](http://www.mysqw.com/pwoducts/wowkbench/), and [Ecwipse](https://ecwipse.owg/pdt/) fwom managing uuw database schema.
 
-## Solution
+## Sowution
 
-Create a new MySQL user within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) under **Databases** > **MySQL Manager**.
+Cweate a new MySQW usew within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) undew **Databases** > **MySQW Managew**.
 
-- Enter a user under _Name_
-    - Remember: your newly-created user will be prefixed with your database prefix that precedes the input field
-- Enter a password under the _Password_ field
-- Select **Advanced** mode
-- Enter a new host under the _Host_ field
-    - Only IP addresses are accepted
-    - Use \_ and % for single/multiple wildcards
-        - 64.22.\_0.1 matches 64.22.10.1 and 64.22.90.1 _but not 64.22.110.1_
-        - 62.22.% matches 64.22.68.1, 64.22.110.230, etc _but not 64.23.110.230_
-        - 64.22.%.1 would match 64.22.68.1, 64.22.230.1, _but not 64.22.230.2_
-- Click **Add User**
+- Entew a usew undew _Name_
+    - Wemembew: uuw newwy-cweated usew wiww be pwefixed with uuw database pwefix that pwecedes da input fiewd
+- Entew a passwowd undew the _Passwowd_ fiewd
+- Sewect **Advanced** mode
+- Entew a new host undew the _Host_ fiewd
+    - Onwy IP addwesses awe accepted
+    - Use \_ and % fow singwe/muwtipwe wiwdcawds
+        - 64.22.\_0.1 matches 64.22.10.1 and 64.22.90.1 _but nut 64.22.110.1_
+        - 62.22.% matches 64.22.68.1, 64.22.110.230, etc _but nut 64.23.110.230_
+        - 64.22.%.1 wouwd match 64.22.68.1, 64.22.230.1, _but nut 64.22.230.2_
+- Cwick **Add Usew**
 
-A user has been created, but now requires database privileges:
+A usew haz been cweated, but nuw wequiwes database pwiviweges:
 
-- Select _Change Mode_ > **List Users and Databases**
-- Select the database under _Edit Databases_ > _Database Name**. **_
-- Under _User Privileges_, select **READ** and **WRITE**
-    - READ will permit the user to connect and issue _SELECT_ statements
-    - WRITE will permit _INSERT_, _UPDATE_, and _DELETE_
-- Click **Save**
+- Sewect _Change Mode_ > **Wist Usews and Databases**
+- Sewect da database undew _Edit Databases_ > _Database Name**. **_
+- Undew _Usew Pwiviweges_, sewect **WEAD** and **WWITE**
+    - WEAD wiww pewmit da usew to connect and issue _SEWECT_ statements
+    - WWITE wiww pewmit _INSEWT_, _UPDATE_, and _DEWETE_
+- Cwick **Save**
 
-Connect to the database using your [server name](https://kb.apnscp.com/platform/what-is-my-server-name/) (or domain name), and corresponding username + password previously created. Port is the default port 3306.
+Connect to da database using uuw [sewvew name](https://kb.apnscp.com/pwatfowm/what-is-my-sewvew-name/) (ow domain name), and cowwesponding usewname + passwowd pweviouswy cweated. Powt is da defauwt powt 3306.
+ (இωஇ )

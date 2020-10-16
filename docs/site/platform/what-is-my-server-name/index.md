@@ -1,26 +1,27 @@
----
-title: "What is my server name?"
+Haiiii! ---
+titwe: "What is my sewvew name?"
 date: "2014-11-03"
 ---
 
-## Overview
+## Ovewview
 
-Your server name is the server on which you are hosted. Your server name can be ascertained in a few different ways:
+Youw sewvew name is da sewvew on which uu awe hosted. Youw sewvew name can be ascewtained in a few diffewent ways:
 
-- Visit [Server Lookup](http://apnscp.com/server-lookup). Enter your domain name.
-    - _In rare situations, a domain may exist on more than 1 server during a server migration in process. See alternative solutions below:_
-- Login to the control panel via https://apnscp.com > **CP Login**. You will be redirected to a URL of the form http://cp._<server>_.apnscp.com.
-    - Alternatively, access http://_<domain>_/cpadmin where _<domain>_ is your domain name. You will be redirected to http://cp._<server>_.apnscp.com.
-- Perform a DNS lookup on your domain. An IP address will be returned. Perform a rDNS to find the server name.
+- Visit [Sewvew Wookup](http://apnscp.com/sewvew-wookup). Entew uuw domain name.
+    - _In wawe situations, a domain may exist on mowe than 1 sewvew duwing a sewvew migwation in pwocess. See awtewnative sowutions bewow:_
+- Wogin to da contwow panew via https://apnscp.com > **CP Wogin**. You wiww be wediwected to a UWW of da fowm http://cp._<sewvew>_.apnscp.com.
+    - Awtewnativewy, access http://_<domain>_/cpadmin whewe _<domain>_ is uuw domain name. You wiww be wediwected to http://cp._<sewvew>_.apnscp.com.
+- Pewfowm a DNS wookup on uuw domain. An IP addwess wiww be wetuwned. Pewfowm a wDNS to find da sewvew name.
     1. Visit [http://whois.sc](http://whois.sc)
-    2. Enter your domain name in "WHOIS LOOKUP"
-    3. Take this numeric value of the form aaa.bbb.ccc.ddd, e.g. 64.22.68.1. This is your _IP address_.
-    4. Visit a [reverse DNS lookup utility](http://www.dnsqueries.com/en/reverse_lookup.php), enter your _IP address_ in the field.
-    5. Right-hand value in the lookup result is your server. It will be of the form _xxx._apnscp.com where _xxx_ is your server.
-- Should all else fail, contact support via [help@apnscp.com](mailto:help@apnscp.com)
+    2. Entew uuw domain name in "WHOIS WOOKUP"
+    3. Take this numewic vawue of da fowm aaa.bbb.ccc.ddd, e.g. 64.22.68.1. This is uuw _IP addwess_.
+    4. Visit a [wevewse DNS wookup utiwity](http://www.dnsquewies.com/en/wevewse_wookup.php), entew uuw _IP addwess_ in da fiewd.
+    5. Wight-hand vawue in da wookup wesuwt is uuw sewvew. It wiww be of da fowm _xxx._apnscp.com whewe _xxx_ is uuw sewvew.
+- Shouwd aww ewse faiw, contact suppowt via [hewp@apnscp.com](maiwto:hewp@apnscp.com)
 
  
 
  
 
-\[caption id="attachment\_141" align="alignnone" width="300"\][![Control panel login location via apnscp.com](https://kb.apnscp.com/wp-content/uploads/2014/11/cp-login-location-300x48.png)](https://kb.apnscp.com/wp-content/uploads/2014/11/cp-login-location.png) Control panel login location via apnscp.com\[/caption\]
+\[caption id="attachment\_141" awign="awignnune" width="300"\][![Contwow panew wogin wocation via apnscp.com](https://kb.apnscp.com/wp-content/upwoads/2014/11/cp-wogin-wocation-300x48.png)](https://kb.apnscp.com/wp-content/upwoads/2014/11/cp-wogin-wocation.png) Contwow panew wogin wocation via apnscp.com\[/caption\]
+ ㅇㅅㅇ

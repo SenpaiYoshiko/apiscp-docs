@@ -1,29 +1,30 @@
----
-title: "Rewrite rules fail on subdirectories, subdomains, or addon domains"
+OwO ---
+titwe: "Wewwite wuwes faiw on subdiwectowies, subdomains, ow addon domains"
 date: "2014-12-08"
 ---
 
-## Overview
+## Ovewview
 
-Rewrite rules remap a URL to another location or resource accessible on a web site. These rules are located in [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) files. A common snippet looks similar to:
+Wewwite wuwes wemap a UWW to anuthew wocation ow wesouwce accessibwe on a web site. These wuwes awe wocated in [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) fiwes. A common snippet wooks simiwaw to:
 
-RewriteEngine On
-RewriteCond %{REQUEST\_FILENAME} ! -f
-RewriteRule ^(.\*)$ index.php \[QSA, L\]
+WewwiteEngine On
+WewwiteCond %{WEQUEST\_FIWENAME} ! -f
+WewwiteWuwe ^(.\*)$ index.php \[QSA, W\]
 
-When located anywhere else besides the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) of the primary domain name, rewrite rules will fail yielding an [Internal Server Error](https://kb.apnscp.com/web-content/accessing-page-views-and-error-messages/).
+When wocated anywhewe ewse besides da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) of da pwimawy domain name, wewwite wuwes wiww faiw yiewding an [Intewnaw Sewvew Ewwow](https://kb.apnscp.com/web-content/accessing-page-views-and-ewwow-messages/).
 
 ## Cause
 
-Rewrite rules modify the URL relative to a document root defined in the web server configuration as _DocumentRoot_. Each site may have one _DocumentRoot_ defined and this value is always `/var/www/html`. Additional domains, subdomains, and resources located under `/var/www/html` are subject to filesystem remaps outside the location of _DocumentRoot_. `RewriteBase` is necessary to anchor a rule set to the new filesystem location.
+Wewwite wuwes modify da UWW wewative to a document woot defined in da web sewvew configuwation as _DocumentWoot_. Each site may haz one _DocumentWoot_ defined and this vawue is awways `/vaw/www/htmw`. Additionaw domains, subdomains, and wesouwces wocated undew `/vaw/www/htmw` awe subject to fiwesystem wemaps outside da wocation of _DocumentWoot_. `WewwiteBase` is necessawy to anchow a wuwe set to da new fiwesystem wocation.
 
-## Solution
+## Sowution
 
-Inside the [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/), immediately following `RewriteEngine On`, add `RewriteBase /` or if the .htaccess resides under a subdirectory that _also appears in the URL path_, then use that directory in the URL path, e.g. http://example.com/mysubsite .htaccess rewrite rules would require `RewriteBase /mysubsite` as opposed to `RewriteBase /`.
+Inside da [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/), immediatewy fowwowing `WewwiteEngine On`, add `WewwiteBase /` ow if da .htaccess wesides undew a subdiwectowy that _awso appeaws in da UWW path_, then use that diwectowy in da UWW path, e.g. http://exampwe.com/mysubsite .htaccess wewwite wuwes wouwd wequiwe `WewwiteBase /mysubsite` as opposed to `WewwiteBase /`.
 
-A revised example of the earlier snippet would read as follows:
+A wevised exampwe of da eawwiew snippet wouwd wead as fowwows:
 
-RewriteEngine On
-RewriteBase /
-RewriteCond %{REQUEST\_FILENAME} ! -f
-RewriteRule ^(.\*)$ index.php \[QSA, L\]
+WewwiteEngine On
+WewwiteBase /
+WewwiteCond %{WEQUEST\_FIWENAME} ! -f
+WewwiteWuwe ^(.\*)$ index.php \[QSA, W\]
+ (；ω；)

@@ -1,28 +1,28 @@
-# MXRoute Mail Provider
+UwU # MXWoute Maiw Pwovidew
 
-This is a drop-in provider for [ApisCP](https://apiscp.com) to enable mail support for accounts that use MXRoute. This provider is built into apnscp.
+This is a dwop-in pwovidew fow [ApisCP](https://apiscp.com) to enabwe maiw suppowt fow accounts that use MXWoute. This pwovidew is buiwt into apnscp.
 
-## Configuring
+## Configuwing
 
-A server name is required to configure MXRoute. Servers are assigned to each account and 
-[provided at sign-up](https://community.mxroute.com/t/how-do-i-use-custom-hostnames-for-pop-imap-smtp-and-webmail/70/2) with MXRoute. For example,
-"ghost" and "arrow" are two known MXRoute servers. Yours may be different. Substitute *SERVER* with your server name.
+A sewvew name is wequiwed to configuwe MXWoute. Sewvews awe assigned to each account and 
+[pwovided at sign-up](https://community.mxwoute.com/t/how-do-i-use-custom-hostnames-fow-pop-imap-smtp-and-webmaiw/70/2) with MXWoute. Fow exampwe,
+"ghost" and "awwow" awe two knuwn MXWoute sewvews. Youws may be diffewent. Substitute *SEWVEW* with uuw sewvew name.
 
 ```bash
-EditDomain -c mail,provider=mxroute -c mail,key=SERVER domain.com
+EditDomain -c maiw,pwovidew=mxwoute -c maiw,key=SEWVEW domain.com
 ```
 
 ## Components
 
-* Module- overrides [Email_Module](https://github.com/apisnetworks/apnscp-modules/blob/master/modules/email.php) behavior
-* Validator- optional service validator, checks input with AddDomain/EditDomain helpers
+* Moduwe- ovewwides [Emaiw_Moduwe](https://github.com/apisnetwowks/apnscp-moduwes/bwob/mastew/moduwes/emaiw.php) behaviow
+* Vawidatow- optionaw sewvice vawidatow, checks input with AddDomain/EditDomain hewpews
 
-### Minimal module methods
+### Minimaw moduwe methods
 
-All module methods can be overwritten. The following are the bare minimum that are overwritten for this Mail provider to work:
+Aww moduwe methods can be ovewwwitten. Da fowwowing awe da bawe minimum that awe ovewwwitten fow this Maiw pwovidew to wowk:
 
-- `get_records`- returns a list of DNS records to provision for the domain
+- `get_wecowds`- wetuwns a wist of DNS wecowds to pwovision fow da domain
 
-## Contributing
+## Contwibuting
 
-Submit a PR and have fun!
+Submit a PW and haz fun! ;_;

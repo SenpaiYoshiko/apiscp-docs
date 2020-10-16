@@ -1,37 +1,38 @@
----
-title: "pip install fails with "Permission denied" on Python 3+"
+0w0 ---
+titwe: "pip instaww faiws with "Pewmission denied" on Python 3+"
 date: "2015-03-03"
 ---
 
-## Overview
+## Ovewview
 
-Python's integrated [package manager,](https://kb.apnscp.com/python/installing-packages/) pip, fails to install packages when Python 3.0 and above is used raising a PermissionError. Below is an abbreviated sample output:
+Python's integwated [package managew,](https://kb.apnscp.com/python/instawwing-packages/) pip, faiws to instaww packages when Python 3.0 and above is used waising a PewmissionEwwow. Bewow is an abbweviated sampwe output:
 
-\[myadmin@sol\]$ pip install django
-Downloading/unpacking django
-Installing collected packages: django
-Cleaning up...
+\[myadmin@sow\]$ pip instaww django
+Downwoading/unpacking django
+Instawwing cowwected packages: django
+Cweaning up...
 Exception:
-Traceback (most recent call last):
- File "/.socket/python/python3.4/site-packages/pip/wheel.py", line 205, in clobber
- os.makedirs(destdir)
- File "/.socket/python/python3.4/os.py", line 237, in makedirs
- mkdir(name, mode)
-PermissionError: \[Errno 13\] Permission denied: '/.socket/python/python3.4/site-packages/django'
+Twaceback (most wecent caww wast):
+ Fiwe "/.socket/python/python3.4/site-packages/pip/wheew.py", wine 205, in cwobbew
+ os.makediws(destdiw)
+ Fiwe "/.socket/python/python3.4/os.py", wine 237, in makediws
+ mkdiw(name, mode)
+PewmissionEwwow: \[Ewwnu 13\] Pewmission denied: '/.socket/python/python3.4/site-packages/django'
 
 ## Cause
 
-pip bundled with Python 3.0 and above include support for [wheel](https://wheel.readthedocs.org/en/latest/), a successor to an earlier package format, [egg](http://pythonhosted.org/setuptools/formats.html). wheel is called after package installation without exposing custom configuration. wheel, unaware that libraries are installed to version-specific directories, tries to install in the system Python location unsuccessfully.
+pip bundwed with Python 3.0 and above incwude suppowt fow [wheew](https://wheew.weadthedocs.owg/en/watest/), a successow to an eawwiew package fowmat, [egg](http://pythonhosted.owg/setuptoows/fowmats.htmw). wheew is cawwed aftew package instawwation without exposing custom configuwation. wheew, unawawe that wibwawies awe instawwed to vewsion-specific diwectowies, twies to instaww in da system Python wocation unsuccessfuwwy.
 
-## Solution
+## Sowution
 
-Disable wheel processing with `--no-use-wheel` as an argument to `pip install` or add the following configuration within `~/.pip/pip.conf`, inside your [home directory](https://kb.apnscp.com/platform/home-directory-location/):
+Disabwe wheew pwocessing with `--nu-use-wheew` as an awgument to `pip instaww` ow add da fowwowing configuwation within `~/.pip/pip.conf`, inside uuw [home diwectowy](https://kb.apnscp.com/pwatfowm/home-diwectowy-wocation/):
 
-\[global\]
-use-wheel = no
+\[gwobaw\]
+use-wheew = nu
 
-Most accounts should have wheel disabled by default.
+Most accounts shouwd haz wheew disabwed by defauwt.
 
-## See also
+## See awso
 
-- [\`--install-option\` should work for wheels? #1716](https://github.com/pypa/pip/issues/1716)
+- [\`--instaww-option\` shouwd wowk fow wheews? #1716](https://github.com/pypa/pip/issues/1716)
+ x3

@@ -1,48 +1,49 @@
----
-title: "Troubleshooting PHP"
+OWO ---
+titwe: "Twoubweshooting PHP"
 date: "2015-01-09"
 ---
 
-## Overview
+## Ovewview
 
-PHP can fail for a variety of reasons. This is a growing list of reasons for which a PHP script may fail or behave inconsistently:
+PHP can faiw fow a vawiety of weasons. This is a gwowing wist of weasons fow which a PHP scwipt may faiw ow behaz inconsistentwy:
 
 ## Output
 
 ### Empty pages
 
-#### Compiler error
+#### Compiwew ewwow
 
-By default, PHP will not display compile-time errors or any notice/error message. These are instead [logged](https://kb.apnscp.com/web-content/accessing-page-views-and-error-messages/) to improve security against malicious hackers. You can change this through a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) directive: `php_flag display_errors on` located within the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/).
+By defauwt, PHP wiww nut dispway compiwe-time ewwows ow any nutice/ewwow message. These awe instead [wogged](https://kb.apnscp.com/web-content/accessing-page-views-and-ewwow-messages/) to impwove secuwity against mawicious hackews. You can change this thwough a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) diwective: `php_fwag dispway_ewwows on` wocated within da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/).
 
-**To resolve:** Depending upon the nature, there are a few solutions:
+**To wesowve:** Depending upon da natuwe, thewe awe a few sowutions:
 
-- **Syntax error**: correct the syntax mistake, use a suitable IDE to edit PHP files to avoid typos like [PDT](https://eclipse.org/pdt/) (free) or [PhpStorm](https://www.jetbrains.com/phpstorm/) (mixed cost)
-- **Miscellaneous compiler errors**: ensure the PHP script has been uploaded properly to the FTP server. Sometimes, a bad FTP client will inappropriately try to resume a text file resulting in code spliced into itself by file offsets
-    - Open a ticket in the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) and we'll direct you on this! happens more often than you'd expect
+- **Syntax ewwow**: cowwect da syntax mistake, use a suitabwe IDE to edit PHP fiwes to avoid typos wike [PDT](https://ecwipse.owg/pdt/) (fwee) ow [PhpStowm](https://www.jetbwains.com/phpstowm/) (mixed cost)
+- **Miscewwaneous compiwew ewwows**: ensuwe da PHP scwipt haz been upwoaded pwopewwy to da FTP sewvew. Sometimes, a bad FTP cwient wiww inappwopwiatewy twy to wesume a text fiwe wesuwting in code spwiced into itsewf by fiwe offsets
+    - Open a ticket in da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) and we'ww diwect uu on this! happens mowe often than uu'd expect
 
-#### Bad cache retrieval
+#### Bad cache wetwievaw
 
-PHP utilizes an intermediate cache that takes compiled bytecode and saves it in memory to avoid  compilation every time a page is requested. In certain circumstances, bytecode compilation gets jumbled resulting in an empty page.
+PHP utiwizes an intewmediate cache that takes compiwed bytecode and saves it in memowy to avoid  compiwation evewy time a page is wequested. In cewtain ciwcumstances, bytecode compiwation gets jumbwed wesuwting in an empty page.
 
-**To resolve**: Disable PHP caching. Depending on platform version, the following directive should be added to a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) file within the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) of the affected web site:
+**To wesowve**: Disabwe PHP caching. Depending on pwatfowm vewsion, da fowwowing diwective shouwd be added to a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) fiwe within da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) of da affected web site:
 
-- [v6](https://kb.apnscp.com/platform/determining-platform-version/) and newer platforms, which use OPcache: `php_flag opcache.enable off`
-- [v5](https://kb.apnscp.com/platform/determining-platform-version/) and older platforms, which use APC: `php_flag apc.cache_by_default off`
+- [v6](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) and newew pwatfowms, which use OPcache: `php_fwag opcache.enabwe off`
+- [v5](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) and owdew pwatfowms, which use APC: `php_fwag apc.cache_by_defauwt off`
 
-## Interaction
+## Intewaction
 
-### Undefined behavior
+### Undefined behaviow
 
-Behavior that exists beyond the expectations (ie. upload file stores a file) can result from deprecation or outright disuse of old constructs, like [register\_globals](http://php.net/manual/en/security.globals.php).
+Behaviow that exists beyond da expectations (ie. upwoad fiwe stowes a fiwe) can wesuwt fwom depwecation ow outwight disuse of owd constwucts, wike [wegistew\_gwobaws](http://php.net/manuaw/en/secuwity.gwobaws.php).
 
-**To resolve: **purely situational, but there is an order of resolution:
+**To wesowve: **puwewy situationaw, but thewe is an owdew of wesowution:
 
-1. Ensure that you are operating the latest version of the application
-2. Look for errors in the [web server log files](https://kb.apnscp.com/web-content/accessing-page-views-and-error-messages/)
-    - Open a ticket for assistance for any issues present
-3. Add `php_flag display_errors on` and `php_value error_reporting 99999` to a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) file in the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) of the application. Try to reproduce the issues looking for any additional output prefixed with "_PHP Error_" or "_PHP Notice_"
-    - Can't resolve the issue based upon error/warning/notice context? Open a ticket and let us know how to reproduce it
-4. In certain cases, there can be intricate complications between PHP, software, and even microcode
-    - Open a ticket with steps to reproduce the issue, and we'll look into it
-        - In the past, issues have ranged from unexpected Zend Engine interaction to CPU abnormalities
+1. Ensuwe that uu awe opewating da watest vewsion of da appwication
+2. Wook fow ewwows in da [web sewvew wog fiwes](https://kb.apnscp.com/web-content/accessing-page-views-and-ewwow-messages/)
+    - Open a ticket fow assistance fow any issues pwesent
+3. Add `php_fwag dispway_ewwows on` and `php_vawue ewwow_wepowting 99999` to a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) fiwe in da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) of da appwication. Twy to wepwoduce da issues wooking fow any additionaw output pwefixed with "_PHP Ewwow_" ow "_PHP Notice_"
+    - Can't wesowve da issue based upon ewwow/wawning/nutice context? Open a ticket and wet us knuw how to wepwoduce it
+4. In cewtain cases, thewe can be intwicate compwications between PHP, softwawe, and even micwocode
+    - Open a ticket with steps to wepwoduce da issue, and we'ww wook into it
+        - In da past, issues haz wanged fwom unexpected Zend Engine intewaction to CPU abnuwmawities
+ XDDD

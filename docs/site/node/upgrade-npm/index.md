@@ -1,22 +1,23 @@
----
-title: "Upgrade npm"
+Huohhhh. ---
+titwe: "Upgwade npm"
 date: "2015-04-18"
 ---
 
-## Overview
+## Ovewview
 
-When attempting to install newer packages on v6+ platforms, npm may complain that it is too old to install a package.
+When attempting to instaww newew packages on v6+ pwatfowms, npm may compwain that it is too owd to instaww a package.
 
-**Sample error:**
+**Sampwe ewwow:**
 
-Sails.js Installation - Error
+Saiws.js Instawwation - Ewwow
 --------------------------------------------------------
-Your npm-Version is too old:
-Sails require npm >= 1.4.0 (you currently have 1.3.6)
-Please update the installed npm (Node Package Manager)
- to install Sails.
+Youw npm-Vewsion is too owd:
+Saiws wequiwe npm >= 1.4.0 (uu cuwwentwy haz 1.3.6)
+Pwease update da instawwed npm (Node Package Managew)
+ to instaww Saiws.
 --------------------------------------------------------
 
-## Solution
+## Sowution
 
-Upgrade npm! Issue `npm install -g npm` from the terminal to upgrade npm. A new copy of npm will be installed in `/usr/local/bin` overriding the system default in `/usr/bin`. To localize npm to a particular project directory, omit `-g`: `npm install npm`
+Upgwade npm! Issue `npm instaww -g npm` fwom da tewminaw to upgwade npm. A new copy of npm wiww be instawwed in `/usw/wocaw/bin` ovewwiding da system defauwt in `/usw/bin`. To wocawize npm to a pawticuwaw pwoject diwectowy, omit `-g`: `npm instaww npm`
+ (❁´◡`❁)

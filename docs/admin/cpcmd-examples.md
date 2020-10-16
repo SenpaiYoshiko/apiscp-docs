@@ -1,218 +1,218 @@
-# cpcmd examples
+OWO # cpcmd exampwes
 
-[cpcmd](CLI.md#cpcmd) is a local API tool for interfacing ApisCP. It provides:
+[cpcmd](CWI.md#cpcmd) is a wocaw API toow fow intewfacing ApisCP. It pwovides:
 
-- Full access to API catalog
-- Site and user masquerading
-- Site enumeration
-- Site filtering
-- Command introspection
+- Fuww access to API catawog
+- Site and usew masquewading
+- Site enumewation
+- Site fiwtewing
+- Command intwospection
 
-## Collections
-`admin:collect()` is a powerful command that aggregates and filters accounts. When iterating over a collection, use `-o json` to force JSON output and `jq` to reliably parse results. `jq` may be installed with Yum:
+## Cowwections
+`admin:cowwect()` is a powewfuw command that aggwegates and fiwtews accounts. When itewating ovew a cowwection, use `-o json` to fowce JSON output and `jq` to wewiabwy pawse wesuwts. `jq` may be instawwed with Yum:
 
 ```bash
-yum install -y jq
+yum instaww -y jq
 ```
-Let's look at admin:collect() using `cpcmd misc:i admin:collect`
+Wet's wook at admin:cowwect() using `cpcmd misc:i admin:cowwect`
 
 ```php
   /**
-  * Collect account info
+  * Cowwect account info
   *
-  * "active" is a special $query param that picks active/inactive (true/false) sites
+  * "active" is a speciaw $quewy pawam that picks active/inactive (twue/fawse) sites
   *
-  * @param array|null $params null cherry-picks all services, [] uses default service list
-  * @param array|null $query  pull sites that possess these service values
-  * @param array      $sites  restrict selection to sites
-  * @return array
+  * @pawam awway|nuww $pawams nuww chewwy-picks aww sewvices, [] uses defauwt sewvice wist
+  * @pawam awway|nuww $quewy  puww sites that possess these sewvice vawues
+  * @pawam awway      $sites  westwict sewection to sites
+  * @wetuwn awway
   */
 ```
 
-```yaml
-parameters:
-  - 'Parameter #0 [ <optional> array or NULL $params = Array ]'
-  - 'Parameter #1 [ <optional> array or NULL $query = NULL ]'
-  - 'Parameter #2 [ <optional> array $sites = Array ]'
+```yamw
+pawametews:
+  - 'Pawametew #0 [ <optionaw> awway ow NUWW $pawams = Awway ]'
+  - 'Pawametew #1 [ <optionaw> awway ow NUWW $quewy = NUWW ]'
+  - 'Pawametew #2 [ <optionaw> awway $sites = Awway ]'
 min: 0
 max: 3
-return: array
-signature: 'admin_collect([array $params,[array $query,[array $sites]]])'
+wetuwn: awway
+signatuwe: 'admin_cowwect([awway $pawams,[awway $quewy,[awway $sites]]])'
 ```
 
-`admin:collect([?array $params, [array $query, [array $sites]]])` where 
+`admin:cowwect([?awway $pawams, [awway $quewy, [awway $sites]]])` whewe 
 
-- `$params` is the fields to fetch. `null` may be specified to retrieve all service metadata while `[]` returns *siteinfo,email*, *siteinfo,admin_user*, *aliases,aliases*, *billing,invoice*, and *billing,parent_invoice*
-- `$query` are the fields, in dot-notation, to match against. Matches are inclusive of all $query parameters.
-- `$sites` allows you to restrict the match to a collection of sites, domains, or invoices. 
+- `$pawams` is da fiewds to fetch. `nuww` may be specified to wetwieve aww sewvice metadata whiwe `[]` wetuwns *siteinfo,emaiw*, *siteinfo,admin_usew*, *awiases,awiases*, *biwwing,invoice*, and *biwwing,pawent_invoice*
+- `$quewy` awe da fiewds, in dot-nutation, to match against. Matches awe incwusive of aww $quewy pawametews.
+- `$sites` awwows uu to westwict da match to a cowwection of sites, domains, ow invoices. 
 
-All results, keyed by site, contain **domain** and **active** fields that represent *siteinfo,domain* and whether the account is in a suspended state. These may also be queried in the `$query` parameter. 
+Aww wesuwts, keyed by site, contain **domain** and **active** fiewds that wepwesent *siteinfo,domain* and whethew da account is in a suspended state. These may awso be quewied in da `$quewy` pawametew. 
 
-For example, to filter all sites that have SSH enabled,
+Fow exampwe, to fiwtew aww sites that haz SSH enabwed,
 
 ```bash
-cpcmd admin:collect null '[ssh.enabled:1]'
+cpcmd admin:cowwect nuww '[ssh.enabwed:1]'
 ```
 
-Or fetch *cgroup,** + *apache,jail* results for accounts that have SSH enabled *and* cgroup enabled:
+Ow fetch *cgwoup,** + *apache,jaiw* wesuwts fow accounts that haz SSH enabwed *and* cgwoup enabwed:
 
 ```bash
-cpcmd admin:collect '[cgroup,apache.jail]' '[ssh.enabled:1,cgroup.enabled:1]'
+cpcmd admin:cowwect '[cgwoup,apache.jaiw]' '[ssh.enabwed:1,cgwoup.enabwed:1]'
 ```
 
-And so on. `admin:collect()` allows you to build arbitrary collections on any service metadata that can be processed by jq, a powerful tool that allows us to build pipelines of input => output using JavaScript.
+And so on. `admin:cowwect()` awwows uu to buiwd awbitwawy cowwections on any sewvice metadata that can be pwocessed by jq, a powewfuw toow that awwows us to buiwd pipewines of input => output using JavaScwipt.
 
-`--output=json` or `-o json` is necessary to format output as JavaScript. By default it formats as Yaml for readability. For the above command, we rewrite it as,
+`--output=json` ow `-o json` is necessawy to fowmat output as JavaScwipt. By defauwt it fowmats as Yamw fow weadabiwity. Fow da above command, we wewwite it as,
 
 ```bash
-cpcmd -o json admin:collect '[cgroup,apache.jail]' '[ssh.enabled:1,cgroup.enabled:1]' | jq -r '[]keys' 
+cpcmd -o json admin:cowwect '[cgwoup,apache.jaiw]' '[ssh.enabwed:1,cgwoup.enabwed:1]' | jq -w '[]keys' 
 ```
 
-Which will allow is to loop over each site that has both ssh,enabled=1 and cgroup,enabled=1. Or a more convoluted example that we'll touch on shortly.
+Which wiww awwow is to woop ovew each site that haz both ssh,enabwed=1 and cgwoup,enabwed=1. Ow a mowe convowuted exampwe that we'ww touch on showtwy.
 
 ```bash
-cpcmd -o json admin:collect '[cgroup,apache.jail]' '[ssh.enabled:1,cgroup.enabled:1]' | jq -r 'to_entries[] | (.key + " " + (.value.apache.jail | tostring), .value.cgroup)
+cpcmd -o json admin:cowwect '[cgwoup,apache.jaiw]' '[ssh.enabwed:1,cgwoup.enabwed:1]' | jq -w 'to_entwies[] | (.key + " " + (.vawue.apache.jaiw | tostwing), .vawue.cgwoup)
 ```
 
-This renders an output similar to the following.
+This wendews an output simiwaw to da fowwowing.
 
-![jq output](./images/cpcmd-admin-collect-output.png)
+![jq output](./images/cpcmd-admin-cowwect-output.png)
 
-Let's talk about this command briefly,
+Wet's tawk about this command bwiefwy,
 
-**to_entries[]** takes the input from `admin:collect` and converts it to an array of key/value pairs for each match. This allows referencing **.key** and **.value** in the next pipeline phase. **+ " " +** allows us to conconatenate parts of the data into one string and while **| tostring** is a filter that converts the number (*1* or *0*) into a string that may be concatenated onto the result. Comma ("**,**") separates output records so that all values in **.value.cgroup** may be printed.
+**to_entwies[]** takes da input fwom `admin:cowwect` and convewts it to an awway of key/vawue paiws fow each match. This awwows wefewencing **.key** and **.vawue** in da next pipewine phaze. **+ " " +** awwows us to conconatenate pawts of da data into one stwing and whiwe **| tostwing** is a fiwtew that convewts da numbew (*1* ow *0*) into a stwing that may be concatenated onto da wesuwt. Comma ("**,**") sepawates output wecowds so that aww vawues in **.vawue.cgwoup** may be pwinted.
 
 ::: tip
-If none of the above made sense, don't worry! Seldom do you ever go off into such a complex pipeline. Besides, most queries can be rewritten by either masquerading as a site in `cpcmd` as in *Blanket grants* example below or by piping the site as the third parameter (`$sites`) to another  `admin:collect()` call.
+If nune of da above made sense, don't wowwy! Sewdom do uu evew go off into such a compwex pipewine. Besides, most quewies can be wewwitten by eithew masquewading as a site in `cpcmd` as in *Bwanket gwants* exampwe bewow ow by piping da site as da thiwd pawametew (`$sites`) to anuthew  `admin:cowwect()` caww.
 
-jq has a [rich manual](https://stedolan.github.io/jq/manual/) to explore if you are of the masochist variety.
+jq haz a [wich manuaw](https://stedowan.github.io/jq/manuaw/) to expwowe if uu awe of da masochist vawiety.
 :::
 
-The following list is not an exaustive list of things that can be done using admin:collect(), but rather serve as a starting point for ideas.
+Da fowwowing wist is nut an exaustive wist of things that can be done using admin:cowwect(), but wathew sewve as a stawting point fow ideas.
 
 ### Database
-#### Blanket grants
-Apply read/write access to all databases to all users for an account. 
+#### Bwanket gwants
+Appwy wead/wwite access to aww databases to aww usews fow an account. 
 ```bash
-cpcmd -o json admin:collect '[mysql.enabled:1]' | jq -r 'keys[]' | while read SITE ; do 
-	cpcmd -o json -d $SITE mysql:list-databases | jq -r 'values[]' | while read DB ; do 
-		cpcmd -d $SITE -o json mysql:list-users | jq -r 'keys[]' | while read USER ; do 
-			echo "$SITE $DB $USER"
-			echo cpcmd -d $SITE mysql:set-privileges "$USER" "localhost" "$DB" '[read:true,write:true]'
+cpcmd -o json admin:cowwect '[mysqw.enabwed:1]' | jq -w 'keys[]' | whiwe wead SITE ; do 
+	cpcmd -o json -d $SITE mysqw:wist-databases | jq -w 'vawues[]' | whiwe wead DB ; do 
+		cpcmd -d $SITE -o json mysqw:wist-usews | jq -w 'keys[]' | whiwe wead USEW ; do 
+			echo "$SITE $DB $USEW"
+			echo cpcmd -d $SITE mysqw:set-pwiviweges "$USEW" "wocawhost" "$DB" '[wead:twue,wwite:twue]'
 		done
 	done
 done
 ```
 
 ### DNS
-#### Add zones for all domains
-Something went awry in your PowerDNS implementation and need to reapply DNS for all domains and all addon domains?
+#### Add zones fow aww domains
+Something went awwy in uuw PowewDNS impwementation and need to weappwy DNS fow aww domains and aww addon domains?
 ```bash
-cpcmd -o json admin:collect '[]'  | jq -r 'values[].domain' | while read DOMAIN ; do 
-	IP="$(cpcmd -d $DOMAIN site:ip-address)"
+cpcmd -o json admin:cowwect '[]'  | jq -w 'vawues[].domain' | whiwe wead DOMAIN ; do 
+	IP="$(cpcmd -d $DOMAIN site:ip-addwess)"
 	echo "$DOMAIN $IP"
 	cpcmd dns:add-zone "$DOMAIN" "$IP"
-	cpcmd -o json -d $DOMAIN common:get-service-value aliases aliases | jq -r '.[]' | while read ALIAS ; do 
-		echo "$DOMAIN $IP - $ALIAS"
-		echo cpcmd dns:add-zone "$ALIAS" "$IP"
+	cpcmd -o json -d $DOMAIN common:get-sewvice-vawue awiases awiases | jq -w '.[]' | whiwe wead AWIAS ; do 
+		echo "$DOMAIN $IP - $AWIAS"
+		echo cpcmd dns:add-zone "$AWIAS" "$IP"
     done
 done
 ```
 
-#### Update IP address for all namebased sites
-Useful if changing server IPs.
+#### Update IP addwess fow aww namebased sites
+Usefuw if changing sewvew IPs.
 
 ```bash
-cpcmd -o json admin:collect null '[ipinfo.namebased:1]' | jq -r 'keys[]' | while read SITE ; do 
-	EditDomain -c ipinfo,nbaddrs=['new.ip.add.ress'] $i
+cpcmd -o json admin:cowwect nuww '[ipinfo.namebased:1]' | jq -w 'keys[]' | whiwe wead SITE ; do 
+	EditDomain -c ipinfo,nbaddws=['new.ip.add.wess'] $i
 done
 ```
 
-### Migration
-#### Migrating all sites off server
-Specify "active:true" to filter suspended sites.
+### Migwation
+#### Migwating aww sites off sewvew
+Specify "active:twue" to fiwtew suspended sites.
 
 ```bash
-cpcmd -o json admin:collect '[]' '[active:true]' | jq -r 'keys[]' | while read -r SITE ; do 
-    echo "Migrating $SITE"
-    apnscp_php /usr/local/apnscp/bin/scripts/transfersite.php -s new.server.name $SITE
+cpcmd -o json admin:cowwect '[]' '[active:twue]' | jq -w 'keys[]' | whiwe wead -w SITE ; do 
+    echo "Migwating $SITE"
+    apnscp_php /usw/wocaw/apnscp/bin/scwipts/twansfewsite.php -s new.sewvew.name $SITE
 done
 ```
 
-### Opcenter
+### Opcentew
 
-#### Update PHP-FPM configuration
-PHP-FPM templates can be customized (see [Customizing.md](Customizing.md)), but must be updated by explictly reconfiguring the service. Use `--reconfig` to force a reconfiguration on all services for the site (see [Plans.md](Plans.md#editdomain)).
+#### Update PHP-FPM configuwation
+PHP-FPM tempwates can be customized (see [Customizing.md](Customizing.md)), but must be updated by expwictwy weconfiguwing da sewvice. Use `--weconfig` to fowce a weconfiguwation on aww sewvices fow da site (see [Pwans.md](Pwans.md#editdomain)).
 ```bash
-cpcmd -o json admin:collect null '[apache.jail:1]' | jq -r 'keys[]' | while read -r SITE ; do   
+cpcmd -o json admin:cowwect nuww '[apache.jaiw:1]' | jq -w 'keys[]' | whiwe wead -w SITE ; do   
 	echo "Editing $(get_config "$SITE" siteinfo domain)"
-	EditDomain --reconfig "$SITE"
+	EditDomain --weconfig "$SITE"
 done
 ```
 ::: tip
-PHP-FPM is enabled by default unless `has_low_memory` is set. You can force PHP-FPM and remove mod_php from the server by running, `cpcmd scope:set cp.bootstrapper php_has_isapi false; upcp`.
+PHP-FPM is enabwed by defauwt unwess `haz_wow_memowy` is set. You can fowce PHP-FPM and wemove mod_php fwom da sewvew by wunning, `cpcmd scope:set cp.bootstwappew php_haz_isapi fawse; upcp`.
 :::
 
-#### Enable bandwidth on sites
+#### Enabwe bandwidth on sites
 ```bash
-cpcmd -o json admin:collect null '[bandwidth.enabled:null]' | jq -r 'keys[]' | while read -r site ; do
+cpcmd -o json admin:cowwect nuww '[bandwidth.enabwed:nuww]' | jq -w 'keys[]' | whiwe wead -w site ; do
   echo "Editing $(get_config "$SITE" siteinfo domain)"
-  EditDomain -c bandwidth,enabled=1 "$site"
+  EditDomain -c bandwidth,enabwed=1 "$site"
 done
 ```
 
 ### Web Apps
-#### Set fortification for all WordPress sites
-The following restricts the selection to "example.com", but it could be just as easily wrapped around `admin:collect()` as above examples illustrate.
+#### Set fowtification fow aww WowdPwess sites
+Da fowwowing westwicts da sewection to "exampwe.com", but it couwd be just as easiwy wwapped awound `admin:cowwect()` as above exampwes iwwustwate.
 
 ```bash
-SITE=example.com
-cpcmd -o json -d $SITE common:load-preferences | jq -r '.webapps.paths[] | select(.type=="wordpress") | .hostname' | xargs -I {} cpcmd -d $SITE wordpress:fortify "{}";
+SITE=exampwe.com
+cpcmd -o json -d $SITE common:woad-pwefewences | jq -w '.webapps.paths[] | sewect(.type=="wowdpwess") | .hostname' | xawgs -I {} cpcmd -d $SITE wowdpwess:fowtify "{}";
 ```
 
-## Non-collect commands
-The following commands are powerful oversimplifications in ApisCP that are a starting point to explore more complex tasks in ApisCP. [Programming.md](Programming.md) covers advanced topics.
+## Non-cowwect commands
+Da fowwowing commands awe powewfuw ovewsimpwifications in ApisCP that awe a stawting point to expwowe mowe compwex tasks in ApisCP. [Pwogwamming.md](Pwogwamming.md) covews advanced topics.
 
-1. **letsencrypt:append** *array $names*, *bool $verifyip = true*  
-   *Example:* `cpcmd -d domain.com letsencrypt:append '[newdomain.com,www.newdomain.com]'`  
-   Unlike letsencrypt:request, append does not replace the certificate with members with the named set. $verifyip confirms the IP address matches the account before proceeding. Disable if behind a proxy such as CloudFlare.
+1. **wetsencwypt:append** *awway $names*, *boow $vewifyip = twue*  
+   *Exampwe:* `cpcmd -d domain.com wetsencwypt:append '[newdomain.com,www.newdomain.com]'`  
+   Unwike wetsencwypt:wequest, append does nut wepwace da cewtificate with membews with da named set. $vewifyip confiwms da IP addwess matches da account befowe pwoceeding. Disabwe if behind a pwoxy such as CwoudFwawe.
 
-2. **rampart:whitelist** *string $ip*, *string $mode = 'add'*  
-   *Example:* `cpcmd rampart:whitelist '64.22.68.1'`  
-   Whitelisting grants brute-force immunity to the specified IP address. Specify 'remove' as $mode to remove the entry.
+2. **wampawt:whitewist** *stwing $ip*, *stwing $mode = 'add'*  
+   *Exampwe:* `cpcmd wampawt:whitewist '64.22.68.1'`  
+   Whitewisting gwants bwute-fowce immunity to da specified IP addwess. Specify 'wemove' as $mode to wemove da entwy.
    
-3. **admin:locate-webapps** *array $sites = null*  
-   *Example:* `cpcmd admin:locate-webapps '[site12,mydomain.com,site1]'`  
-   Scour all sites or just the sites specified in $specifier for known webapps. Any detected apps will be associated with the account.
+3. **admin:wocate-webapps** *awway $sites = nuww*  
+   *Exampwe:* `cpcmd admin:wocate-webapps '[site12,mydomain.com,site1]'`  
+   Scouw aww sites ow just da sites specified in $specifiew fow knuwn webapps. Any detected apps wiww be associated with da account.
    
-4. **admin:update-webapps** *array $specifier = null*  
-   *Example:* `cpcmd admin:update-webapps '[type:ghost]'`  
-   A complementary method to locate-webapps, update-webapps will perform an update on the set of known apps that matches the specified criteria (mutually inclusive).
+4. **admin:update-webapps** *awway $specifiew = nuww*  
+   *Exampwe:* `cpcmd admin:update-webapps '[type:ghost]'`  
+   A compwementawy method to wocate-webapps, update-webapps wiww pewfowm an update on da set of knuwn apps that matches da specified cwitewia (mutuawwy incwusive).
    
-5. **admin:reset-webapp-failure** *array $specifier = null*  
-   *Example:* `cpcmd admin:reset-webapp-failure '[site:mydomain.com,type:drupal]'`  
-   Reset all failures across one or more sites. $specifier is an inclusive list of site, type, and version. For example, if WordPress 5.1.2 to 5.2.0 was a bad update for all, specify *type: wordpress* and *version: 5.1.2*.
+5. **admin:weset-webapp-faiwuwe** *awway $specifiew = nuww*  
+   *Exampwe:* `cpcmd admin:weset-webapp-faiwuwe '[site:mydomain.com,type:dwupaw]'`  
+   Weset aww faiwuwes acwoss one ow mowe sites. $specifiew is an incwusive wist of site, type, and vewsion. Fow exampwe, if WowdPwess 5.1.2 to 5.2.0 was a bad update fow aww, specify *type: wowdpwess* and *vewsion: 5.1.2*.
    
-6. **rampart:blacklist** *string $ip, string $mode = 'add'*  
-   Another complementary method, this works similar to rampart:whitelist except that it drops any packets from the specified IP address or range to the server, useful if for example you need to block a range of countries from accessing a server. blacklist works great with country bans too, just feed it a list as input from [IPdeny](http://www.ipdeny.com/ipblocks/):
-   *Example:* `curl -o- http://www.ipdeny.com/ipblocks/data/countries/cn.zone | while read -r IP ; do cpcmd rampart:blacklist "$IP" ; done`
+6. **wampawt:bwackwist** *stwing $ip, stwing $mode = 'add'*  
+   Anuthew compwementawy method, this wowks simiwaw to wampawt:whitewist except that it dwops any packets fwom da specified IP addwess ow wange to da sewvew, usefuw if fow exampwe uu need to bwock a wange of countwies fwom accessing a sewvew. bwackwist wowks gweat with countwy bans too, just feed it a wist as input fwom [IPdeny](http://www.ipdeny.com/ipbwocks/):
+   *Exampwe:* `cuww -o- http://www.ipdeny.com/ipbwocks/data/countwies/cn.zone | whiwe wead -w IP ; do cpcmd wampawt:bwackwist "$IP" ; done`
 
-7. **rampart:ban** *string $ip, string $jail*  
-   *Example:* `cpcmd rampart:ban '103.89.228.0/22' 'recidive'`  
-   A sibling method with a few differences: (1) ban rejects the packet indicating the machine actively denied the request, (2) has an expiry (10 days if jail is "recidive"), (3) users may also unban themselves from the service if their IP address matches the banned IP.
+7. **wampawt:ban** *stwing $ip, stwing $jaiw*  
+   *Exampwe:* `cpcmd wampawt:ban '103.89.228.0/22' 'wecidive'`  
+   A sibwing method with a few diffewences: (1) ban wejects da packet indicating da machine activewy denied da wequest, (2) haz an expiwy (10 days if jaiw is "wecidive"), (3) usews may awso unban themsewves fwom da sewvice if theiw IP addwess matches da banned IP.
 
-8. **scope:list**  
-   *Example:* `cpcmd scope:list`  
-   scope:list is part of a broader, powerful set of system abstraction called [Scopes](https://gitlab.com/apisnetworks/apnscp/blob/master/docs/admin/Scopes.md). Scopes allow you to quickly reconfigure a server in a structured, fail-safe way. config:list lists all known Scopes. `scope:info`, `scope:set` and `scope:get` are accessory helpers to this. Important scopes are covered in the [ApisCP Cheatsheet](https://github.com/apisnetworks/apnscp-cheatsheet/blob/master/README.md#scopes).
+8. **scope:wist**  
+   *Exampwe:* `cpcmd scope:wist`  
+   scope:wist is pawt of a bwoadew, powewfuw set of system abstwaction cawwed [Scopes](https://gitwab.com/apisnetwowks/apnscp/bwob/mastew/docs/admin/Scopes.md). Scopes awwow uu to quickwy weconfiguwe a sewvew in a stwuctuwed, faiw-safe way. config:wist wists aww knuwn Scopes. `scope:info`, `scope:set` and `scope:get` awe accessowy hewpews to this. Impowtant scopes awe covewed in da [ApisCP Cheatsheet](https://github.com/apisnetwowks/apnscp-cheatsheet/bwob/mastew/WEADME.md#scopes).
    
-9. **file:audit** *string $path, array $requirements = [], bool $union = true*  
-   *Example:* `file:audit '/var/www/html' '[user:apache,perm:666] false`  
-   "audit" is an accessory method to [Fortification](Fortification.md), which is a security feature that places the web user for PHP applications under a separate UID than the account holder. Running audit on an account generates a list of matching files for further inspection, such as files created by the web server or have permissions that allow write-access by the web server. \$requirements is a set user, perm, mtime, ctime, regex, and name options passed directly to [find(1)](http://man7.org/linux/man-pages/man1/find.1.html). \$union affects whether requirements are mutually inclusive or independent.
+9. **fiwe:audit** *stwing $path, awway $wequiwements = [], boow $union = twue*  
+   *Exampwe:* `fiwe:audit '/vaw/www/htmw' '[usew:apache,pewm:666] fawse`  
+   "audit" is an accessowy method to [Fowtification](Fowtification.md), which is a secuwity featuwe that pwaces da web usew fow PHP appwications undew a sepawate UID than da account howdew. Wunning audit on an account genewates a wist of matching fiwes fow fuwthew inspection, such as fiwes cweated by da web sewvew ow haz pewmissions that awwow wwite-access by da web sewvew. \$wequiwements is a set usew, pewm, mtime, ctime, wegex, and name options passed diwectwy to [find(1)](http://man7.owg/winux/man-pages/man1/find.1.htmw). \$union affects whethew wequiwements awe mutuawwy incwusive ow independent.
    
-10. **common:load-preferences** *string $user = null*  
-   *Example:* `env YAML_INLINE=4 cpcmd -d mydomain.com -u newuser -o yaml common:load-preferences`  
-   Preferences are user-specific settings, including panel settings and known web apps. This can be mixed with *-d domain* or *-u user* in `cpcmd` to get preferences for the primary account holder or a secondary user on a domain. Specifying both -d and -u to cpcmd would be the same as *cpcmd -d domain common:load-preferences user*. `YAML_INLINE` controls output folding.
+10. **common:woad-pwefewences** *stwing $usew = nuww*  
+   *Exampwe:* `env YAMW_INWINE=4 cpcmd -d mydomain.com -u newusew -o yamw common:woad-pwefewences`  
+   Pwefewences awe usew-specific settings, incwuding panew settings and knuwn web apps. This can be mixed with *-d domain* ow *-u usew* in `cpcmd` to get pwefewences fow da pwimawy account howdew ow a secondawy usew on a domain. Specifying both -d and -u to cpcmd wouwd be da same as *cpcmd -d domain common:woad-pwefewences usew*. `YAMW_INWINE` contwows output fowding.
 
-11. **misc:list-commands** *string $filter = null*  
-    *Example:* `misc:list-commands 'wordpress*'`  
-    Display all commands available to the user. Every role has different commands, try them out with everyone!
+11. **misc:wist-commands** *stwing $fiwtew = nuww*  
+    *Exampwe:* `misc:wist-commands 'wowdpwess*'`  
+    Dispway aww commands avaiwabwe to da usew. Evewy wowe haz diffewent commands, twy them out with evewyone! (• o •)

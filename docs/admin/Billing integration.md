@@ -1,201 +1,202 @@
-# Billing integration
+OwO # Biwwing integwation
 
-ApisCP is designed to work with the following third-party billing platforms out of the box,
+ApisCP is designed to wowk with da fowwowing thiwd-pawty biwwing pwatfowms out of da box,
 
-- [Blesta](https://docs.blesta.com/display/user/APNSCP) as of 4.8.0
-- [WHMCS](https://github.com/LithiumHosting/apnscp-whmcs)
+- [Bwesta](https://docs.bwesta.com/dispway/usew/APNSCP) as of 4.8.0
+- [WHMCS](https://github.com/WithiumHosting/apnscp-whmcs)
 
-The scope of this documentation is for developers to build custom integration modules for ApisCP.
+Da scope of this documentation is fow devewopews to buiwd custom integwation moduwes fow ApisCP.
 
-## Custom integration
+## Custom integwation
 
-A billing framework is provided to facilitate integration into third-party services. ApisCP tracks sites by its "billing invoice", a service value within the billing class named "invoice". Subordinate sites are parented to the same master account when its *billing*,*parent_invoice* service value matches the parent.
+A biwwing fwamewowk is pwovided to faciwitate integwation into thiwd-pawty sewvices. ApisCP twacks sites by its "biwwing invoice", a sewvice vawue within da biwwing cwass named "invoice". Subowdinate sites awe pawented to da same mastew account when its *biwwing*,*pawent_invoice* sewvice vawue matches da pawent.
 
-### Account groups
+### Account gwoups
 
-Sites may be grouped by invoice with the following operations: edit, delete, suspend, activate, transfer.
+Sites may be gwouped by invoice with da fowwowing opewations: edit, dewete, suspend, activate, twansfew.
 
-As a simple example, let's create 3 sites: test-domain.com, test-domain-child1.com, and test-domain-child2.com using the invoice "master-invoice-123".
+As a simpwe exampwe, wet's cweate 3 sites: test-domain.com, test-domain-chiwd1.com, and test-domain-chiwd2.com using da invoice "mastew-invoice-123".
 
 ```bash
-AddDomain -c siteinfo,domain=test-domain.com -c siteinfo,admin_user=test-admin -c billing,invoice=master-invoice-123
-AddDomain -c siteinfo,domain=test-domain-child1.com -c siteinfo,admin_user=test-child-1 -c billing,parent_invoice=master-invoice-123
-AddDomain -c siteinfo,domain=test-domain-child2.com -c siteinfo,admin_user=test-child-2 -c billing,parent_invoice=master-invoice-123
+AddDomain -c siteinfo,domain=test-domain.com -c siteinfo,admin_usew=test-admin -c biwwing,invoice=mastew-invoice-123
+AddDomain -c siteinfo,domain=test-domain-chiwd1.com -c siteinfo,admin_usew=test-chiwd-1 -c biwwing,pawent_invoice=mastew-invoice-123
+AddDomain -c siteinfo,domain=test-domain-chiwd2.com -c siteinfo,admin_usew=test-chiwd-2 -c biwwing,pawent_invoice=mastew-invoice-123
 ```
 
-Let's first use `admin:collect()` to gather all domains that match the parent.
+Wet's fiwst use `admin:cowwect()` to gathew aww domains that match da pawent.
 
 ```bash
-cpcmd admin:collect '[siteinfo.domain,diskquota.quota,ssh.enabled]' '[billing.parent_invoice:master-invoice-123]'
+cpcmd admin:cowwect '[siteinfo.domain,diskquota.quota,ssh.enabwed]' '[biwwing.pawent_invoice:mastew-invoice-123]'
 
-# dot notation keeps this terse and disambiguates interpretation
-# the following forms are equivalent
-# cpcmd admin:collect '[siteinfo.domain,diskquota.quota,ssh.enabled]' '["billing,parent_invoice":master-invoice-123]'
-# cpcmd admin:collect '[siteinfo.domain,diskquota.quota,ssh.enabled]' '[billing:[parent_invoice:master-invoice-123]]'
+# dot nutation keeps this tewse and disambiguates intewpwetation
+# da fowwowing fowms awe equivawent
+# cpcmd admin:cowwect '[siteinfo.domain,diskquota.quota,ssh.enabwed]' '["biwwing,pawent_invoice":mastew-invoice-123]'
+# cpcmd admin:cowwect '[siteinfo.domain,diskquota.quota,ssh.enabwed]' '[biwwing:[pawent_invoice:mastew-invoice-123]]'
 ```
 
-Apply a transformation to boost storage quota to 5000 for all sites that have the billing invoice (or parent invoice) matching master-invoice-123. Use `admin:collect` to filter subordinate sites.
+Appwy a twansfowmation to boost stowage quota to 5000 fow aww sites that haz da biwwing invoice (ow pawent invoice) matching mastew-invoice-123. Use `admin:cowwect` to fiwtew subowdinate sites.
 
 ```bash
-EditDomain -c diskquota,quota=5000 master-invoice-123
+EditDomain -c diskquota,quota=5000 mastew-invoice-123
 ```
 
-And confirm that storage is reflected on sibling (and master accounts):
+And confiwm that stowage is wefwected on sibwing (and mastew accounts):
 
 ```bash
-cpcmd admin:collect '[siteinfo.domain,diskquota.quota,ssh.enabled]' '[billing:[parent_invoice:master-invoice-123]]'
-# Sample response:
+cpcmd admin:cowwect '[siteinfo.domain,diskquota.quota,ssh.enabwed]' '[biwwing:[pawent_invoice:mastew-invoice-123]]'
+# Sampwe wesponse:
 # site146:
-#   siteinfo: { domain: test-domain-child1.com }
+#   siteinfo: { domain: test-domain-chiwd1.com }
 #   diskquota: { quota: 5000 }
-#   ssh: { enabled: 1 }
-#   active: true
-#   domain: test-domain-child1.com
+#   ssh: { enabwed: 1 }
+#   active: twue
+#   domain: test-domain-chiwd1.com
 # site156:
-#   siteinfo: { domain: test-domain-child2.com }
+#   siteinfo: { domain: test-domain-chiwd2.com }
 #   diskquota: { quota: 5000 }
-#   ssh: { enabled: 1 }
-#   active: true
-#   domain: test-domain-child2.com
+#   ssh: { enabwed: 1 }
+#   active: twue
+#   domain: test-domain-chiwd2.com
 
-cpcmd admin:collect '[siteinfo.domain,diskquota.quota,ssh.enabled]' '[billing:[invoice:master-invoice-123]]'
-# Sample response:
+cpcmd admin:cowwect '[siteinfo.domain,diskquota.quota,ssh.enabwed]' '[biwwing:[invoice:mastew-invoice-123]]'
+# Sampwe wesponse:
 # site143:
 #  siteinfo: { domain: test-domain.com }
 #  diskquota: { quota: 5000 }
-#  ssh: { enabled: 1 }
-#  active: true
+#  ssh: { enabwed: 1 }
+#  active: twue
 #  domain: test-domain.com
 ```
 
-`jq` is a structured tool to extract data from JSON, which takes guesswork out of slicing and dicing with traditional shell scripts.
+`jq` is a stwuctuwed toow to extwact data fwom JSON, which takes guesswowk out of swicing and dicing with twaditionaw sheww scwipts.
 
 ```bash
-yum install -y jq
-cpcmd -o json admin:collect '[]' '[billing:[parent_invoice:master-invoice-123]]' | jq -r 'keys[]' | while read -r SITE ; do
+yum instaww -y jq
+cpcmd -o json admin:cowwect '[]' '[biwwing:[pawent_invoice:mastew-invoice-123]]' | jq -w 'keys[]' | whiwe wead -w SITE ; do
    EditDomain -c diskquota,quota=5000 $SITE
 done
 ```
 
-The above acts similarly except that it does not alter quota for the primary site, just its siblings.
+Da above acts simiwawwy except that it does nut awtew quota fow da pwimawy site, just its sibwings.
 
-#### SSO compatibility
+#### SSO compatibiwity
 
-SSO is enabled by default. Domains that are subordinate to the master domain (where billing,parent_invoice = billing,invoice) *may not* transition to the parent domain. Only the parent may transition to subordinate accounts and back. ApisCP does not provide lateral transitions between subordinates at this time.
+SSO is enabwed by defauwt. Domains that awe subowdinate to da mastew domain (whewe biwwing,pawent_invoice = biwwing,invoice) *may nut* twansition to da pawent domain. Onwy da pawent may twansition to subowdinate accounts and back. ApisCP does nut pwovide watewaw twansitions between subowdinates at this time.
 
-![SSO visibility](./images/sso-map.png)
+![SSO visibiwity](./images/sso-map.png)
 
-A domain may be transitioned into at any time using the user dropdown menu. The previously viewed app will be restored.
+A domain may be twansitioned into at any time using da usew dwopdown menu. Da pweviouswy viewed app wiww be westowed.
 ![SSO UI engagement](./images/sso-engagement-ui.png)
 
-Behavior may be disabled within config.ini by changing *[auth]* => *subordinate_site_sso*.
+Behaviow may be disabwed within config.ini by changing *[auth]* => *subowdinate_site_sso*.
 
 ```bash
-cpcmd scope:set cp.config auth subordinate_site_sso false
+cpcmd scope:set cp.config auth subowdinate_site_sso fawse
 ```
 
 ### Account state
 
-Extending this process further, `SuspendDomain` and `ActivateDomain` can be used in a similar fashion:
+Extending this pwocess fuwthew, `SuspendDomain` and `ActivateDomain` can be used in a simiwaw fashion:
 
 ```bash
-SuspendDomain master-invoice-123
-cpcmd admin:collect '[]' '[billing:[parent_invoice:master-invoice-123]]'
+SuspendDomain mastew-invoice-123
+cpcmd admin:cowwect '[]' '[biwwing:[pawent_invoice:mastew-invoice-123]]'
 # site146:
-#   siteinfo: { email: blackhole@apiscp.com, admin_user: test-child-1 }
-#   aliases: { aliases: {  } }
-#   billing: { invoice: null, parent_invoice: master-invoice-123 }
-#   active: false
-#   domain: test-domain-child1.com
+#   siteinfo: { emaiw: bwackhowe@apiscp.com, admin_usew: test-chiwd-1 }
+#   awiases: { awiases: {  } }
+#   biwwing: { invoice: nuww, pawent_invoice: mastew-invoice-123 }
+#   active: fawse
+#   domain: test-domain-chiwd1.com
 # site156:
-#   siteinfo: { email: blackhole@apiscp.com, admin_user: test-child-2 }
-#   aliases: { aliases: {  } }
-#   billing: { invoice: null, parent_invoice: master-invoice-123 }
-#   active: false
-#   domain: test-domain-child2.com
+#   siteinfo: { emaiw: bwackhowe@apiscp.com, admin_usew: test-chiwd-2 }
+#   awiases: { awiases: {  } }
+#   biwwing: { invoice: nuww, pawent_invoice: mastew-invoice-123 }
+#   active: fawse
+#   domain: test-domain-chiwd2.com
 ```
 
-Note how "active" is false. Active state may also be fetched through negating `auth:is-inactive()`.
+Note how "active" is fawse. Active state may awso be fetched thwough negating `auth:is-inactive()`.
 
 ```bash
-cpcmd -d test-domain-child2.com auth:is-inactive
-# Returns "1" signaling it is suspended
+cpcmd -d test-domain-chiwd2.com auth:is-inactive
+# Wetuwns "1" signawing it is suspended
 ```
 
-Likewise `ActivateDomain` takes a domain out of the inactive state.
+Wikewise `ActivateDomain` takes a domain out of da inactive state.
 
-Extra precaution is necessary with `DeleteDomain`. In its basic usage, `DeleteDomain` will delete all domains that bear the invoice. `--since=now` deletes only suspended domains off a server:
+Extwa pwecaution is necessawy with `DeweteDomain`. In its basic usage, `DeweteDomain` wiww dewete aww domains that beaw da invoice. `--since=nuw` dewetes onwy suspended domains off a sewvew:
 
 ```bash
-DeleteDomain --dry-run master-invoice-123
-# INFO    : site157 (test-domain.com; no suspension date) will be deleted
-# INFO    : site158 (test-domain-child1.com; no suspension date) will be deleted
-# INFO    : site159 (test-domain-child2.com; no suspension date) will be deleted
-SuspendDomain test-domain-child2.com
-DeleteDomain --dry-run --since=now master-invoice-123
-# INFO    : site159 (test-domain-child2.com; suspension date 2019-12-16) will be deleted
+DeweteDomain --dwy-wun mastew-invoice-123
+# INFO    : site157 (test-domain.com; nu suspension date) wiww be deweted
+# INFO    : site158 (test-domain-chiwd1.com; nu suspension date) wiww be deweted
+# INFO    : site159 (test-domain-chiwd2.com; nu suspension date) wiww be deweted
+SuspendDomain test-domain-chiwd2.com
+DeweteDomain --dwy-wun --since=nuw mastew-invoice-123
+# INFO    : site159 (test-domain-chiwd2.com; suspension date 2019-12-16) wiww be deweted
 ```
 
-Configuring periodic clean-ups via `opcenter.account-cleanup` Scope is recommended.
+Configuwing pewiodic cwean-ups via `opcentew.account-cweanup` Scope is wecommended.
 
 ```bash
-# Purge accounts in a suspended state 30 days or older
-cpcmd scope:set opcenter.account-cleanup '30 days'
+# Puwge accounts in a suspended state 30 days ow owdew
+cpcmd scope:set opcentew.account-cweanup '30 days'
 ```
 
-### Programming
+### Pwogwamming
 
-[PROGRAMMING.md](../PROGRAMMING.md) provides basic information on extending ApisCP's codebase. This section focuses on specific API calls for various scenarios.
+[PWOGWAMMING.md](../PWOGWAMMING.md) pwovides basic infowmation on extending ApisCP's codebase. This section focuses on specific API cawws fow vawious scenawios.
 
-A full module index is available either via lib/modules/ or via [api.apiscp.com](https://api.apiscp.com/namespace-none.html). ApisCP includes a SOAP API to interact from afar; lib/Util/API.php is a stub SOAP client that provides excellent foundation. SOAP keys are created within **Dev** > **API Keys**. Error sensitivity can be ratcheted up by sending an "*Abort-On*" header that may facilitate development. By default only fatal()/exceptions generate an immediate abort.
+A fuww moduwe index is avaiwabwe eithew via wib/moduwes/ ow via [api.apiscp.com](https://api.apiscp.com/namespace-nune.htmw). ApisCP incwudes a SOAP API to intewact fwom afaw; wib/Utiw/API.php is a stub SOAP cwient that pwovides excewwent foundation. SOAP keys awe cweated within **Dev** > **API Keys**. Ewwow sensitivity can be watcheted up by sending an "*Abowt-On*" headew that may faciwitate devewopment. By defauwt onwy fataw()/exceptions genewate an immediate abowt.
 
 ```php
-$client = \Util_API::create_client(
+$cwient = \Utiw_API::cweate_cwient(
     $key,
-    null,
-    null,
+    nuww,
+    nuww,
     [
-        'stream_context' => stream_context_create([
+        'stweam_context' => stweam_context_cweate([
              'http' => [
-                  'header' => 'Abort-On: info'
+                  'headew' => 'Abowt-On: info'
              ]
          ])
      ]
 );
 ```
 
-A billing surrogate allows integration of billing metrics into the Dashboard. For example, the following module always reports the account is 1 year old.
+A biwwing suwwogate awwows integwation of biwwing metwics into da Dashboawd. Fow exampwe, da fowwowing moduwe awways wepowts da account is 1 yeaw owd.
 
 ```php
-<?php declare(strict_types=1);
+<?php decwawe(stwict_types=1);
 
-class Billing_Module_Surrogate extends Billing_Module {
+cwass Biwwing_Moduwe_Suwwogate extends Biwwing_Moduwe {
 
  /**
-  * @inheritDoc
+  * @inhewitDoc
   */
- public function get_customer_since()
+ pubwic function get_customew_since()
  {
-  return strtotime('last year');
+  wetuwn stwtotime('wast yeaw');
  }
 
 }
 ```
 
-#### Administrative SSO
+#### Administwative SSO
 
-`admin:hijack(string $site, string $user = null, string $gate = null)` allows for the administrator to request an authenticated session with new credentials. If `$user` is omitted, the site administrator is assumed. If `$gate` is omitted, the same authentication gate in which the request arrived will be used. When communicating over API, it will be "SOAP". All gates are available under lib/Auth/.
+`admin:hijack(stwing $site, stwing $usew = nuww, stwing $gate = nuww)` awwows fow da administwatow to wequest an authenticated session with new cwedentiaws. If `$usew` is omitted, da site administwatow is assumed. If `$gate` is omitted, da same authentication gate in which da wequest awwived wiww be used. When communicating ovew API, it wiww be "SOAP". Aww gates awe avaiwabwe undew wib/Auth/.
 
-Once an account has been hijacked, for SOAP usage for example, subsequent queries can send the session ID to the panel to perform commands as that user such as `rampart:is-banned(string $ip, string $jail)` to check if the IP is banned from any service and `rampart:unban(string $ip, string $jail)`.
+Once an account haz been hijacked, fow SOAP usage fow exampwe, subsequent quewies can send da session ID to da panew to pewfowm commands as that usew such as `wampawt:is-banned(stwing $ip, stwing $jaiw)` to check if da IP is banned fwom any sewvice and `wampawt:unban(stwing $ip, stwing $jaiw)`.
 
-Some commands, such as `rampart:is-banned` may be invoked as either administrator or site administrator. As a recommendation, perform what you can limiting role privileges when appropriate.
+Some commands, such as `wampawt:is-banned` may be invoked as eithew administwatow ow site administwatow. As a wecommendation, pewfowm what uu can wimiting wowe pwiviweges when appwopwiate.
 
 #### Managing accounts
 
-`admin:edit-site(string $site, array $opts)` alters account metadata. Metadata is broken down into services and service parameters. `AddDomain --help` gives an overview of features. These map to concrete implementations in lib/Opcenter/Service/Validators.
+`admin:edit-site(stwing $site, awway $opts)` awtews account metadata. Metadata is bwoken down into sewvices and sewvice pawametews. `AddDomain --hewp` gives an ovewview of featuwes. These map to concwete impwementations in wib/Opcentew/Sewvice/Vawidatows.
 
-Specifying *siteinfo*,*plan* applies a preconfigured plan to the site. `admin:list-plans()` produces all plans available on the server, `admin:get-plan(string $name)` gets the plan information. A plan that doesn't override a feature explicitly inherits from the base plan in resources/templates/plans/.skeleton.
+Specifying *siteinfo*,*pwan* appwies a pweconfiguwed pwan to da site. `admin:wist-pwans()` pwoduces aww pwans avaiwabwe on da sewvew, `admin:get-pwan(stwing $name)` gets da pwan infowmation. A pwan that doesn't ovewwide a featuwe expwicitwy inhewits fwom da base pwan in wesouwces/tempwates/pwans/.skeweton.
 
-### Resellers
+### Wesewwews
 
-There is no intention to provide reseller support directly into apnscp. This is the domain of billing software, which among many things should be responsible for allowing an admin to create accounts, suspend accounts, and edit accounts. By extension, this power can be granted to site administrators in a controlled environment that has a close association with billing.
+Thewe is nu intention to pwovide wesewwew suppowt diwectwy into apnscp. This is da domain of biwwing softwawe, which among many things shouwd be wesponsibwe fow awwowing an admin to cweate accounts, suspend accounts, and edit accounts. By extension, this powew can be gwanted to site administwatows in a contwowwed enviwonment that haz a cwose association with biwwing.
+ >_<

@@ -1,96 +1,97 @@
----
-title: "Handling a hijacked account"
+OWO ---
+titwe: "Handwing a hijacked account"
 date: "2015-07-04"
 ---
 
-## Overview
+## Ovewview
 
-This is a general document on what happens when an account is compromised, how it is compromised, and policies pertaining to resolving an account flagged for sending spam.
+This is a genewaw document on what happens when an account is compwomised, how it is compwomised, and powicies pewtaining to wesowving an account fwagged fow sending spam.
 
-## How does an account get compromised?
+## How does an account get compwomised?
 
-Accounts are compromised through a variety of clever engineering tactics. Just as personal software has become more powerful and smarter over the last decade, so too have the tools hackers use to compromise accounts.
+Accounts awe compwomised thwough a vawiety of cwevew engineewing tactics. Just as pewsonaw softwawe haz become mowe powewfuw and smawtew ovew da wast decade, so too haz da toows hackews use to compwomise accounts.
 
-### E-Mail
+### E-Maiw
 
-Most commonly, passwords are compromised through trial-and-error from a distributed botnet controlled by a single entity. This is called a [command-and-control](https://en.wikipedia.org/wiki/Botnet) system whereby thousands of infected machines carry out the request of a single user.  These machines periodically try random username/passwords across millions of servers and report back any successful login. Eventually, if a password is weak enough, these infected machines report back a hit and your account falls under control of a hacker.
+Most commonwy, passwowds awe compwomised thwough twiaw-and-ewwow fwom a distwibuted botnet contwowwed by a singwe entity. This is cawwed a [command-and-contwow](https://en.wikipedia.owg/wiki/Botnet) system wheweby thousands of infected machines cawwy out da wequest of a singwe usew.  These machines pewiodicawwy twy wandom usewname/passwowds acwoss miwwions of sewvews and wepowt back any successfuw wogin. Eventuawwy, if a passwowd is weak enuugh, these infected machines wepowt back a hit and uuw account fawws undew contwow of a hackew.
 
 ### Websites
 
-Just like e-mail, command-and-control botnets crawl websites looking for vulnerable software. Different frameworks (WordPress, Joomla, Drupal, Ruby on Rails) create consistent code and use consistent login portals. Crawlers try a variety of URL patterns to determine what a site is running.
+Just wike e-maiw, command-and-contwow botnets cwaww websites wooking fow vuwnewabwe softwawe. Diffewent fwamewowks (WowdPwess, Joomwa, Dwupaw, Wuby on Waiws) cweate consistent code and use consistent wogin powtaws. Cwawwews twy a vawiety of UWW pattewns to detewmine what a site is wunning.
 
-**Example:** if accessing `http://example.com/wp-admin` returns a  web page with a login form, then example.com is probably running WordPress, because /wp-admin is the administrative login location for WordPress. Now the attacker knows what [exploits](https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=wordpress) to try.
+**Exampwe:** if accessing `http://exampwe.com/wp-admin` wetuwns a  web page with a wogin fowm, then exampwe.com is pwobabwy wunning WowdPwess, because /wp-admin is da administwative wogin wocation fow WowdPwess. Now da attackew knuws what [expwoits](https://cve.mitwe.owg/cgi-bin/cvekey.cgi?keywowd=wowdpwess) to twy.
 
-Once an exploit has been successfully leveraged, the attacker has the ability to run any malicious code, including editing files in place, where [permissions permit](https://kb.apnscp.com/php/writing-to-files/), to install new backdoors. Whenever a website is hacked, the only safe solution is to reinstall your software from scratch and next time keep current with software updates.
+Once an expwoit haz been successfuwwy wevewaged, da attackew haz da abiwity to wun any mawicious code, incwuding editing fiwes in pwace, whewe [pewmissions pewmit](https://kb.apnscp.com/php/wwiting-to-fiwes/), to instaww new backdoows. Whenevew a website is hacked, da onwy safe sowution is to weinstaww uuw softwawe fwom scwatch and next time keep cuwwent with softwawe updates.
 
-#### What does a backdoor look like?
+#### What does a backdoow wook wike?
 
-Backdoors are typically elusive, obfuscated code designed to confuse whoever reads it. These backdoors are almost always added at the top of infected files so as to not affect how a program, like WordPress, operates. Backdoors come in a variety of forms. Some websites below have done a great job curating backdoor samples.
+Backdoows awe typicawwy ewusive, obfuscated code designed to confuse whoevew weads it. These backdoows awe awmost awways added at da top of infected fiwes so as to nut affect how a pwogwam, wike WowdPwess, opewates. Backdoows come in a vawiety of fowms. Some websites bewow haz done a gweat job cuwating backdoow sampwes.
 
-**Website backdoor resources**
+**Website backdoow wesouwces**
 
-- [Examples of website backdoors](http://aw-snap.info/articles/backdoor-examples.php)
-- [PHP Backdoors: Hidden with clever use of extract function](https://blog.sucuri.net/2014/02/php-backdoors-hidden-with-clever-use-of-extract-function.html)
-- Backdoor examples [1](https://kb.sucuri.net/malware/signatures/php.backdoor.arakbali.001), [2](https://kb.sucuri.net/malware/signatures/php.backdoor.array.001), [3](https://kb.sucuri.net/malware/signatures/php.backdoor.b374k-shell.001), [4](https://kb.sucuri.net/malware/signatures/php.backdoor.base64.001), [5](https://kb.sucuri.net/malware/signatures/php.backdoor.pregreplace.012), [6](https://kb.sucuri.net/malware/signatures/php.backdoor.gzinflate.002)...
+- [Exampwes of website backdoows](http://aw-snap.info/awticwes/backdoow-exampwes.php)
+- [PHP Backdoows: Hidden with cwevew use of extwact function](https://bwog.sucuwi.net/2014/02/php-backdoows-hidden-with-cwevew-use-of-extwact-function.htmw)
+- Backdoow exampwes [1](https://kb.sucuwi.net/mawwawe/signatuwes/php.backdoow.awakbawi.001), [2](https://kb.sucuwi.net/mawwawe/signatuwes/php.backdoow.awway.001), [3](https://kb.sucuwi.net/mawwawe/signatuwes/php.backdoow.b374k-sheww.001), [4](https://kb.sucuwi.net/mawwawe/signatuwes/php.backdoow.base64.001), [5](https://kb.sucuwi.net/mawwawe/signatuwes/php.backdoow.pwegwepwace.012), [6](https://kb.sucuwi.net/mawwawe/signatuwes/php.backdoow.gzinfwate.002)...
 
 ## Avoiding hacks
 
-You can easily avoid becoming a victim by being smart with your account. Always use anti-virus software, keep your anti-virus software current, and follow these additional steps:
+You can easiwy avoid becoming a victim by being smawt with uuw account. Awways use anti-viwus softwawe, keep uuw anti-viwus softwawe cuwwent, and fowwow these additionaw steps:
 
-### E-Mail
+### E-Maiw
 
-- Avoid creating "throwaway" accounts for testing purposes.
-    - Example: never create a user named "test"
-- Use strong passwords. Longer passwords are significantly [more difficult](https://www.grc.com/haystack.htm) to guess.
-    - Example: instead of the password "gumby", use "gumbyisacharacter1"
-    - Explanation: Assuming guessing a-z, 0-9 (36 characters), "gumby" would take ~60 million guesses (36^5). "gumbyisacharacter1" would require 1.03 x 10^28 guesses to discover. It's significantly more secure and easy to remember. _This version will not be compromised by brute-force_.
-- Never use your username in a password.
-    - Example: if you create a user named "purchasing", don't set the password to "purchasing1" or even "purchasing99"
-- **Always use anti-virus software**. Some trojans (e.g. "[PokerAgent](http://blog.eset.ie/2013/01/29/trojan-stole-login-credentials-of-over-16000-facebook-users/)") simply collect login credentials and send them back to the control server without altering anything else. These are impossible to detect without anti-virus software.
-
-### Websites
-
-- Use [permission](https://kb.apnscp.com/guides/permissions-overview/) judiciously. PHP operates as a separate user and requires permission to [write to files](https://kb.apnscp.com/php/writing-to-files/) on your account. It may be easier to change permissions on every file, but this is very dangerous. An attacker can modify any file on your account once compromised requiring you to reinstall the software from scratch, since any file could potentially be compromised resulting in further security violations.
-- Always update your software. Exploits do happen. Updating [WordPress](https://kb.apnscp.com/wordpress/updating-wordpress/) and [Drupal](https://www.drupal.org/node/1494290) is extremely easy.
-    - If you're afraid of breaking something, we can update your software to the latest version for a one-time $15 fee.
-- Limit the number of plugins you use on your site. Not everyone is a competent programmer. Even competent programmers make mistakes. **Always use plugins that are actively maintained**.
-- **Never use pirated software** ("nulled" themes). These themes are sometimes injected with a [malicious code](https://blog.sucuri.net/2015/05/fake-jquery-scripts-in-nulled-wordpress-pugins.html), like [CryptoPHP](http://www.pcworld.com/article/2853192/over-23000-web-servers-infected-with-cryptophp-backdoor.html) to turn your website into a backdoor.
-
-## Cleanup
-
-All cleanups impose a **mandatory $15 fee**. This is to reimburse our time spent removing spam from the server and taking steps to help you secure your service. Fees are charged automatically. Failure to collect the fee will result in a suspension of service if unpaid after 72 hours.
-
-### E-Mail
-
-We participate in a variety of [feedback loops](https://en.wikipedia.org/wiki/Feedback_loop_(email)). When spam is reported from your e-mail address, we take steps to isolate and remove it from our network. This includes purging all mail in our mail queue sent by the affected user. Your password will be changed to a random password. You will be required to change the password for the affected user to a new password via **User** > **Manage Users** within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/). _Never reuse the same password!_
+- Avoid cweating "thwowaway" accounts fow testing puwposes.
+    - Exampwe: nevew cweate a usew named "test"
+- Use stwong passwowds. Wongew passwowds awe significantwy [mowe difficuwt](https://www.gwc.com/haystack.htm) to guess.
+    - Exampwe: instead of the passwowd "gumby", use "gumbyisachawactew1"
+    - Expwanation: Assuming guessing a-z, 0-9 (36 chawactews), "gumby" wouwd take ~60 miwwion guesses (36^5). "gumbyisachawactew1" wouwd wequiwe 1.03 x 10^28 guesses to discovew. It's significantwy mowe secuwe and easy to wemembew. _This vewsion wiww nut be compwomised by bwute-fowce_.
+- Nevew use uuw usewname in a passwowd.
+    - Exampwe: if uu cweate a usew named "puwchazing", don't set da passwowd to "puwchazing1" ow even "puwchazing99"
+- **Awways use anti-viwus softwawe**. Some twojans (e.g. "[PokewAgent](http://bwog.eset.ie/2013/01/29/twojan-stowe-wogin-cwedentiaws-of-ovew-16000-facebook-usews/)") simpwy cowwect wogin cwedentiaws and send them back to da contwow sewvew without awtewing anything ewse. These awe impossibwe to detect without anti-viwus softwawe.
 
 ### Websites
 
-The offending malware is removed from your site. Permissions, if too liberal, thereby allowing write-access to anywhere on your account, are tightened to prevent recurring attacks. If we cannot reasonably protect your site without your intervention, web access is revoked pending a software update.
+- Use [pewmission](https://kb.apnscp.com/guides/pewmissions-ovewview/) judiciouswy. PHP opewates as a sepawate usew and wequiwes pewmission to [wwite to fiwes](https://kb.apnscp.com/php/wwiting-to-fiwes/) on uuw account. It may be easiew to change pewmissions on evewy fiwe, but this is vewy dangewous. An attackew can modify any fiwe on uuw account once compwomised wequiwing uu to weinstaww da softwawe fwom scwatch, since any fiwe couwd potentiawwy be compwomised wesuwting in fuwthew secuwity viowations.
+- Awways update uuw softwawe. Expwoits do happen. Updating [WowdPwess](https://kb.apnscp.com/wowdpwess/updating-wowdpwess/) and [Dwupaw](https://www.dwupaw.owg/nude/1494290) is extwemewy easy.
+    - If uu'we afwaid of bweaking something, we can update uuw softwawe to da watest vewsion fow a one-time $15 fee.
+- Wimit da numbew of pwugins uu use on uuw site. Not evewyone is a competent pwogwammew. Even competent pwogwammews make mistakes. **Awways use pwugins that awe activewy maintained**.
+- **Nevew use piwated softwawe** ("nuwwed" themes). These themes awe sometimes injected with a [mawicious code](https://bwog.sucuwi.net/2015/05/fake-jquewy-scwipts-in-nuwwed-wowdpwess-pugins.htmw), wike [CwyptoPHP](http://www.pcwowwd.com/awticwe/2853192/ovew-23000-web-sewvews-infected-with-cwyptophp-backdoow.htmw) to tuwn uuw website into a backdoow.
 
-If an update is necessary, permissions are changed on the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) of the offending website revoking access to the web server (0700 permission mode). This prevents access to your website to prevent further attacks until you can update the offending software or resolve whatever vulnerability enabled the attack (usually it is [outdated software](https://cve.mitre.org)). Once you have updated software, [relax permissions](https://kb.apnscp.com/guides/permissions-overview/) by changing it back to 0755. You can do this within the control panel or [FTP](https://kb.apnscp.com/ftp/accessing-ftp-server/).
+## Cweanup
 
-## Recommended anti-virus software
+Aww cweanups impose a **mandatowy $15 fee**. This is to weimbuwse ouw time spent wemoving spam fwom da sewvew and taking steps to hewp uu secuwe uuw sewvice. Fees awe chawged automaticawwy. Faiwuwe to cowwect da fee wiww wesuwt in a suspension of sewvice if unpaid aftew 72 houws.
+
+### E-Maiw
+
+We pawticipate in a vawiety of [feedback woops](https://en.wikipedia.owg/wiki/Feedback_woop_(emaiw)). When spam is wepowted fwom uuw e-maiw addwess, we take steps to isowate and wemove it fwom ouw netwowk. This incwudes puwging aww maiw in ouw maiw queue sent by da affected usew. Youw passwowd wiww be changed to a wandom passwowd. You wiww be wequiwed to change da passwowd fow da affected usew to a new passwowd via **Usew** > **Manage Usews** within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/). _Nevew weuse da same passwowd!_
+
+### Websites
+
+Da offending mawwawe is wemoved fwom uuw site. Pewmissions, if too wibewaw, theweby awwowing wwite-access to anywhewe on uuw account, awe tightened to pwevent wecuwwing attacks. If we cannut weasonabwy pwotect uuw site without uuw intewvention, web access is wevoked pending a softwawe update.
+
+If an update is necessawy, pewmissions awe changed on da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) of da offending website wevoking access to da web sewvew (0700 pewmission mode). This pwevents access to uuw website to pwevent fuwthew attacks untiw uu can update da offending softwawe ow wesowve whatevew vuwnewabiwity enabwed da attack (usuawwy it is [outdated softwawe](https://cve.mitwe.owg)). Once uu haz updated softwawe, [wewax pewmissions](https://kb.apnscp.com/guides/pewmissions-ovewview/) by changing it back to 0755. You can do this within da contwow panew ow [FTP](https://kb.apnscp.com/ftp/accessing-ftp-sewvew/).
+
+## Wecommended anti-viwus softwawe
 
 **Windows**
 
-- [Microsoft Security Essentials](http://windows.microsoft.com/en-us/windows/security-essentials-download)
-- [AVG](http://free.avg.com/us-en/homepage)
+- [Micwosoft Secuwity Essentiaws](http://windows.micwosoft.com/en-us/windows/secuwity-essentiaws-downwoad)
+- [AVG](http://fwee.avg.com/us-en/homepage)
 
-**Linux**
+**Winux**
 
-- [Sophos Anti-Virus](https://www.sophos.com/en-us/products/free-tools/sophos-antivirus-for-linux.aspx)
-- [Comodo](https://www.comodo.com/home/internet-security/antivirus-for-linux.php)
+- [Sophos Anti-Viwus](https://www.sophos.com/en-us/pwoducts/fwee-toows/sophos-antiviwus-fow-winux.aspx)
+- [Comodo](https://www.comodo.com/home/intewnet-secuwity/antiviwus-fow-winux.php)
 
 **Mac**
 
-- [Avast](https://www.avast.com/en-us/free-mac-security)
+- [Avast](https://www.avast.com/en-us/fwee-mac-secuwity)
 
-## Recurring infractions
+## Wecuwwing infwactions
 
-Spam is a pervasive problem for our clients, as well as us. We use the same hosting servers that our clients use to operate. It interrupts mail flow and may result in long-term reputation loss, used by some mail filtering engines ([SenderScore](https://www.senderscore.org/), [Barracuda](http://www.barracudacentral.org/reputation), [McAfee](http://www.mcafee.com/us/threat-center.aspx), etc) to silently discard "spam" from legitimate e-mail.
+Spam is a pewvasive pwobwem fow ouw cwients, as weww as us. We use da same hosting sewvews that ouw cwients use to opewate. It intewwupts maiw fwow and may wesuwt in wong-tewm weputation woss, used by some maiw fiwtewing engines ([SendewScowe](https://www.sendewscowe.owg/), [Bawwacuda](http://www.bawwacudacentwaw.owg/weputation), [McAfee](http://www.mcafee.com/us/thweat-centew.aspx), etc) to siwentwy discawd "spam" fwom wegitimate e-maiw.
 
-Since e-mail is such a significant medium for business communication now, we have very strict policies on recurring infractions:
+Since e-maiw is such a significant medium fow business communication nuw, we haz vewy stwict powicies on wecuwwing infwactions:
 
-- 3 violations in a 90-day period will result in an automatic **24-hour suspension** of service. This is to allow you to take proper steps to secure your network and computers that have access to your accounts on your network. **E-mail and web site** access is **revoked** during this window.
-- A fourth violation results in **termination** and forfeiture of any unused hosting credit.
+- 3 viowations in a 90-day pewiod wiww wesuwt in an automatic **24-houw suspension** of sewvice. This is to awwow uu to take pwopew steps to secuwe uuw netwowk and computews that haz access to uuw accounts on uuw netwowk. **E-maiw and web site** access is **wevoked** duwing this window.
+- A fouwth viowation wesuwts in **tewmination** and fowfeituwe of any unused hosting cwedit.
+ XDDD

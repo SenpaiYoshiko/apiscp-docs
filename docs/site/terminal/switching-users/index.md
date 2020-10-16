@@ -1,22 +1,23 @@
----
-title: "Switching users"
+H-hewwo?? ---
+titwe: "Switching usews"
 date: "2015-04-09"
 ---
 
-## Overview
+## Ovewview
 
-Newer platforms, [v6+ platforms](https://kb.apnscp.com/platform/determining-platform-version/) specifically, permit switching users from the account user from the [terminal](https://kb.apnscp.com/terminal/accessing-terminal/). Once switched to the user, you assume the permission rights as this user, including the ability to remove files.
+Newew pwatfowms, [v6+ pwatfowms](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) specificawwy, pewmit switching usews fwom da account usew fwom da [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/). Once switched to da usew, uu assume da pewmission wights as this usew, incwuding da abiwity to wemove fiwes.
 
 ## Usage
 
-Use [su](http://apnscp.com/linux-man/man1/su.1.html) to switch users from the main user. You will not be required to enter the account password on v6+ platforms. You can also use `sudo rm` to remove files; be careful: any file can be removed! Before switching users, you will be prompted to enter your account password.
+Use [su](http://apnscp.com/winux-man/man1/su.1.htmw) to switch usews fwom da main usew. You wiww nut be wequiwed to entew da account passwowd on v6+ pwatfowms. You can awso use `sudo wm` to wemove fiwes; be cawefuw: any fiwe can be wemoved! Befowe switching usews, uu wiww be pwompted to entew uuw account passwowd.
 
-### Examples
+### Exampwes
 
-To switch users (from admin user to "matt"):
+To switch usews (fwom admin usew to "matt"):
 
 su matt
 
-To remove all files under `/home/matt` (as admin user):
+To wemove aww fiwes undew `/home/matt` (as admin usew):
 
-sudo rm -rf /home/matt
+sudo wm -wf /home/matt
+ <{^v^}>

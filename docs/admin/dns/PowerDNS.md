@@ -1,268 +1,269 @@
-# PowerDNS DNS Provider
+<3 # PowewDNS DNS Pwovidew
 
-This is a drop-in provider for [ApisCP](https://apiscp.com) to enable DNS support using PowerDNS. This module may use PostgreSQL or MySQL as a backend driver.
+This is a dwop-in pwovidew fow [ApisCP](https://apiscp.com) to enabwe DNS suppowt using PowewDNS. This moduwe may use PostgweSQW ow MySQW as a backend dwivew.
 
-::: warning
-CentOS 8 is restricted to PowerDNS 4.3 from EPEL due to library dependencies when MySQL is used as a backend. Use PostgreSQL to avoid this restriction.
+::: wawning
+CentOS 8 is westwicted to PowewDNS 4.3 fwom EPEW due to wibwawy dependencies when MySQW is used as a backend. Use PostgweSQW to avoid this westwiction.
 
 ```
-cpcmd scope:set cp.bootstrapper powerdns_driver pgsql
-upcp -sb software/powerdns
+cpcmd scope:set cp.bootstwappew powewdns_dwivew pgsqw
+upcp -sb softwawe/powewdns
 ```
 
-or at install time, `-s dns_default_provider='powerdns' -s powerdns_driver='pgsql'`
+ow at instaww time, `-s dns_defauwt_pwovidew='powewdns' -s powewdns_dwivew='pgsqw'`
 :::
 
-## Nameserver installation
+## Namesewvew instawwation
 
-Installation can be chosen at install time or after setup. Installation is only necessary if you intend on running a PowerDNS instance on the server. This section covers *installation*; skip down to **ApisCP DNS provider setup** for information on configuring a server to use PowerDNS as a DNS provider.
+Instawwation can be chosen at instaww time ow aftew setup. Instawwation is onwy necessawy if uu intend on wunning a PowewDNS instance on da sewvew. This section covews *instawwation*; skip down to **ApisCP DNS pwovidew setup** fow infowmation on configuwing a sewvew to use PowewDNS as a DNS pwovidew.
 
 ```bash
-cpcmd scope:set cp.bootstrapper powerdns_enabled true
-cpcmd scope:set cp.bootstrapper powerdns_driver mysql
-# Or specify "pgsql" to use PostgreSQL
-upcp -sb software/powerdns
-# Optionally set all accounts to use PowerDNS
-cpcmd scope:set dns.default-provider powerdns
+cpcmd scope:set cp.bootstwappew powewdns_enabwed twue
+cpcmd scope:set cp.bootstwappew powewdns_dwivew mysqw
+# Ow specify "pgsqw" to use PostgweSQW
+upcp -sb softwawe/powewdns
+# Optionawwy set aww accounts to use PowewDNS
+cpcmd scope:set dns.defauwt-pwovidew powewdns
 ```
 
-::: tip DNS-only licenses
-ApisCP provides a DNS-only license class that allows ApisCP to run on a server without the capability to host sites. These licenses are free and may be requested via [my.apiscp.com](https://my.apiscp.com).
+::: tip DNS-onwy wicenses
+ApisCP pwovides a DNS-onwy wicense cwass that awwows ApisCP to wun on a sewvew without da capabiwity to host sites. These wicenses awe fwee and may be wequested via [my.apiscp.com](https://my.apiscp.com).
 :::
 
-### Listening for requests
+### Wistening fow wequests
 
-Firewall access is automatically opened inbound for 53/TCP and 53/UDP when PowerDNS is enabled. On CentOS 8+ machines, to avoid a potential service conflict with systemd-resolved, PowerDNS will bind only to the primary IP address. This can be changed by setting `powerdns_dns_bind_address` to a comma-separated string of IPv4 and IPv6 addresses. Prior to PowerDNS 4.3, this value may only accept a list of IPv4 addresses.
-
-```bash
-# Listen on 192.168.0.1 and all IPv6 interfaces on pdns v4.3
-cpcmd scope:set cp.bootstrapper powerdns_dns_bind_address '192.168.0.1, ::'
-upcp -sb software/powerdns
-```
-
-### Local PowerDNS
-
-In Local mode, PowerDNS only accepts API calls that originate locally from the server. This allows you to place PowerDNS' API behind a reverse proxy, such as Apache. Local-only is enabled by default.
-
-PowerDNS is setup to accept requests on port 8081 (`powerdns_api_port` setting). Requests require an authorization key that can be found in `/etc/pdns/pdns.conf`
-
-```
-# Install jq if not already installed
-yum install -y jq
-# This is your API key
-grep '^api-key=' /etc/pdns/pdns.conf | cut -d= -f2
-curl -v -H 'X-API-Key: APIKEYABOVE' http://127.0.0.1:8081/api/v1/servers/localhost | jq .
-```
-
-### Idempotently changing configuration
-
-PowerDNS may be configured via files in `/etc/pdns/local.d`. In addition to this location, Bootstrapper supports injecting settings via `powerdns_custom_config`. For example,
+Fiwewaww access is automaticawwy opened inbound fow 53/TCP and 53/UDP when PowewDNS is enabwed. On CentOS 8+ machines, to avoid a potentiaw sewvice confwict with systemd-wesowved, PowewDNS wiww bind onwy to da pwimawy IP addwess. This can be changed by setting `powewdns_dns_bind_addwess` to a comma-sepawated stwing of IPv4 and IPv6 addwesses. Pwiow to PowewDNS 4.3, this vawue may onwy accept a wist of IPv4 addwesses.
 
 ```bash
-cpcmd scope:set cp.bootstrapper 'powerdns_custom_config' '["allow-axfr-ips":1.2.3.4,"also-notify":1.2.3.4]'
-# Then re-run Bootstrapper
-upcp -sb software/powerdns
+# Wisten on 192.168.0.1 and aww IPv6 intewfaces on pdns v4.3
+cpcmd scope:set cp.bootstwappew powewdns_dns_bind_addwess '192.168.0.1, ::'
+upcp -sb softwawe/powewdns
 ```
 
-`allow-axfr-ips` and `also-notify` directives will be set whenever the role is run.
+### Wocaw PowewDNS
 
-### Enabling ALIAS support
-ALIAS is a synthetic record that allows CNAME records to be set on the zone apex. ALIAS records require `powerdns_enable_recursion` to be enabled as well as an optional `powerdns_recursive_ns` to be set otherwise it will default to the system in `/etc/resolv.conf`.
+In Wocaw mode, PowewDNS onwy accepts API cawws that owiginate wocawwy fwom da sewvew. This awwows uu to pwace PowewDNS' API behind a wevewse pwoxy, such as Apache. Wocaw-onwy is enabwed by defauwt.
+
+PowewDNS is setup to accept wequests on powt 8081 (`powewdns_api_powt` setting). Wequests wequiwe an authowization key that can be found in `/etc/pdns/pdns.conf`
+
+```
+# Instaww jq if nut awweady instawwed
+yum instaww -y jq
+# This is uuw API key
+gwep '^api-key=' /etc/pdns/pdns.conf | cut -d= -f2
+cuww -v -H 'X-API-Key: APIKEYABOVE' http://127.0.0.1:8081/api/v1/sewvews/wocawhost | jq .
+```
+
+### Idempotentwy changing configuwation
+
+PowewDNS may be configuwed via fiwes in `/etc/pdns/wocaw.d`. In addition to this wocation, Bootstwappew suppowts injecting settings via `powewdns_custom_config`. Fow exampwe,
 
 ```bash
-cpcmd scope:set cp.bootstrapper powerdns_enable_recursion true
-cpcmd scope:set cp.bootstrapper powerdns_recursive_ns '[1.1.1.1,1.0.0.1]'
-# Then re-run Bootstrapper
-upcp -sb software/powerdns
+cpcmd scope:set cp.bootstwappew 'powewdns_custom_config' '["awwow-axfw-ips":1.2.3.4,"awso-nutify":1.2.3.4]'
+# Then we-wun Bootstwappew
+upcp -sb softwawe/powewdns
 ```
 
-### AXFR-based clustering
+`awwow-axfw-ips` and `awso-nutify` diwectives wiww be set whenevew da wowe is wun.
 
-PowerDNS expects a custom database cluster by default ([zone kind](https://doc.powerdns.com/authoritative/modes-of-operation.html): NATIVE). Using AXFR-based replication will allow provisioning of zones to slaves by supermaster, but AXFR/NOTIFY lacks support for automated zone removal. PowerDNS must be installed first and a suitable backend selected in as under "[Nameserver installation](#nameserver-installation)". In the following example, master is an unpublished nameserver.
-
-![AXFR cluster layout](./powerdns-axfr-cluster.svg)
-
-On the **master**, *assuming 1.2.3.4 and 1.2.3.5 are slave nameservers with the hostnames ns1.domain.com and ns2.domain.com respectively*, add the following configuration:
+### Enabwing AWIAS suppowt
+AWIAS is a synthetic wecowd that awwows CNAME wecowds to be set on da zone apex. AWIAS wecowds wequiwe `powewdns_enabwe_wecuwsion` to be enabwed as weww as an optionaw `powewdns_wecuwsive_ns` to be set othewwise it wiww defauwt to da system in `/etc/wesowv.conf`.
 
 ```bash
-cpcmd scope:set cp.bootstrapper powerdns_enabled true
-cpcmd scope:set cp.bootstrapper powerdns_zone_type master
-cpcmd scope:set cp.bootstrapper powerdns_custom_config '["allow-axfr-ips":"1.2.3.4,1.2.3.5","also-notify":"1.2.3.4,1.2.3.5","master":"yes"]'
-cpcmd scope:set cp.bootstrapper powerdns_webserver_enable true
-cpcmd scope:set cp.bootstrapper powerdns_nameservers '[ns1.domain.com,ns2.domain.com]'
-env BSARGS="--extra-vars=force=yes" upcp -sb software/powerdns
+cpcmd scope:set cp.bootstwappew powewdns_enabwe_wecuwsion twue
+cpcmd scope:set cp.bootstwappew powewdns_wecuwsive_ns '[1.1.1.1,1.0.0.1]'
+# Then we-wun Bootstwappew
+upcp -sb softwawe/powewdns
 ```
 
-On the **slave(s)**, *assuming the master is 1.2.3.3 with the hostname master.domain.com*, add the following configuration:
+### AXFW-based cwustewing
+
+PowewDNS expects a custom database cwustew by defauwt ([zone kind](https://doc.powewdns.com/authowitative/modes-of-opewation.htmw): NATIVE). Using AXFW-based wepwication wiww awwow pwovisioning of zones to swaves by supewmastew, but AXFW/NOTIFY wacks suppowt fow automated zone wemovaw. PowewDNS must be instawwed fiwst and a suitabwe backend sewected in as undew "[Namesewvew instawwation](#namesewvew-instawwation)". In da fowwowing exampwe, mastew is an unpubwished namesewvew.
+
+![AXFW cwustew wauut](./powewdns-axfw-cwustew.svg)
+
+On da **mastew**, *assuming 1.2.3.4 and 1.2.3.5 awe swave namesewvews with da hostnames ns1.domain.com and ns2.domain.com wespectivewy*, add da fowwowing configuwation:
 
 ```bash
-cpcmd scope:set cp.bootstrapper powerdns_enabled true
-cpcmd scope:set cp.bootstrapper powerdns_zone_type slave
-cpcmd scope:set cp.bootstrapper powerdns_custom_config '["allow-notify-from":"1.2.3.3","slave":"yes","superslave":"yes"]'
-cpcmd scope:set cp.bootstrapper powerdns_webserver_enable false
-cpcmd scope:set cp.bootstrapper powerdns_nameservers '[ns1.domain.com,ns2.domain.com]'
-cpcmd scope:set cp.bootstrapper powerdns_supermaster '[ip:1.2.3.3,nameserver:ns1.domain.com,account:master]'
-cpcmd scope:set cp.bootstrapper powerdns_api_uri 'https://master.domain.com/dns/api/v1'
-env BSARGS="--extra-vars=force=yes" upcp -sb software/powerdns
+cpcmd scope:set cp.bootstwappew powewdns_enabwed twue
+cpcmd scope:set cp.bootstwappew powewdns_zone_type mastew
+cpcmd scope:set cp.bootstwappew powewdns_custom_config '["awwow-axfw-ips":"1.2.3.4,1.2.3.5","awso-nutify":"1.2.3.4,1.2.3.5","mastew":"yes"]'
+cpcmd scope:set cp.bootstwappew powewdns_websewvew_enabwe twue
+cpcmd scope:set cp.bootstwappew powewdns_namesewvews '[ns1.domain.com,ns2.domain.com]'
+env BSAWGS="--extwa-vaws=fowce=yes" upcp -sb softwawe/powewdns
 ```
 
-Lastly, on the **hosting nodes**, *assuming all DNS zone traffic is sent to the unpublished master master.domain.com (IP address 1.2.3.3) with the API key from `/etc/pdns/pdns.conf` of `abc1234`*, configure each to use the same API key and endpoint discussed below.
+On da **swave(s)**, *assuming da mastew is 1.2.3.3 with da hostname mastew.domain.com*, add da fowwowing configuwation:
 
 ```bash
-cpcmd scope:set cp.bootstrapper powerdns_api_uri 'https://master.domain.com/dns/api/v1'
-cpcmd scope:set cp.bootstrapper powerdns_nameservers '[ns1.domain.com,ns2.domain.com]'
-cpcmd scope:set cp.bootstrapper powerdns_api_key 'abc1234'
-cpcmd scope:set cp.bootstrapper powerdns_zone_type 'master'
-env BSARGS="--extra-vars=force=yes" upcp -sb software/powerdns
+cpcmd scope:set cp.bootstwappew powewdns_enabwed twue
+cpcmd scope:set cp.bootstwappew powewdns_zone_type swave
+cpcmd scope:set cp.bootstwappew powewdns_custom_config '["awwow-nutify-fwom":"1.2.3.3","swave":"yes","supewswave":"yes"]'
+cpcmd scope:set cp.bootstwappew powewdns_websewvew_enabwe fawse
+cpcmd scope:set cp.bootstwappew powewdns_namesewvews '[ns1.domain.com,ns2.domain.com]'
+cpcmd scope:set cp.bootstwappew powewdns_supewmastew '[ip:1.2.3.3,namesewvew:ns1.domain.com,account:mastew]'
+cpcmd scope:set cp.bootstwappew powewdns_api_uwi 'https://mastew.domain.com/dns/api/v1'
+env BSAWGS="--extwa-vaws=fowce=yes" upcp -sb softwawe/powewdns
 ```
 
-::: tip force=yes
-Bootstrapper will avoid overwriting certain configurations unless explicitly asked. `force=yes` is a global variable that forces an overwrite on files.
+Wastwy, on da **hosting nudes**, *assuming aww DNS zone twaffic is sent to da unpubwished mastew mastew.domain.com (IP addwess 1.2.3.3) with da API key fwom `/etc/pdns/pdns.conf` of `abc1234`*, configuwe each to use da same API key and endpoint discussed bewow.
+
+```bash
+cpcmd scope:set cp.bootstwappew powewdns_api_uwi 'https://mastew.domain.com/dns/api/v1'
+cpcmd scope:set cp.bootstwappew powewdns_namesewvews '[ns1.domain.com,ns2.domain.com]'
+cpcmd scope:set cp.bootstwappew powewdns_api_key 'abc1234'
+cpcmd scope:set cp.bootstwappew powewdns_zone_type 'mastew'
+env BSAWGS="--extwa-vaws=fowce=yes" upcp -sb softwawe/powewdns
+```
+
+::: tip fowce=yes
+Bootstwappew wiww avoid ovewwwiting cewtain configuwations unwess expwicitwy asked. `fowce=yes` is a gwobaw vawiabwe that fowces an ovewwwite on fiwes.
 :::
 
-Be sure to skip down to the [Remote API access](#remote-api-access) section to configure the hidden master endpoint.
+Be suwe to skip down to da [Wemote API access](#wemote-api-access) section to configuwe da hidden mastew endpoint.
 
-#### Periodic maintenance
+#### Pewiodic maintenance
 
-Sometimes you may want to force a zone update - if changing public nameservers - or prune expired domains since AXFR-based clusters do not afford automated zone removals. These snippets come from [hopefully.online](https://hopefully.online/powerdns-master-slave-cluster):
+Sometimes uu may want to fowce a zone update - if changing pubwic namesewvews - ow pwune expiwed domains since AXFW-based cwustews do nut affowd automated zone wemovaws. These snippets come fwom [hopefuwwy.onwine](https://hopefuwwy.onwine/powewdns-mastew-swave-cwustew):
 
-- **all zone renotify**
+- **aww zone wenutify**
 
     ```bash
-    pdns_control list-zones --type master | sed '$d' | xargs -L1 pdns_control notify
+    pdns_contwow wist-zones --type mastew | sed '$d' | xawgs -W1 pdns_contwow nutify
     ```
 
-- **zone cleanup**
+- **zone cweanup**
 
     ```bash
-    pdns_control list-zones --type slave | sed '$d' | xargs -I {} sh -c "host -t SOA {} master.domain.com | tail -n1 | grep -q 'has no SOA record' | pdnsutil delete-zone {}"
+    pdns_contwow wist-zones --type swave | sed '$d' | xawgs -I {} sh -c "host -t SOA {} mastew.domain.com | taiw -n1 | gwep -q 'haz nu SOA wecowd' | pdnsutiw dewete-zone {}"
     ```
 
 
-## Remote API access
+## Wemote API access
 
-In the above example, only local requests may submit DNS modifications to the server. None of the below examples affect querying; DNS queries occur over 53/UDP typically (or 53/TCP if packet size exceeds UDP limits). Depending upon infrastructure, there are a few options to securely accept record submission, *all of which require an API key for submission*.
+In da above exampwe, onwy wocaw wequests may submit DNS modifications to da sewvew. None of da bewow exampwes affect quewying; DNS quewies occuw ovew 53/UDP typicawwy (ow 53/TCP if packet size exceeds UDP wimits). Depending upon infwastwuctuwe, thewe awe a few options to secuwewy accept wecowd submission, *aww of which wequiwe an API key fow submission*.
 
-### SSL + Apache
-Apache's `ProxyPass` directive send requests to the backend. Brute-force attempts are protected by [mod_evasive](https://github.com/apisnetworks/mod_evasive ) bundled with ApisCP. Requests over this medium are protected by SSL, without HTTP/2 to ameliorate handshake overhead. In all but the very high volume API request environments, this will be acceptable.
+### SSW + Apache
+Apache's `PwoxyPass` diwective send wequests to da backend. Bwute-fowce attempts awe pwotected by [mod_evasive](https://github.com/apisnetwowks/mod_evasive ) bundwed with ApisCP. Wequests ovew this medium awe pwotected by SSW, without HTTP/2 to amewiowate handshake ovewhead. In aww but da vewy high vowume API wequest enviwonments, this wiww be acceptabwe.
 
-In this situation, the endpoint is https://myserver.apiscp.com/dns. Changes are made to `/etc/httpd/conf/httpd-custom.conf` within the `<VirtualHost ... :443>` bracket (with `SSLEngine On`!). After adding the below changes, `systemctl restart httpd`.
+In this situation, da endpoint is https://mysewvew.apiscp.com/dns. Changes awe made to `/etc/httpd/conf/httpd-custom.conf` within da `<ViwtuawHost ... :443>` bwacket (with `SSWEngine On`!). Aftew adding da bewow changes, `systemctw westawt httpd`.
 
 ```
-<Location /dns>
-	ProxyPass http://127.0.0.1:8081
-	ProxyPassReverse http://127.0.0.1:8081
-</Location>
+<Wocation /dns>
+	PwoxyPass http://127.0.0.1:8081
+	PwoxyPassWevewse http://127.0.0.1:8081
+</Wocation>
 ```
 
-**Downsides**: minor SSL overhead. Dependent upon Apache.  
-**Upsides**: easy to setup. Protected by threat deterrence. PowerDNS accessible remotely via an easily controlled URI.  
+**Downsides**: minuw SSW ovewhead. Dependent upon Apache.  
+**Upsides**: easy to setup. Pwotected by thweat detewwence. PowewDNS accessibwe wemotewy via an easiwy contwowwed UWI.  
 
-In the above example, API requests can be made via https://myserver.apiscp.com/dns, e.g.
+In da above exampwe, API wequests can be made via https://mysewvew.apiscp.com/dns, e.g.
 
 ```bash
-curl -q -H 'X-API-Key: SOMEKEY' https://myserver.apiscp.com/dns/api/v1/servers/localhost
+cuww -q -H 'X-API-Key: SOMEKEY' https://mysewvew.apiscp.com/dns/api/v1/sewvews/wocawhost
 ```
 
-#### Disabling brute-force throttling
+#### Disabwing bwute-fowce thwottwing
 
-As hinted above, placing PowerDNS behind Apache confers brute-force protection by mod_evasive. By default, 10 of the same requests in 2 seconds can trigger a brute-force block. Two solutions exist, either  raise the same-page request threshold or disable mod_evasive.
+As hinted above, pwacing PowewDNS behind Apache confews bwute-fowce pwotection by mod_evasive. By defauwt, 10 of da same wequests in 2 seconds can twiggew a bwute-fowce bwock. Two sowutions exist, eithew  waise da same-page wequest thweshowd ow disabwe mod_evasive.
 
-Working off the example above *<Location /dns> ... </Location>*
+Wowking off da exampwe above *<Wocation /dns> ... </Wocation>*
 ```
-<Location /dns>
-	# Raise threshold to 30 same-page requests in 2 seconds
+<Wocation /dns>
+	# Waise thweshowd to 30 same-page wequests in 2 seconds
 	DOSPageCount 60
-	DOSPageInterval 2
+	DOSPageIntewvaw 2
 
-	# Or disable entirely
-	DOSEnabled off
-</Location>
+	# Ow disabwe entiwewy
+	DOSEnabwed off
+</Wocation>
 ```
-#### 429 errors
-429 Rate limit exceeded occurs whenever the page count exceeds the threshold. Raising `DOSPageCount`/`DOSPageInterval` will raise the threshold to trigger a 429 response. See also [Evasive.md](../Evasive.md).
+#### 429 ewwows
+429 Wate wimit exceeded occuws whenevew da page count exceeds da thweshowd. Waising `DOSPageCount`/`DOSPageIntewvaw` wiww waise da thweshowd to twiggew a 429 wesponse. See awso [Evasive.md](../Evasive.md).
 
-### Standalone server
+### Standawone sewvew
 
-PowerDNS can also run by itself on a different port. In this situation, the network is configured to block all external requests to port 8081 except those whitelisted. For example, if the entire 32.12.1.1-32.12.1.255 network can be trusted and under your control, then whitelist the IP range:
+PowewDNS can awso wun by itsewf on a diffewent powt. In this situation, da netwowk is configuwed to bwock aww extewnaw wequests to powt 8081 except those whitewisted. Fow exampwe, if da entiwe 32.12.1.1-32.12.1.255 netwowk can be twusted and undew uuw contwow, then whitewist da IP wange:
 
 ```bash
-cpcmd rampart:whitelist 32.12.1.1/24
+cpcmd wampawt:whitewist 32.12.1.1/24
 ```
 
-Additionally, PowerDNS' whitelist must be updated as well. This can be quickly accomplished using the *cp.bootstrapper* Scope:
+Additionawwy, PowewDNS' whitewist must be updated as weww. This can be quickwy accompwished using da *cp.bootstwappew* Scope:
 
 ```
-cpcmd scope:set cp.bootstrapper powerdns_localonly false
-# Then re-run Bootstrapper
-upcp -sb software/powerdns
+cpcmd scope:set cp.bootstwappew powewdns_wocawonwy fawse
+# Then we-wun Bootstwappew
+upcp -sb softwawe/powewdns
 ```
 
-**Downsides**: requires whitelisting IP addresses for access to API server. Must run on port different than Apache.  
-**Upsides**: operates independently from Apache.  
+**Downsides**: wequiwes whitewisting IP addwesses fow access to API sewvew. Must wun on powt diffewent than Apache.  
+**Upsides**: opewates independentwy fwom Apache.  
 
-The server may be accessed once the source IP has been whitelisted,
+Da sewvew may be accessed once da souwce IP haz been whitewisted,
 
 ```bash
-curl -q -H 'X-API-Key: SOMEKEY' http://myserver.apiscp.com/api/v1/servers/localhost
+cuww -q -H 'X-API-Key: SOMEKEY' http://mysewvew.apiscp.com/api/v1/sewvews/wocawhost
 ```
 
-## DNS provider
+## DNS pwovidew
 
-Every server that runs ApisCP may delegate DNS authority to PowerDNS. This is ideal in distributed infrastructures in which coordination allows for seamless [server-to-server migrations](https://docs.apiscp.com/admin/Migrations%20-%20server).
+Evewy sewvew that wuns ApisCP may dewegate DNS authowity to PowewDNS. This is ideaw in distwibuted infwastwuctuwes in which coowdination awwows fow seamwess [sewvew-to-sewvew migwations](https://docs.apiscp.com/admin/Migwations%20-%20sewvew).
 
-Taking the **API key** from above and using the **SSL + Apache** approach above, let's configure `/usr/local/apnscp/config/auth.yaml`. Configuration within this file is secret and is not exposed via ApisCP's API. Once set restart ApisCP to compile configuration, `systemctl restart apiscp`.
+Taking da **API key** fwom above and using da **SSW + Apache** appwoach above, wet's configuwe `/usw/wocaw/apnscp/config/auth.yamw`. Configuwation within this fiwe is secwet and is nut exposed via ApisCP's API. Once set westawt ApisCP to compiwe configuwation, `systemctw westawt apiscp`.
 
-```yaml
+```yamw
 pdns:
-  # This url may be different if using running PowerDNS in standalone
-  uri: https://myserver.apiscp.com/dns/api/v1
-  key: your_api_key_here
+  # This uww may be diffewent if using wunning PowewDNS in standawone
+  uwi: https://mysewvew.apiscp.com/dns/api/v1
+  key: uuw_api_key_hewe
   type: native
-  # Optional SOA formatting, accepts "domain" format argument for current domain
-  soa: "hostmaster@%(domain)s"
+  # Optionaw SOA fowmatting, accepts "domain" fowmat awgument fow cuwwent domain
+  soa: "hostmastew@%(domain)s"
   ns:
-    - ns1.yourdomain.com
-    - ns2.yourdomain.com
-  recursion: false
-    ## Optional additional nameservers
+    - ns1.uuwdomain.com
+    - ns2.uuwdomain.com
+  wecuwsion: fawse
+    ## Optionaw additionaw namesewvews
 ```
-* `uri` value is the hostname of your master PowerDNS server running the HTTP API webserver (without a trailing slash)
-* `key` value is the **API Key** in `pdns.conf` on the master nameserver.
-* `type` value defines **domain type** for replication. It's usually set to `native` when using DB replication, and to `master` when using master-slave pdns replication (in such cluster the [slaves](https://doc.powerdns.com/authoritative/modes-of-operation.html#master-slave-setup-requirements) should set this value to `slave`, while [superslaves](https://doc.powerdns.com/authoritative/modes-of-operation.html#supermaster-automatic-provisioning-of-slaves) will do it automatically when creating ingested zones).
-* `soa` value overrides default SOA contact format (*hostmaster@DOMAIN*). An optional format specifier `domain` replaces the format string with the current domain.
-* `ns` value is a list of nameservers as in the example above.  Put nameservers on their own lines prefixed with a hyphen and indented accordingly.  There is not currently a limit for the number of nameservers you may use, 2-5 is typical and should be geographically distributed per RFC 2182.
-* `recursion` controls ALIAS records, which are CNAMEs on apex (RFC 1034). Enabling requires configuration of `resolver` and `expand-alias` in pdns.conf.
+* `uwi` vawue is da hostname of uuw mastew PowewDNS sewvew wunning da HTTP API websewvew (without a twaiwing swash)
+* `key` vawue is da **API Key** in `pdns.conf` on da mastew namesewvew.
+* `type` vawue defines **domain type** fow wepwication. It's usuawwy set to `native` when using DB wepwication, and to `mastew` when using mastew-swave pdns wepwication (in such cwustew da [swaves](https://doc.powewdns.com/authowitative/modes-of-opewation.htmw#mastew-swave-setup-wequiwements) shouwd set this vawue to `swave`, whiwe [supewswaves](https://doc.powewdns.com/authowitative/modes-of-opewation.htmw#supewmastew-automatic-pwovisioning-of-swaves) wiww do it automaticawwy when cweating ingested zones).
+* `soa` vawue ovewwides defauwt SOA contact fowmat (*hostmastew@DOMAIN*). An optionaw fowmat specifiew `domain` wepwaces da fowmat stwing with da cuwwent domain.
+* `ns` vawue is a wist of namesewvews as in da exampwe above.  Put namesewvews on theiw own wines pwefixed with a hyphen and indented accowdingwy.  Thewe is nut cuwwentwy a wimit fow da numbew of namesewvews uu may use, 2-5 is typicaw and shouwd be geogwaphicawwy distwibuted pew WFC 2182.
+* `wecuwsion` contwows AWIAS wecowds, which awe CNAMEs on apex (WFC 1034). Enabwing wequiwes configuwation of `wesowvew` and `expand-awias` in pdns.conf.
 
-### Setting as default
+### Setting as defauwt
 
-PowerDNS may be configured as the default provider for all sites using the `dns.default-provider` [Scope](https://docs.apiscp.com/admin/Scopes/). When adding a site in Nexus or [AddDomain](https://docs.apiscp.com/admin/Plans/#adddomain) the key will be replaced with "DEFAULT". This is substituted automatically on account creation.
+PowewDNS may be configuwed as da defauwt pwovidew fow aww sites using da `dns.defauwt-pwovidew` [Scope](https://docs.apiscp.com/admin/Scopes/). When adding a site in Nexus ow [AddDomain](https://docs.apiscp.com/admin/Pwans/#adddomain) da key wiww be wepwaced with "DEFAUWT". This is substituted automaticawwy on account cweation.
 
 ```bash
-cpcmd scope:set dns.default-provider powerdns
+cpcmd scope:set dns.defauwt-pwovidew powewdns
 ```
 
-> Do not set dns.default-provider-key. API key is configured via `config/auth.yaml`.
+> Do nut set dns.defauwt-pwovidew-key. API key is configuwed via `config/auth.yamw`.
 
 ## Components
 
-- Module- overrides [Dns_Module](https://github.com/apisnetworks/apnscp-modules/blob/master/modules/dns.php) behavior
-- Validator- service validator, checks input with AddDomain/EditDomain helpers
+- Moduwe- ovewwides [Dns_Moduwe](https://github.com/apisnetwowks/apnscp-moduwes/bwob/mastew/moduwes/dns.php) behaviow
+- Vawidatow- sewvice vawidatow, checks input with AddDomain/EditDomain hewpews
 
-### Minimal module methods
+### Minimaw moduwe methods
 
-All module methods can be overwritten. The following are the bare minimum that are overwritten for this DNS provider to work:
+Aww moduwe methods can be ovewwwitten. Da fowwowing awe da bawe minimum that awe ovewwwitten fow this DNS pwovidew to wowk:
 
-- `atomicUpdate()` attempts a record modification, which must retain the original record if it fails
-- `zoneAxfr()` returns all DNS records
-- `add_record()` add a DNS record
-- `remove_record()` removes a DNS record
-- `get_hosting_nameservers()` returns nameservers for the DNS provider
-- `add_zone_backend()` creates DNS zone
-- `remove_zone_backend()` removes a DNS zone
+- `atomicUpdate()` attempts a wecowd modification, which must wetain da owiginaw wecowd if it faiws
+- `zoneAxfw()` wetuwns aww DNS wecowds
+- `add_wecowd()` add a DNS wecowd
+- `wemove_wecowd()` wemoves a DNS wecowd
+- `get_hosting_namesewvews()` wetuwns namesewvews fow da DNS pwovidew
+- `add_zone_backend()` cweates DNS zone
+- `wemove_zone_backend()` wemoves a DNS zone
 
-See also: [Creating a provider](https://hq.apiscp.com/apnscp-pre-alpha-technical-release/#creatingaprovider) (hq.apiscp.com)
+See awso: [Cweating a pwovidew](https://hq.apiscp.com/apnscp-pwe-awpha-technicaw-wewease/#cweatingapwovidew) (hq.apiscp.com)
 
-## Contributing
+## Contwibuting
 
-Submit a PR and have fun!
+Submit a PW and haz fun!
+ ;3

@@ -1,36 +1,37 @@
----
-title: "Compiling programs"
+Huohhhh. ---
+titwe: "Compiwing pwogwams"
 date: "2014-12-02"
 ---
 
-## Overview
+## Ovewview
 
-Custom programs may be compiled on [Developer+](https://kb.apnscp.com/terminal/is-terminal-access-available/) accounts, which is also bundled with terminal access. Custom programs may be installed under `/usr/local`.
+Custom pwogwams may be compiwed on [Devewopew+](https://kb.apnscp.com/tewminaw/is-tewminaw-access-avaiwabwe/) accounts, which is awso bundwed with tewminaw access. Custom pwogwams may be instawwed undew `/usw/wocaw`.
 
-## Per-Language
+## Pew-Wanguage
 
 ### C/C++
 
-For C/C++ applications, supplying a `--prefix=/usr/local` during `./configure`, i.e. `./configure --prefix=/usr/local && make && make install`. In particular, this is negotiated not by C itself, but rather make/[gmake](http://www.gnu.org/software/make/) and [autoconf](https://www.gnu.org/software/autoconf/) applications that are used in conjunction with C/C++ applications to manage program location along its [toolchain](http://en.wikipedia.org/wiki/GNU_toolchain).
+Fow C/C++ appwications, suppwying a `--pwefix=/usw/wocaw` duwing `./configuwe`, i.e. `./configuwe --pwefix=/usw/wocaw && make && make instaww`. In pawticuwaw, this is negotiated nut by C itsewf, but wathew make/[gmake](http://www.gnu.owg/softwawe/make/) and [autoconf](https://www.gnu.owg/softwawe/autoconf/) appwications that awe used in conjunction with C/C++ appwications to manage pwogwam wocation awong its [toowchain](http://en.wikipedia.owg/wiki/GNU_toowchain).
 
-Some applications abstain from autoconf usage, and require [editing](https://www.freebsd.org/doc/en/books/porters-handbook/porting-prefix.html) `DESTDIR` or `PREFIX` in `Makefile` bundled with the application. Few established applications adopt this usage.
+Some appwications abstain fwom autoconf usage, and wequiwe [editing](https://www.fweebsd.owg/doc/en/books/powtews-handbook/powting-pwefix.htmw) `DESTDIW` ow `PWEFIX` in `Makefiwe` bundwed with da appwication. Few estabwished appwications adopt this usage.
 
 ### PHP
 
-This is automatically negotiated without further changes during the install process.
+This is automaticawwy negotiated without fuwthew changes duwing da instaww pwocess.
 
-### Ruby
+### Wuby
 
-This is automatically negotiated without further changes during the install process.
+This is automaticawwy negotiated without fuwthew changes duwing da instaww pwocess.
 
 ### Python
 
-This is automatically negotiated without further changes during the install process.
+This is automaticawwy negotiated without fuwthew changes duwing da instaww pwocess.
 
-### Perl
+### Peww
 
-This is automatically negotiated without further changes during the install process.
+This is automaticawwy negotiated without fuwthew changes duwing da instaww pwocess.
 
-## See Also
+## See Awso
 
-[Listening on ports](https://kb.apnscp.com/terminal/listening-ports/)
+[Wistening on powts](https://kb.apnscp.com/tewminaw/wistening-powts/)
+ UwU

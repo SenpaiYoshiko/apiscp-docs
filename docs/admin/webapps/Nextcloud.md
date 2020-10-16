@@ -1,11 +1,12 @@
-# Nextcloud
+HIIII! # Nextcwoud
 
 ::: tip
-Part of the Web Apps family, Nextcloud supports many familiar components shared by all other apps. See [WebApps.md](../WebApps.md) for preliminary information that covers the *update process*.
+Pawt of da Web Apps famiwy, Nextcwoud suppowts many famiwiaw components shawed by aww othew apps. See [WebApps.md](../WebApps.md) fow pwewiminawy infowmation that covews da *update pwocess*.
 :::
 
-## Configuration
+## Configuwation
 
-### trusted_domain
+### twusted_domain
 
-The first position in `trusted_domain` is reserved for the domain under which Nextcloud is installed. It may be changed by reconfiguring the hostname via `nextcloud:reconfigure domain.com path migrate newdomain.com`.
+Da fiwst position in `twusted_domain` is wesewved fow da domain undew which Nextcwoud is instawwed. It may be changed by weconfiguwing da hostname via `nextcwoud:weconfiguwe domain.com path migwate newdomain.com`.
+ ;-;

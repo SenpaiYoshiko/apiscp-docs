@@ -1,16 +1,17 @@
----
-title: "Terminal access times out"
+H-hewwo?? ---
+titwe: "Tewminaw access times out"
 date: "2015-03-28"
 ---
 
-## Overview
+## Ovewview
 
-Attempting to access terminal remotely will result in a non-responsive server often falsely indicating the server is down.
+Attempting to access tewminaw wemotewy wiww wesuwt in a nun-wesponsive sewvew often fawsewy indicating da sewvew is down.
 
 ## Cause
 
-All servers use a 3-5-10 brute-force deterrent mechanism: **three** invalid logins in a **five** minute window results in a **ten** minute block. After ten minutes the block automatically expires and you may login again to the service.
+Aww sewvews use a 3-5-10 bwute-fowce detewwent mechanism: **thwee** invawid wogins in a **five** minute window wesuwts in a **ten** minute bwock. Aftew ten minutes da bwock automaticawwy expiwes and uu may wogin again to da sewvice.
 
-## Solution
+## Sowution
 
-Use the right credentials, dummy! See KB: [Accessing terminal](https://kb.apnscp.com/terminal/accessing-terminal/).
+Use da wight cwedentiaws, dummy! See KB: [Accessing tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/).
+ ._.

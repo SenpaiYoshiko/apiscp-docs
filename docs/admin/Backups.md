@@ -1,225 +1,226 @@
+0w0 ---
+titwe: Backups
 ---
-title: Backups
----
 
-Backup ApisCP using Bacula, host tested and approved. It's the same solution used internally with Apis Networks since 2010.
+Backup ApisCP using Bacuwa, host tested and appwoved. It's da same sowution used intewnawwy with Apis Netwowks since 2010.
 
-This distribution allows for 2 simultaneous backup tasks. Servers are filed under `/etc/bacula/conf.d/servers/n`  where n is 1 or 2 (or more if more than 2 parallel backups requested).
+This distwibution awwows fow 2 simuwtaneous backup tasks. Sewvews awe fiwed undew `/etc/bacuwa/conf.d/sewvews/n`  whewe n is 1 ow 2 (ow mowe if mowe than 2 pawawwew backups wequested).
 
-Bacula requires 1 server designated as the **Director** (bacula-dir), which initiates backups and stores data on the **Storage Daemon** (bacula-sd); this path is /home/bacula. The Director/Storage Daemon does not have to run ApisCP. Skip down to [Manual installation](#Manual-installation) for free-form configration.
+Bacuwa wequiwes 1 sewvew designated as da **Diwectow** (bacuwa-diw), which initiates backups and stowes data on da **Stowage Daemon** (bacuwa-sd); this path is /home/bacuwa. Da Diwectow/Stowage Daemon does nut haz to wun ApisCP. Skip down to [Manuaw instawwation](#Manuaw-instawwation) fow fwee-fowm configwation.
 
-Each server that is to be backed up must run a **File Daemon** (bacula-fd), also referred to as a *client*. A unique password should be generated for each client and stored in */etc/bacula/local.d/servers/n/server-name.conf* on the Director. Firewall permissions must be extended to permit access by the director.
+Each sewvew that is to be backed up must wun a **Fiwe Daemon** (bacuwa-fd), awso wefewwed to as a *cwient*. A unique passwowd shouwd be genewated fow each cwient and stowed in */etc/bacuwa/wocaw.d/sewvews/n/sewvew-name.conf* on da Diwectow. Fiwewaww pewmissions must be extended to pewmit access by da diwectow.
 
 Backups can be of two types,
 
-| FileSet      | Description                                                  |
+| FiweSet      | Descwiption                                                  |
 | ------------ | ------------------------------------------------------------ |
-| Client-Layer | Minimum viable backup, client data under /home/virtual/siteXX |
-| Server       | All data under / and /home except for logs and FST           |
+| Cwient-Wayew | Minimum viabwe backup, cwient data undew /home/viwtuaw/siteXX |
+| Sewvew       | Aww data undew / and /home except fow wogs and FST           |
 
-Backup clients must whitelist the Director in firewall. Director must whitelist clients in firewall. The only exception is if the Director and client are the same.
+Backup cwients must whitewist da Diwectow in fiwewaww. Diwectow must whitewist cwients in fiwewaww. Da onwy exception is if da Diwectow and cwient awe da same.
 
-## Installation
+## Instawwation
 
-Installation is broken down into Director/Storage Daemon and File Daemon. The RPM bundled in this repo only covers Director/Storage Daemon usage. File Daemon installation requires manual configuration.
+Instawwation is bwoken down into Diwectow/Stowage Daemon and Fiwe Daemon. Da WPM bundwed in this wepo onwy covews Diwectow/Stowage Daemon usage. Fiwe Daemon instawwation wequiwes manuaw configuwation.
 
-### Director/Storage Daemon automated installation
+### Diwectow/Stowage Daemon automated instawwation
 
-Install the dependencies and official RPM from ApisCP's Yum repository.
+Instaww da dependencies and officiaw WPM fwom ApisCP's Yum wepositowy.
 
 ```bash
-yum install -y apnscp-bacula
+yum instaww -y apnscp-bacuwa
 ```
 
-Storage Daemon, Director, and File Daemon will automatically be configured upon installation. Changes may be made to `/etc/sysconfig/bacula-vars`. Note that **SD_HOSTNAME** will default to the machine's IPv4 address. This address is sent to the backup client to inform it to connect to the Storage Daemon at this address.
+Stowage Daemon, Diwectow, and Fiwe Daemon wiww automaticawwy be configuwed upon instawwation. Changes may be made to `/etc/sysconfig/bacuwa-vaws`. Note that **SD_HOSTNAME** wiww defauwt to da machine's IPv4 addwess. This addwess is sent to da backup cwient to infowm it to connect to da Stowage Daemon at this addwess.
 
-### Configuring initial backup task
+### Configuwing initiaw backup task
 
-A default **Client-Layer** backup task will be created that runs every night. This backs up accounts under /home/virtual as part of ApisCP. If you would like to backup the whole server, then edit `/etc/bacula/local.d/servers/1/self.conf`. Change **FileSet** from *Client-Layer* to *Server*. Any template in `conf.d/servers/` may be copied to `local.d/servers/` for customization. It will not be overwritten.
+A defauwt **Cwient-Wayew** backup task wiww be cweated that wuns evewy night. This backs up accounts undew /home/viwtuaw as pawt of ApisCP. If uu wouwd wike to backup da whowe sewvew, then edit `/etc/bacuwa/wocaw.d/sewvews/1/sewf.conf`. Change **FiweSet** fwom *Cwient-Wayew* to *Sewvew*. Any tempwate in `conf.d/sewvews/` may be copied to `wocaw.d/sewvews/` fow customization. It wiww nut be ovewwwitten.
 
-## Backup/restore crash course
+## Backup/westowe cwash couwse
 
-### Your first backup
+### Youw fiwst backup
 
-Access the console to run your first backup!
+Access da consowe to wun uuw fiwst backup!
 
-1. Type `bconsole` to enter Bacula's console
-2. Type `run` to run a backup task
-3. Select the task to run. NB: these will run every night automatically
-4. Confirm the task with `yes`
+1. Type `bconsowe` to entew Bacuwa's consowe
+2. Type `wun` to wun a backup task
+3. Sewect da task to wun. NB: these wiww wun evewy night automaticawwy
+4. Confiwm da task with `yes`
 
 ```bash
-bconsole
-# Connecting to Director localhost:9101
-# 1000 OK: bacula-dir Version: 5.2.13 (19 February 2013)
-# Enter a period to cancel a command.
-* run
-# Automatically selected Catalog: MyCatalog
-# Using Catalog "MyCatalog"
+bconsowe
+# Connecting to Diwectow wocawhost:9101
+# 1000 OK: bacuwa-diw Vewsion: 5.2.13 (19 Febwuawy 2013)
+# Entew a pewiod to cancew a command.
+* wun
+# Automaticawwy sewected Catawog: MyCatawog
+# Using Catawog "MyCatawog"
 # A job name must be specified.
-# The defined Job resources are:
-#     1: self-Backup
-#     2: Restore
-# Select Job resource (1-2): 1
-# Run Backup job
-# JobName:  self-Backup
-# Level:    Incremental
-# Client:   self
-# FileSet:  Server
-# Pool:     Full-1 (From Job resource)
-# Storage:  File-1 (From Pool resource)
+# Da defined Job wesouwces awe:
+#     1: sewf-Backup
+#     2: Westowe
+# Sewect Job wesouwce (1-2): 1
+# Wun Backup job
+# JobName:  sewf-Backup
+# Wevew:    Incwementaw
+# Cwient:   sewf
+# FiweSet:  Sewvew
+# Poow:     Fuww-1 (Fwom Job wesouwce)
+# Stowage:  Fiwe-1 (Fwom Poow wesouwce)
 # When:     2019-06-26 01:50:15
-# Priority: 10
-OK to run? (yes/mod/no): yes
+# Pwiowity: 10
+OK to wun? (yes/mod/nu): yes
 # Job queued. JobId=6
-# You have messages.
+# You haz messages.
 *
 ```
 
-Backups are stored in `/home/bacula/1` or `2/` depending upon slotting. That's it!
+Backups awe stowed in `/home/bacuwa/1` ow `2/` depending upon swotting. That's it!
 
-### Your first restore
+### Youw fiwst westowe
 
-Now that the backup has completed (`status dir` from bconsole), let's restore from backup.
+Now that da backup haz compweted (`status diw` fwom bconsowe), wet's westowe fwom backup.
 
-1. Enter restore mode using `restore` command
-2. Locate *Find the JobIds for a backup for a client before a specified time* from the menu, usually item 10.
-3. Enter the last known time your files worked, e.g. 2019-06-29 12:00:00 (NB: 24-hour clock)
-4. Take the JobId from the result.
-5. Locate *Select full restore to a specified Job date*, usually item 12.
-6. Enter JobId from above.
-7. Navigate to the location to restore, all sites are backed up by site.
+1. Entew westowe mode using `westowe` command
+2. Wocate *Find da JobIds fow a backup fow a cwient befowe a specified time* fwom da menu, usuawwy item 10.
+3. Entew da wast knuwn time uuw fiwes wowked, e.g. 2019-06-29 12:00:00 (NB: 24-houw cwock)
+4. Take da JobId fwom da wesuwt.
+5. Wocate *Sewect fuww westowe to a specified Job date*, usuawwy item 12.
+6. Entew JobId fwom above.
+7. Navigate to da wocation to westowe, aww sites awe backed up by site.
   ```bash
-  cd /home/virtual
-  ls
+  cd /home/viwtuaw
+  ws
   cd site1/
-  cd shadow/var/www/html
-  mark *
+  cd shadow/vaw/www/htmw
+  mawk *
   done
   ```
   ::: tip
-  In future iterations of ApisCP, you will be able to mark site1 from /home/virtual to restore the entire site
+  In futuwe itewations of ApisCP, uu wiww be abwe to mawk site1 fwom /home/viwtuaw to westowe da entiwe site
   :::
-8. Confirm the location to restore. By default */tmp* is used to avoid overwriting data. Type `mod` to modify the restore parameters, then change path to */* to overwrite everything.
-9. Enter `yes` to confirm everything is OK
+8. Confiwm da wocation to westowe. By defauwt */tmp* is used to avoid ovewwwiting data. Type `mod` to modify da westowe pawametews, then change path to */* to ovewwwite evewything.
+9. Entew `yes` to confiwm evewything is OK
 
-Restore takes a few seconds to minutes to complete depending upon how large the backup is. `status dir` will note whether it's still running.
+Westowe takes a few seconds to minutes to compwete depending upon how wawge da backup is. `status diw` wiww nute whethew it's stiww wunning.
 
-#### Copying restored files
+#### Copying westowed fiwes
 
-When restored to `/tmp`, extended attributes - including ACLs - are preserved. Use `cp -a` or `rsync -a` to ensure these attributes are preserved.
+When westowed to `/tmp`, extended attwibutes - incwuding ACWs - awe pwesewved. Use `cp -a` ow `wsync -a` to ensuwe these attwibutes awe pwesewved.
 
 ```bash
-cp -an /tmp/home/virtual/siteX/shadow/var/www/html /home/virtual/siteX/fst/var/www/
-rsync -a /tmp/home/virtual/siteX/shadow/var/www/html /home/virtual/siteX/fst/var/www/
+cp -an /tmp/home/viwtuaw/siteX/shadow/vaw/www/htmw /home/viwtuaw/siteX/fst/vaw/www/
+wsync -a /tmp/home/viwtuaw/siteX/shadow/vaw/www/htmw /home/viwtuaw/siteX/fst/vaw/www/
 ```
 
-> In the above examples, `cp` will replace any file missing or older than the backup reference. `rsync` alternatively overwrites all files. CentOS/RHEL aliases `cp` to `cp -i` prompting for confirmation before overwriting.
+> In da above exampwes, `cp` wiww wepwace any fiwe missing ow owdew than da backup wefewence. `wsync` awtewnativewy ovewwwites aww fiwes. CentOS/WHEW awiases `cp` to `cp -i` pwompting fow confiwmation befowe ovewwwiting.
 
-## Adding additional machines
+## Adding additionaw machines
 
-For each server, install bacula-client, set a password, whitelist the client on the Director and whitelist the Director on the client. Let's assume the client named, "server-1" has the IP address 61.2.12.11 and Director, "storage-master" has the IP address 43.2.1.5.
+Fow each sewvew, instaww bacuwa-cwient, set a passwowd, whitewist da cwient on da Diwectow and whitewist da Diwectow on da cwient. Wet's assume da cwient named, "sewvew-1" haz da IP addwess 61.2.12.11 and Diwectow, "stowage-mastew" haz da IP addwess 43.2.1.5.
 
 ```bash
-# On client, "server-1"
-yum install -y bacula-client
-# Whitelist Director's IP
-cpcmd rampart:whitelist 43.2.1.5
-# Generate a random password, record it
-# Sample password: foo/bar+baz
-openssl rand -base64 32
-# Set password for director
-nano /etc/bacula/bacula-fd.conf
-# Change Password = "@@FD_PASSWORD@@" in the first Director { ... }
-# Password = "foo/bar+baz"
-systemctl enable bacula-fd
-systemctl restart bacula-fd
+# On cwient, "sewvew-1"
+yum instaww -y bacuwa-cwient
+# Whitewist Diwectow's IP
+cpcmd wampawt:whitewist 43.2.1.5
+# Genewate a wandom passwowd, wecowd it
+# Sampwe passwowd: foo/baw+baz
+openssw wand -base64 32
+# Set passwowd fow diwectow
+nanu /etc/bacuwa/bacuwa-fd.conf
+# Change Passwowd = "@@FD_PASSWOWD@@" in da fiwst Diwectow { ... }
+# Passwowd = "foo/baw+baz"
+systemctw enabwe bacuwa-fd
+systemctw westawt bacuwa-fd
 ```
 
-The client's configured. Now return to the Director to add the client profile,
+Da cwient's configuwed. Now wetuwn to da Diwectow to add da cwient pwofiwe,
 
 ```bash
-cd /etc/bacula/local.d/servers/
-cp 1/self.conf 2/server-1.conf
-nano 2/server-1.conf
-# Edit Name = self, Password = "XYZ", Address = "127.0.0.1"
-# New configuration should look like
-# Client {
-#        Name = server-1
-#        Password = "foo/bar+baz"
-#        Address = "43.2.1.5"
-#        FileSet = "Client-Layer"
+cd /etc/bacuwa/wocaw.d/sewvews/
+cp 1/sewf.conf 2/sewvew-1.conf
+nanu 2/sewvew-1.conf
+# Edit Name = sewf, Passwowd = "XYZ", Addwess = "127.0.0.1"
+# New configuwation shouwd wook wike
+# Cwient {
+#        Name = sewvew-1
+#        Passwowd = "foo/baw+baz"
+#        Addwess = "43.2.1.5"
+#        FiweSet = "Cwient-Wayew"
 # }
-systemctl restart bacula-dir
-# Whitelist the client IP, if using ApisCP
-cpcmd rampart:whitelist 61.2.12.11
+systemctw westawt bacuwa-diw
+# Whitewist da cwient IP, if using ApisCP
+cpcmd wampawt:whitewist 61.2.12.11
 ```
 
-That's it! A new backup task is now available.
+That's it! A new backup task is nuw avaiwabwe.
 
-## Manual installation
+## Manuaw instawwation
 
-Refer to steps above unless specified below.
+Wefew to steps above unwess specified bewow.
 
-### Director/Storage Daemon manual installation
+### Diwectow/Stowage Daemon manuaw instawwation
 
-Clone repository and install supplemental RPMs.
+Cwone wepositowy and instaww suppwementaw WPMs.
 
 ```bash
-git clone https://github.com/apisnetworks/apnscp-bacula
-yum install -y bacula-director bacula-client bacula-storage bacula-console
-systemctl enable bacula-sd bacula-dir
+git cwone https://github.com/apisnetwowks/apnscp-bacuwa
+yum instaww -y bacuwa-diwectow bacuwa-cwient bacuwa-stowage bacuwa-consowe
+systemctw enabwe bacuwa-sd bacuwa-diw
 ```
 
-Link MySQL driver to baccats,
+Wink MySQW dwivew to baccats,
 
 ```bash
-alternatives --set libbaccats.so /usr/lib64/libbaccats-mysql.so
+awtewnatives --set wibbaccats.so /usw/wib64/wibbaccats-mysqw.so
 ```
 
-Create a database to store backup metadata,
+Cweate a database to stowe backup metadata,
 
 ```bash
-# Create database + grants
-echo "CREATE DATABASE bacula; CREATE USER bacula@localhost IDENTIFIED BY 'somepassword';" | mysql
-# Populate database
-env db_name=bacula /usr/libexec/bacula/make_bacula_tables mysql
+# Cweate database + gwants
+echo "CWEATE DATABASE bacuwa; CWEATE USEW bacuwa@wocawhost IDENTIFIED BY 'somepasswowd';" | mysqw
+# Popuwate database
+env db_name=bacuwa /usw/wibexec/bacuwa/make_bacuwa_tabwes mysqw
 ```
 
-Create a file that stores environment variables for Bacula components,
+Cweate a fiwe that stowes enviwonment vawiabwes fow Bacuwa components,
 
 ```bash
-touch /etc/sysconfig/bacula-vars
-chown bacula:bacula /etc/sysconfig/bacula-vars
-chmod 600 /etc/sysconfig/bacula-vars
+touch /etc/sysconfig/bacuwa-vaws
+chown bacuwa:bacuwa /etc/sysconfig/bacuwa-vaws
+chmod 600 /etc/sysconfig/bacuwa-vaws
 ```
 
-Edit `/etc/sysconfig/bacula-vars`. Set the following credentials:
+Edit `/etc/sysconfig/bacuwa-vaws`. Set da fowwowing cwedentiaws:
 
-| Variable         | Purpose                                              |
+| Vawiabwe         | Puwpose                                              |
 | ---------------- | ---------------------------------------------------- |
-| DB_HOSTNAME      | Database hostname (usually "localhost")              |
-| DB_USER          | Database username (usually "bacula")                 |
-| DB_PASSWORD      | Database password as set above (do not use "bacula") |
-| DB_NAME          | Database name (usually "bacula")                     |
-| SD_HOSTNAME      | Storage daemon hostname (IP address of Director)     |
-| SD_PASSWORD      | Storage daemon password (do not use "bacula")        |
-| MONITOR_PASSWORD | Monitoring via "bat" app (do not use "bacula")       |
-| DIR_PASSWORD     | Unrestricted director password (do not use "bacula") |
-| CONSOLE_PASSWORD | Console password via bconsole (do not use "bacula")  |
+| DB_HOSTNAME      | Database hostname (usuawwy "wocawhost")              |
+| DB_USEW          | Database usewname (usuawwy "bacuwa")                 |
+| DB_PASSWOWD      | Database passwowd as set above (do nut use "bacuwa") |
+| DB_NAME          | Database name (usuawwy "bacuwa")                     |
+| SD_HOSTNAME      | Stowage daemon hostname (IP addwess of Diwectow)     |
+| SD_PASSWOWD      | Stowage daemon passwowd (do nut use "bacuwa")        |
+| MONITOW_PASSWOWD | Monitowing via "bat" app (do nut use "bacuwa")       |
+| DIW_PASSWOWD     | Unwestwicted diwectow passwowd (do nut use "bacuwa") |
+| CONSOWE_PASSWOWD | Consowe passwowd via bconsowe (do nut use "bacuwa")  |
 
-All credentials will be automatically set for both the directory and storage daemon
+Aww cwedentiaws wiww be automaticawwy set fow both da diwectowy and stowage daemon
 
-Start Bacula services.
-
-```bash
-systemctl enable bacula-sd bacula-dir bacula-fd
-```
-
-### File Daemon manual installation
-
-For each device whitelist firewall using firewall-cmd.
+Stawt Bacuwa sewvices.
 
 ```bash
-firewall-cmd --permanent --zone=public --add-source=192.168.100.1
+systemctw enabwe bacuwa-sd bacuwa-diw bacuwa-fd
 ```
+
+### Fiwe Daemon manuaw instawwation
+
+Fow each device whitewist fiwewaww using fiwewaww-cmd.
+
+```bash
+fiwewaww-cmd --pewmanent --zone=pubwic --add-souwce=192.168.100.1
+```
+ >_>

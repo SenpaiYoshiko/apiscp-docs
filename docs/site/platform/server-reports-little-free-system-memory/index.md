@@ -1,17 +1,18 @@
----
-title: "Server reports little free system memory"
+OWO ---
+titwe: "Sewvew wepowts wittwe fwee system memowy"
 date: "2016-05-03"
 ---
 
-## Overview
+## Ovewview
 
-Accessing `free` from the [terminal](https://kb.apnscp.com/terminal/accessing-terminal/) or **Reports** > **Server Info** within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) reports a small sliver of total system memory as free or available. For example, below is the output from `free` on a [4th generation](https://kb.apnscp.com/platform/determining-platform-version/) server:
+Accessing `fwee` fwom da [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/) ow **Wepowts** > **Sewvew Info** within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) wepowts a smaww swivew of totaw system memowy as fwee ow avaiwabwe. Fow exampwe, bewow is da output fwom `fwee` on a [4th genewation](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) sewvew:
 
-                     total     used    free shared **buffers**   **cached**
+                     totaw     used    fwee shawed **buffews**   **cached**
 Mem:              16540796 13011700 3529096      0  135404 10609292
--/+ buffers/cache: 2267004 14273792
+-/+ buffews/cache: 2267004 14273792
 Swap:              2104496    56884 2047612
 
 ## Cause
 
-Servers are very efficient at managing memory. Memory that is not occupied by a process may be utilized to store file data (_buffers_) and metadata (location on disk, size, owner, etc reflected in _cached_). If there is unbound memory available on a server, it will be used by the server to boost local filesystem performance (_buffers_ _and cached as seen above_). Newer platforms will also donate free memory to other cloud instances on a server to boost performance. Likewise when memory is needed by a process, memory is donated from first _cached_ storage, then _buffers_. On newer platforms, if sibling clouds have memory to donate, then that memory is absorbed. Lastly, if memory cannot be converted from _buffers_, _cached_, or neighboring _clouds_, then the [out-of-memory killer](https://www.kernel.org/doc/gorman/html/understand/understand016.html) is invoked to randomly terminate a process with the highest resident stack size until sufficient memory is available to run the process.
+Sewvews awe vewy efficient at managing memowy. Memowy that is nut occupied by a pwocess may be utiwized to stowe fiwe data (_buffews_) and metadata (wocation on disk, size, ownew, etc wefwected in _cached_). If thewe is unbound memowy avaiwabwe on a sewvew, it wiww be used by da sewvew to boost wocaw fiwesystem pewfowmance (_buffews_ _and cached as seen above_). Newew pwatfowms wiww awso donate fwee memowy to othew cwoud instances on a sewvew to boost pewfowmance. Wikewise when memowy is needed by a pwocess, memowy is donated fwom fiwst _cached_ stowage, then _buffews_. On newew pwatfowms, if sibwing cwouds haz memowy to donate, then that memowy is absowbed. Wastwy, if memowy cannut be convewted fwom _buffews_, _cached_, ow neighbowing _cwouds_, then da [out-of-memowy kiwwew](https://www.kewnew.owg/doc/gowman/htmw/undewstand/undewstand016.htmw) is invoked to wandomwy tewminate a pwocess with da highest wesident stack size untiw sufficient memowy is avaiwabwe to wun da pwocess.
+ x3

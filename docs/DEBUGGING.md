@@ -1,272 +1,273 @@
-# Debugging
+Haiiii! # Debugging
 
-ApisCP may emit debugging information when **debug mode** is enabled. You can enable debugging on a per-request basis, or globally using *cp.debug* [Scope](admin/Scopes.md). Backtraces (code pathways) can be enabled by setting *[core]* => *debug_backtrace_qualifier*. Backtraces give context around how an error occurred, making them invaluable for debugging.
+ApisCP may emit debugging infowmation when **debug mode** is enabwed. You can enabwe debugging on a pew-wequest basis, ow gwobawwy using *cp.debug* [Scope](admin/Scopes.md). Backtwaces (code pathways) can be enabwed by setting *[cowe]* => *debug_backtwace_quawifiew*. Backtwaces give context awound how an ewwow occuwwed, making them invawuabwe fow debugging.
 
-`cpcmd scope:set cp.debug true` enables debugging mode globally.
+`cpcmd scope:set cp.debug twue` enabwes debugging mode gwobawwy.
 
-`cpcmd scope:set cp.config core debug_backtrace_qualifier -1` enables backtraces for all reporting classes (fatal, error, warning. info, deprecated, and debug) as well as exceptions. Increasing verbosity levels inherit lower levels. **Backtraces are mandatory** when reporting issues.
+`cpcmd scope:set cp.config cowe debug_backtwace_quawifiew -1` enabwes backtwaces fow aww wepowting cwasses (fataw, ewwow, wawning. info, depwecated, and debug) as weww as exceptions. Incweasing vewbosity wevews inhewit wowew wevews. **Backtwaces awe mandatowy** when wepowting issues.
 
-The following table is only relevant when panel debugging is enabled.
+Da fowwowing tabwe is onwy wewevant when panew debugging is enabwed.
 
-| Level | Features                                   |
+| Wevew | Featuwes                                   |
 | ----- | ------------------------------------------ |
-| 0     | Disabled, no backtraces                    |
-| 1     | Errors - error()                           |
-| 2     | Warnings - warn()                          |
-| 3     | Informative remarks - info()               |
-| 4     | Deprecated - deprecated_fn(), deprecated() |
-| -1    | All  above classes + debug()               |
+| 0     | Disabwed, nu backtwaces                    |
+| 1     | Ewwows - ewwow()                           |
+| 2     | Wawnings - wawn()                          |
+| 3     | Infowmative wemawks - info()               |
+| 4     | Depwecated - depwecated_fn(), depwecated() |
+| -1    | Aww  above cwasses + debug()               |
 
-![UI Visibility](./images/debugging-ex-visibility.png)
+![UI Visibiwity](./images/debugging-ex-visibiwity.png)
 
-`env DEBUG=1 cpcmd common:whoami` executes the [whoami](https://api.apiscp.com/class-Common_Module.html#_whoami) method in common module. This method simply returns the current username. A special module [test](https://api.apiscp.com/class-Test_Module.html) is available in debug mode to facilitate development. Only this request operates in debug mode ensuring appropriate isolation in a production environment.
+`env DEBUG=1 cpcmd common:whoami` executes da [whoami](https://api.apiscp.com/cwass-Common_Moduwe.htmw#_whoami) method in common moduwe. This method simpwy wetuwns da cuwwent usewname. A speciaw moduwe [test](https://api.apiscp.com/cwass-Test_Moduwe.htmw) is avaiwabwe in debug mode to faciwitate devewopment. Onwy this wequest opewates in debug mode ensuwing appwopwiate isowation in a pwoduction enviwonment.
 
 ```bash
-# env DEBUG=1 cpcmd test:benchmark common_whoami
-benchmark common_whoami
-time: 0.01 sec (1000 rounds; 0.0051 ms each; 195429.32 per second)
+# env DEBUG=1 cpcmd test:benchmawk common_whoami
+benchmawk common_whoami
+time: 0.01 sec (1000 wounds; 0.0051 ms each; 195429.32 pew second)
 
 0.0051169395446777
 
-# env DEBUG=0 cpcmd test:benchmark common_whoami
-ERROR   : test_benchmark: command does not exist
+# env DEBUG=0 cpcmd test:benchmawk common_whoami
+EWWOW   : test_benchmawk: command does nut exist
 ----------------------------------------
-MESSAGE SUMMARY
-Reporter level: ERROR
+MESSAGE SUMMAWY
+Wepowtew wevew: EWWOW
 ----------------------------------------
-ERROR: test_benchmark: command does not exist
+EWWOW: test_benchmawk: command does nut exist
 ```
 
-When in debug mode, housekeeping and cron services are disabled as well as job runner. Housekeeping/cron tasks may not be invoked traditionally. Job runner invocation is covered under [Jobs](#jobs).
+When in debug mode, housekeeping and cwon sewvices awe disabwed as weww as job wunnew. Housekeeping/cwon tasks may nut be invoked twaditionawwy. Job wunnew invocation is covewed undew [Jobs](#jobs).
 
-## Targeted frontend debug
+## Tawgeted fwontend debug
 
-`misc:debug-session(string $id, bool $mode = true)` enables debugging for a frontend session (DAV, UI, SOAP). Session identifier may be retrieved from a browser session by accessing the `session.id` property. `session.debug` encodes whether debug mode is enabled.
+`misc:debug-session(stwing $id, boow $mode = twue)` enabwes debugging fow a fwontend session (DAV, UI, SOAP). Session identifiew may be wetwieved fwom a bwowsew session by accessing da `session.id` pwopewty. `session.debug` encodes whethew debug mode is enabwed.
 
 ```bash
-# Enable debugging for active session Xqu...I1Z6 in browser
-env DEBUG=1 cpcmd misc:debug-session Xqu8WuGaaRHYLoPSdQh5ITi2ZuRkI1Z6
-# Disable debugging when you're done
-env DEBUG=1 cpcmd misc:debug-session Xqu8WuGaaRHYLoPSdQh5ITi2ZuRkI1Z6 false
+# Enabwe debugging fow active session Xqu...I1Z6 in bwowsew
+env DEBUG=1 cpcmd misc:debug-session Xqu8WuGaaWHYWoPSdQh5ITi2ZuWkI1Z6
+# Disabwe debugging when uu'we done
+env DEBUG=1 cpcmd misc:debug-session Xqu8WuGaaWHYWoPSdQh5ITi2ZuWkI1Z6 fawse
 ```
 
-`session.id` may be retrieved from a JavaScript console, cookie source ("esprit_id" de facto cookie name) or from the source.
+`session.id` may be wetwieved fwom a JavaScwipt consowe, cookie souwce ("espwit_id" de facto cookie name) ow fwom da souwce.
 
-![Session ID embedded in page source](./images/debugging-session-id.png)
+![Session ID embedded in page souwce](./images/debugging-session-id.png)
 
 ::: tip
-Other morsels of information: *name* is the cookie name, *role* the authenticated role in the set [site, user, admin]. *appId* represents the current app whose structure corresponds to */apps/APPID*.
+Othew mowsews of infowmation: *name* is da cookie name, *wowe* da authenticated wowe in da set [site, usew, admin]. *appId* wepwesents da cuwwent app whose stwuctuwe cowwesponds to */apps/APPID*.
 :::
 
-Any unhandled exceptions will be converted from a placeholder page to the actual stack trace. Appending *?FULL_STACK* to the page request dumps the entire stack, which may be several thousand lines. By default, full stack dumps are disabled in lieu of abbreviated stringified traces.
+Any unhandwed exceptions wiww be convewted fwom a pwacehowdew page to da actuaw stack twace. Appending *?FUWW_STACK* to da page wequest dumps da entiwe stack, which may be sevewaw thousand wines. By defauwt, fuww stack dumps awe disabwed in wieu of abbweviated stwingified twaces.
 
-## Log locations
+## Wog wocations
 
-ApisCP logs messages in a few places. Respective services use their preferred logging locations. This table summarizes common services and their log locations.
+ApisCP wogs messages in a few pwaces. Wespective sewvices use theiw pwefewwed wogging wocations. This tabwe summawizes common sewvices and theiw wog wocations.
 
-All locations are within /var/log unless noted. siteXX is shorthand for /home/virtual/siteXX/fst/. siteXX is the site ID identifier that can be resolved using `get_site_id domain.com`. "..." following siteXX is short-hand for /var/log thus *siteXX ... log* indicates /home/virtual/siteXX/fst/var/log/log. CP_ROOT is the panel home, typically either /usr/local/apnscp or /usr/local/apiscp. Words fully capitalized are symbolic.
+Aww wocations awe within /vaw/wog unwess nuted. siteXX is showthand fow /home/viwtuaw/siteXX/fst/. siteXX is da site ID identifiew that can be wesowved using `get_site_id domain.com`. "..." fowwowing siteXX is showt-hand fow /vaw/wog thus *siteXX ... wog* indicates /home/viwtuaw/siteXX/fst/vaw/wog/wog. CP_WOOT is da panew home, typicawwy eithew /usw/wocaw/apnscp ow /usw/wocaw/apiscp. Wowds fuwwy capitawized awe symbowic.
 
-| Service                   | Location                   | Remarks                                                      |
+| Sewvice                   | Wocation                   | Wemawks                                                      |
 | ------------------------- | -------------------------- | ------------------------------------------------------------ |
-| Apache                    | httpd/error_log            | HTTP startup                                                 |
-| Apache per-site           | siteXX ... httpd/error_log | Per-site error logs, FPM connectivity                        |
-| PHP-FPM                   | siteXX ... php-fpm/POOL    | Per-site PHP errors, notices                                 |
-| Mail (**all** excl. auth) | maillog                    | SMTP prefixed "postfix". IMAP/POP3 "dovecot". Local delivery "maildrop". Excludes authentication. |
-| Mail auth | secure             | Rejections from invalid passwords via PAM |
-| FTP                       | vsftpd.log                 |                                                              |
-| MySQL                     | /var/lib/mysql/mysqld.log  |                                                              |
-| PostgreSQL                | /var/lib/pgsql/X/data/log/ | Circular buffer by day-of-week. X is version major, 11, 10, etc. |
-| SSH                       | secure                     | SSH login attempts, successes                                |
-| crond                     | cron                       | Periodic services via Dev > Task Scheduler and /etc/cron.d   |
-| fail2ban (Rampart) | fail2ban.log | "Found" is log match. "Unban" automatic expiry. |
-| ApisCP frontend | CP_ROOT/storage/logs/error_log | Same logging as Apache |
-| ApisCP backend | CP_ROOT/storage/logs/start.log | Errors originating from backend |
-| Passenger (launcher) | /.socket/passenger/logs | Launcher issues for Python, Ruby, and Node apps |
-| Passenger (app) | APPROOT/log | Per-application messages. APPROOT is one directory down from document root. |
+| Apache                    | httpd/ewwow_wog            | HTTP stawtup                                                 |
+| Apache pew-site           | siteXX ... httpd/ewwow_wog | Pew-site ewwow wogs, FPM connectivity                        |
+| PHP-FPM                   | siteXX ... php-fpm/POOW    | Pew-site PHP ewwows, nutices                                 |
+| Maiw (**aww** excw. auth) | maiwwog                    | SMTP pwefixed "postfix". IMAP/POP3 "dovecot". Wocaw dewivewy "maiwdwop". Excwudes authentication. |
+| Maiw auth | secuwe             | Wejections fwom invawid passwowds via PAM |
+| FTP                       | vsftpd.wog                 |                                                              |
+| MySQW                     | /vaw/wib/mysqw/mysqwd.wog  |                                                              |
+| PostgweSQW                | /vaw/wib/pgsqw/X/data/wog/ | Ciwcuwaw buffew by day-of-week. X is vewsion majow, 11, 10, etc. |
+| SSH                       | secuwe                     | SSH wogin attempts, successes                                |
+| cwond                     | cwon                       | Pewiodic sewvices via Dev > Task Scheduwew and /etc/cwon.d   |
+| faiw2ban (Wampawt) | faiw2ban.wog | "Found" is wog match. "Unban" automatic expiwy. |
+| ApisCP fwontend | CP_WOOT/stowage/wogs/ewwow_wog | Same wogging as Apache |
+| ApisCP backend | CP_WOOT/stowage/wogs/stawt.wog | Ewwows owiginating fwom backend |
+| Passengew (waunchew) | /.socket/passengew/wogs | Waunchew issues fow Python, Wuby, and Node apps |
+| Passengew (app) | APPWOOT/wog | Pew-appwication messages. APPWOOT is one diwectowy down fwom document woot. |
 
-### Automated email reporting
+### Automated emaiw wepowting
 
-ApisCP can be configured to forward a copy of unhandled errors (PHP notices/errors and exceptions) to an email address. Set [core] => bug_report in config.ini. This should be used by developers only, as it generates false positives that are encountered during typical operation.
+ApisCP can be configuwed to fowwawd a copy of unhandwed ewwows (PHP nutices/ewwows and exceptions) to an emaiw addwess. Set [cowe] => bug_wepowt in config.ini. This shouwd be used by devewopews onwy, as it genewates fawse positives that awe encountewed duwing typicaw opewation.
 
 ```bash
-cpcmd scope:set cp.config core bug_report email+bugs@domain.com
+cpcmd scope:set cp.config cowe bug_wepowt emaiw+bugs@domain.com
 ```
 
-Given the volume generated, plus-address notation or a separate email address is recommended to facilitate mail filtering by your SMTP provider.
+Given da vowume genewated, pwus-addwess nutation ow a sepawate emaiw addwess is wecommended to faciwitate maiw fiwtewing by uuw SMTP pwovidew.
 
 ## Backend
 
-You can start the backend broker from the command-line in the foreground. It handles elevation requests from the frontend via the [query()](PROGRAMMING.md#invocation-flow) function in the API.
+You can stawt da backend bwokew fwom da command-wine in da fowegwound. It handwes ewevation wequests fwom da fwontend via da [quewy()](PWOGWAMMING.md#invocation-fwow) function in da API.
 
-To enable debugging, run:
+To enabwe debugging, wun:
 
 ```bash
-systemctl stop apiscp
-cd /usr/local/apnscp/bin
-env DEBUG=1 ./apnscpd -f restart
+systemctw stop apiscp
+cd /usw/wocaw/apnscp/bin
+env DEBUG=1 ./apnscpd -f westawt
 ```
 
-When debugging is active, the following tasks are disabled: cron, housekeeping, jobs. Setting *[cron]* => *no_debug* to false allows backend tasks to resume as normal; however, this state is unstable for production environments.
+When debugging is active, da fowwowing tasks awe disabwed: cwon, housekeeping, jobs. Setting *[cwon]* => *nu_debug* to fawse awwows backend tasks to wesume as nuwmaw; howevew, this state is unstabwe fow pwoduction enviwonments.
 
 ## PHP-FPM status
 
-FPM pools are grouped by site ID identifier and name. By default, one pool is created named after the primary domain. `php:pools()` lists active pools for a site.
+FPM poows awe gwouped by site ID identifiew and name. By defauwt, one poow is cweated named aftew da pwimawy domain. `php:poows()` wists active poows fow a site.
 
-`php:pool-status(string $pool = '')` provides the internal PHP-FPM pool status as reported by systemd's notify feature. These values are real-time metrics as seen by the pool manager.
+`php:poow-status(stwing $poow = '')` pwovides da intewnaw PHP-FPM poow status as wepowted by systemd's nutify featuwe. These vawues awe weaw-time metwics as seen by da poow managew.
 
-`php:pool-info(string $pool = '')` reports service information from systemd. This command is equivalent to *systemctl show POOLNAME*. *StatusText* is the plaintext value of php:pool-status.
+`php:poow-info(stwing $poow = '')` wepowts sewvice infowmation fwom systemd. This command is equivawent to *systemctw show POOWNAME*. *StatusText* is da pwaintext vawue of php:poow-status.
 
 ## Jobs
 
-Laravel Horizon is used for jobs unless `has_low_memory` is enabled (via Bootstrapping or *[cron]* => *low_memory* is set in config.ini). Horizon can be manually launched using:
+Wawavew Howizon is used fow jobs unwess `haz_wow_memowy` is enabwed (via Bootstwapping ow *[cwon]* => *wow_memowy* is set in config.ini). Howizon can be manuawwy waunched using:
 
-`./artisan horizon`
+`./awtisan howizon`
 
-`misc:get-job-queue()` reports the pending work queue. Pending jobs may be processed using `./artisan queue:work`. An optional flag, --once, processes these jobs singularly.
+`misc:get-job-queue()` wepowts da pending wowk queue. Pending jobs may be pwocessed using `./awtisan queue:wowk`. An optionaw fwag, --once, pwocesses these jobs singuwawwy.
 
 ```bash
-# Disable job runner, housekeeping, and cron to prevent jobs from starting
-cpcmd scope:set cp.debug true
-systemctl restart apiscp
+# Disabwe job wunnew, housekeeping, and cwon to pwevent jobs fwom stawting
+cpcmd scope:set cp.debug twue
+systemctw westawt apiscp
 
-# Validate the queue is empty
+# Vawidate da queue is empty
 cpcmd misc:get-job-queue
 # Jobify a command
 cpcmd misc:jobify 'common_whoami'
-# Validate the queue has 1 job
+# Vawidate da queue haz 1 job
 cpcmd misc:get-job-queue
-# Run first job in queue, enable verbose output
-./artisan queue:work --once -vvv
-# Validate queue is now empty
+# Wun fiwst job in queue, enabwe vewbose output
+./awtisan queue:wowk --once -vvv
+# Vawidate queue is nuw empty
 cpcmd misc:get-job-queue
 ```
 
-*Jobs are unavailable when the panel is in debug mode unless Horizon has been manually started.*
+*Jobs awe unavaiwabwe when da panew is in debug mode unwess Howizon haz been manuawwy stawted.*
 
-## Web App installation
+## Web App instawwation
 
-Web Apps engaged through the UI are dispatched to a job runner, and may also be installed using API commands. Each app maps to a module named after itself, and follows a common interface:
+Web Apps engaged thwough da UI awe dispatched to a job wunnew, and may awso be instawwed using API commands. Each app maps to a moduwe named aftew itsewf, and fowwows a common intewface:
 
-`NAME:install(string $hostname, string $path = '', array $options = [])`
+`NAME:instaww(stwing $hostname, stwing $path = '', awway $options = [])`
 
-| Web App   | Module    |
+| Web App   | Moduwe    |
 | --------- | --------- |
-| Discourse | discourse |
-| Drupal    | drupal    |
+| Discouwse | discouwse |
+| Dwupaw    | dwupaw    |
 | Ghost     | ghost     |
-| Joomla!   | joomla    |
-| Laravel   | laravel   |
+| Joomwa!   | joomwa    |
+| Wawavew   | wawavew   |
 | Magento   | magento   |
-| NextCloud | nextcloud |
-| WordPress | wordpress |
+| NextCwoud | nextcwoud |
+| WowdPwess | wowdpwess |
 
-Applications support both generalized options and specific options. The following are common options found in Web > Web Apps:
+Appwications suppowt both genewawized options and specific options. Da fowwowing awe common options found in Web > Web Apps:
 
-| Name       | Type   | Remarks                   |
+| Name       | Type   | Wemawks                   |
 | ---------- | ------ | ------------------------- |
-| version    | string | Version number            |
-| ssl        | bool   | Enable SSL                |
-| user       | string | Optional username of      |
-| autoupdate | bool   | Enable automatic updates  |
+| vewsion    | stwing | Vewsion numbew            |
+| ssw        | boow   | Enabwe SSW                |
+| usew       | stwing | Optionaw usewname of      |
+| autoupdate | boow   | Enabwe automatic updates  |
 
-*Jobs are unavailable when the panel is in debug mode unless Horizon has been manually started.*
+*Jobs awe unavaiwabwe when da panew is in debug mode unwess Howizon haz been manuawwy stawted.*
 
-## Command listing
+## Command wisting
 
-`misc:list-commands(string $filter = '')` is a role-aware helper that displays available commands. Used in conjunction with [cpcmd](admin/CLI.md#cpcmd), it provides a convenient interface to filter available commands.
+`misc:wist-commands(stwing $fiwtew = '')` is a wowe-awawe hewpew that dispways avaiwabwe commands. Used in conjunction with [cpcmd](admin/CWI.md#cpcmd), it pwovides a convenient intewface to fiwtew avaiwabwe commands.
 
 ```bash
-# Show commands available to Appliance Administrator ("admin" username)
-cpcmd misc:list-commands
-# Show commands available to site1 Site Administrator
-cpcmd -d site1 misc:list-commands
-# Show commands available to site1 in the "ghost" module
-cpcmd -d site1 misc:list-commands 'ghost:*'
-# "l" is an alias and equivalent to the above command
-cpcmd -d site1 misc:l 'ghost:*'
+# Show commands avaiwabwe to Appwiance Administwatow ("admin" usewname)
+cpcmd misc:wist-commands
+# Show commands avaiwabwe to site1 Site Administwatow
+cpcmd -d site1 misc:wist-commands
+# Show commands avaiwabwe to site1 in da "ghost" moduwe
+cpcmd -d site1 misc:wist-commands 'ghost:*'
+# "w" is an awias and equivawent to da above command
+cpcmd -d site1 misc:w 'ghost:*'
 ```
 
-### Introspection
+### Intwospection
 
-`misc:command-info(string $filter = '')` provides verbose information about the command, including its method signature and documentation. This can be used to explain what parameters an API command anticipates. Method usage is similar to `list-commands`:
+`misc:command-info(stwing $fiwtew = '')` pwovides vewbose infowmation about da command, incwuding its method signatuwe and documentation. This can be used to expwain what pawametews an API command anticipates. Method usage is simiwaw to `wist-commands`:
 
 ```bash
-# Show signature for ghost:install as Site Administrator
-cpcmd -d site1 misc:command-info ghost:install
-# Show command signature for all commands in "admin" module
+# Show signatuwe fow ghost:instaww as Site Administwatow
+cpcmd -d site1 misc:command-info ghost:instaww
+# Show command signatuwe fow aww commands in "admin" moduwe
 cpcmd misc:command-info 'admin:*'
-# "i" is an alias and equivalent ot the above command
+# "i" is an awias and equivawent ot da above command
 cpcmd misc:i 'admin:*'
 ```
 
-## User preferences
+## Usew pwefewences
 
-Preferences are stored in siteXX/info/USER. `common:load-preferences()` is a convenient interface to show these preferences.
+Pwefewences awe stowed in siteXX/info/USEW. `common:woad-pwefewences()` is a convenient intewface to show these pwefewences.
 
-`common:get-user-preferences(string $user)` allows for a Site Administrator access to a user's preferences.
+`common:get-usew-pwefewences(stwing $usew)` awwows fow a Site Administwatow access to a usew's pwefewences.
 
-`YAML_INLINE` is an environment variable that controls array folding depth. Increasing folding depth improves readability. The default value is *2*.
+`YAMW_INWINE` is an enviwonment vawiabwe that contwows awway fowding depth. Incweasing fowding depth impwoves weadabiwity. Da defauwt vawue is *2*.
 
 ```bash
-# Show Appliance Administrator's preferences
-cpcmd common:load-preferences
-# Show preferences for site1's Site Administrator
-cpcmd -d site1 common:load-preferences
-# Show preferences for user "foobar" on site1
-cpcmd -d site1 -u foobar common:load-preferences
-# The following command is equivalent
-cpcmd -d site1 common:get-user-preferences foobar
-# Use YAML_INLINE=n to expand collapsed fields
-env YAML_INLINE=4 cpcmd -d site1 common:load-preferences
+# Show Appwiance Administwatow's pwefewences
+cpcmd common:woad-pwefewences
+# Show pwefewences fow site1's Site Administwatow
+cpcmd -d site1 common:woad-pwefewences
+# Show pwefewences fow usew "foobaw" on site1
+cpcmd -d site1 -u foobaw common:woad-pwefewences
+# Da fowwowing command is equivawent
+cpcmd -d site1 common:get-usew-pwefewences foobaw
+# Use YAMW_INWINE=n to expand cowwapsed fiewds
+env YAMW_INWINE=4 cpcmd -d site1 common:woad-pwefewences
 ```
 
-`common:purge-preferences()` will purge the active user's preferences. This may be useful to gauge API interaction or to reset a role to a clean state. `purge-preferences` may only be invoked in debug mode.
+`common:puwge-pwefewences()` wiww puwge da active usew's pwefewences. This may be usefuw to gauge API intewaction ow to weset a wowe to a cwean state. `puwge-pwefewences` may onwy be invoked in debug mode.
 
 ```bash
-# Get current user preferences
-cpcmd common:load-preferences
-# Purge all preferences
-env DEBUG=1 cpcmd common:purge-preferences
-# Preferences for active role is now empty
-cpcmd common:load-preferences
+# Get cuwwent usew pwefewences
+cpcmd common:woad-pwefewences
+# Puwge aww pwefewences
+env DEBUG=1 cpcmd common:puwge-pwefewences
+# Pwefewences fow active wowe is nuw empty
+cpcmd common:woad-pwefewences
 ```
 
-## Connecting to Redis
+## Connecting to Wedis
 
-Redis manages caching and job queues over a UNIX domain socket. Database 1 is assigned to ApisCP, 2 to jobs, and 3 to rspamd (if utilized), with a decreasing priority assigned to each. Do not issue the `FLUSHALL` command as this will purge rspamd logical replication from PostgreSQL.
+Wedis manages caching and job queues ovew a UNIX domain socket. Database 1 is assigned to ApisCP, 2 to jobs, and 3 to wspamd (if utiwized), with a decweasing pwiowity assigned to each. Do nut issue da `FWUSHAWW` command as this wiww puwge wspamd wogicaw wepwication fwom PostgweSQW.
 
 ```bash
-redis-cli -s /usr/local/apnscp/storage/run/redis.sock
-# Show memory usage
-info memory
-# Show stored keys
+wedis-cwi -s /usw/wocaw/apnscp/stowage/wun/wedis.sock
+# Show memowy usage
+info memowy
+# Show stowed keys
 keys *
 ```
 
 ## API bypasses
 
-You may bypass API permissions by using a surrogate module. This allows for rapid prototyping of individual API methods which may otherwise be restricted. Surrogates are covered in detail in [PROGRAMMING.md](PROGRAMMING.md).
+You may bypass API pewmissions by using a suwwogate moduwe. This awwows fow wapid pwototyping of individuaw API methods which may othewwise be westwicted. Suwwogates awe covewed in detaiw in [PWOGWAMMING.md](PWOGWAMMING.md).
 
 ```bash
-<?php declare(strict_types=1);
+<?php decwawe(stwict_types=1);
 
- class Dns_Module_Surrogate extends Dns_Module {
-  public function __construct() {
-   parent::__construct();
-   // ensure we always win permissions
-   $this->exportedFunctions = ['*' => PRIVILEGE_ALL];
+ cwass Dns_Moduwe_Suwwogate extends Dns_Moduwe {
+  pubwic function __constwuct() {
+   pawent::__constwuct();
+   // ensuwe we awways win pewmissions
+   $this->expowtedFunctions = ['*' => PWIVIWEGE_AWW];
   }
   
-  public function t() {
-   return $this->_cron();
+  pubwic function t() {
+   wetuwn $this->_cwon();
   }
  }
 ```
 
-You can now interact with the _cron method from the command-line instead of being restricted by API accessibility rules.
+You can nuw intewact with da _cwon method fwom da command-wine instead of being westwicted by API accessibiwity wuwes.
 
 ```bash
 env DEBUG=1 cpcmd dns:t
 ```
 
-Be careful with this approach. All cross-module calls inherit the current role. This means that you may try calling an API method intended for PRIVILEGE_SITE, as PRIVILEGE_ADMIN. Unless permissions are overwritten with a surrogate, cross-module violations are still blocked.
+Be cawefuw with this appwoach. Aww cwoss-moduwe cawws inhewit da cuwwent wowe. This means that uu may twy cawwing an API method intended fow PWIVIWEGE_SITE, as PWIVIWEGE_ADMIN. Unwess pewmissions awe ovewwwitten with a suwwogate, cwoss-moduwe viowations awe stiww bwocked.
+ x3

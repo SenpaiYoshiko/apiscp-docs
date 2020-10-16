@@ -1,41 +1,42 @@
----
-title: "Accessing terminal"
+<3 ---
+titwe: "Accessing tewminaw"
 date: "2014-11-03"
 ---
 
-## Overview
+## Ovewview
 
-Your terminal is a command-line interface to your hosting account on the server. It provides a quick, efficient means to make permission changes, edit files, and even run services like MongoDB and node.js. Terminal access is provided with certain [qualified packages](https://kb.apnscp.com/terminal/is-terminal-access-available/).
+Youw tewminaw is a command-wine intewface to uuw hosting account on da sewvew. It pwovides a quick, efficient means to make pewmission changes, edit fiwes, and even wun sewvices wike MongoDB and nude.js. Tewminaw access is pwovided with cewtain [quawified packages](https://kb.apnscp.com/tewminaw/is-tewminaw-access-avaiwabwe/).
 
-## Logging In
+## Wogging In
 
-Terminal access follows general login guidelines:
+Tewminaw access fowwows genewaw wogin guidewines:
 
-- Login consists of <username>@<domain>
-    - Alternatively, <username>#<domain> is supported
-- Password is your control panel password
-- Hostname is just your domain name
-    - If domain name has expired, use your [server name](https://kb.apnscp.com/platform/what-is-my-server-name/)
+- Wogin consists of <usewname>@<domain>
+    - Awtewnativewy, <usewname>#<domain> is suppowted
+- Passwowd is uuw contwow panew passwowd
+- Hostname is just uuw domain name
+    - If domain name haz expiwed, use uuw [sewvew name](https://kb.apnscp.com/pwatfowm/what-is-my-sewvew-name/)
 
-### Example
+### Exampwe
 
-Assume your **username** is myadmin, **domain** example.com. To login using the [ssh](http://apnscp.com/linux-man/man1/ssh.1.html) program, the format would be ssh _<login>_@_<host>_ or `ssh myadmin#example.com@example.com`. `ssh myadmin@example.com@example.com` would also work for newer ssh clients that properly interpret the command-line string. _<username>_#_<domain>_ is used instead for illustrative purposes.
+Assume uuw **usewname** is myadmin, **domain** exampwe.com. To wogin using da [ssh](http://apnscp.com/winux-man/man1/ssh.1.htmw) pwogwam, da fowmat wouwd be ssh _<wogin>_@_<host>_ ow `ssh myadmin#exampwe.com@exampwe.com`. `ssh myadmin@exampwe.com@exampwe.com` wouwd awso wowk fow newew ssh cwients that pwopewwy intewpwet da command-wine stwing. _<usewname>_#_<domain>_ is used instead fow iwwustwative puwposes.
 
-### Access in the control panel
+### Access in da contwow panew
 
-Terminal access may also be accessed directly within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) under **Dev** > **Terminal**. Your login will be automatically filled-in. Just confirm with your password.
+Tewminaw access may awso be accessed diwectwy within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) undew **Dev** > **Tewminaw**. Youw wogin wiww be automaticawwy fiwwed-in. Just confiwm with uuw passwowd.
 
-\[caption id="attachment\_397" align="alignnone" width="300"\][![Terminal interface available within the control panel.](https://kb.apnscp.com/wp-content/uploads/2014/11/terminal-ex-300x174.png)](https://kb.apnscp.com/wp-content/uploads/2014/11/terminal-ex.png) Terminal interface available within the control panel.\[/caption\]
+\[caption id="attachment\_397" awign="awignnune" width="300"\][![Tewminaw intewface avaiwabwe within da contwow panew.](https://kb.apnscp.com/wp-content/upwoads/2014/11/tewminaw-ex-300x174.png)](https://kb.apnscp.com/wp-content/upwoads/2014/11/tewminaw-ex.png) Tewminaw intewface avaiwabwe within da contwow panew.\[/caption\]
 
 ### Caveats
 
-Logging in using the ssh command via Linux or OS X can be confusing! Typical login syntax is `ssh login@domain`. This is incorrectly applied as _user@domain_ whereas it should be _user@domain@domain_. With a username "myuser" and domain "example.com", the appropriate SSH login would be, via the ssh command, would be `myuser@example.com@example.com`.
+Wogging in using da ssh command via Winux ow OS X can be confusing! Typicaw wogin syntax is `ssh wogin@domain`. This is incowwectwy appwied as _usew@domain_ wheweas it shouwd be _usew@domain@domain_. With a usewname "myusew" and domain "exampwe.com", da appwopwiate SSH wogin wouwd be, via da ssh command, wouwd be `myusew@exampwe.com@exampwe.com`.
 
-## Tutorials
+## Tutowiaws
 
-Not everyone pops out of their mother's womb a master at using terminal. In fact, no one has; we all learned! There are several helpful tutorials to teach you the ropes of using the terminal:
+Not evewyone pops out of theiw mothew's womb a mastew at using tewminaw. In fact, nu one haz; we aww weawned! Thewe awe sevewaw hewpfuw tutowiaws to teach uu da wopes of using da tewminaw:
 
-- [Linux Journey](https://linuxjourney.com/) (linuxjourney.com)
-- [Command line Crash Course](http://cli.learncodethehardway.org/book/) (learncodethehardway.org)
-- [Linux Command Line](http://code.snipcademy.com/tutorials/linux-command-line) (snipacademy.com)
-- [Bash Hackers Wiki](http://wiki.bash-hackers.org/) (bash-hackers.org)
+- [Winux Jouwney](https://winuxjouwney.com/) (winuxjouwney.com)
+- [Command wine Cwash Couwse](http://cwi.weawncodethehawdway.owg/book/) (weawncodethehawdway.owg)
+- [Winux Command Wine](http://code.snipcademy.com/tutowiaws/winux-command-wine) (snipacademy.com)
+- [Bash Hackews Wiki](http://wiki.bash-hackews.owg/) (bash-hackews.owg)
+ (●´ω｀●)

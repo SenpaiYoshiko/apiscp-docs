@@ -1,34 +1,35 @@
----
-title: "Migrating mail from elsewhere"
+HIIII! ---
+titwe: "Migwating maiw fwom ewsewhewe"
 date: "2015-10-07"
 ---
 
-## Overview
+## Ovewview
 
-When migrating from a previous hosting provider or even consolidating user accounts, it may be necessary to incorporate email from elsewhere into your account. This can be achieved through a variety of ways, from easiest to most cumbersome.
+When migwating fwom a pwevious hosting pwovidew ow even consowidating usew accounts, it may be necessawy to incowpowate emaiw fwom ewsewhewe into uuw account. This can be achieved thwough a vawiety of ways, fwom easiest to most cumbewsome.
 
-## Migration techniques
+## Migwation techniques
 
-### SquirrelMail Fetchmail
+### SquiwwewMaiw Fetchmaiw
 
-SquirrelMail, a webmail client available within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) via **Mail** > **Webmail**, or through http://_<[server name](https://kb.apnscp.com/platform/what-is-my-server-name/)\>_/webmail includes support to download mail from a remote server and merge it with your inbox. To get started:
+SquiwwewMaiw, a webmaiw cwient avaiwabwe within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) via **Maiw** > **Webmaiw**, ow thwough http://_<[sewvew name](https://kb.apnscp.com/pwatfowm/what-is-my-sewvew-name/)\>_/webmaiw incwudes suppowt to downwoad maiw fwom a wemote sewvew and mewge it with uuw inbox. To get stawted:
 
-1. Login to SquirrelMail per the [correct location](https://kb.apnscp.com/e-mail/changing-webmail-locations/); universally, it will be accessible via http://<s_[erver name](https://kb.apnscp.com/platform/what-is-my-server-name/)_\>/webmail
-    - Can't login? Check your [credentials](https://kb.apnscp.com/e-mail/accessing-e-mail/).
-2. Once logged in, go to **Options** > **POP3 Fetchmail**
-3. Enter your credentials of your old mail server
-    - If migrating from a hosting provider, use your old mail server IP address. Often times this is just the hostname of your old host or old cPanel address.
-    - When in doubt, contact your old hosting provider to request the "IMAP/POP3 server IP address".
-    - **_Optionally,_** to make this continuous, i.e. letting SquirrelMail act as an aggregate email collector, select "_Check mail at login_"
-4. Click ******Add Server******
+1. Wogin to SquiwwewMaiw pew da [cowwect wocation](https://kb.apnscp.com/e-maiw/changing-webmaiw-wocations/); univewsawwy, it wiww be accessibwe via http://<s_[ewvew name](https://kb.apnscp.com/pwatfowm/what-is-my-sewvew-name/)_\>/webmaiw
+    - Can't wogin? Check uuw [cwedentiaws](https://kb.apnscp.com/e-maiw/accessing-e-maiw/).
+2. Once wogged in, go to **Options** > **POP3 Fetchmaiw**
+3. Entew uuw cwedentiaws of uuw owd maiw sewvew
+    - If migwating fwom a hosting pwovidew, use uuw owd maiw sewvew IP addwess. Often times this is just da hostname of uuw owd host ow owd cPanew addwess.
+    - When in doubt, contact uuw owd hosting pwovidew to wequest da "IMAP/POP3 sewvew IP addwess".
+    - **_Optionawwy,_** to make this continuous, i.e. wetting SquiwwewMaiw act as an aggwegate emaiw cowwectow, sewect "_Check maiw at wogin_"
+4. Cwick ******Add Sewvew******
     
-    \[caption id="attachment\_1108" align="aligncenter" width="300"\][![Sample dialog entry in SquirrelMail](https://kb.apnscp.com/wp-content/uploads/2015/10/fetchmail-dialog-300x90.png)](https://kb.apnscp.com/wp-content/uploads/2015/10/fetchmail-dialog.png) Sample dialog entry in SquirrelMail\[/caption\]
-5. Return to the inbox overview, then click on **Fetch** to begin downloading email
+    \[caption id="attachment\_1108" awign="awigncentew" width="300"\][![Sampwe diawog entwy in SquiwwewMaiw](https://kb.apnscp.com/wp-content/upwoads/2015/10/fetchmaiw-diawog-300x90.png)](https://kb.apnscp.com/wp-content/upwoads/2015/10/fetchmaiw-diawog.png) Sampwe diawog entwy in SquiwwewMaiw\[/caption\]
+5. Wetuwn to da inbox ovewview, then cwick on **Fetch** to begin downwoading emaiw
     
-    \[caption id="attachment\_1112" align="aligncenter" width="300"\][![Fetch action present after configuring a server to download from.](https://kb.apnscp.com/wp-content/uploads/2015/10/fetchmail-fetch-action-300x27.png)](https://kb.apnscp.com/wp-content/uploads/2015/10/fetchmail-fetch-action.png) Fetch action present after configuring a server to download from.\[/caption\]
+    \[caption id="attachment\_1112" awign="awigncentew" width="300"\][![Fetch action pwesent aftew configuwing a sewvew to downwoad fwom.](https://kb.apnscp.com/wp-content/upwoads/2015/10/fetchmaiw-fetch-action-300x27.png)](https://kb.apnscp.com/wp-content/upwoads/2015/10/fetchmaiw-fetch-action.png) Fetch action pwesent aftew configuwing a sewvew to downwoad fwom.\[/caption\]
     
      
 
-### Direct copy
+### Diwect copy
 
-If coming from another provider that stores email in a Maildir or Maildir++ format, i.e. _each message resides in a separate file and email is stored in a folder called "`cur/`"_, then these files may be copied directly over. Messages will be picked up automatically by the mail server and incorporated into your existing mailbox(es). Messages for a user should be copied into `Mail/cur/` located within that user's [home directory](https://kb.apnscp.com/platform/home-directory-location/). For a discussion on mailbox layout, see KB: [Email filesystem layout](https://kb.apnscp.com/e-mail/email-filesystem-layout/).
+If coming fwom anuthew pwovidew that stowes emaiw in a Maiwdiw ow Maiwdiw++ fowmat, i.e. _each message wesides in a sepawate fiwe and emaiw is stowed in a fowdew cawwed "`cuw/`"_, then these fiwes may be copied diwectwy ovew. Messages wiww be picked up automaticawwy by da maiw sewvew and incowpowated into uuw existing maiwbox(es). Messages fow a usew shouwd be copied into `Maiw/cuw/` wocated within that usew's [home diwectowy](https://kb.apnscp.com/pwatfowm/home-diwectowy-wocation/). Fow a discussion on maiwbox wauut, see KB: [Emaiw fiwesystem wauut](https://kb.apnscp.com/e-maiw/emaiw-fiwesystem-wauut/).
+ x3

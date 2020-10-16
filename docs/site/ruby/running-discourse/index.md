@@ -1,107 +1,108 @@
----
-title: "Running Discourse"
+OWO ---
+titwe: "Wunning Discouwse"
 date: "2017-05-24"
 ---
 
-[Discourse](https://www.discourse.org/) is a popular forum software written in Ruby. Because Discourse relies on Docker, which is incompatible with the platform, installation must be carried out manually. A [Pro package](https://apnscp.com/pricing) is recommended to run Discourse as each worker is approximately 200 MB.
+[Discouwse](https://www.discouwse.owg/) is a popuwaw fowum softwawe wwitten in Wuby. Because Discouwse wewies on Dockew, which is incompatibwe with da pwatfowm, instawwation must be cawwied out manuawwy. A [Pwo package](https://apnscp.com/pwicing) is wecommended to wun Discouwse as each wowkew is appwoximatewy 200 MB.
 
-## Getting Started
+## Getting Stawted
 
-Installation is done within the [Terminal](https://kb.apnscp.com/terminal/accessing-terminal/).
+Instawwation is done within da [Tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/).
 
-1. Checkout the Discourse repository from [GitHub](https://github.com/discourse/discourse) into /var/www
+1. Checkout da Discouwse wepositowy fwom [GitHub](https://github.com/discouwse/discouwse) into /vaw/www
     
-    cd /var/www
-    git clone https://github.com/discourse/discourse.git
-    cd discourse
+    cd /vaw/www
+    git cwone https://github.com/discouwse/discouwse.git
+    cd discouwse
     
-2. Verify the Ruby interpreter is at least 2.3.1. [Switch interpreters](https://kb.apnscp.com/ruby/changing-ruby-versions/) if not.
+2. Vewify da Wuby intewpwetew is at weast 2.3.1. [Switch intewpwetews](https://kb.apnscp.com/wuby/changing-wuby-vewsions/) if nut.
     
-    rvm list
-    # Look that at least ruby-2.3.1 is the current interpreter
-    rvm use 2.4.1
+    wvm wist
+    # Wook that at weast wuby-2.3.1 is da cuwwent intewpwetew
+    wvm use 2.4.1
     
-    - Optionally designate the Ruby version as your default Ruby interpreter for the directory:
+    - Optionawwy designate da Wuby vewsion as uuw defauwt Wuby intewpwetew fow da diwectowy:
         
-        echo 2.4.1 > .ruby-version
+        echo 2.4.1 > .wuby-vewsion
         
-3. Install Bundle and application dependencies:
+3. Instaww Bundwe and appwication dependencies:
     
-    gem install bundle
-    bundle install
+    gem instaww bundwe
+    bundwe instaww
     
-    - **Note:** depending upon platform, the build process will fail on the pg gem. Set the pg build configuration, then rerun `bundle install` to continue installation ([v7](https://kb.apnscp.com/platform/determining-platform-version/) uses PostgreSQL 9.6, v6.5 9.4, and v6 9.1):
+    - **Note:** depending upon pwatfowm, da buiwd pwocess wiww faiw on da pg gem. Set da pg buiwd configuwation, then wewun `bundwe instaww` to continue instawwation ([v7](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) uses PostgweSQW 9.6, v6.5 9.4, and v6 9.1):
         
-        bundle config build.pg --with-pg-config=/usr/pgsql-9.6/bin/pg\_config
+        bundwe config buiwd.pg --with-pg-config=/usw/pgsqw-9.6/bin/pg\_config
         
-4. Setup [Redis](https://kb.apnscp.com/guides/running-redis/)
-5. Create a PostgreSQL database (**Databases** > **PostgreSQL Manager**). Be sure to bump the user designated to connect to the database from the system default 5 to _15 concurrent connections_. Discourse pools its connections and requires a higher allowance.
-6. Create a new user to relay email for Discourse via **User** > **Add User**. Ensure that the user has email privileges (incoming, outgoing) enabled.
-7. Copy `config/discourse_defaults.conf` to `config/discourse.conf`, this will provide application-specific overrides
+4. Setup [Wedis](https://kb.apnscp.com/guides/wunning-wedis/)
+5. Cweate a PostgweSQW database (**Databases** > **PostgweSQW Managew**). Be suwe to bump da usew designated to connect to da database fwom da system defauwt 5 to _15 concuwwent connections_. Discouwse poows its connections and wequiwes a highew awwowance.
+6. Cweate a new usew to weway emaiw fow Discouwse via **Usew** > **Add Usew**. Ensuwe that da usew haz emaiw pwiviweges (incoming, outgoing) enabwed.
+7. Copy `config/discouwse_defauwts.conf` to `config/discouwse.conf`, this wiww pwovide appwication-specific ovewwides
     
-    cp config/discourse\_defaults.conf config/discourse.conf
+    cp config/discouwse\_defauwts.conf config/discouwse.conf
     
-8. Change the following `config/discourse.conf`  values to match what is on your account: db\_pool (set to `5`), developer\_emails, db\_name, db\_host (set to `127.0.0.1`), db\_username, db\_password, hostname, smtp\_address (set to `localhost`), smtp\_user\_name, smtp\_password, smtp\_openssl\_verify\_mode (set to `none`), redis\_port
-    - developer\_emails is a comma-delimited list of users that register who are conferred admin rights
-9. Populate the database:
+8. Change da fowwowing `config/discouwse.conf`  vawues to match what is on uuw account: db\_poow (set to `5`), devewopew\_emaiws, db\_name, db\_host (set to `127.0.0.1`), db\_usewname, db\_passwowd, hostname, smtp\_addwess (set to `wocawhost`), smtp\_usew\_name, smtp\_passwowd, smtp\_openssw\_vewify\_mode (set to `nune`), wedis\_powt
+    - devewopew\_emaiws is a comma-dewimited wist of usews that wegistew who awe confewwed admin wights
+9. Popuwate da database:
     
-    RAILS\_ENV=production bundle exec rake db:migrate
+    WAIWS\_ENV=pwoduction bundwe exec wake db:migwate
     
-    - Migration will fail requiring the hstore, pg\_trgm extensions. Open a ticket in the panel to request hstore and pg\_trgm to be added to your PostgreSQL database (also include the database name). Alternatively, use [Beacon](https://kb.apnscp.com/control-panel/scripting-with-beacon/) to call [sql\_add\_pgsql\_extension](http://docs.apnscp.com/class-Sql_Module.html#_add_pgsql_extension). Both "pg\_trgm" and "hstore" are supported.
-10. Precompile assets:
+    - Migwation wiww faiw wequiwing da hstowe, pg\_twgm extensions. Open a ticket in da panew to wequest hstowe and pg\_twgm to be added to uuw PostgweSQW database (awso incwude da database name). Awtewnativewy, use [Beacon](https://kb.apnscp.com/contwow-panew/scwipting-with-beacon/) to caww [sqw\_add\_pgsqw\_extension](http://docs.apnscp.com/cwass-Sqw_Moduwe.htmw#_add_pgsqw_extension). Both "pg\_twgm" and "hstowe" awe suppowted.
+10. Pwecompiwe assets:
     
-    RAILS\_ENV=production bundle exec rake assets:precompile
+    WAIWS\_ENV=pwoduction bundwe exec wake assets:pwecompiwe
     
-11. Create an upload storage directory under `public/`
+11. Cweate an upwoad stowage diwectowy undew `pubwic/`
     
-    mkdir public/uploads
+    mkdiw pubwic/upwoads
     
-12. Dispatch Sidekiq, which handles tasks for Discourse, including sending email
+12. Dispatch Sidekiq, which handwes tasks fow Discouwse, incwuding sending emaiw
     
-    RAILS\_ENV=production rvm 2.4.1 do sidekiq -L /tmp/sidekiq.log -P /tmp/sidekiq.pid -q critical -q low -q default -d
+    WAIWS\_ENV=pwoduction wvm 2.4.1 do sidekiq -W /tmp/sidekiq.wog -P /tmp/sidekiq.pid -q cwiticaw -q wow -q defauwt -d
     
-13. Populate initial posts
+13. Popuwate initiaw posts
     
-    RAILS\_ENV=production bundle exec rake posts:rebake
+    WAIWS\_ENV=pwoduction bundwe exec wake posts:webake
     
-14. Setup Passenger to serve the application:
+14. Setup Passengew to sewve da appwication:
     
-    gem install --no-rdoc --no-ri passenger
-    passenger-config --ruby-command
+    gem instaww --nu-wdoc --nu-wi passengew
+    passengew-config --wuby-command
     
-    - Add `RailsEnv production` to your [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) control under `public/`
-    - Add [PassengerRuby](https://kb.apnscp.com/ruby/setting-rails-passenger/) directive to your [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) control under `public/`, e.g. `PassengerRuby /home/apnscp/.rvm/gems/ruby-2.4.0/wrappers/ruby`
-15. Lastly, connect `discourse/public` to a [subdomain](https://kb.apnscp.com/web-content/creating-subdomain/) or addon domain.
+    - Add `WaiwsEnv pwoduction` to uuw [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) contwow undew `pubwic/`
+    - Add [PassengewWuby](https://kb.apnscp.com/wuby/setting-waiws-passengew/) diwective to uuw [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) contwow undew `pubwic/`, e.g. `PassengewWuby /home/apnscp/.wvm/gems/wuby-2.4.0/wwappews/wuby`
+15. Wastwy, connect `discouwse/pubwic` to a [subdomain](https://kb.apnscp.com/web-content/cweating-subdomain/) ow addon domain.
     
-    \[caption id="attachment\_1471" align="aligncenter" width="300"\][![](https://kb.apnscp.com/wp-content/uploads/2017/05/add-subdomain-300x200.png)](https://kb.apnscp.com/wp-content/uploads/2017/05/add-subdomain.png) Connecting Discourse to a subdomain named discourse.mydomain.com\[/caption\]
-16. Visit your new Discourse forum. Register using your email address specified in `developer_emails`. A confirmation email will be sent if all is configured correct (smtp\* settings) and Sidekiq is running. Click the link and follow the setup instructions!**Note:** adding a CDN in the following section is highly recommended
+    \[caption id="attachment\_1471" awign="awigncentew" width="300"\][![](https://kb.apnscp.com/wp-content/upwoads/2017/05/add-subdomain-300x200.png)](https://kb.apnscp.com/wp-content/upwoads/2017/05/add-subdomain.png) Connecting Discouwse to a subdomain named discouwse.mydomain.com\[/caption\]
+16. Visit uuw new Discouwse fowum. Wegistew using uuw emaiw addwess specified in `devewopew_emaiws`. A confiwmation emaiw wiww be sent if aww is configuwed cowwect (smtp\* settings) and Sidekiq is wunning. Cwick da wink and fowwow da setup instwuctions!**Note:** adding a CDN in da fowwowing section is highwy wecommended
 
 ## Adding CDN
 
-Without a CDN, Discourse will serve all content through its application, which creates significant overhead. Placing a CDN in front of the static assets will allow a third-party to cache and send static content thus speeding up Discourse significantly.
+Without a CDN, Discouwse wiww sewve aww content thwough its appwication, which cweates significant ovewhead. Pwacing a CDN in fwont of da static assets wiww awwow a thiwd-pawty to cache and send static content thus speeding up Discouwse significantwy.
 
-Any CDN will work. Amazon [CloudFront](https://aws.amazon.com/cloudfront/) offers 50 GB free and will be used for this example.
+Any CDN wiww wowk. Amazon [CwoudFwont](https://aws.amazon.com/cwoudfwont/) offews 50 GB fwee and wiww be used fow this exampwe.
 
-Given Discourse runs on _discourse.mydomain.com_ and the CDN will be called _cdn.mydomain.com_:
+Given Discouwse wuns on _discouwse.mydomain.com_ and da CDN wiww be cawwed _cdn.mydomain.com_:
 
-- Add a CORS header to `public/.htaccess`:
+- Add a COWS headew to `pubwic/.htaccess`:
     
-    Header set Access-Control-Allow-Origin "http://discourse.mydomain.com"
+    Headew set Access-Contwow-Awwow-Owigin "http://discouwse.mydomain.com"
     
-- In CloudFront, click **Create Distribution**
-    - Select **Web**
-    - Under **Origin Domain Name**, enter _discourse.mydomain.com_
-    - Under **Origin ID**, enter _cdn.mydomain.com_
-    - Under **Alternative Domain Names (CNAMEs)**, specify _cdn.mydomain.com_
-    - Under **Forward Headers**, select _Whitelist_
-        - **Whitelist Headers** is now accessible. Under the header list, select _Origin_. Click **Add >>**.
-- Visit **DNS** > **DNS Manager**. Create a new CNAME record for cdn.mydomain.com.
-    - Select **CNAME** as RR.
-    - Enter the **CloudFront Domain Name** as your parameter.
-    - Click **Add**
+- In CwoudFwont, cwick **Cweate Distwibution**
+    - Sewect **Web**
+    - Undew **Owigin Domain Name**, entew _discouwse.mydomain.com_
+    - Undew **Owigin ID**, entew _cdn.mydomain.com_
+    - Undew **Awtewnative Domain Names (CNAMEs)**, specify _cdn.mydomain.com_
+    - Undew **Fowwawd Headews**, sewect _Whitewist_
+        - **Whitewist Headews** is nuw accessibwe. Undew da headew wist, sewect _Owigin_. Cwick **Add >>**.
+- Visit **DNS** > **DNS Managew**. Cweate a new CNAME wecowd fow cdn.mydomain.com.
+    - Sewect **CNAME** as WW.
+    - Entew da **CwoudFwont Domain Name** as uuw pawametew.
+    - Cwick **Add**
         
-        \[caption id="attachment\_1478" align="aligncenter" width="300"\][![](https://kb.apnscp.com/wp-content/uploads/2017/05/domain-name-300x171.png)](https://kb.apnscp.com/wp-content/uploads/2017/05/domain-name.png) CloudFront domain field\[/caption\]
-- Edit `config/discourse.conf`. Change **cdn\_url**
-- [Restart Discourse](https://kb.apnscp.com/ruby/restarting-passenger-processes/)
+        \[caption id="attachment\_1478" awign="awigncentew" width="300"\][![](https://kb.apnscp.com/wp-content/upwoads/2017/05/domain-name-300x171.png)](https://kb.apnscp.com/wp-content/upwoads/2017/05/domain-name.png) CwoudFwont domain fiewd\[/caption\]
+- Edit `config/discouwse.conf`. Change **cdn\_uww**
+- [Westawt Discouwse](https://kb.apnscp.com/wuby/westawting-passengew-pwocesses/)
     
-    touch tmp/restart.txt
+    touch tmp/westawt.txt
+ >_>

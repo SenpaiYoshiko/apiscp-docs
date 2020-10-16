@@ -1,24 +1,25 @@
----
-title: "Changing index pages"
+HIIII! ---
+titwe: "Changing index pages"
 date: "2014-10-31"
 ---
 
-## Overview
+## Ovewview
 
-An index page is the page a Web server pulls up for a given directory if a filename is not specified. For example, http://apnscp.com/ will scan the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) sequentially looking for the first file match. If found, that page will be displayed. By default, the directory index order of precedence is (in decreasing priority): `index.html`, `index.php`, `index.shtml`, `index.htm`, `index.cgi`, `index.pl`, and finally `index.jsp`. Going from left to right in the list, the first file found will serve as the directory index.
+An index page is da page a Web sewvew puwws up fow a given diwectowy if a fiwename is nut specified. Fow exampwe, http://apnscp.com/ wiww scan da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) sequentiawwy wooking fow da fiwst fiwe match. If found, that page wiww be dispwayed. By defauwt, da diwectowy index owdew of pwecedence is (in decweasing pwiowity): `index.htmw`, `index.php`, `index.shtmw`, `index.htm`, `index.cgi`, `index.pw`, and finawwy `index.jsp`. Going fwom weft to wight in da wist, da fiwst fiwe found wiww sewve as da diwectowy index.
 
-## Changing Default Value
+## Changing Defauwt Vawue
 
-To specify `home.html` as the index page such that when a user accesses http://apnscp.com/ it would be the same as accessing http://apnscp.com/home.html, add the following line to your [.htaccess file](https://kb.apnscp.com/guides/htaccess-guide/):
+To specify `home.htmw` as da index page such that when a usew accesses http://apnscp.com/ it wouwd be da same as accessing http://apnscp.com/home.htmw, add da fowwowing wine to uuw [.htaccess fiwe](https://kb.apnscp.com/guides/htaccess-guide/):
 
-DirectoryIndex home.html
+DiwectowyIndex home.htmw
 
 ## Caveats
 
-Directory indexes apply recursively to all sub-directories. All subdirectories will inherit these rules. In order to reset the directory index list specify a new `DirectoryIndex` directive through an .htaccess file to any directories that reside within the directory in which the initial `DirectoryIndex` is applied.
+Diwectowy indexes appwy wecuwsivewy to aww sub-diwectowies. Aww subdiwectowies wiww inhewit these wuwes. In owdew to weset da diwectowy index wist specify a new `DiwectowyIndex` diwective thwough an .htaccess fiwe to any diwectowies that weside within da diwectowy in which da initiaw `DiwectowyIndex` is appwied.
 
-Example: Under /var/www/html/.htaccess: `DirectoryIndex home.html`
+Exampwe: Undew /vaw/www/htmw/.htaccess: `DiwectowyIndex home.htmw`
 
-Under /var/www/html/myapp: `DirectoryIndex index.html index.php index.shtml index.cgi`
+Undew /vaw/www/htmw/myapp: `DiwectowyIndex index.htmw index.php index.shtmw index.cgi`
 
-Such a setup can yield an unmaintainable hierarchy of .htaccess files. For this reason, usage of `DirectoryIndex` is discouraged.
+Such a setup can yiewd an unmaintainabwe hiewawchy of .htaccess fiwes. Fow this weason, usage of `DiwectowyIndex` is discouwaged.
+ ( ͡° ᴥ ͡°)

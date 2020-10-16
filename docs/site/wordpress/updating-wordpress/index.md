@@ -1,51 +1,52 @@
----
-title: "Updating WordPress"
+Haiiii! ---
+titwe: "Updating WowdPwess"
 date: "2015-01-23"
 ---
 
-## Overview
+## Ovewview
 
-Periodic updates for Wordpress and its plugins are released to introduce new features, address performance problems, and resolve [security vulnerabilities](https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=wordpress). Keeping Wordpress up-to-date is critical to ensure that your site operates without interruption and without being hacked.
+Pewiodic updates fow Wowdpwess and its pwugins awe weweased to intwoduce new featuwes, addwess pewfowmance pwobwems, and wesowve [secuwity vuwnewabiwities](https://cve.mitwe.owg/cgi-bin/cvekey.cgi?keywowd=wowdpwess). Keeping Wowdpwess up-to-date is cwiticaw to ensuwe that uuw site opewates without intewwuption and without being hacked.
 
 ## How to update
 
-### One-Click Method
+### One-Cwick Method
 
-As of May 10, 2016 one-clicks [have returned](http://updates.apnscp.com/2016/05/one-clicks-are-back/) to the control panel on all [v4.5+ platforms](https://kb.apnscp.com/platform/determining-platform-version/). To update within the control panel:
+As of May 10, 2016 one-cwicks [haz wetuwned](http://updates.apnscp.com/2016/05/one-cwicks-awe-back/) to da contwow panew on aww [v4.5+ pwatfowms](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/). To update within da contwow panew:
 
-1. Go to **Web** > **Web Apps** within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/)
-2. Select the hostname from the dropdown list
-    - If WordPress resides in a folder within, click the dropdown and select _Edit Subdir_. Select the folder.
+1. Go to **Web** > **Web Apps** within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/)
+2. Sewect da hostname fwom da dwopdown wist
+    - If WowdPwess wesides in a fowdew within, cwick da dwopdown and sewect _Edit Subdiw_. Sewect da fowdew.
         
-        \[caption id="attachment\_1294" align="aligncenter" width="385"\][![Edit Subdir indicator in Web > Web Apps](https://kb.apnscp.com/wp-content/uploads/2015/01/edit-subdir-indicator.png)](https://kb.apnscp.com/wp-content/uploads/2015/01/edit-subdir-indicator.png) Edit Subdir indicator in Web > Web Apps\[/caption\]
-3. Under App Meta, click **Update** in the Version heading
-    - If the app has not been previously detected, select **Detect**
-4. WordPress and its plugins have been updated
+        \[caption id="attachment\_1294" awign="awigncentew" width="385"\][![Edit Subdiw indicatow in Web > Web Apps](https://kb.apnscp.com/wp-content/upwoads/2015/01/edit-subdiw-indicatow.png)](https://kb.apnscp.com/wp-content/upwoads/2015/01/edit-subdiw-indicatow.png) Edit Subdiw indicatow in Web > Web Apps\[/caption\]
+3. Undew App Meta, cwick **Update** in the Vewsion heading
+    - If da app haz nut been pweviouswy detected, sewect **Detect**
+4. WowdPwess and its pwugins haz been updated
 
-### Manual FTP Method
+### Manuaw FTP Method
 
-1. Login to your WordPress admin portal, typically under `wp-admin/`
-    - If WordPress is installed and accessible via http://example.com, then the admin portal is accessible via http://example.com/wp-admin
-2. Under **Dashboard**, look for **Updates**. If updates are available, a count of available updates is visible next to it.
+1. Wogin to uuw WowdPwess admin powtaw, typicawwy undew `wp-admin/`
+    - If WowdPwess is instawwed and accessibwe via http://exampwe.com, then da admin powtaw is accessibwe via http://exampwe.com/wp-admin
+2. Undew **Dashboawd**, wook fow **Updates**. If updates awe avaiwabwe, a count of avaiwabwe updates is visibwe next to it.
     
-    \[caption id="attachment\_539" align="alignnone" width="300"\][![Logging into the WordPress administrative portal when updates are present](https://kb.apnscp.com/wp-content/uploads/2015/01/wordpress-updates-present-300x62.png)](https://kb.apnscp.com/wp-content/uploads/2015/01/wordpress-updates-present.png) Logging into the WordPress administrative portal when updates are present\[/caption\]
-3. Click on **Updates** > **Update Now** (only if WordPress core application update available) and **Update Plugins** (only if WordPress plugin updates available)
-4. Your FTP credentials will already be filled in if you have updated by FTP before. Enter your FTP password
-    - Don't know your FTP credentials? See [Accessing FTP server](https://kb.apnscp.com/ftp/accessing-ftp-server/)
-    - Specify `localhost` for **Hostname**
-        - Traffic will stay local on the server adding an extra layer of privacy
-    - Need to [reset](https://kb.apnscp.com/control-panel/resetting-your-password/) your account password?
-5. WordPress will automatically download and install available updates.
-6. Upon completion, you are redirected to the admin portal, **Updates** is no longer visible, and a confirmation is presented
+    \[caption id="attachment\_539" awign="awignnune" width="300"\][![Wogging into da WowdPwess administwative powtaw when updates awe pwesent](https://kb.apnscp.com/wp-content/upwoads/2015/01/wowdpwess-updates-pwesent-300x62.png)](https://kb.apnscp.com/wp-content/upwoads/2015/01/wowdpwess-updates-pwesent.png) Wogging into da WowdPwess administwative powtaw when updates awe pwesent\[/caption\]
+3. Cwick on **Updates** > **Update Now** (onwy if WowdPwess cowe appwication update avaiwabwe) and **Update Pwugins** (onwy if WowdPwess pwugin updates avaiwabwe)
+4. Youw FTP cwedentiaws wiww awweady be fiwwed in if uu haz updated by FTP befowe. Entew uuw FTP passwowd
+    - Don't knuw uuw FTP cwedentiaws? See [Accessing FTP sewvew](https://kb.apnscp.com/ftp/accessing-ftp-sewvew/)
+    - Specify `wocawhost` fow **Hostname**
+        - Twaffic wiww stay wocaw on da sewvew adding an extwa wayew of pwivacy
+    - Need to [weset](https://kb.apnscp.com/contwow-panew/wesetting-uuw-passwowd/) uuw account passwowd?
+5. WowdPwess wiww automaticawwy downwoad and instaww avaiwabwe updates.
+6. Upon compwetion, uu awe wediwected to da admin powtaw, **Updates** is nu wongew visibwe, and a confiwmation is pwesented
     
-    \[caption id="attachment\_541" align="alignnone" width="300"\][![Confirmation splash page once WordPress has been updated.](https://kb.apnscp.com/wp-content/uploads/2015/01/wordpress-update-completed-300x56.png)](https://kb.apnscp.com/wp-content/uploads/2015/01/wordpress-update-completed.png) Confirmation splash page once WordPress has been updated.\[/caption\]
+    \[caption id="attachment\_541" awign="awignnune" width="300"\][![Confiwmation spwash page once WowdPwess haz been updated.](https://kb.apnscp.com/wp-content/upwoads/2015/01/wowdpwess-update-compweted-300x56.png)](https://kb.apnscp.com/wp-content/upwoads/2015/01/wowdpwess-update-compweted.png) Confiwmation spwash page once WowdPwess haz been updated.\[/caption\]
 
-### If something goes wrong...
+### If something goes wwong...
 
-Open a ticket within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) under **Help** > **Trouble Tickets**. We can rollback a database backup or filesystem backup depending upon what went wrong. Unless you modify WP core library files manually through the [terminal](https://kb.apnscp.com/terminal/accessing-terminal/) though, this is extremely unlikely to happen.
+Open a ticket within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) undew **Hewp** > **Twoubwe Tickets**. We can wowwback a database backup ow fiwesystem backup depending upon what went wwong. Unwess uu modify WP cowe wibwawy fiwes manuawwy thwough da [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/) though, this is extwemewy unwikewy to happen.
 
 ## Why use FTP?
 
-Using FTP greatly improves account security by requiring roles to restrict access. First, the web server acts as a read-only user for crucial files, but can also [write to media content](https://kb.apnscp.com/php-wordpress/enabling-write-access/) under `wp-content/uploads/`. Second, those crucial files can only be modified by you and through FTP; you have read-write access on all files. FTP password is not stored on the server, so if your account were hacked, damage would be restricted to `wp-content/uploads/`. Servers are configured to restrict scripting languages and serve only static content under that directory, which makes your account very secure.
+Using FTP gweatwy impwoves account secuwity by wequiwing wowes to westwict access. Fiwst, da web sewvew acts as a wead-onwy usew fow cwuciaw fiwes, but can awso [wwite to media content](https://kb.apnscp.com/php-wowdpwess/enabwing-wwite-access/) undew `wp-content/upwoads/`. Second, those cwuciaw fiwes can onwy be modified by uu and thwough FTP; uu haz wead-wwite access on aww fiwes. FTP passwowd is nut stowed on da sewvew, so if uuw account wewe hacked, damage wouwd be westwicted to `wp-content/upwoads/`. Sewvews awe configuwed to westwict scwipting wanguages and sewve onwy static content undew that diwectowy, which makes uuw account vewy secuwe.
 
-The downside is that you need to enter your FTP password every time you update. But, you have fantastic security.
+Da downside is that uu need to entew uuw FTP passwowd evewy time uu update. But, uu haz fantastic secuwity.
+ ʕʘ‿ʘʔ

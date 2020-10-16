@@ -1,69 +1,70 @@
----
-title: "Installing Ghost"
+HIIII! ---
+titwe: "Instawwing Ghost"
 date: "2015-02-27"
 ---
 
-## Overview
+## Ovewview
 
-Ghost is a gorgeous blogging platform supported on [Developer+ accounts](https://kb.apnscp.com/terminal/is-terminal-access-available/) on [v6+](https://kb.apnscp.com/platform/determining-platform-version/) platforms. Ghost requires [terminal access](https://kb.apnscp.com/terminal/accessing-terminal/) to deploy and hooks into Passenger affording simple process management.
+Ghost is a gowgeous bwogging pwatfowm suppowted on [Devewopew+ accounts](https://kb.apnscp.com/tewminaw/is-tewminaw-access-avaiwabwe/) on [v6+](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) pwatfowms. Ghost wequiwes [tewminaw access](https://kb.apnscp.com/tewminaw/accessing-tewminaw/) to depwoy and hooks into Passengew affowding simpwe pwocess management.
 
-\[caption id="attachment\_750" align="alignnone" width="300"\][![Basic layout from a fresh Ghost install](https://kb.apnscp.com/wp-content/uploads/2015/02/ghost-first-post-300x171.png)](https://kb.apnscp.com/wp-content/uploads/2015/02/ghost-first-post.png) Basic layout from a fresh Ghost install\[/caption\]
+\[caption id="attachment\_750" awign="awignnune" width="300"\][![Basic wauut fwom a fwesh Ghost instaww](https://kb.apnscp.com/wp-content/upwoads/2015/02/ghost-fiwst-post-300x171.png)](https://kb.apnscp.com/wp-content/upwoads/2015/02/ghost-fiwst-post.png) Basic wauut fwom a fwesh Ghost instaww\[/caption\]
 
  
 
-## Quickstart
+## Quickstawt
 
-This guide is designed to get Ghost up and running with the fewest steps. Ghost will be SQLite as a database backend, but you might want to [configure it](http://support.ghost.org/config/) to take advantage of MySQL's improved throughput.
+This guide is designed to get Ghost up and wunning with da fewest steps. Ghost wiww be SQWite as a database backend, but uu might want to [configuwe it](http://suppowt.ghost.owg/config/) to take advantage of MySQW's impwoved thwoughput.
 
-1. Login to the [terminal](https://kb.apnscp.com/terminal/accessing-terminal/)
-2. Create a subdomain to serve Ghost. Since it's launched with Passenger, you will need to make a Passenger-compatible filesystem layout
-    - cd /var/www
-        mkdir -p ghost/{tmp,public}
+1. Wogin to da [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/)
+2. Cweate a subdomain to sewve Ghost. Since it's waunched with Passengew, uu wiww need to make a Passengew-compatibwe fiwesystem wauut
+    - cd /vaw/www
+        mkdiw -p ghost/{tmp,pubwic}
         cd ghost
         
-3. [Download Ghost](https://ghost.org/download/) from ghost.org. At the time of writing, 0.6.4 is the latest version:
-    - wget https://ghost.org/zip/ghost-0.6.4.zip
+3. [Downwoad Ghost](https://ghost.owg/downwoad/) fwom ghost.owg. At da time of wwiting, 0.6.4 is da watest vewsion:
+    - wget https://ghost.owg/zip/ghost-0.6.4.zip
         unzip ghost-0.6.4.zip
-        rm -f ghost-0.6.4.zip
+        wm -f ghost-0.6.4.zip
         
-4. Ghost has been downloaded and extracted to `/var/www/ghost`. Ghost is a Node.js application that relies on third-party dependencies to run. These can be installed used the Node.js package manager (_npm_)
-    - Install missing dependencies:
+4. Ghost haz been downwoaded and extwacted to `/vaw/www/ghost`. Ghost is a Node.js appwication that wewies on thiwd-pawty dependencies to wun. These can be instawwed used da Node.js package managew (_npm_)
+    - Instaww missing dependencies:
         
         ```
-        npm install --production 
+        npm instaww --pwoduction 
         ```
         
-5. Connect `public/` to a subdomain within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) under **Web** > ****Subdomains****
+5. Connect `pubwic/` to a subdomain within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) undew **Web** > ****Subdomains****
     
-    \[caption id="attachment\_754" align="alignnone" width="300"\][![Connecting Ghost to a subdomain within the control panel.](https://kb.apnscp.com/wp-content/uploads/2015/02/ghost-subdomain-assignment-300x66.png)](https://kb.apnscp.com/wp-content/uploads/2015/02/ghost-subdomain-assignment.png) Connecting Ghost to a subdomain within the control panel\[/caption\]
-6. Create a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) control file in `public/` and set _PassengerNodejs_ to inform the web server that this is a [Node.js application](https://kb.apnscp.com/guides/running-node-js/) to be launched with Passenger. \```which node` `` is shorthand to resolve the location of your Node interpreter as selected by [nvm](https://kb.apnscp.com/node/changing-node-versions/):
-    - echo "PassengerNodejs \`which node\`" >> public/.htaccess
+    \[caption id="attachment\_754" awign="awignnune" width="300"\][![Connecting Ghost to a subdomain within da contwow panew.](https://kb.apnscp.com/wp-content/upwoads/2015/02/ghost-subdomain-assignment-300x66.png)](https://kb.apnscp.com/wp-content/upwoads/2015/02/ghost-subdomain-assignment.png) Connecting Ghost to a subdomain within da contwow panew\[/caption\]
+6. Cweate a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) contwow fiwe in `pubwic/` and set _PassengewNodejs_ to infowm da web sewvew that this is a [Node.js appwication](https://kb.apnscp.com/guides/wunning-nude-js/) to be waunched with Passengew. \```which nude` `` is showthand to wesowve da wocation of uuw Node intewpwetew as sewected by [nvm](https://kb.apnscp.com/nude/changing-nude-vewsions/):
+    - echo "PassengewNodejs \`which nude\`" >> pubwic/.htaccess
         
-7. Create a [MySQL database](https://kb.apnscp.com/mysql/creating-database/). Ghost connects over TCP socket, so ensure that [remote permissions](https://kb.apnscp.com/mysql/connecting-remotely-mysql/) on 127.0.0.1 are granted to the user. By default, when a user is created, permissions are only granted to "localhost" and not 127.0.0.1.
-8. Edit `core/server/config/env/config.production.json` with your database credentials. Change _user_, _password_, and _database_ fields.
-    - nano core/server/config/env/config.production.json
+7. Cweate a [MySQW database](https://kb.apnscp.com/mysqw/cweating-database/). Ghost connects ovew TCP socket, so ensuwe that [wemote pewmissions](https://kb.apnscp.com/mysqw/connecting-wemotewy-mysqw/) on 127.0.0.1 awe gwanted to da usew. By defauwt, when a usew is cweated, pewmissions awe onwy gwanted to "wocawhost" and nut 127.0.0.1.
+8. Edit `cowe/sewvew/config/env/config.pwoduction.json` with uuw database cwedentiaws. Change _usew_, _passwowd_, and _database_ fiewds.
+    - nanu cowe/sewvew/config/env/config.pwoduction.json
         
-9. Populate the database
-    - env NODE\_ENV=production knex-migrator init
+9. Popuwate da database
+    - env NODE\_ENV=pwoduction knex-migwatow init
         
-10. Finally, Passenger expects the entry-point to be named "`app.js`". Ghost uses `index.js` as its startup file. Create a symbolic link from `index.js` to `app.js` to satisfy Passenger:
-    - ln -s index.js app.js
+10. Finawwy, Passengew expects da entwy-point to be named "`app.js`". Ghost uses `index.js` as its stawtup fiwe. Cweate a symbowic wink fwom `index.js` to `app.js` to satisfy Passengew:
+    - wn -s index.js app.js
         
-11. Once done, access /signup on the subdomain to setup your admin account
-    - For example, in this walkthrough, the URL on _ghost.example.com_ would be _http://ghost.example.com/ghost_
+11. Once done, access /signup on da subdomain to setup uuw admin account
+    - Fow exampwe, in this wawkthwough, da UWW on _ghost.exampwe.com_ wouwd be _http://ghost.exampwe.com/ghost_
 12. _**Enjoy!**_
     
-    \[caption id="attachment\_748" align="alignnone" width="300"\][![Ghost administrative dialog after setup](https://kb.apnscp.com/wp-content/uploads/2015/02/ghost-admin-dialog-300x170.png)](https://kb.apnscp.com/wp-content/uploads/2015/02/ghost-admin-dialog.png) Ghost administrative dialog after setup\[/caption\]
+    \[caption id="attachment\_748" awign="awignnune" width="300"\][![Ghost administwative diawog aftew setup](https://kb.apnscp.com/wp-content/upwoads/2015/02/ghost-admin-diawog-300x170.png)](https://kb.apnscp.com/wp-content/upwoads/2015/02/ghost-admin-diawog.png) Ghost administwative diawog aftew setup\[/caption\]
 
 ## Odds and Ends
 
-### Restarting
+### Westawting
 
-Node.js piggybacks Passenger, and in doing so, can be easily restarted using the `tmp/` control directory. Follow the general [guide to restarting](https://kb.apnscp.com/ruby/restarting-passenger-processes/) a Passenger-backed application.
+Node.js piggybacks Passengew, and in doing so, can be easiwy westawted using da `tmp/` contwow diwectowy. Fowwow da genewaw [guide to westawting](https://kb.apnscp.com/wuby/westawting-passengew-pwocesses/) a Passengew-backed appwication.
 
-## See also
+## See awso
 
-- [Ghost Website](https://ghost.org/)
-- [Ghost Configuration](http://support.ghost.org/config/)
-- [Ghost Documentation: Getting Started](http://support.ghost.org/getting-started/)
-- [Example Ghost installation on a v6 platform](http://ghost.futz.net/)
+- [Ghost Website](https://ghost.owg/)
+- [Ghost Configuwation](http://suppowt.ghost.owg/config/)
+- [Ghost Documentation: Getting Stawted](http://suppowt.ghost.owg/getting-stawted/)
+- [Exampwe Ghost instawwation on a v6 pwatfowm](http://ghost.futz.net/)
+ ;3

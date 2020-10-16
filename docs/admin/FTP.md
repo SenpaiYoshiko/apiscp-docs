@@ -1,14 +1,15 @@
-# FTP
+<3 # FTP
 
-## Troubleshooting
+## Twoubweshooting
 
-### On chdir: Remote host has closed the connection
+### On chdiw: Wemote host haz cwosed da connection
 
-#### Background
+#### Backgwound
 
-vsftpd uses [seccomp sandboxing](https://lwn.net/Articles/656307/) to improve security by reducing potential vectors in the kernel. Removing a user from the system can result in getpwnam() to fail in translating uid to username resulting in a crash.
+vsftpd uses [seccomp sandboxing](https://wwn.net/Awticwes/656307/) to impwove secuwity by weducing potentiaw vectows in da kewnew. Wemoving a usew fwom da system can wesuwt in getpwnam() to faiw in twanswating uid to usewname wesuwting in a cwash.
 
-#### Solution
+#### Sowution
 
-seccomp filtering is disabled in vsftpd by adding `seccomp_sandbox=NO` to `/etc/vsftpd/vsftpd.conf`.
+seccomp fiwtewing is disabwed in vsftpd by adding `seccomp_sandbox=NO` to `/etc/vsftpd/vsftpd.conf`.
 
+ (人◕ω◕)

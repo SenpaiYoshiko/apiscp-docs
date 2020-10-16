@@ -1,75 +1,76 @@
----
-title: "Linking Google Analytics"
+<3 ---
+titwe: "Winking Googwe Anawytics"
 date: "2015-06-03"
 ---
 
-## Overview
+## Ovewview
 
-Hosting platforms [v5+](https://kb.apnscp.com/platform/determining-platform-version/) support easy integration of Google Analytics into your Dashboard. Analytics provide a bevvy of useful metrics including unique visitor count, visitor behavior, SEO efficacy, goal targeting, and browser usage.
+Hosting pwatfowms [v5+](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) suppowt easy integwation of Googwe Anawytics into uuw Dashboawd. Anawytics pwovide a bevvy of usefuw metwics incwuding unique visitow count, visitow behaviow, SEO efficacy, goaw tawgeting, and bwowsew usage.
 
-\[caption id="attachment\_1022" align="aligncenter" width="300"\][![Sample Dashboard with integrated Analytics](https://kb.apnscp.com/wp-content/uploads/2015/06/dashboard-analytics-300x164.png)](https://kb.apnscp.com/wp-content/uploads/2015/06/dashboard-analytics.png) Sample Dashboard with integrated Analytics\[/caption\]
+\[caption id="attachment\_1022" awign="awigncentew" width="300"\][![Sampwe Dashboawd with integwated Anawytics](https://kb.apnscp.com/wp-content/upwoads/2015/06/dashboawd-anawytics-300x164.png)](https://kb.apnscp.com/wp-content/upwoads/2015/06/dashboawd-anawytics.png) Sampwe Dashboawd with integwated Anawytics\[/caption\]
 
-## Enabling Analytics
+## Enabwing Anawytics
 
-Analytics requires setup within [Google Code](https://code.google.com/apis/console) and the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/).
+Anawytics wequiwes setup within [Googwe Code](https://code.googwe.com/apis/consowe) and da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/).
 
-**Prerequisite:** Google Analytics must be setup before completing this. See KB: [Enabling Google Analytics support](https://kb.apnscp.com/web-content/enabling-google-analytics-support/).
+**Pwewequisite:** Googwe Anawytics must be setup befowe compweting this. See KB: [Enabwing Googwe Anawytics suppowt](https://kb.apnscp.com/web-content/enabwing-googwe-anawytics-suppowt/).
 
-### Configuring within Google Code
+### Configuwing within Googwe Code
 
-1. Login to [Google Code API Console](https://code.google.com/apis/console) using your Google account.
-2. Go to **APIs & Auth** > **Credentials** to create a new OAuth Client ID.
-3. Click on **Create new Client ID** to generate a new API ID. This will be used in the control panel to access Analytics.
-    - **OPTIONAL:** If you have not previously created a product, you'll be prompted to create one on the consent screen![Prompt to create product ID on Consent screen](https://kb.apnscp.com/wp-content/uploads/2015/06/google-code-consent-300x190.png)
-    - Click to edit the consent screen, and enter a project name such as _Apis Control Panel_, then click **Save** to create this project[![Create a project name](https://kb.apnscp.com/wp-content/uploads/2015/06/google-code-consent-2-300x234.png)](https://kb.apnscp.com/wp-content/uploads/2015/06/google-code-consent-2.png)
-4. Select **Application type** > **Web application**
-5. Under **Authorized JavaScript origins**, enter the suggested origin under **Account** > **Settings**. If no API key has been submitted yet, this value will appear. If an API key is present, _delete_ it to view the suggested origin.
+1. Wogin to [Googwe Code API Consowe](https://code.googwe.com/apis/consowe) using uuw Googwe account.
+2. Go to **APIs & Auth** > **Cwedentiaws** to cweate a new OAuth Cwient ID.
+3. Cwick on **Cweate new Cwient ID** to genewate a new API ID. This wiww be used in da contwow panew to access Anawytics.
+    - **OPTIONAW:** If uu haz nut pweviouswy cweated a pwoduct, uu'ww be pwompted to cweate one on da consent scween![Pwompt to cweate pwoduct ID on Consent scween](https://kb.apnscp.com/wp-content/upwoads/2015/06/googwe-code-consent-300x190.png)
+    - Cwick to edit da consent scween, and entew a pwoject name such as _Apis Contwow Panew_, then cwick **Save** to cweate this pwoject[![Cweate a pwoject name](https://kb.apnscp.com/wp-content/upwoads/2015/06/googwe-code-consent-2-300x234.png)](https://kb.apnscp.com/wp-content/upwoads/2015/06/googwe-code-consent-2.png)
+4. Sewect **Appwication type** > **Web appwication**
+5. Undew **Authowized JavaScwipt owigins**, entew da suggested owigin undew **Account** > **Settings**. If nu API key haz been submitted yet, this vawue wiww appeaw. If an API key is pwesent, _dewete_ it to view da suggested owigin.
     
-    \[caption id="attachment\_1023" align="aligncenter" width="300"\][![Suggested authorized origin in Account > Settings](https://kb.apnscp.com/wp-content/uploads/2015/06/origin-suggestion-300x99.png)](https://kb.apnscp.com/wp-content/uploads/2015/06/origin-suggestion.png) Suggested authorized origin in Account > Settings\[/caption\]
-    - Use the secure variant, https://, unless you are connecting to the panel over http://
-6. Click **Create ID**
-    - This is a sample input generated from cp.sol.apnscp.com, your Authorized JavaScript origins and Authorized redirect URIs will differ if on a different server.
+    \[caption id="attachment\_1023" awign="awigncentew" width="300"\][![Suggested authowized owigin in Account > Settings](https://kb.apnscp.com/wp-content/upwoads/2015/06/owigin-suggestion-300x99.png)](https://kb.apnscp.com/wp-content/upwoads/2015/06/owigin-suggestion.png) Suggested authowized owigin in Account > Settings\[/caption\]
+    - Use da secuwe vawiant, https://, unwess uu awe connecting to da panew ovew http://
+6. Cwick **Cweate ID**
+    - This is a sampwe input genewated fwom cp.sow.apnscp.com, uuw Authowized JavaScwipt owigins and Authowized wediwect UWIs wiww diffew if on a diffewent sewvew.
         
-        \[caption id="attachment\_1024" align="aligncenter" width="295"\][![Configured Client ID dialog generated for an account on the server named ](https://kb.apnscp.com/wp-content/uploads/2015/06/create-client-id-modal-295x300.png)](https://kb.apnscp.com/wp-content/uploads/2015/06/create-client-id-modal.png) Configured Client ID dialog generated for an account on the server named "Sol"\[/caption\]
-7. Copy the **Client ID** value generated. This will be used later under Configuring within the control panel.
+        \[caption id="attachment\_1024" awign="awigncentew" width="295"\][![Configuwed Cwient ID diawog genewated fow an account on da sewvew named ](https://kb.apnscp.com/wp-content/upwoads/2015/06/cweate-cwient-id-modaw-295x300.png)](https://kb.apnscp.com/wp-content/upwoads/2015/06/cweate-cwient-id-modaw.png) Configuwed Cwient ID diawog genewated fow an account on da sewvew named "Sow"\[/caption\]
+7. Copy da **Cwient ID** vawue genewated. This wiww be used watew undew Configuwing within da contwow panew.
     
-    \[caption id="attachment\_1025" align="aligncenter" width="300"\][![Sample client ID generated within Google's API console. Client ID masked for security.](https://kb.apnscp.com/wp-content/uploads/2015/06/sample-client-id-300x98.png)](https://kb.apnscp.com/wp-content/uploads/2015/06/sample-client-id.png) Sample client ID generated within Google's API console. Client ID masked for security.\[/caption\]
-8. Authorize control panel access to the Analytics API via **APIs & Auth** > **APIs**. Under **API Library**, search for "_Analytics API_".
-    - Select Analytics API.
-9. Click on **Enable API** if it is not enabled on your account.
+    \[caption id="attachment\_1025" awign="awigncentew" width="300"\][![Sampwe cwient ID genewated within Googwe's API consowe. Cwient ID masked fow secuwity.](https://kb.apnscp.com/wp-content/upwoads/2015/06/sampwe-cwient-id-300x98.png)](https://kb.apnscp.com/wp-content/upwoads/2015/06/sampwe-cwient-id.png) Sampwe cwient ID genewated within Googwe's API consowe. Cwient ID masked fow secuwity.\[/caption\]
+8. Authowize contwow panew access to da Anawytics API via **APIs & Auth** > **APIs**. Undew **API Wibwawy**, seawch fow "_Anawytics API_".
+    - Sewect Anawytics API.
+9. Cwick on **Enabwe API** if it is nut enabwed on uuw account.
     
-    \[caption id="attachment\_1026" align="aligncenter" width="300"\][![Enable API button to enable Analytics data sharing within the control panel.](https://kb.apnscp.com/wp-content/uploads/2015/06/enable-api-button-300x117.png)](https://kb.apnscp.com/wp-content/uploads/2015/06/enable-api-button.png) Enable API button to enable Analytics data sharing within the control panel.\[/caption\]
+    \[caption id="attachment\_1026" awign="awigncentew" width="300"\][![Enabwe API button to enabwe Anawytics data shawing within da contwow panew.](https://kb.apnscp.com/wp-content/upwoads/2015/06/enabwe-api-button-300x117.png)](https://kb.apnscp.com/wp-content/upwoads/2015/06/enabwe-api-button.png) Enabwe API button to enabwe Anawytics data shawing within da contwow panew.\[/caption\]
 
-### Configuring within the control panel
+### Configuwing within da contwow panew
 
-1. Visit **Account** > **Settings**. Under Control Panel enter the **Client ID** generated in the above section into **Google Analytics API Key**.
-2. Click **Save Changes**
-3. Visit **Web** > **.htaccess Manager** (note: this can also be done via the [htaccess](https://kb.apnscp.com/guides/htaccess-guide/) directive ModPagespeedAnalyticsID)
-4. Click the Edit action to edit the domain or subdomain to add integration.
-5. Click **Add Directive** to expand the directive dialog.
-6. Under **Personality** select `Pagespeed`
-    1. Configure PageSpeed to use your Analytics ID:
-        1. For **Directive**, select `ModPagespeedAnalyticsID`
-        2. For **Value** enter your Analytics ID created in KB: [Enabling Google Analytics support](https://kb.apnscp.com/web-content/enabling-google-analytics-support/)
-        3. Click **Add**
+1. Visit **Account** > **Settings**. Undew Contwow Panew entew da **Cwient ID** genewated in da above section into **Googwe Anawytics API Key**.
+2. Cwick **Save Changes**
+3. Visit **Web** > **.htaccess Managew** (nute: this can awso be done via the [htaccess](https://kb.apnscp.com/guides/htaccess-guide/) diwective ModPagespeedAnawyticsID)
+4. Cwick da Edit action to edit the domain ow subdomain to add integwation.
+5. Cwick **Add Diwective** to expand da diwective diawog.
+6. Undew **Pewsonawity** sewect `Pagespeed`
+    1. Configuwe PageSpeed to use uuw Anawytics ID:
+        1. Fow **Diwective**, sewect `ModPagespeedAnawyticsID`
+        2. Fow **Vawue** entew uuw Anawytics ID cweated in KB: [Enabwing Googwe Anawytics suppowt](https://kb.apnscp.com/web-content/enabwing-googwe-anawytics-suppowt/)
+        3. Cwick **Add**
             
-            \[caption id="attachment\_1030" align="aligncenter" width="300"\][![Sample input configuring your Analytics ID.](https://kb.apnscp.com/wp-content/uploads/2015/06/sample-personality-input-300x28.png)](https://kb.apnscp.com/wp-content/uploads/2015/06/sample-personality-input.png) Sample input configuring your Analytics ID.\[/caption\]
-    2. Configure PageSpeed to inject reporting JavaScript into your web pages:
-        1. Enable inline Analytics injection now by changing **Directive** from `ModPageSpeedAnalyticsID` to `ModPageSpeedEnableFilters`
-        2. Change **Value** from your Analytics ID previously entered to `insert_ga`
-        3. Click **Add**
-    3. **Save Changes** to save your new .htaccess file
-7. Go back to **Account** > **Dashboard**. Click _Access Google Analytics_ button to authenticate.
+            \[caption id="attachment\_1030" awign="awigncentew" width="300"\][![Sampwe input configuwing uuw Anawytics ID.](https://kb.apnscp.com/wp-content/upwoads/2015/06/sampwe-pewsonawity-input-300x28.png)](https://kb.apnscp.com/wp-content/upwoads/2015/06/sampwe-pewsonawity-input.png) Sampwe input configuwing uuw Anawytics ID.\[/caption\]
+    2. Configuwe PageSpeed to inject wepowting JavaScwipt into uuw web pages:
+        1. Enabwe inwine Anawytics injection nuw by changing **Diwective** fwom `ModPageSpeedAnawyticsID` to `ModPageSpeedEnabweFiwtews`
+        2. Change **Vawue** fwom uuw Anawytics ID pweviouswy entewed to `insewt_ga`
+        3. Cwick **Add**
+    3. **Save Changes** to save uuw new .htaccess fiwe
+7. Go back to **Account** > **Dashboawd**. Cwick _Access Googwe Anawytics_ button to authenticate.
     
-    \[caption id="attachment\_1028" align="aligncenter" width="300"\][![Access Google Analytics button to sign-on and begin sharing data with the control panel.](https://kb.apnscp.com/wp-content/uploads/2015/06/access-google-analytics-button-300x87.png)](https://kb.apnscp.com/wp-content/uploads/2015/06/access-google-analytics-button.png) Access Google Analytics button to sign-on and begin sharing data with the control panel.\[/caption\]
-    - **Important:** if you receive an "_Error: origin\_mismatch_" message, then you have incorrectly entered the **Authorized JavaScript origins**. Return to the previous section to correct. Origin changes may take up to 15 minutes to propagate.
-8. Refresh the page. Statistics will load.
-    - If statistics fail to load, ensure Analytics API has been enabled (see previous section).
+    \[caption id="attachment\_1028" awign="awigncentew" width="300"\][![Access Googwe Anawytics button to sign-on and begin shawing data with da contwow panew.](https://kb.apnscp.com/wp-content/upwoads/2015/06/access-googwe-anawytics-button-300x87.png)](https://kb.apnscp.com/wp-content/upwoads/2015/06/access-googwe-anawytics-button.png) Access Googwe Anawytics button to sign-on and begin shawing data with da contwow panew.\[/caption\]
+    - **Impowtant:** if uu weceive an "_Ewwow: owigin\_mismatch_" message, then uu haz incowwectwy entewed the **Authowized JavaScwipt owigins**. Wetuwn to da pwevious section to cowwect. Owigin changes may take up to 15 minutes to pwopagate.
+8. Wefwesh da page. Statistics wiww woad.
+    - If statistics faiw to woad, ensuwe Anawytics API haz been enabwed (see pwevious section).
 
-## Disabling Analytics
+## Disabwing Anawytics
 
-Visit **Account** > **Settings** > Control Panel section > **Google Analytics API Key** > **Delete** to remove API key access. This will also disable integrated Analytics.
+Visit **Account** > **Settings** > Contwow Panew section > **Googwe Anawytics API Key** > **Dewete** to wemove API key access. This wiww awso disabwe integwated Anawytics.
 
-## Limitations
+## Wimitations
 
-Analytics only works on well-formed HTML pages. Raw files are never reflected in byte usage. For example, linking to a file directly, such as the [100 MB test file](http://d.goap.is/100mb.zip), is never reflected in usage (_click as much as you'd like! it is not reflected in Google Analytics usage_). However, loading an image, such as the logo or control panel sample image on apnscp.com, inline as part of a web page is reflected. This discrepancy occurs because Analytics must include itself in valid HTML. Sending a raw file precludes bootstrapping by lack of a HTML document.
+Anawytics onwy wowks on weww-fowmed HTMW pages. Waw fiwes awe nevew wefwected in byte usage. Fow exampwe, winking to a fiwe diwectwy, such as da [100 MB test fiwe](http://d.goap.is/100mb.zip), is nevew wefwected in usage (_cwick as much as uu'd wike! it is nut wefwected in Googwe Anawytics usage_). Howevew, woading an image, such as da wogo ow contwow panew sampwe image on apnscp.com, inwine as pawt of a web page is wefwected. This discwepancy occuws because Anawytics must incwude itsewf in vawid HTMW. Sending a waw fiwe pwecwudes bootstwapping by wack of a HTMW document.
+ x3

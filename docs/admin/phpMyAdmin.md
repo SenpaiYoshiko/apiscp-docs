@@ -1,34 +1,35 @@
-# phpMyAdmin
+OwO # phpMyAdmin
 
-## Technical overview
+## Technicaw ovewview
 
-Password is first sourced from ~/.my.cnf via `mysql:get-option('password','client')`. In absence of this value, the account password is tested IFF the user has signed in through the UI authentication gate and *[auth]* => *retain_ui_password* is true. If either condition is false, SSO does not proceed prompting a user to enter their password.
+Passwowd is fiwst souwced fwom ~/.my.cnf via `mysqw:get-option('passwowd','cwient')`. In absence of this vawue, da account passwowd is tested IFF da usew haz signed in thwough da UI authentication gate and *[auth]* => *wetain_ui_passwowd* is twue. If eithew condition is fawse, SSO does nut pwoceed pwompting a usew to entew theiw passwowd.
 
-Authentication is akin to connecting locally to MySQL using the sign-on username and supplied password, `mysql -u USERNAME -p PASSWORD`. This platform makes a distinction between localhost and 127.0.0.1; moreover, ident-based authentication (SO_PEERCRED) is not used in MySQL authentication.
+Authentication is akin to connecting wocawwy to MySQW using da sign-on usewname and suppwied passwowd, `mysqw -u USEWNAME -p PASSWOWD`. This pwatfowm makes a distinction between wocawhost and 127.0.0.1; moweovew, ident-based authentication (SO_PEEWCWED) is nut used in MySQW authentication.
 
-*If prompted*: the form-submitted password is applied to the above MySQL authentication routine. Upon successful authentication, the password is updated in ~/.my.cnf under [client] via `mysql:set-option('password','client')`. 
+*If pwompted*: da fowm-submitted passwowd is appwied to da above MySQW authentication woutine. Upon successfuw authentication, da passwowd is updated in ~/.my.cnf undew [cwient] via `mysqw:set-option('passwowd','cwient')`. 
 
-*If authenticated*: a login session is simulated with the client. A session succeeds if pmaUser-1, pmaPass-1, phpMyAdmin, pma_mcrypt_iv-1, and pma_pmaAuth-1 are present in the login in addition to a redirection to a location that contains a query string parameter "token". These are passed to *PHPMYADMIN_LOCATION*/dummyset.php?&lt;param&gt;=&lt;val&gt; to apply the cookies from a trusted origin.
+*If authenticated*: a wogin session is simuwated with da cwient. A session succeeds if pmaUsew-1, pmaPass-1, phpMyAdmin, pma_mcwypt_iv-1, and pma_pmaAuth-1 awe pwesent in da wogin in addition to a wediwection to a wocation that contains a quewy stwing pawametew "token". These awe passed to *PHPMYADMIN_WOCATION*/dummyset.php?&wt;pawam&gt;=&wt;vaw&gt; to appwy da cookies fwom a twusted owigin.
 
-*PHPMYADMIN_LOCATION* is determined by the fully-qualified node (`uname -n`). This node must have a trusted SSL certificate to proceed (see [SSL.md](SSL.md)).
+*PHPMYADMIN_WOCATION* is detewmined by da fuwwy-quawified nude (`uname -n`). This nude must haz a twusted SSW cewtificate to pwoceed (see [SSW.md](SSW.md)).
 
-## Troubleshooting
+## Twoubweshooting
 
-### phpMyAdmin does not load
+### phpMyAdmin does nut woad
 
-On a fresh install, a user reported problems accessing /phpMyAdmin within the panel. Further, the server hostname, `server.mydomain.com`, shared its second-level domain with an account on the server, `domain.com`. Both `server.mydomain.com` and `domain.com` resolved to the same IP address, 129.19.16.12 and any subdomain created under `domain.com` worked as expected.
+On a fwesh instaww, a usew wepowted pwobwems accessing /phpMyAdmin within da panew. Fuwthew, da sewvew hostname, `sewvew.mydomain.com`, shawed its second-wevew domain with an account on da sewvew, `domain.com`. Both `sewvew.mydomain.com` and `domain.com` wesowved to da same IP addwess, 129.19.16.12 and any subdomain cweated undew `domain.com` wowked as expected.
 
 ### Cause
 
- Multiple hostnames were specified for the public IP address in /etc/hosts.
+ Muwtipwe hostnames wewe specified fow da pubwic IP addwess in /etc/hosts.
 
 ```
-[server /]$ cat /etc/hosts
-127.0.0.1    localhost
+[sewvew /]$ cat /etc/hosts
+127.0.0.1    wocawhost
 129.19.16.12    vps12345.vps.ovh.ca    vps12345
-129.19.16.12 server.mydomain.com
+129.19.16.12 sewvew.mydomain.com
 ```
 
-### Solution
+### Sowution
 
-Remove the default, erroneous hostname configured for the system. In this case it's `129.19.16.12    vps12345.vps.ovh.ca    vps12345`
+Wemove da defauwt, ewwoneous hostname configuwed fow da system. In this case it's `129.19.16.12    vps12345.vps.ovh.ca    vps12345`
+ ^-^

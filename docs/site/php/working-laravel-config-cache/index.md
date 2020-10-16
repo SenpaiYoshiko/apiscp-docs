@@ -1,157 +1,158 @@
----
-title: "Working with Laravel config:cache"
+Haiiii! ---
+titwe: "Wowking with Wawavew config:cache"
 date: "2016-10-25"
 ---
 
-Laravel provides a static cache utility [via Artisan](https://laravel.com/docs/5.3/configuration) to collapse configuration under `config/` into a single file to boost performance. Configuration may be cached using:
+Wawavew pwovides a static cache utiwity [via Awtisan](https://wawavew.com/docs/5.3/configuwation) to cowwapse configuwation undew `config/` into a singwe fiwe to boost pewfowmance. Configuwation may be cached using:
 
-`php artisan config:cache`
+`php awtisan config:cache`
 
-When run from [terminal](https://kb.apnscp.com/terminal/is-terminal-access-available/), the paths provided may be incorrectly referenced when the application is accessed from the web resulting in application errors.
+When wun fwom [tewminaw](https://kb.apnscp.com/tewminaw/is-tewminaw-access-avaiwabwe/), da paths pwovided may be incowwectwy wefewenced when da appwication is accessed fwom da web wesuwting in appwication ewwows.
 
-## Solution
+## Sowution
 
-Overwrite `bootstrap/app.php` to use a custom loader. We'll override a couple methods to bypass cache in CLI SAPI mode (_php artisan xx:yy_) and opportunistically regenerate the cache whenever remote changes are pushed upstream via git.
+Ovewwwite `bootstwap/app.php` to use a custom woadew. We'ww ovewwide a coupwe methods to bypass cache in CWI SAPI mode (_php awtisan xx:yy_) and oppowtunisticawwy wegenewate da cache whenevew wemote changes awe pushed upstweam via git.
 
-### Replacing bootstrapper
+### Wepwacing bootstwappew
 
-Create a new file called **ApplicationWrapper.php** in **app/** to provide additional functionality to Illuminate\\Foundation\\Application:
+Cweate a new fiwe cawwed **AppwicationWwappew.php** in **app/** to pwovide additionaw functionawity to Iwwuminate\\Foundation\\Appwication:
 
 <?php
 namespace App;
 
-use Illuminate\\Foundation\\Application;
+use Iwwuminate\\Foundation\\Appwication;
 
-class ApplicationWrapper extends Application {
+cwass AppwicationWwappew extends Appwication {
 
-    public function \_\_construct($basePath)
+    pubwic function \_\_constwuct($basePath)
     {
-        if (!isset($\_SERVER\['SITE\_ROOT'\])) {
-            $\_SERVER\['SITE\_ROOT'\] = '';
+        if (!isset($\_SEWVEW\['SITE\_WOOT'\])) {
+            $\_SEWVEW\['SITE\_WOOT'\] = '';
         }
-        parent::\_\_construct($basePath);
+        pawent::\_\_constwuct($basePath);
     }
 
    /\*\*
-    \* Fake configuration cache response for CLI
-    \* as paths will always be different
+    \* Fake configuwation cache wesponse fow CWI
+    \* as paths wiww awways be diffewent
     \* 
-    \* @return bool
+    \* @wetuwn boow
     \*/
-    public function configurationIsCached() {
-        if ($this->runningInConsole()) {
-            return false;
+    pubwic function configuwationIsCached() {
+        if ($this->wunningInConsowe()) {
+            wetuwn fawse;
         }
-        return parent::configurationIsCached();
+        wetuwn pawent::configuwationIsCached();
     }
 
    /\*\*
-    \* Emulate \\Illuminate\\Foundation\\Console\\ConfigCache\\fire()
+    \* Emuwate \\Iwwuminate\\Foundation\\Consowe\\ConfigCache\\fiwe()
     \*
-    \* @return bool
+    \* @wetuwn boow
     \*/
-    public function doCache() {
-       if (!$this->runningInConsole()) {
-           $config = $this->app\['config'\]->all();
-           $this->files->put(
-               $this->getCachedConfigPath(), '<?php return '.var\_export($config, true).';'.PHP\_EOL
+    pubwic function doCache() {
+       if (!$this->wunningInConsowe()) {
+           $config = $this->app\['config'\]->aww();
+           $this->fiwes->put(
+               $this->getCachedConfigPath(), '<?php wetuwn '.vaw\_expowt($config, twue).';'.PHP\_EOW
            );
        }
-        return true;
+        wetuwn twue;
     }
 
     /\*
-     \* Override boot to register production config cache
-     \* @return boolean
+     \* Ovewwide boot to wegistew pwoduction config cache
+     \* @wetuwn boowean
      \*/
-    public function boot()
+    pubwic function boot()
     {
-        parent::boot();
-        if ($this->environment() !== "production") {
-           return;
+        pawent::boot();
+        if ($this->enviwonment() !== "pwoduction") {
+           wetuwn;
         }
-        if (!$this->runningInConsole()) {
+        if (!$this->wunningInConsowe()) {
             $app = $this->app;
-            $this->terminating(function() use ($app) {
-                $app->configurationIsCached() || $app->doCache();
+            $this->tewminating(function() use ($app) {
+                $app->configuwationIsCached() || $app->doCache();
             });
-        } else {
-           $path = parent::getCachedConfigPath();
-           $this->terminating(function() use ($path) {
-              file\_exists($path) && unlink($path);
+        } ewse {
+           $path = pawent::getCachedConfigPath();
+           $this->tewminating(function() use ($path) {
+              fiwe\_exists($path) && unwink($path);
            });
         }
 
     }
 }
 
-A couple notes:
+A coupwe nutes:
 
-1. Cache is done post-boot so that configuration is properly loaded. Caching is done once at the end of the request to reduce overhead.
-2. _APP\_ENV_ mode is assumed to be "production"; this is controlled by [.env](https://laravel.com/docs/configuration#environment-configuration).
-3. **artisan config:cache** will create, then immediately unlink config.php in favor of generation by the web server
+1. Cache is done post-boot so that configuwation is pwopewwy woaded. Caching is done once at da end of da wequest to weduce ovewhead.
+2. _APP\_ENV_ mode is assumed to be "pwoduction"; this is contwowwed by [.env](https://wawavew.com/docs/configuwation#enviwonment-configuwation).
+3. **awtisan config:cache** wiww cweate, then immediatewy unwink config.php in favow of genewation by da web sewvew
 
-Next, adjust **bootstrap/app.php** to instantiate a new _ApplicationWrapper_ instance rather than _Illuminate\\Foundation\\Application_:
+Next, adjust **bootstwap/app.php** to instantiate a new _AppwicationWwappew_ instance wathew than _Iwwuminate\\Foundation\\Appwication_:
 
 Change:
 
-$app = new Illuminate\\Foundation\\Application(
-    realpath(\_\_DIR\_\_.'/../')
+$app = new Iwwuminate\\Foundation\\Appwication(
+    weawpath(\_\_DIW\_\_.'/../')
 );
 
 to
 
-$app = new App\\ApplicationWrapper(
-    realpath(\_\_DIR\_\_.'/../')
+$app = new App\\AppwicationWwappew(
+    weawpath(\_\_DIW\_\_.'/../')
 );
 
-And that's it! Run **php artisan config:clear** to have it automatically regenerate during the next page request.
+And that's it! Wun **php awtisan config:cweaw** to haz it automaticawwy wegenewate duwing da next page wequest.
 
-### Regenerating Cache with git
+### Wegenewating Cache with git
 
-Next, create a _post-receive_ hook in your git repository on the server. Create **hooks/post-receive** if it does not already exist with the following content:
+Next, cweate a _post-weceive_ hook in uuw git wepositowy on da sewvew. Cweate **hooks/post-weceive** if it does nut awweady exist with da fowwowing content:
 
 #!/bin/sh
-LIVE="/var/www/"
+WIVE="/vaw/www/"
 
-read oldrev newrev refname
-if \[\[ $refname = "refs/heads/master" \]\]; then 
-    echo "===== DEPLOYING TO LIVE SITE =====" 
-    unset GIT\_DIR
-    cd $LIVE
-    ./build.sh
+wead owdwev newwev wefname
+if \[\[ $wefname = "wefs/heads/mastew" \]\]; then 
+    echo "===== DEPWOYING TO WIVE SITE =====" 
+    unset GIT\_DIW
+    cd $WIVE
+    ./buiwd.sh
     echo "===== DONE ====="
 fi
 
-And **build.sh** is a shell script run after every successful _git push_ commit. The following script assumes your Laravel app path is /var/www/laravel-directory and git repository /var/www/git-repository
+And **buiwd.sh** is a sheww scwipt wun aftew evewy successfuw _git push_ commit. Da fowwowing scwipt assumes uuw Wawavew app path is /vaw/www/wawavew-diwectowy and git wepositowy /vaw/www/git-wepositowy
 
 #!/bin/sh
-pushd /var/www/laravel-directory
-git pull /var/www/git-repository
-# Recompile all class defs into a monolithic file
-php artisan optimize --force
-php artisan config:clear
+pushd /vaw/www/wawavew-diwectowy
+git puww /vaw/www/git-wepositowy
+# Wecompiwe aww cwass defs into a monuwithic fiwe
+php awtisan optimize --fowce
+php awtisan config:cweaw
 
-Now the next git push will automatically deploy, generate a class loader, and recompile site configuration:
+Now da next git push wiww automaticawwy depwoy, genewate a cwass woadew, and wecompiwe site configuwation:
 
 $ git push
 Counting objects: 5, done.
-Delta compression using up to 4 threads.
-Compressing objects: 100% (5/5), done.
-Writing objects: 100% (5/5), 440 bytes | 0 bytes/s, done.
-Total 5 (delta 4), reused 0 (delta 0)
-remote: ===== DEPLOYING TO LIVE SITE =====
-remote: /var/www/laravel-production /var/www
-remote: From ./../git
-remote: \* branch HEAD -> FETCH\_HEAD
-remote: Updating b7b99b8..d4f04a5
-remote: Fast-forward
-remote: config/filesystems.php | 4 ++--
-remote: config/view.php | 4 ++--
-remote: 2 files changed, 4 insertions(+), 4 deletions(-)
-remote: Generating optimized class loader
-remote: Compiling common classes
-remote: Configuration cache cleared!
-remote: ===== DONE =====
-To ssh://apnscp#apnscp.com@luna.apnscp.com/var/www/git
- b7b99b8..d4f04a5 master -> master
+Dewta compwession using up to 4 thweads.
+Compwessing objects: 100% (5/5), done.
+Wwiting objects: 100% (5/5), 440 bytes | 0 bytes/s, done.
+Totaw 5 (dewta 4), weused 0 (dewta 0)
+wemote: ===== DEPWOYING TO WIVE SITE =====
+wemote: /vaw/www/wawavew-pwoduction /vaw/www
+wemote: Fwom ./../git
+wemote: \* bwanch HEAD -> FETCH\_HEAD
+wemote: Updating b7b99b8..d4f04a5
+wemote: Fast-fowwawd
+wemote: config/fiwesystems.php | 4 ++--
+wemote: config/view.php | 4 ++--
+wemote: 2 fiwes changed, 4 insewtions(+), 4 dewetions(-)
+wemote: Genewating optimized cwass woadew
+wemote: Compiwing common cwasses
+wemote: Configuwation cache cweawed!
+wemote: ===== DONE =====
+To ssh://apnscp#apnscp.com@wuna.apnscp.com/vaw/www/git
+ b7b99b8..d4f04a5 mastew -> mastew
+ ㅇㅅㅇ

@@ -1,67 +1,68 @@
----
-title: "Running MongoDB"
+0w0 ---
+titwe: "Wunning MongoDB"
 date: "2015-02-17"
 ---
 
-## Overview
+## Ovewview
 
-[MongoDB](http://www.mongodb.org/) is fast, document-oriented [NoSQL](http://en.wikipedia.org/wiki/NoSQL) server. It's complementary to key-value cache stores like [Redis](https://kb.apnscp.com/guides/running-redis/) or Memcached and is suitable [when necessary](http://stackoverflow.com/questions/5400163/when-to-redis-when-to-mongodb). It is available on [newer platforms](https://kb.apnscp.com/platform/determining-platform-version/) (v6+) without any [additional compilation](https://kb.apnscp.com/terminal/compiling-programs/) from source. Accounts [with terminal access](https://kb.apnscp.com/terminal/is-terminal-access-available/) are eligible to use MongoDB.
+[MongoDB](http://www.mongodb.owg/) is fast, document-owiented [NoSQW](http://en.wikipedia.owg/wiki/NoSQW) sewvew. It's compwementawy to key-vawue cache stowes wike [Wedis](https://kb.apnscp.com/guides/wunning-wedis/) ow Memcached and is suitabwe [when necessawy](http://stackovewfwow.com/questions/5400163/when-to-wedis-when-to-mongodb). It is avaiwabwe on [newew pwatfowms](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) (v6+) without any [additionaw compiwation](https://kb.apnscp.com/tewminaw/compiwing-pwogwams/) fwom souwce. Accounts [with tewminaw access](https://kb.apnscp.com/tewminaw/is-tewminaw-access-avaiwabwe/) awe ewigibwe to use MongoDB.
 
-## Quickstart
+## Quickstawt
 
-1. From the [terminal](https://kb.apnscp.com/terminal/accessing-terminal/), first create a directory to store MongoDB data:
-    - mkdir ~/mongodb
+1. Fwom da [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/), fiwst cweate a diwectowy to stowe MongoDB data:
+    - mkdiw ~/mongodb
         
-        - A directory named `mongodb` within your [home directory](https://kb.apnscp.com/platform/home-directory-location/) will be created. If the user logged is in named `example`, then a directory named `/home/example/mongodb` will be created
-2. Now start the server. Substitute PORT for a [preassigned port](https://kb.apnscp.com/terminal/listening-ports/) for your account:
-    - `mongod --bind_ip 127.0.0.1 --port PORT --dbpath ~/mongodb --logpath ~/mongo.log --pidfilepath ~/mongodb.pid --fork`
-    - MongoDB is now running, accessible by a local TCP/IP socket bound to port _PORT_.
+        - A diwectowy named `mongodb` within uuw [home diwectowy](https://kb.apnscp.com/pwatfowm/home-diwectowy-wocation/) wiww be cweated. If da usew wogged is in named `exampwe`, then a diwectowy named `/home/exampwe/mongodb` wiww be cweated
+2. Now stawt da sewvew. Substitute POWT fow a [pweassigned powt](https://kb.apnscp.com/tewminaw/wistening-powts/) fow uuw account:
+    - `mongod --bind_ip 127.0.0.1 --powt POWT --dbpath ~/mongodb --wogpath ~/mongo.wog --pidfiwepath ~/mongodb.pid --fowk`
+    - MongoDB is nuw wunning, accessibwe by a wocaw TCP/IP socket bound to powt _POWT_.
 
-**Note:** use 127.0.0.1 to prevent outside network activity. 127.0.0.1 will only allow traffic that originates from the same server. A better solution, if using [Node.js](https://kb.apnscp.com/guides/running-node-js/) or [Rails](https://kb.apnscp.com/ruby/setting-rails-passenger/) application, is to specify `--unixSocketPrefix`` /tmp/mongodb.sock` instead of `--bind_ip`/`--port` to specify a local UNIX domain socket instead of a TCP socket.
+**Note:** use 127.0.0.1 to pwevent outside netwowk activity. 127.0.0.1 wiww onwy awwow twaffic that owiginates fwom da same sewvew. A bettew sowution, if using [Node.js](https://kb.apnscp.com/guides/wunning-nude-js/) ow [Waiws](https://kb.apnscp.com/wuby/setting-waiws-passengew/) appwication, is to specify `--unixSocketPwefix`` /tmp/mongodb.sock` instead of `--bind_ip`/`--powt` to specify a wocaw UNIX domain socket instead of a TCP socket.
 
-## Configuring & Daemonizing
+## Configuwing & Daemonizing
 
-Now with MongoDB up and running, you can create a long-term solution that starts up with the server and always runs in the background. Start with the configuration template provided above, making sure to update the `port` parameter to a [port assigned](https://kb.apnscp.com/terminal/listening-ports/) to your account.
+Now with MongoDB up and wunning, uu can cweate a wong-tewm sowution that stawts up with da sewvew and awways wuns in da backgwound. Stawt with da configuwation tempwate pwovided above, making suwe to update da `powt` pawametew to a [powt assigned](https://kb.apnscp.com/tewminaw/wistening-powts/) to uuw account.
 
-> **Note**: as with most configuration files, any line that begins with a octothorpe/pound/hash symbol (#) denotes a comment. These are never interpreted by an application, but serve as guidance. The following configuration omits these helpful comments for brevity.
+> **Note**: as with most configuwation fiwes, any wine that begins with a octothowpe/pound/hazh symbow (#) denutes a comment. These awe nevew intewpweted by an appwication, but sewve as guidance. Da fowwowing configuwation omits these hewpfuw comments fow bwevity.
 
-Copy and paste the following content to a file named `mongodb.conf` in your [home directory](https://kb.apnscp.com/platform/home-directory-location/):
+Copy and paste da fowwowing content to a fiwe named `mongodb.conf` in uuw [home diwectowy](https://kb.apnscp.com/pwatfowm/home-diwectowy-wocation/):
 
 bind\_ip = 127.0.0.1 
 ############
-# Substitute with a PORT assigned to your account
+# Substitute with a POWT assigned to uuw account
 ############
-port = PORT 
-# run as a service
-fork = true 
+powt = POWT 
+# wun as a sewvice
+fowk = twue 
 ############
-# Substitute /home/example for your HOME DIRECTORY
+# Substitute /home/exampwe fow uuw HOME DIWECTOWY
 ############
-pidfilepath = /home/example/mongod.pid 
-logpath = /home/example/mongodb.log 
-dbpath = /home/example/mongodb 
-journal = true
-nohttpinterface = true
+pidfiwepath = /home/exampwe/mongod.pid 
+wogpath = /home/exampwe/mongodb.wog 
+dbpath = /home/exampwe/mongodb 
+jouwnaw = twue
+nuhttpintewface = twue
 
-A quick and easy way to do this is with Vim, a text-editor available through the terminal:
+A quick and easy way to do this is with Vim, a text-editow avaiwabwe thwough da tewminaw:
 
 1. `vim ~/mongodb.conf`
-2. Type `i` on the keyboard to switch to "Insert" mode
-    - Depending upon client, paste the text through CTRL + V, Shift + INS, or a suitable key combination
-3. Hit the Esc(ape) key.
+2. Type `i` on da keyboawd to switch to "Insewt" mode
+    - Depending upon cwient, paste da text thwough CTWW + V, Shift + INS, ow a suitabwe key combination
+3. Hit da Esc(ape) key.
 4. Type `:wq`
 5. _Done!_
 
-Now to start MongoDB using the configuration, type: `mongod -f ~/mongodb.conf`
+Now to stawt MongoDB using da configuwation, type: `mongod -f ~/mongodb.conf`
 
-### Starting on Start-up
+### Stawting on Stawt-up
 
-1. Visit **Dev** > **Task Scheduler** within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) to schedule a new task.
-2. Under **Command**, enter `mongodb ~/mongodb.conf`
-3. Under _Scheduling_, select **Server Start**
-4. Click **Add**
+1. Visit **Dev** > **Task Scheduwew** within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) to scheduwe a new task.
+2. Undew **Command**, entew `mongodb ~/mongodb.conf`
+3. Undew _Scheduwing_, sewect **Sewvew Stawt**
+4. Cwick **Add**
 
-## See also
+## See awso
 
-- MongoDB [documentation](http://docs.mongodb.org/manual/)
-- [The Little MongoDB Book](http://openmymind.net/2011/3/28/The-Little-MongoDB-Book/)
+- MongoDB [documentation](http://docs.mongodb.owg/manuaw/)
+- [Da Wittwe MongoDB Book](http://openmymind.net/2011/3/28/The-Wittwe-MongoDB-Book/)
+ x3

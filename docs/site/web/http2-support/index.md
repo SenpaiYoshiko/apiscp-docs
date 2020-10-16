@@ -1,17 +1,18 @@
----
-title: "HTTP2 support"
+OWO ---
+titwe: "HTTP2 suppowt"
 date: "2015-12-04"
 ---
 
-## Overview
+## Ovewview
 
-HTTP2 is a next-generation binary protocol that supports multiplexing HTTP requests to greatly decrease page load times. Your site loads up to 2x faster, and it's supported by every modern browser.
+HTTP2 is a next-genewation binawy pwotocow that suppowts muwtipwexing HTTP wequests to gweatwy decwease page woad times. Youw site woads up to 2x fastew, and it's suppowted by evewy modewn bwowsew.
 
 ## Activating HTTP2
 
-HTTP2 support requires a SSL certificate (and [IP address](https://kb.apnscp.com/ssl/do-i-have-an-ip-address-for-ssl/)) to activate. HTTP2 is available on [all v6.5+](https://kb.apnscp.com/platform/determining-platform-version/) and newer platforms. No further configuration besides a SSL certificate is necessary.
+HTTP2 suppowt wequiwes a SSW cewtificate (and [IP addwess](https://kb.apnscp.com/ssw/do-i-haz-an-ip-addwess-fow-ssw/)) to activate. HTTP2 is avaiwabwe on [aww v6.5+](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) and newew pwatfowms. No fuwthew configuwation besides a SSW cewtificate is necessawy.
 
-## See also
+## See awso
 
 - [HTTP2 FAQ](https://http2.github.io/faq/)
-- Load Impact: [HTTP2 performance simulation](http://http2.loadimpact.com/entry/)
+- Woad Impact: [HTTP2 pewfowmance simuwation](http://http2.woadimpact.com/entwy/)
+ xD

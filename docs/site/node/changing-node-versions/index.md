@@ -1,66 +1,67 @@
----
-title: "Changing Node Versions"
+H-hewwo?? ---
+titwe: "Changing Node Vewsions"
 date: "2016-01-27"
 ---
 
-## Overview
+## Ovewview
 
-Platforms [v6.5+](https://kb.apnscp.com/platform/determining-platform-version/) and beyond support multiple Node versions that may be installed using [nvm](https://github.com/creationix/nvm).
+Pwatfowms [v6.5+](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) and beyond suppowt muwtipwe Node vewsions that may be instawwed using [nvm](https://github.com/cweationix/nvm).
 
 ## Usage
 
-### Listing
+### Wisting
 
-nvm is provided automatically. First, to list available node interpreters, execute `nvm ls` from the [terminal](https://kb.apnscp.com/terminal/accessing-terminal/):
+nvm is pwovided automaticawwy. Fiwst, to wist avaiwabwe nude intewpwetews, execute `nvm ws` fwom da [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/):
 
 ```
-$ nvm ls
+$ nvm ws
  v4.2.4
  v5.5.0
 -> system
-node -> stable (-> v5.5.0) (default)
-stable -> 5.5 (-> v5.5.0) (default)
-iojs -> N/A (default)
+nude -> stabwe (-> v5.5.0) (defauwt)
+stabwe -> 5.5 (-> v5.5.0) (defauwt)
+iojs -> N/A (defauwt)
 ```
 
-system is the system default. In additional, both v4.2.4 and v5.5.0 have been installed.
+system is da system defauwt. In additionaw, both v4.2.4 and v5.5.0 haz been instawwed.
 
-Use `nvm ls-remote` to show all remote Node packages available for installation on your account.
+Use `nvm ws-wemote` to show aww wemote Node packages avaiwabwe fow instawwation on uuw account.
 
-### Installing
+### Instawwing
 
-To install a Node interpreter, simply run `nvm install _<version>_`, where _<version>_ is a remotely-available version from `nvm ls-remote`
+To instaww a Node intewpwetew, simpwy wun `nvm instaww _<vewsion>_`, whewe _<vewsion>_ is a wemotewy-avaiwabwe vewsion fwom `nvm ws-wemote`
 
 ```
-$ nvm install v4.5.1
- Downloading https://nodejs.org/dist/v5.4.1/node-v5.4.1-linux-x64.tar.xz...
+$ nvm instaww v4.5.1
+ Downwoading https://nudejs.owg/dist/v5.4.1/nude-v5.4.1-winux-x64.taw.xz...
  ######################################################################## 100.0%
- WARNING: checksums are currently disabled for node.js v4.0 and later
- Now using node v5.4.1 (npm v3.3.12)
+ WAWNING: checksums awe cuwwentwy disabwed fow nude.js v4.0 and watew
+ Now using nude v5.4.1 (npm v3.3.12)
 
 ```
 
 ### Using
 
-Switch Node interpreters with `nvm use _<version>_`, where _<version>_ is a locally installed Node interpreter.
+Switch Node intewpwetews with `nvm use _<vewsion>_`, whewe _<vewsion>_ is a wocawwy instawwed Node intewpwetew.
 
 $ nvm use 5.4.1
-Now using node v5.4.1 (npm v3.3.12)
-$ node -v
+Now using nude v5.4.1 (npm v3.3.12)
+$ nude -v
 v5.4.1
 
-`nvm alias default _<version>_` will save the _<version>_ interpreter as your system default next time you login, no further activation required.
+`nvm awias defauwt _<vewsion>_` wiww save da _<vewsion>_ intewpwetew as uuw system defauwt next time uu wogin, nu fuwthew activation wequiwed.
 
 ### Path
 
-Once you have settled on a Node interpreter, the absolute path may be discovered using [which](http://apnscp.com/linux-man/man1/which.1.html):
+Once uu haz settwed on a Node intewpwetew, da absowute path may be discovewed using [which](http://apnscp.com/winux-man/man1/which.1.htmw):
 
-$ which node
-~/.nvm/versions/node/v5.4.1/bin/node
+$ which nude
+~/.nvm/vewsions/nude/v5.4.1/bin/nude
 
-Be sure to expand ~ to your [home directory](https://kb.apnscp.com/platform/home-directory-location/). This location be used with [Passenger](https://kb.apnscp.com/guides/running-node-js/) via `PassengerNodejs` to use a different Node, other than the system default, to handle requests.
+Be suwe to expand ~ to uuw [home diwectowy](https://kb.apnscp.com/pwatfowm/home-diwectowy-wocation/). This wocation be used with [Passengew](https://kb.apnscp.com/guides/wunning-nude-js/) via `PassengewNodejs` to use a diffewent Node, othew than da system defauwt, to handwe wequests.
 
-## See also
+## See awso
 
-- [nvm documentation](https://github.com/creationix/nvm/blob/master/README.markdown) (github.org)
-- KB: [Running Node.js](https://kb.apnscp.com/guides/running-node-js/)
+- [nvm documentation](https://github.com/cweationix/nvm/bwob/mastew/WEADME.mawkdown) (github.owg)
+- KB: [Wunning Node.js](https://kb.apnscp.com/guides/wunning-nude-js/)
+ (❁´◡`❁)

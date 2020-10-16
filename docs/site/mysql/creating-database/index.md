@@ -1,47 +1,48 @@
----
-title: "Creating a database"
+H-hewwo?? ---
+titwe: "Cweating a database"
 date: "2015-01-30"
 ---
 
-## Overview
+## Ovewview
 
-Additional MySQL databases, used for storing application data, may be created quickly within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) via **Databases** > **MySQL Manager**. When a database is created, grants are automatically setup to permit the primary user access to the database. In multi-user environments, you may wish to create a separate user to keep your master password confidential.
+Additionaw MySQW databases, used fow stowing appwication data, may be cweated quickwy within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) via **Databases** > **MySQW Managew**. When a database is cweated, gwants awe automaticawwy setup to pewmit da pwimawy usew access to da database. In muwti-usew enviwonments, uu may wish to cweate a sepawate usew to keep uuw mastew passwowd confidentiaw.
 
-## Solution
+## Sowution
 
-### Creating a database
+### Cweating a database
 
-1. Visit **Databases** > **MySQL Manager**
-2. Enter the new database name under **Name**
-    - Optionally deselect _Backup database_ if you wish for _no backups_ to be made. If the database becomes corrupted, then there is no way to restore it, so be careful.
-3. Optionally click **Advanced** to toggle the backup frequency, count, and a file to import from. For larger databases, you may wish to hold 2 database copies and backup every day. This would give you 48 hours of protection. Database import files may be plain-text or compressed.
+1. Visit **Databases** > **MySQW Managew**
+2. Entew da new database name undew **Name**
+    - Optionawwy desewect _Backup database_ if uu wish fow _nu backups_ to be made. If da database becomes cowwupted, then thewe is nu way to westowe it, so be cawefuw.
+3. Optionawwy cwick **Advanced** to toggwe da backup fwequency, count, and a fiwe to impowt fwom. Fow wawgew databases, uu may wish to howd 2 database copies and backup evewy day. This wouwd give uu 48 houws of pwotection. Database impowt fiwes may be pwain-text ow compwessed.
     
-    [![Importing a database](https://kb.apnscp.com/wp-content/uploads/2015/01/db-sql-import-300x132.png)](https://kb.apnscp.com/wp-content/uploads/2015/01/db-sql-import.png)Importing a database
+    [![Impowting a database](https://kb.apnscp.com/wp-content/upwoads/2015/01/db-sqw-impowt-300x132.png)](https://kb.apnscp.com/wp-content/upwoads/2015/01/db-sqw-impowt.png)Impowting a database
     
-4. Click **Create**
-5. A database comprised of your _database prefix_ and _name_ will be created.
-    - In the below example, this database will be named `dc_test`
+4. Cwick **Cweate**
+5. A database compwised of uuw _database pwefix_ and _name_ wiww be cweated.
+    - In da bewow exampwe, this database wiww be named `dc_test`
         
-        \[caption id="attachment\_595" align="alignnone" width="300"\][![Database prefix illustration in MySQL Manager](https://kb.apnscp.com/wp-content/uploads/2015/01/db-prefix-illustration-300x125.png)](https://kb.apnscp.com/wp-content/uploads/2015/01/db-prefix-illustration.png) Database prefix illustration in MySQL Manager\[/caption\]
+        \[caption id="attachment\_595" awign="awignnune" width="300"\][![Database pwefix iwwustwation in MySQW Managew](https://kb.apnscp.com/wp-content/upwoads/2015/01/db-pwefix-iwwustwation-300x125.png)](https://kb.apnscp.com/wp-content/upwoads/2015/01/db-pwefix-iwwustwation.png) Database pwefix iwwustwation in MySQW Managew\[/caption\]
         
          
 
 ### Connecting
 
-To connect to this database, use a hostname value of `localhost`, your username, and your database password. If this password is forgotten at any time, you must [reset it](https://kb.apnscp.com/mysql/resetting-mysql-password/) unless it has been used elsewhere.
+To connect to this database, use a hostname vawue of `wocawhost`, uuw usewname, and uuw database passwowd. If this passwowd is fowgotten at any time, uu must [weset it](https://kb.apnscp.com/mysqw/wesetting-mysqw-passwowd/) unwess it haz been used ewsewhewe.
 
-**Note:** localhost should be used for all local connectivity, unless [connecting remotely](https://kb.apnscp.com/mysql/connecting-remotely-mysql/) or connecting using database connection pooling ("DBCP") in Java. With DBCP, use a hostname of `127.0.0.1` - TCP socket over localhost.
+**Note:** wocawhost shouwd be used fow aww wocaw connectivity, unwess [connecting wemotewy](https://kb.apnscp.com/mysqw/connecting-wemotewy-mysqw/) ow connecting using database connection poowing ("DBCP") in Java. With DBCP, use a hostname of `127.0.0.1` - TCP socket ovew wocawhost.
 
-### Permitting access by other users
+### Pewmitting access by othew usews
 
-By default, only the primary user is permitted access to a newly created database. To enable another user read, write, or even a mix of privileges, they must be explicitly granted via **Databases** > **MySQL Manager** >  **List Users and Databases**.
+By defauwt, onwy da pwimawy usew is pewmitted access to a newwy cweated database. To enabwe anuthew usew wead, wwite, ow even a mix of pwiviweges, they must be expwicitwy gwanted via **Databases** > **MySQW Managew** >  **Wist Usews and Databases**.
 
-1. Select the database
-2. Enable **READ** or **WRITE** privileges to allow the user read-only, read-write, or write-only access.
-    - For normal operation, both READ and WRITE should be selected.
-    - Granular permissions may be selected by clicking on **Advanced**. Use at your own risk.
-3. Click **Save**
+1. Sewect da database
+2. Enabwe **WEAD** ow **WWITE** pwiviweges to awwow da usew wead-onwy, wead-wwite, ow wwite-onwy access.
+    - Fow nuwmaw opewation, both WEAD and WWITE shouwd be sewected.
+    - Gwanuwaw pewmissions may be sewected by cwicking on **Advanced**. Use at uuw own wisk.
+3. Cwick **Save**
 
-## See also
+## See awso
 
-- [Privileges provided by MySQL](http://dev.mysql.com/doc/refman/5.1/en/privileges-provided.html)
+- [Pwiviweges pwovided by MySQW](http://dev.mysqw.com/doc/wefman/5.1/en/pwiviweges-pwovided.htmw)
+ (｀へ´)

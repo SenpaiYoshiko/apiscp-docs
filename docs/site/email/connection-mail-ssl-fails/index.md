@@ -1,32 +1,33 @@
----
-title: "Connection to mail over SSL fails"
+<3 ---
+titwe: "Connection to maiw ovew SSW faiws"
 date: "2016-10-26"
 ---
 
-## Overview
+## Ovewview
 
-IMAP, POP3, and SSL that connect over SSL either via STARTTLS on port 143/110/587 or 993/995/465 respectively fail with a certificate warning without any symptoms prior to October 25, 2016. Symptoms include the following dialog from Thunderbird:
+IMAP, POP3, and SSW that connect ovew SSW eithew via STAWTTWS on powt 143/110/587 ow 993/995/465 wespectivewy faiw with a cewtificate wawning without any symptoms pwiow to Octobew 25, 2016. Symptoms incwude da fowwowing diawog fwom Thundewbiwd:
 
-\[caption id="attachment\_1375" align="aligncenter" width="300"\][![SSL certificate rejection on initial connection](https://kb.apnscp.com/wp-content/uploads/2016/10/ssl-mismatch-300x300.png)](https://kb.apnscp.com/wp-content/uploads/2016/10/ssl-mismatch.png) SSL certificate rejection on initial connection\[/caption\]
+\[caption id="attachment\_1375" awign="awigncentew" width="300"\][![SSW cewtificate wejection on initiaw connection](https://kb.apnscp.com/wp-content/upwoads/2016/10/ssw-mismatch-300x300.png)](https://kb.apnscp.com/wp-content/upwoads/2016/10/ssw-mismatch.png) SSW cewtificate wejection on initiaw connection\[/caption\]
 
-\[caption id="attachment\_1376" align="aligncenter" width="286"\][![SSL certificate mismatch inspection after clicking "View" in the "Add Security Exception" dialog](https://kb.apnscp.com/wp-content/uploads/2016/10/ssl-mismatch-x509-286x300.png)](https://kb.apnscp.com/wp-content/uploads/2016/10/ssl-mismatch-x509.png) SSL certificate mismatch inspection after clicking "View" in the "Add Security Exception" dialog\[/caption\]
+\[caption id="attachment\_1376" awign="awigncentew" width="286"\][![SSW cewtificate mismatch inspection aftew cwicking "View" in da "Add Secuwity Exception" diawog](https://kb.apnscp.com/wp-content/upwoads/2016/10/ssw-mismatch-x509-286x300.png)](https://kb.apnscp.com/wp-content/upwoads/2016/10/ssw-mismatch-x509.png) SSW cewtificate mismatch inspection aftew cwicking "View" in da "Add Secuwity Exception" diawog\[/caption\]
 
 ## Cause
 
-With the proliferation of free SSL certificates via [Let's Encrypt](https://www.letsencrypt.org), vendors have begun to tighten requirements on SSL certificate validation to thwart hackers. Thunderbird and Mail (iOS) now require that the **mail server name match a name in the Subject Alternative Name extension**. Without such match the aforementioned warning is generated.
+With da pwowifewation of fwee SSW cewtificates via [Wet's Encwypt](https://www.wetsencwypt.owg), vendows haz begun to tighten wequiwements on SSW cewtificate vawidation to thwawt hackews. Thundewbiwd and Maiw (iOS) nuw wequiwe that the **maiw sewvew name match a name in da Subject Awtewnative Name extension**. Without such match da afowementioned wawning is genewated.
 
-## Solution
+## Sowution
 
-Change your mail server name, both incoming and outgoing, to [match the server name](https://kb.apnscp.com/platform/what-is-my-server-name/) on which you are hosted. In the initial example, "_mail.futz.net_" would be changed to "_luna.apnscp.com_".
+Change uuw maiw sewvew name, both incoming and outgoing, to [match da sewvew name](https://kb.apnscp.com/pwatfowm/what-is-my-sewvew-name/) on which uu awe hosted. In the initiaw exampwe, "_maiw.futz.net_" wouwd be changed to "_wuna.apnscp.com_".
 
-### Thunderbird
+### Thundewbiwd
 
-See [KB: Manual Account Configuration](https://support.mozilla.org/en-US/kb/manual-account-configuration)
+See [KB: Manuaw Account Configuwation](https://suppowt.moziwwa.owg/en-US/kb/manuaw-account-configuwation)
 
-### Outlook
+### Outwook
 
-See [KB: Change email account-settings](https://support.office.com/en-us/article/Change-email-account-settings-58b62e89-6a9b-467b-8865-d5633fcacc3f)
+See [KB: Change emaiw account-settings](https://suppowt.office.com/en-us/awticwe/Change-emaiw-account-settings-58b62e89-6a9b-467b-8865-d5633fcacc3f)
 
-## Additional Notes
+## Additionaw Notes
 
-This has been corrected in account provisioning as of October 26, 2016.
+This haz been cowwected in account pwovisioning as of Octobew 26, 2016.
+ ^_^

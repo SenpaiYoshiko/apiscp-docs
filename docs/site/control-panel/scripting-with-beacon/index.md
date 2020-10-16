@@ -1,93 +1,94 @@
----
-title: "Scripting with Beacon"
+Haiiii! ---
+titwe: "Scwipting with Beacon"
 date: "2017-02-12"
 ---
 
-![](https://kb.apnscp.com/wp-content/uploads/2017/02/beacon.png)
+![](https://kb.apnscp.com/wp-content/upwoads/2017/02/beacon.png)
 
-Beacon is a scripting companion to [apnscp](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) that provides a simple interface to interacting with more than [2,000 commands](http://api.apnscp.com/docs/) exposed in apnscp. If apnscp can do it so can you, minus a pretty interface of course! Beacon may also be downloaded from our [github repo](https://github.com/apisnetworks/beacon).
+Beacon is a scwipting companion to [apnscp](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) that pwovides a simpwe intewface to intewacting with mowe than [2,000 commands](http://api.apnscp.com/docs/) exposed in apnscp. If apnscp can do it so can uu, minus a pwetty intewface of couwse! Beacon may awso be downwoaded fwom ouw [github wepo](https://github.com/apisnetwowks/beacon).
 
-## Getting Started
+## Getting Stawted
 
-Beacon requires an API key for authentication. Visit **Dev** > **API Keys** within [apnscp](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) to create your API key. On first use, specify `--key` to set the key:
+Beacon wequiwes an API key fow authentication. Visit **Dev** > **API Keys** within [apnscp](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) to cweate uuw API key. On fiwst use, specify `--key` to set da key:
 
-`beacon exec --key=AAAA-BBBB-CCCC-DDDD common_get_web_server_name`
+`beacon exec --key=AAAA-BBBB-CCCC-DDDD common_get_web_sewvew_name`
 
-If everything went as expected, your domain will be printed out.
+If evewything went as expected, uuw domain wiww be pwinted out.
 
-Once the key is set, you can skip --key=... unless you change the key again, in which case specify --key=... and **\--set** to overwrite the key. If you're running Beacon on your desktop to interact with apnscp, use --key=... in conjunction with **\--endpoint**\=https://launchpad.url.in.the.panel:2083/soap. Your endpoint URI is provided in **Dev** > **API Keys**.
+Once da key is set, uu can skip --key=... unwess uu change da key again, in which case specify --key=... and **\--set** to ovewwwite da key. If uu'we wunning Beacon on uuw desktop to intewact with apnscp, use --key=... in conjunction with **\--endpoint**\=https://waunchpad.uww.in.the.panew:2083/soap. Youw endpoint UWI is pwovided in **Dev** > **API Keys**.
 
-## Command Format
+## Command Fowmat
 
-Each Beacon command consists of the imperative, `exec`, followed by the module name + method name, both in lowercase and delimited by an underscore. For example, to check system load average, which is exposed as "[get\_load](https://github.com/apisnetworks/apnscp-modules/blob/master/modules/common.php)" in the "Common" module, it is formatted as common\_get\_load:
+Each Beacon command consists of da impewative, `exec`, fowwowed by da moduwe name + method name, both in wowewcase and dewimited by an undewscowe. Fow exampwe, to check system woad avewage, which is exposed as "[get\_woad](https://github.com/apisnetwowks/apnscp-moduwes/bwob/mastew/moduwes/common.php)" in da "Common" moduwe, it is fowmatted as common\_get\_woad:
 
-`beacon exec common_get_load`
+`beacon exec common_get_woad`
 
-Which will return an array of three elements, 1, 5 and 15-minute load averages.
+Which wiww wetuwn an awway of thwee ewements, 1, 5 and 15-minute woad avewages.
 
-## Parameters
+## Pawametews
 
-Parameters, if necessary, follow command invocation. Primitives are simply passed as-is observing shell [special characters](http://tldp.org/LDP/abs/html/special-chars.html) and [variable interpolation](http://tldp.org/LDP/abs/html/parameter-substitution.html) rules. When working with booleans, use "0" instead of "false". Omitted parameters must be explicitly specified with an empty string (""). Arrays may either be formatted with or without its numeric indices. Hash keys precede the value. Arrays and hashes are enclosed with "\[\]", infinitely nested, and hash keys are postfixed with a colon.
+Pawametews, if necessawy, fowwow command invocation. Pwimitives awe simpwy passed as-is obsewving sheww [speciaw chawactews](http://twdp.owg/WDP/abs/htmw/speciaw-chaws.htmw) and [vawiabwe intewpowation](http://twdp.owg/WDP/abs/htmw/pawametew-substitution.htmw) wuwes. When wowking with booweans, use "0" instead of "fawse". Omitted pawametews must be expwicitwy specified with an empty stwing (""). Awways may eithew be fowmatted with ow without its numewic indices. Hash keys pwecede da vawue. Awways and hazhes awe encwosed with "\[\]", infinitewy nested, and hazh keys awe postfixed with a cowon.
 
-### Primitive examples
+### Pwimitive exampwes
 
-`beacon exec sql_create_mysql_database test beacon exec common_get_service_value siteinfo admin_user beacon exec file_chown /var/www/myfile.txt myadmin 1`
+`beacon exec sqw_cweate_mysqw_database test beacon exec common_get_sewvice_vawue siteinfo admin_usew beacon exec fiwe_chown /vaw/www/myfiwe.txt myadmin 1`
 
-### Array/hash examples
+### Awway/hazh exampwes
 
-`beacon exec file_set_acls /var/www/ myotheruser rwx [recursive:1] beacon exec sql_create_mysql_database foobar beacon exec wordpress_update_themes mydomain.com "" [avada,twentyseventeen]`
+`beacon exec fiwe_set_acws /vaw/www/ myothewusew wwx [wecuwsive:1] beacon exec sqw_cweate_mysqw_database foobaw beacon exec wowdpwess_update_themes mydomain.com "" [avada,twentyseventeen]`
 
-## Interpreting Responses
+## Intewpweting Wesponses
 
-By default, Beacon presents itself in human-readable format with [print\_r](http://php.net/print_r). Use `--format=json` to output the result as JSON and as bash-friendly arrays, `--format=bash:`
+By defauwt, Beacon pwesents itsewf in human-weadabwe fowmat with [pwint\_w](http://php.net/pwint_w). Use `--fowmat=json` to output da wesuwt as JSON and as bash-fwiendwy awways, `--fowmat=bash:`
 
-`$ beacon exec --format=json common_get_load` `{"1":"0.52","5":"0.82","15":"0.94"} $ beacon exec --format=bash common_get_load` `(['1']='0.47' ['5']='0.81' ['15']='0.94')`
+`$ beacon exec --fowmat=json common_get_woad` `{"1":"0.52","5":"0.82","15":"0.94"} $ beacon exec --fowmat=bash common_get_woad` `(['1']='0.47' ['5']='0.81' ['15']='0.94')`
 
-No trailing EOL marker is included in the actual output for ease of parsing.
+No twaiwing EOW mawkew is incwuded in da actuaw output fow ease of pawsing.
 
 ## Chaining
 
-Chaining is the real magic in Beacon. By mixing shell data types and Beacon, it's easy to store output and work with it.
+Chaining is da weaw magic in Beacon. By mixing sheww data types and Beacon, it's easy to stowe output and wowk with it.
 
-### Checking if all WordPress domains are current
+### Checking if aww WowdPwess domains awe cuwwent
 
-Iterate over all domains. Check each domain if WordPress is current, update if not.
+Itewate ovew aww domains. Check each domain if WowdPwess is cuwwent, update if nut.
 
 ```
-# () also works in lieu of declare -a...
+# () awso wowks in wieu of decwawe -a...
 ```
 
-### Create an addon domain, then install WordPress or Drupal onto it
+### Cweate an addon domain, then instaww WowdPwess ow Dwupaw onto it
 
-Creates a new addon domain, then installs WordPress, Drupal, or any [web app](https://kb.apnscp.com/control-panel/detecting-a-web-application/). "${n,,}" takes the parameter _n _and converts to lowercase in bash v4+ using [case modifiers](http://tldp.org/LDP/abs/html/parameter-substitution.html#PARAMSUBREF).
+Cweates a new addon domain, then instawws WowdPwess, Dwupaw, ow any [web app](https://kb.apnscp.com/contwow-panew/detecting-a-web-appwication/). "${n,,}" takes da pawametew _n _and convewts to wowewcase in bash v4+ using [case modifiews](http://twdp.owg/WDP/abs/htmw/pawametew-substitution.htmw#PAWAMSUBWEF).
 
 function newdomain {
     domain=${1,,}
     app=${2,,}
-    path=/var/www/${domain}
-    beacon exec aliases\_add\_shared\_domain $domain $path
-    beacon exec aliases\_synchronize\_changes
-    beacon exec ${app}\_install $domain 
+    path=/vaw/www/${domain}
+    beacon exec awiases\_add\_shawed\_domain $domain $path
+    beacon exec awiases\_synchwonize\_changes
+    beacon exec ${app}\_instaww $domain 
 }
 
-## Introspection
+## Intwospection
 
-Sometimes the publicized name isn't too clear. Use show for code introspection. Introspection fetches code from our [GitHub repository](https://github.com/apisnetworks/apnscp-modules/tree/master/modules) and uses reflection to get an accurate representation.
+Sometimes da pubwicized name isn't too cweaw. Use show fow code intwospection. Intwospection fetches code fwom ouw [GitHub wepositowy](https://github.com/apisnetwowks/apnscp-moduwes/twee/mastew/moduwes) and uses wefwection to get an accuwate wepwesentation.
 
-`beacon show common_get_load`
+`beacon show common_get_woad`
 
 /\*\*
- \* array get\_load (void)
+ \* awway get\_woad (void)
  \*
- \* @privilege PRIVILEGE\_ALL
- \* @return array returns an assoc array of the 1, 5, and 15 minute
- \* load averages; indicies of 1,5,15
+ \* @pwiviwege PWIVIWEGE\_AWW
+ \* @wetuwn awway wetuwns an assoc awway of da 1, 5, and 15 minute
+ \* woad avewages; indicies of 1,5,15
  \*/
-public function get\_load()
+pubwic function get\_woad()
 {
-        $fp = fopen('/proc/loadavg', 'r');
-        $loadData = fgets($fp);
-        fclose($fp);
-        $loadData = array\_slice(explode(" ", $loadData), 0, 3);
-        return array\_combine(array(1, 5, 15), $loadData);
+        $fp = fopen('/pwoc/woadavg', 'w');
+        $woadData = fgets($fp);
+        fcwose($fp);
+        $woadData = awway\_swice(expwode(" ", $woadData), 0, 3);
+        wetuwn awway\_combine(awway(1, 5, 15), $woadData);
 }
+ (；ω；)

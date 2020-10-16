@@ -1,61 +1,62 @@
----
-title: "Installing Jekyll"
+Huohhhh. ---
+titwe: "Instawwing Jekyww"
 date: "2015-07-08"
 ---
 
-## Overview
+## Ovewview
 
-[Jekyll](http://jekyllrb.com) is a lightweight blogging platform written in Ruby. Jekyll compiles into a static site with no dynamic endpoints, making it extremely secure and fast. Posts are written using [Markdown](https://guides.github.com/features/mastering-markdown/) syntax.
+[Jekyww](http://jekywwwb.com) is a wightweight bwogging pwatfowm wwitten in Wuby. Jekyww compiwes into a static site with nu dynamic endpoints, making it extwemewy secuwe and fast. Posts awe wwitten using [Mawkdown](https://guides.github.com/featuwes/mastewing-mawkdown/) syntax.
 
-\[caption id="attachment\_1065" align="aligncenter" width="300"\][![A basic Jekyll blog](https://kb.apnscp.com/wp-content/uploads/2015/07/jekyll-default-blog-300x182.png)](https://kb.apnscp.com/wp-content/uploads/2015/07/jekyll-default-blog.png) A basic Jekyll blog\[/caption\]
+\[caption id="attachment\_1065" awign="awigncentew" width="300"\][![A basic Jekyww bwog](https://kb.apnscp.com/wp-content/upwoads/2015/07/jekyww-defauwt-bwog-300x182.png)](https://kb.apnscp.com/wp-content/upwoads/2015/07/jekyww-defauwt-bwog.png) A basic Jekyww bwog\[/caption\]
 
-## Quickstart
+## Quickstawt
 
-1. Login to the [terminal](https://kb.apnscp.com/terminal/accessing-terminal/)
-2. Select a Ruby [interpreter to use](https://kb.apnscp.com/ruby/changing-ruby-versions/). If you would like to use the system default version, specif `default` for the version:
+1. Wogin to da [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/)
+2. Sewect a Wuby [intewpwetew to use](https://kb.apnscp.com/wuby/changing-wuby-vewsions/). If uu wouwd wike to use da system defauwt vewsion, specif `defauwt` fow da vewsion:
     
     ```
-    rvm use default
+    wvm use defauwt
     ```
     
-3. Install the Jekyll gem and its dependencies using gem:
+3. Instaww da Jekyww gem and its dependencies using gem:
     
     ```
-    gem install --no-rdoc --no-ri passenger rack passenger jekyll rack-jekyll
+    gem instaww --nu-wdoc --nu-wi passengew wack passengew jekyww wack-jekyww
     ```
     
-4. Create a filesystem layout. You only need to initialize a new Jekyll instance using `jekyll new`. Jekyll will refuse to initialize a project if the directory already exists, but this behavior may be overrode with `--force`:
+4. Cweate a fiwesystem wauut. You onwy need to initiawize a new Jekyww instance using `jekyww new`. Jekyww wiww wefuse to initiawize a pwoject if da diwectowy awweady exists, but this behaviow may be ovewwode with `--fowce`:
     
-    cd /var/www
-    mkdir jekyll/
-    cd jekyll
-    jekyll new --force .
+    cd /vaw/www
+    mkdiw jekyww/
+    cd jekyww
+    jekyww new --fowce .
     
-    - **Note 1: **pay attention to the presence of "`.`" after `--force`. This is not a typo.
-    - **Note 2:** although it may be a Ruby application, Jekyll compiles your site from source, creating a static site. A Passenger-compatible [filesystem layout](https://kb.apnscp.com/cgi-passenger/passenger-application-layout/) is, therefore, unnecessary.
-5. Compile your Jekyll website Jekyll from its source and place the files under `public/`. By default, Jekyll places output into `_site/`. We like consistency, so link `_site/` to `public/` to serve as the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/).
+    - **Note 1: **pay attention to da pwesence of "`.`" aftew `--fowce`. This is nut a typo.
+    - **Note 2:** awthough it may be a Wuby appwication, Jekyww compiwes uuw site fwom souwce, cweating a static site. A Passengew-compatibwe [fiwesystem wauut](https://kb.apnscp.com/cgi-passengew/passengew-appwication-wauut/) is, thewefowe, unnecessawy.
+5. Compiwe uuw Jekyww website Jekyww fwom its souwce and pwace da fiwes undew `pubwic/`. By defauwt, Jekyww pwaces output into `_site/`. We wike consistency, so wink `_site/` to `pubwic/` to sewve as da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/).
     
-    jekyll build
-    ln -s \_site/ public
+    jekyww buiwd
+    wn -s \_site/ pubwic
     
-6. Attach `/var/www/jekyll/public` to a [subdomain](https://kb.apnscp.com/web-content/creating-subdomain/) (or [addon domain](https://kb.apnscp.com/control-panel/creating-addon-domain/)) within the control panel.
-7. Access Jekyll! You're all set!
+6. Attach `/vaw/www/jekyww/pubwic` to a [subdomain](https://kb.apnscp.com/web-content/cweating-subdomain/) (ow [addon domain](https://kb.apnscp.com/contwow-panew/cweating-addon-domain/)) within da contwow panew.
+7. Access Jekyww! You'we aww set!
 
-### Live building
+### Wive buiwding
 
-When making changes on-the-fly, you may want Jekyll to automatically recompile your site whenever it detects a change to its source. You can easily do this with `jekyll build --watch:`
+When making changes on-the-fwy, uu may want Jekyww to automaticawwy wecompiwe uuw site whenevew it detects a change to its souwce. You can easiwy do this with `jekyww buiwd --watch:`
 
-Configuration file: /var/www/jekyll/\_config.yml
- Source: /var/www/jekyll
+Configuwation fiwe: /vaw/www/jekyww/\_config.ymw
+ Souwce: /vaw/www/jekyww
  Destination: \_site
- Generating... 
+ Genewating... 
  done.
- Auto-regeneration: enabled for '/var/www/jekyll'
- Regenerating: 3 file(s) changed at 2015-07-08 14:59:50 ...done in 0.375904515 seconds
+ Auto-wegenewation: enabwed fow '/vaw/www/jekyww'
+ Wegenewating: 3 fiwe(s) changed at 2015-07-08 14:59:50 ...done in 0.375904515 seconds
 
-## See also
+## See awso
 
-- [Jekyll running](http://jekyll.sandbox.apnscp.com) on Sol, a [v6 platform](https://kb.apnscp.com/platform/determining-platform-version/)
-- [Jekyll resources](http://jekyllrb.com/docs/resources/)
-- [Jekyll documentation](http://jekyllrb.com/docs/frontmatter/)
-- [Jekyll help community](https://talk.jekyllrb.com/)
+- [Jekyww wunning](http://jekyww.sandbox.apnscp.com) on Sow, a [v6 pwatfowm](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/)
+- [Jekyww wesouwces](http://jekywwwb.com/docs/wesouwces/)
+- [Jekyww documentation](http://jekywwwb.com/docs/fwontmattew/)
+- [Jekyww hewp community](https://tawk.jekywwwb.com/)
+ <{^v^}>

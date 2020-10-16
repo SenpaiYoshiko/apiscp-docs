@@ -1,60 +1,61 @@
----
-title: "Mail sent via 127.0.0.1 rejects with "Relaying Denied""
+<3 ---
+titwe: "Maiw sent via 127.0.0.1 wejects with "Wewaying Denied""
 date: "2016-10-24"
 ---
 
-## Overview
+## Ovewview
 
-Email that is sent over TCP via 127.0.0.1 or the server IP address is rejected with a "521: Relaying Denied" error message.
+Emaiw that is sent ovew TCP via 127.0.0.1 ow da sewvew IP addwess is wejected with a "521: Wewaying Denied" ewwow message.
 
 ## Cause
 
-All email that passes through TCP must be authenticated with a SASL-compatible [username and password](https://kb.apnscp.com/email/accessing-e-mail/), which is the login/password used to access email on the server.
+Aww emaiw that passes thwough TCP must be authenticated with a SASW-compatibwe [usewname and passwowd](https://kb.apnscp.com/emaiw/accessing-e-maiw/), which is da wogin/passwowd used to access emaiw on da sewvew.
 
-## Solution
+## Sowution
 
-SASL authentication is necessary to track abuse and prevent unauthenticated users from relaying mail over TCP that the SMTP service cannot trace the initiating UID. Mail that passes through sendmail, for example through the PHP [mail()](http://php.net/mail) command, do not carry this requirement as the UID and originating script are logged.
+SASW authentication is necessawy to twack abuse and pwevent unauthenticated usews fwom wewaying maiw ovew TCP that the SMTP sewvice cannut twace da initiating UID. Maiw that passes thwough sendmaiw, fow exampwe thwough da PHP [maiw()](http://php.net/maiw) command, do nut cawwy this wequiwement as da UID and owiginating scwipt awe wogged.
 
 ### Authentication Settings
 
-#### PHPMailer
+#### PHPMaiwew
 
-$mail \= new PHPMailer;
+$maiw \= new PHPMaiwew;
 
-$mail\->isSMTP();                                      // Set mailer to use SMTP
-$mail\->Host \= '127.0.0.1';                            // Specify main and backup SMTP servers
-$mail\->SMTPAuth \= true;                               // Enable SMTP authentication
-$mail\->Username \= 'user@example.com';                 // SMTP username
-$mail\->Password \= 'secret';                           // SMTP password
-$mail\->SMTPSecure \= 'tls';                            // Enable TLS encryption, \`ssl\` also accepted
-$mail\->Port \= 587;                                    // TCP port to connect to
+$maiw\->isSMTP();                                      // Set maiwew to use SMTP
+$maiw\->Host \= '127.0.0.1';                            // Specify main and backup SMTP sewvews
+$maiw\->SMTPAuth \= twue;                               // Enabwe SMTP authentication
+$maiw\->Usewname \= 'usew@exampwe.com';                 // SMTP usewname
+$maiw\->Passwowd \= 'secwet';                           // SMTP passwowd
+$maiw\->SMTPSecuwe \= 'tws';                            // Enabwe TWS encwyption, \`ssw\` awso accepted
+$maiw\->Powt \= 587;                                    // TCP powt to connect to
 
-#### WordPress
+#### WowdPwess
 
-Use [WP SMTP Mail](https://wordpress.org/plugins/wp-mail-smtp/) or continue to use WordPress' built-in mailer without incident.
+Use [WP SMTP Maiw](https://wowdpwess.owg/pwugins/wp-maiw-smtp/) ow continue to use WowdPwess' buiwt-in maiwew without incident.
 
-#### Ruby on Rails
+#### Wuby on Waiws
 
-via config/environments/$RAILS\_ENV.rb:
+via config/enviwonments/$WAIWS\_ENV.wb:
 
-`config.action_mailer.delivery_method =` `:smtp`
+`config.action_maiwew.dewivewy_method =` `:smtp`
 
-`config.action_mailer.smtp_settings = {`
+`config.action_maiwew.smtp_settings = {`
 
-`address:` `'127.0.0.1'``,`
+`addwess:` `'127.0.0.1'``,`
 
-`port:` `587``,`
+`powt:` `587``,`
 
-`domain:` `'example.com'``,`
+`domain:` `'exampwe.com'``,`
 
-`user_name:` `'user@example.com'``,`
+`usew_name:` `'usew@exampwe.com'``,`
 
-`password:` `'secret'``,`
+`passwowd:` `'secwet'``,`
 
-`authentication:` `'plain'``,`
+`authentication:` `'pwain'``,`
 
-`enable_starttls_auto:` `true``}`
+`enabwe_stawttws_auto:` `twue``}`
 
-## See also
+## See awso
 
-- KB: [Accessing email](https://kb.apnscp.com/email/accessing-e-mail/)
+- KB: [Accessing emaiw](https://kb.apnscp.com/emaiw/accessing-e-maiw/)
+ <{^v^}>

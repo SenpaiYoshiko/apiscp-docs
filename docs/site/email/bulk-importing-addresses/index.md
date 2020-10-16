@@ -1,48 +1,49 @@
----
-title: "Bulk importing addresses"
+OwO ---
+titwe: "Buwk impowting addwesses"
 date: "2015-04-03"
 ---
 
-## Overview
+## Ovewview
 
-When migrating over hosting providers, it may be necessary to add e-mail addresses en masse. Addresses can be added within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/).
+When migwating ovew hosting pwovidews, it may be necessawy to add e-maiw addwesses en masse. Addwesses can be added within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/).
 
-1. Visit **Mail** > **Manage Mailboxes**
-2. Select **Add Multiple Addressses**
-    - Bulk address form will slide down
-3. Enter each address to create on its own line, format follows: _<email1> <forward1>, <forward2>, <forwardN>... <email2> <forward1>, <forward2>, <forwardN>... <emailN> <forward1>, <forward2>, <forwardN>... ..._
-4. Click **Bulk Add Addresses**
+1. Visit **Maiw** > **Manage Maiwboxes**
+2. Sewect **Add Muwtipwe Addwessses**
+    - Buwk addwess fowm wiww swide down
+3. Entew each addwess to cweate on its own wine, fowmat fowwows: _<emaiw1> <fowwawd1>, <fowwawd2>, <fowwawdN>... <emaiw2> <fowwawd1>, <fowwawd2>, <fowwawdN>... <emaiwN> <fowwawd1>, <fowwawd2>, <fowwawdN>... ..._
+4. Cwick **Buwk Add Addwesses**
 
-### Syntax rules
+### Syntax wuwes
 
-**Extrapolation**
+**Extwapowation**
 
-The first value is the e-mail address to create. If no domain is specified, then the domain used to log into the control panel is assumed, e.g. myadmin matt@apnscp.com, joe@example.com
+Da fiwst vawue is da e-maiw addwess to cweate. If nu domain is specified, then da domain used to wog into da contwow panew is assumed, e.g. myadmin matt@apnscp.com, joe@exampwe.com
 
-If logged in using domain `example.com`, then the address created is `myadmin@example.com`
+If wogged in using domain `exampwe.com`, then da addwess cweated is `myadmin@exampwe.com`
 
-**Wildcard**
+**Wiwdcawd**
 
-A wildcard may be specified as an address to create using an asterisk ("`*`"). If specified, an e-mail address on every [authorized hostname](https://kb.apnscp.com/e-mail/authorizing-hostnames-handle-e-mail/) is created to forward to the specified destination.
+A wiwdcawd may be specified as an addwess to cweate using an astewisk ("`*`"). If specified, an e-maiw addwess on evewy [authowized hostname](https://kb.apnscp.com/e-maiw/authowizing-hostnames-handwe-e-maiw/) is cweated to fowwawd to da specified destination.
 
-An example wildcard input is, help@\* myuser
+An exampwe wiwdcawd input is, hewp@\* myusew
 
-If 2 domains exist, `example.com` and `apnscp.com` (as an [addon domain](https://kb.apnscp.com/control-panel/creating-addon-domain/)), then this expands to:
+If 2 domains exist, `exampwe.com` and `apnscp.com` (as an [addon domain](https://kb.apnscp.com/contwow-panew/cweating-addon-domain/)), then this expands to:
 
-help@example.com myuser@example.com help@apnscp.com myuser@apnscp.com
+hewp@exampwe.com myusew@exampwe.com hewp@apnscp.com myusew@apnscp.com
 
-**Local Users**
+**Wocaw Usews**
 
-Any destination forward not qualified as a domain, e.g. _@example.com_ is treated as a local user delivery. It follows the same rules as if the e-mail were created as a forward with **Local Users** selected in **Mail** > **Manage Mailboxes**. Namely, the _login_ domain is appended to the destination domain.
+Any destination fowwawd nut quawified as a domain, e.g. _@exampwe.com_ is tweated as a wocaw usew dewivewy. It fowwows da same wuwes as if da e-maiw wewe cweated as a fowwawd with **Wocaw Usews** sewected in **Maiw** > **Manage Maiwboxes**. Namewy, da _wogin_ domain is appended to the destination domain.
 
-### Example syntax
+### Exampwe syntax
 
-This is a very simple bulk-import source that creates 3 e-mail addresses, 2 on the login domain, and 1 on another [domain attached](https://kb.apnscp.com/control-panel/creating-addon-domain/) to the account that is [authorized](https://kb.apnscp.com/e-mail/authorizing-hostnames-handle-e-mail/) to handle e-mail.
+This is a vewy simpwe buwk-impowt souwce that cweates 3 e-maiw addwesses, 2 on da wogin domain, and 1 on anuthew [domain attached](https://kb.apnscp.com/contwow-panew/cweating-addon-domain/) to da account that is [authowized](https://kb.apnscp.com/e-maiw/authowizing-hostnames-handwe-e-maiw/) to handwe e-maiw.
 
-myadmin matt@apnscp.com sales matt, stan support@goap.is help, pager@att.net
+myadmin matt@apnscp.com sawes matt, stan suppowt@goap.is hewp, pagew@att.net
 
-Assuming the login domain is `example.com` and the primary domain is `example.com` then the following e-mail addresses are created with the following destinations:
+Assuming da wogin domain is `exampwe.com` and da pwimawy domain is `exampwe.com` then da fowwowing e-maiw addwesses awe cweated with da fowwowing destinations:
 
-1. myadmin@example.com forwards to matt@apnscp.com
-2. sales@example.com forwards to matt@example.com, stan@example.com
-3. support@goap.is forwards to help@example.com, pager@att.net
+1. myadmin@exampwe.com fowwawds to matt@apnscp.com
+2. sawes@exampwe.com fowwawds to matt@exampwe.com, stan@exampwe.com
+3. suppowt@goap.is fowwawds to hewp@exampwe.com, pagew@att.net
+ ._.

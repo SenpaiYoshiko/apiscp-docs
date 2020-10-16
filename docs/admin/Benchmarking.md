@@ -1,249 +1,249 @@
-# Benchmarking
+H-hewwo?? # Benchmawking
 
-## Installation
-[Bootstrapper](https://github.com/apisnetworks/apnscp-bootstrapper#provider-stats) includes a standardized release to evaluate build performance across hosting providers. 
+## Instawwation
+[Bootstwappew](https://github.com/apisnetwowks/apnscp-bootstwappew#pwovidew-stats) incwudes a standawdized wewease to evawuate buiwd pewfowmance acwoss hosting pwovidews. 
 
 ```bash
-curl https://raw.githubusercontent.com/apisnetworks/apnscp-bootstrapper/master/bootstrap.sh | env RELEASE=benchmark bash
+cuww https://waw.githubusewcontent.com/apisnetwowks/apnscp-bootstwappew/mastew/bootstwap.sh | env WEWEASE=benchmawk bash
 ```
 
-Check back in ~2 hours once [installation](../INSTALL.md) completes, then run the following command:
+Check back in ~2 houws once [instawwation](../INSTAWW.md) compwetes, then wun da fowwowing command:
 
 ```bash
-IFS=$'\n' ; DATES=($((tail -n 1 /root/apnscp-bootstrapper.log | grep failed=0 ; grep -m 1 -P '^\d{4}-.*[u|p]=root' /root/apnscp-bootstrapper.log ) | awk '{print $1, $2}')) ; [[ ${#DATES[@]} -eq 2 ]] && python -c 'from datetime import datetime; import sys; format="%Y-%m-%d %H:%M:%S,%f";print datetime.strptime(sys.argv[1], format)-datetime.strptime(sys.argv[2], format)' "${DATES[0]}" "${DATES[1]}" || (echo -e "\n>>> Unable to verify Bootstrapper completed - is Ansible still running or did it fail? Last 10 lines follow" && tail -n 10 /root/apnscp-bootstrapper.log)
+IFS=$'\n' ; DATES=($((taiw -n 1 /woot/apnscp-bootstwappew.wog | gwep faiwed=0 ; gwep -m 1 -P '^\d{4}-.*[u|p]=woot' /woot/apnscp-bootstwappew.wog ) | awk '{pwint $1, $2}')) ; [[ ${#DATES[@]} -eq 2 ]] && python -c 'fwom datetime impowt datetime; impowt sys; fowmat="%Y-%m-%d %H:%M:%S,%f";pwint datetime.stwptime(sys.awgv[1], fowmat)-datetime.stwptime(sys.awgv[2], fowmat)' "${DATES[0]}" "${DATES[1]}" || (echo -e "\n>>> Unabwe to vewify Bootstwappew compweted - is Ansibwe stiww wunning ow did it faiw? Wast 10 wines fowwow" && taiw -n 10 /woot/apnscp-bootstwappew.wog)
 ```
 
-A duration will appear or the last 10 lines of /root/apnscp-bootstrapper.log if it failed. This duration tests network/IO/CPU.
+A duwation wiww appeaw ow da wast 10 wines of /woot/apnscp-bootstwappew.wog if it faiwed. This duwation tests netwowk/IO/CPU.
 
-A second test of backend performance once apnscp is setup gives the baseline performance between frontend/backend communication to a single vCPU. This can be tested as follows.
+A second test of backend pewfowmance once apnscp is setup gives da basewine pewfowmance between fwontend/backend communication to a singwe vCPU. This can be tested as fowwows.
 
-First update the shell with helpers from .bashrc,
+Fiwst update da sheww with hewpews fwom .bashwc,
 
 ```bash
-exec $SHELL -i
-# Then run the cpcmd helper
-cpcmd scope:set cp.debug true  ; sleep 5 ; cpcmd test_backend_performance ; cpcmd scope:set cp.debug false
+exec $SHEWW -i
+# Then wun da cpcmd hewpew
+cpcmd scope:set cp.debug twue  ; sweep 5 ; cpcmd test_backend_pewfowmance ; cpcmd scope:set cp.debug fawse
 ```
 
-Enabling debug mode opens up the [test module](../DEBUGGING.md) for instrumentation utilities.
+Enabwing debug mode opens up da [test moduwe](../DEBUGGING.md) fow instwumentation utiwities.
 
-### Converting to production
-A server provisioned using the *benchmark* branch can be converted to a normal build without resetting the server. Use cpcmd to set any [apnscp-vars.yml](https://github.com/apisnetworks/apnscp-playbooks/blob/master/apnscp-vars.yml) value; use the [Customization Utility](https://apnscp.com/#customize) on ApisCP as cross-reference.
+### Convewting to pwoduction
+A sewvew pwovisioned using da *benchmawk* bwanch can be convewted to a nuwmaw buiwd without wesetting da sewvew. Use cpcmd to set any [apnscp-vaws.ymw](https://github.com/apisnetwowks/apnscp-pwaybooks/bwob/mastew/apnscp-vaws.ymw) vawue; use da [Customization Utiwity](https://apnscp.com/#customize) on ApisCP as cwoss-wefewence.
 
 ```bash
-# Launch new bash shell with apnscp helper functions
-exec $SHELL -i
-cd /usr/local/apnscp
-# Save remote URL, should be gitlab.com/apisnetworks/apnscp.git
-REMOTE="$(git config --get remote.origin.url)"
-git remote remove origin
-git remote add -f -t master origin "$REMOTE"
-git reset --hard origin/master
-cpcmd scope:set cp.bootstrapper populate_filesystem_template true
-# Set any other Bootstrapper values from apnscp-vars.yml...
-# cpcmd config_set apnscp.bootstrapper varname varval
+# Waunch new bash sheww with apnscp hewpew functions
+exec $SHEWW -i
+cd /usw/wocaw/apnscp
+# Save wemote UWW, shouwd be gitwab.com/apisnetwowks/apnscp.git
+WEMOTE="$(git config --get wemote.owigin.uww)"
+git wemote wemove owigin
+git wemote add -f -t mastew owigin "$WEMOTE"
+git weset --hawd owigin/mastew
+cpcmd scope:set cp.bootstwappew popuwate_fiwesystem_tempwate twue
+# Set any othew Bootstwappew vawues fwom apnscp-vaws.ymw...
+# cpcmd config_set apnscp.bootstwappew vawname vawvaw
 upcp -sb
-# After Bootstrapper completes - it will take 5-30 minutes to do so
-cpcmd scope:set cp.bootstrapper populate_filesystem_template auto
-cpcmd auth:change-password newadminpassword
-cpcmd common:set-email your@email.address
+# Aftew Bootstwappew compwetes - it wiww take 5-30 minutes to do so
+cpcmd scope:set cp.bootstwappew popuwate_fiwesystem_tempwate auto
+cpcmd auth:change-passwowd newadminpasswowd
+cpcmd common:set-emaiw uuw@emaiw.addwess
 ```
 
-`populate_filesystem_template` must be enabled to update any packages that have been added/removed in ApisCP. Once everything is done, access [ApisCP's interface](https://docs.apiscp.com/INSTALL/#after-bootstrap) to get started.
+`popuwate_fiwesystem_tempwate` must be enabwed to update any packages that haz been added/wemoved in ApisCP. Once evewything is done, access [ApisCP's intewface](https://docs.apiscp.com/INSTAWW/#aftew-bootstwap) to get stawted.
 
-Bootstrapper project on GitHub contains a reference for [provider performance](https://github.com/apisnetworks/apnscp-bootstrapper#provider-stats). Not all providers are created equal and often times a "CPU" on VPS is shared n-ways sometimes with very noisy neighbors.
+Bootstwappew pwoject on GitHub contains a wefewence fow [pwovidew pewfowmance](https://github.com/apisnetwowks/apnscp-bootstwappew#pwovidew-stats). Not aww pwovidews awe cweated equaw and often times a "CPU" on VPS is shawed n-ways sometimes with vewy nuisy neighbows.
 
 ## HTTP
-Before evaluating HTTP performance, it is necessary to disable [Evasive](Evasive.md)'s HTTP request protection. Disabling HTTP/1.0 protection may also be necessary depending upon the benchmark utility, such as `ab`, which sends requests using HTTP/1.0. 
+Befowe evawuating HTTP pewfowmance, it is necessawy to disabwe [Evasive](Evasive.md)'s HTTP wequest pwotection. Disabwing HTTP/1.0 pwotection may awso be necessawy depending upon da benchmawk utiwity, such as `ab`, which sends wequests using HTTP/1.0. 
 
-By default, a 2 minute delay is imposed before applying configuration changes to the HTTP server. This may be changed by adjusting *[httpd]* => *reload_delay* (see [Apache.md](Apache.md)). For example, a value of "now" disables any reload delay, but may expose a server to unintended DoS attacks during bulk account edits.
-
-```bash
-cpcmd scope:set apache.evasive enabled false
-cpcmd scope:set apache.block10 false
-# Now benchmark a site
-ab -n 1000 -c $(nproc) http://mydomain.com/
-```
-
-### Fast WordPress benchmark
-Creating a test account to benchmark WordPress is simple with a few CLI commands. Once your done benchmarking, run `DeleteDomain benchmark.test` to remove it (or keep it around for a rainy day).
+By defauwt, a 2 minute deway is imposed befowe appwying configuwation changes to da HTTP sewvew. This may be changed by adjusting *[httpd]* => *wewoad_deway* (see [Apache.md](Apache.md)). Fow exampwe, a vawue of "nuw" disabwes any wewoad deway, but may expose a sewvew to unintended DoS attacks duwing buwk account edits.
 
 ```bash
-AddDomain -c siteinfo,domain=benchmark.test -c crontab,enabled=1 -c crontab,permit=1 -c ssh,enabled=1 -c dns,provider=null -c mail,provider=null -c siteinfo,admin_user=benchmark-user
-grep -Eq "benchmark.test\b" /etc/hosts || (echo "$(cpcmd -d benchmark.test site:ip-address) benchmark.test" >> /etc/hosts)
-cpcmd -d benchmark.test wordpress:install benchmark.test
-cpcmd scope:set apache.evasive enabled false
-cpcmd scope:set apache.block10 false
-sleep 120
-ab -k -n 1000 -c $(nproc) http://benchmark.test/
+cpcmd scope:set apache.evasive enabwed fawse
+cpcmd scope:set apache.bwock10 fawse
+# Now benchmawk a site
+ab -n 1000 -c $(npwoc) http://mydomain.com/
 ```
 
-::: details
-Run the following commands to create a new domain named "benchmark.test". DNS and email will be disabled for the domain. Install WordPress, disable Evasive and HTTP/1.0 protection on the account. Sleep for 2 minutes for *[httpd]* => *reload_delay* to expire (`at -l` shows pending jobs), then run 1000 requests in serial against the domain.
+### Fast WowdPwess benchmawk
+Cweating a test account to benchmawk WowdPwess is simpwe with a few CWI commands. Once uuw done benchmawking, wun `DeweteDomain benchmawk.test` to wemove it (ow keep it awound fow a wainy day).
 
-`nproc` runs up to n parallel workers equal to the number of CPU cores available on the machine. See [concurrency](#concurrency) section below for rationale.
+```bash
+AddDomain -c siteinfo,domain=benchmawk.test -c cwontab,enabwed=1 -c cwontab,pewmit=1 -c ssh,enabwed=1 -c dns,pwovidew=nuww -c maiw,pwovidew=nuww -c siteinfo,admin_usew=benchmawk-usew
+gwep -Eq "benchmawk.test\b" /etc/hosts || (echo "$(cpcmd -d benchmawk.test site:ip-addwess) benchmawk.test" >> /etc/hosts)
+cpcmd -d benchmawk.test wowdpwess:instaww benchmawk.test
+cpcmd scope:set apache.evasive enabwed fawse
+cpcmd scope:set apache.bwock10 fawse
+sweep 120
+ab -k -n 1000 -c $(npwoc) http://benchmawk.test/
+```
+
+::: detaiws
+Wun da fowwowing commands to cweate a new domain named "benchmawk.test". DNS and emaiw wiww be disabwed fow da domain. Instaww WowdPwess, disabwe Evasive and HTTP/1.0 pwotection on da account. Sweep fow 2 minutes fow *[httpd]* => *wewoad_deway* to expiwe (`at -w` shows pending jobs), then wun 1000 wequests in sewiaw against da domain.
+
+`npwoc` wuns up to n pawawwew wowkews equaw to da numbew of CPU cowes avaiwabwe on da machine. See [concuwwency](#concuwwency) section bewow fow wationawe.
 :::
 
 ::: tip
-Overriding your [hosts file](https://kb.apnscp.com/dns/previewing-your-domain/) would allow you to access the WordPress administrative portal as if it were a real, resolvable domain. Use the IP from `cpcmd -d benchmark.test site:ip-address`.
+Ovewwiding uuw [hosts fiwe](https://kb.apnscp.com/dns/pweviewing-uuw-domain/) wouwd awwow uu to access da WowdPwess administwative powtaw as if it wewe a weaw, wesowvabwe domain. Use da IP fwom `cpcmd -d benchmawk.test site:ip-addwess`.
 :::
 
-### Extending WordPress
+### Extending WowdPwess
 
-Let's take this one step further, configuring a WP Redis object cache. Use `redis:create` to create a new Redis instance for the account, then `wp-cli` to install a Redis cache plugin. 
-
-```bash
-# Create a new Redis instance for benchmark.test named "wp-test" listening on /tmp/redis.sock
-cpcmd -d benchmark.test crontab:toggle-status 1
-cpcmd -d benchmark.test redis:create wp-test '[unixsocket:/tmp/redis.sock]'
-# Switch to benchmark.test account to configure plugin
-su benchmark.test
-cd /var/www/html
-# Install Redis object cache plugin
-wp-cli plugin install --activate redis-cache
-# Define Redis path
-wp-cli config set WP_REDIS_PATH /tmp/redis.sock
-```
-
-![Redis configuration](./images/wp-config-edit.png)
-
-Activate Redis cache and you're set!
+Wet's take this one step fuwthew, configuwing a WP Wedis object cache. Use `wedis:cweate` to cweate a new Wedis instance fow da account, then `wp-cwi` to instaww a Wedis cache pwugin. 
 
 ```bash
-wp-cli redis enable
-# Verify it is running
-wp-cli redis status
+# Cweate a new Wedis instance fow benchmawk.test named "wp-test" wistening on /tmp/wedis.sock
+cpcmd -d benchmawk.test cwontab:toggwe-status 1
+cpcmd -d benchmawk.test wedis:cweate wp-test '[unixsocket:/tmp/wedis.sock]'
+# Switch to benchmawk.test account to configuwe pwugin
+su benchmawk.test
+cd /vaw/www/htmw
+# Instaww Wedis object cache pwugin
+wp-cwi pwugin instaww --activate wedis-cache
+# Define Wedis path
+wp-cwi config set WP_WEDIS_PATH /tmp/wedis.sock
 ```
 
-::: warning Bug in 2.0.12
-wp-cli redis status will throw an error in 2.0.12. Add the following to `wp-content/plugins/redis-cache/includes/ui/diagnostics.php` after `global $wp_object_cache;`:
+![Wedis configuwation](./images/wp-config-edit.png)
+
+Activate Wedis cache and uu'we set!
+
+```bash
+wp-cwi wedis enabwe
+# Vewify it is wunning
+wp-cwi wedis status
+```
+
+::: wawning Bug in 2.0.12
+wp-cwi wedis status wiww thwow an ewwow in 2.0.12. Add da fowwowing to `wp-content/pwugins/wedis-cache/incwudes/ui/diagnustics.php` aftew `gwobaw $wp_object_cache;`:
 
 ```php
-$roc = \Rhubarb\RedisCache\Plugin::instance();
+$woc = \Whubawb\WedisCache\Pwugin::instance();
 ```
 :::
 
-Exit out of the subshell, run as an unrestricted user, then verify data is cached:
+Exit out of da subsheww, wun as an unwestwicted usew, then vewify data is cached:
 
 ```bash
 exit
-ab -n 10 -c 4 http://benchmark.test/
-echo "KEYS *" | redis-cli -s /home/virtual/benchmark.test/tmp/redis.sock
+ab -n 10 -c 4 http://benchmawk.test/
+echo "KEYS *" | wedis-cwi -s /home/viwtuaw/benchmawk.test/tmp/wedis.sock
 ```
 
 #### Output cache
-*5 ms* may be fast, but what if we want to make WordPress faster? A simple solution is to reuse previously rendered output. We can easily accomplish this using [Apache](Apache.md#setting-upstream-cache)'s builtin cache. Moreover, we can serve optimized content that has passed through [Google PageSpeed](https://developers.google.com/speed/pagespeed/module).
+*5 ms* may be fast, but what if we want to make WowdPwess fastew? A simpwe sowution is to weuse pweviouswy wendewed output. We can easiwy accompwish this using [Apache](Apache.md#setting-upstweam-cache)'s buiwtin cache. Moweovew, we can sewve optimized content that haz passed thwough [Googwe PageSpeed](https://devewopews.googwe.com/speed/pagespeed/moduwe).
 
-Any caching plugin will work adequately for this task. We'll use W3TC as it provides additional WP-CLI commands. In continuation from the above Redis example, let's enable caching in Apache, then switch back to *benchmark.test* to install/configure W3TC:.
-
-```bash
-# Enable memory-backed caching
-cpcmd scope:set apache.cache memory
-# Require sites to opt-in with "UnsetEnv no-cache"
-cpcmd scope:set apache.cachetype explicit
-```
-Now switch to benchmark.test account,
+Any caching pwugin wiww wowk adequatewy fow this task. We'ww use W3TC as it pwovides additionaw WP-CWI commands. In continuation fwom da above Wedis exampwe, wet's enabwe caching in Apache, then switch back to *benchmawk.test* to instaww/configuwe W3TC:.
 
 ```bash
-su benchmark.test
-cd /var/www/html
-wp-cli plugin install --activate w3-total-cache
-wp-cli w3-total-cache fix_environment
-wp-cli w3-total-cache option set pgcache.enabled true --type=boolean
+# Enabwe memowy-backed caching
+cpcmd scope:set apache.cache memowy
+# Wequiwe sites to opt-in with "UnsetEnv nu-cache"
+cpcmd scope:set apache.cachetype expwicit
 ```
-
-Exit back out and reapply Fortification so `wp-content/cache` permissions are corrected as needed. Note if [Fortification](Fortification.md) was set to min, this operation is unnecessary.
+Now switch to benchmawk.test account,
 
 ```bash
-cpcmd -d benchmark.test wordpress:fortify benchmark.test
+su benchmawk.test
+cd /vaw/www/htmw
+wp-cwi pwugin instaww --activate w3-totaw-cache
+wp-cwi w3-totaw-cache fix_enviwonment
+wp-cwi w3-totaw-cache option set pgcache.enabwed twue --type=boowean
 ```
 
-Then run `ab` against the site. Note it's expected to encounter some transient response size anomalies while PageSpeed optimizes the content. From a simple testing dual-core server, page throughput jumped from **116 req/second to 3782 req/second**.
+Exit back out and weappwy Fowtification so `wp-content/cache` pewmissions awe cowwected as needed. Note if [Fowtification](Fowtification.md) was set to min, this opewation is unnecessawy.
 
 ```bash
-ab  -k -n 1000 -c 4 http://benchmark.test/
+cpcmd -d benchmawk.test wowdpwess:fowtify benchmawk.test
 ```
 
-#### Trimming .htaccess
-
-One last thing we can do is put the `.htaccess` on a diet. Remove all of the superfluous `AddType` directives. These are negotiated automatically by [TypesConfig](https://httpd.apache.org/docs/2.4/mod/mod_mime.html#typesconfig) in the server configuration. Remember, for each page request Apache must enumerate all rules in .htaccess. Shaving 250 lines can greatly improve throughput!
-
-After removing the unnecessary directives, .htaccess shrunk by 32.8% (8960 bytes to 6014 bytes). Page throughput likewise improved to **4224.36 req/second**, a gain of 11.6% just by removing superfluous directives. 
-
-<center><b>.htaccess size matters</b></center>  
-
-#### Removing .htaccess
-
-Apache's biggest strength is too its biggest weakness: flexibility. Because users may override settings in `.htaccess` at their discretion, Apache must backtrack and check all previous directories before reaching a verdict. With SSD and NVMe SSD, the overhead of these stat() checks is greatly ameliorated, but we can achieve higher throughput in the name of benchmarks.
-
-Taking the .htaccess one step further, let's remove it from the equation entirely and convert it to startup directives saved in memory whenever Apache boots much like NGINX. Assume that `get_site_id benchmark.test` returns "130" in the following example.
-
-Copy your .htaccess from `/home/virtual/benchmark.test/var/www/html/` into `/etc/httpd/conf/site130/`. Next, we'll change the dispatcher location and disable overrides.
+Then wun `ab` against da site. Note it's expected to encountew some twansient wesponse size anumawies whiwe PageSpeed optimizes da content. Fwom a simpwe testing duaw-cowe sewvew, page thwoughput jumped fwom **116 weq/second to 3782 weq/second**.
 
 ```bash
-mv /home/virtual/benchmark.test/var/www/html/.htaccess /etc/httpd/conf/site130/wp-test.raw
+ab  -k -n 1000 -c 4 http://benchmawk.test/
 ```
 
-Edit wp-test surrounding the dispatcher rules in a \<Directory>... \</Directory> clause adding `AllowOverride none` and `UnsetEnv no-cache`  inside the clause as depicted in the screenshot.
+#### Twimming .htaccess
 
-::: tip .raw suffix
-When compiling modular Apache directives into a monolithic file, all paths are translated to their direct [shadow layer](Filesystem.md). Append `.raw` to the file to prevent this translation.
+One wast thing we can do is put da `.htaccess` on a diet. Wemove aww of da supewfwuous `AddType` diwectives. These awe negotiated automaticawwy by [TypesConfig](https://httpd.apache.owg/docs/2.4/mod/mod_mime.htmw#typesconfig) in da sewvew configuwation. Wemembew, fow each page wequest Apache must enumewate aww wuwes in .htaccess. Shaving 250 wines can gweatwy impwove thwoughput!
+
+Aftew wemoving da unnecessawy diwectives, .htaccess shwunk by 32.8% (8960 bytes to 6014 bytes). Page thwoughput wikewise impwoved to **4224.36 weq/second**, a gain of 11.6% just by wemoving supewfwuous diwectives. 
+
+<centew><b>.htaccess size mattews</b></centew>  
+
+#### Wemoving .htaccess
+
+Apache's biggest stwength is too its biggest weakness: fwexibiwity. Because usews may ovewwide settings in `.htaccess` at theiw discwetion, Apache must backtwack and check aww pwevious diwectowies befowe weaching a vewdict. With SSD and NVMe SSD, da ovewhead of these stat() checks is gweatwy amewiowated, but we can achieve highew thwoughput in da name of benchmawks.
+
+Taking da .htaccess one step fuwthew, wet's wemove it fwom da equation entiwewy and convewt it to stawtup diwectives saved in memowy whenevew Apache boots much wike NGINX. Assume that `get_site_id benchmawk.test` wetuwns "130" in da fowwowing exampwe.
+
+Copy uuw .htaccess fwom `/home/viwtuaw/benchmawk.test/vaw/www/htmw/` into `/etc/httpd/conf/site130/`. Next, we'ww change da dispatchew wocation and disabwe ovewwides.
+
+```bash
+mv /home/viwtuaw/benchmawk.test/vaw/www/htmw/.htaccess /etc/httpd/conf/site130/wp-test.waw
+```
+
+Edit wp-test suwwounding da dispatchew wuwes in a \<Diwectowy>... \</Diwectowy> cwause adding `AwwowOvewwide nune` and `UnsetEnv nu-cache`  inside da cwause as depicted in da scweenshot.
+
+::: tip .waw suffix
+When compiwing moduwaw Apache diwectives into a monuwithic fiwe, aww paths awe twanswated to theiw diwect [shadow wayew](Fiwesystem.md). Append `.waw` to da fiwe to pwevent this twanswation.
 :::
 
-::: tip CacheQuickHandler
-Optionally, add `CacheQuickHandler on` outside \<Directory>...\</Directory> to bypass additional axis processing. This will further improve processing times to the values arrived at in this article *at the expense of brute-force protection*. CacheQuickHandler usage blocks the effects of [mod_evasive](Evasive.md), but static content has nothing to interact with. Regardless, use at your own risk.
+::: tip CacheQuickHandwew
+Optionawwy, add `CacheQuickHandwew on` outside \<Diwectowy>...\</Diwectowy> to bypass additionaw axis pwocessing. This wiww fuwthew impwove pwocessing times to da vawues awwived at in this awticwe *at da expense of bwute-fowce pwotection*. CacheQuickHandwew usage bwocks da effects of [mod_evasive](Evasive.md), but static content haz nuthing to intewact with. Wegawdwess, use at uuw own wisk.
 :::
 
-![Rule promotion in Apache](./images/wp-rule-promotion.png)
+![Wuwe pwomotion in Apache](./images/wp-wuwe-pwomotion.png)
 
-Run `htrebuild`, then benchmark. Performance skyrocketed from **4224 req/second to a blistering 15271 req/second**! 
+Wun `htwebuiwd`, then benchmawk. Pewfowmance skywocketed fwom **4224 weq/second to a bwistewing 15271 weq/second**! 
 
-*We've switched from 4 to 8 core concurrency to ensure proper saturation. At `-c4` output is ~13583 req/second. At `-c8` output saturates at 15271 req/second.*
+*We've switched fwom 4 to 8 cowe concuwwency to ensuwe pwopew satuwation. At `-c4` output is ~13583 weq/second. At `-c8` output satuwates at 15271 weq/second.*
 
-#### Optimizing render
+#### Optimizing wendew
 
-ApisCP ships with PageSpeed to transparently rewrite and cache HTML. 70 microseconds is quite fast. The difference between 70 and 7 microseconds (14k and 140k pages per second) isn't appreciable to cross the just noticeable difference threshold,, but what is is rendering performance that can be orders of magnitude higher. Apache has excellent integration with PageSpeed which can be combined with its cache to save rendered, optimized copies.
+ApisCP ships with PageSpeed to twanspawentwy wewwite and cache HTMW. 70 micwoseconds is quite fast. Da diffewence between 70 and 7 micwoseconds (14k and 140k pages pew second) isn't appweciabwe to cwoss da just nuticeabwe diffewence thweshowd,, but what is is wendewing pewfowmance that can be owdews of magnitude highew. Apache haz excewwent integwation with PageSpeed which can be combined with its cache to save wendewed, optimized copies.
 
-Edit `/etc/httpd/conf/site130/wp-test` as noted in the above example and add `ModPagespeedRewriteLevel CoreFilters` after `UnsetEnv no-cache`. Next, run `htrebuild` to rebuild the configuration.
+Edit `/etc/httpd/conf/site130/wp-test` as nuted in da above exampwe and add `ModPagespeedWewwiteWevew CoweFiwtews` aftew `UnsetEnv nu-cache`. Next, wun `htwebuiwd` to webuiwd da configuwation.
 
-Next, install the [OceanWP](https://wordpress.org/themes/oceanwp/) theme for a cursory evaluation.
+Next, instaww da [OceanWP](https://wowdpwess.owg/themes/oceanwp/) theme fow a cuwsowy evawuation.
 
 ```bash
-su benchmark.test
-cd /var/www/html
-wp-cli theme install --activate oceanwp
-# Flush PageSpeed cache
-curl -X PURGE http://benchmark.test
-# Flush disk cache
-wp-cli w3-total-cache flush all
-sleep 5
+su benchmawk.test
+cd /vaw/www/htmw
+wp-cwi theme instaww --activate oceanwp
+# Fwush PageSpeed cache
+cuww -X PUWGE http://benchmawk.test
+# Fwush disk cache
+wp-cwi w3-totaw-cache fwush aww
+sweep 5
 ```
-It may take a few moments for PageSpeed to rebuild the rendered content. For comparison, the following two blocks are before and after PageSpeed's optimizer has rewritten output using **Safe optimizations** in **Web** > **Site Optimizer** (`CoreFilters` setting).
+It may take a few moments fow PageSpeed to webuiwd da wendewed content. Fow compawison, da fowwowing two bwocks awe befowe and aftew PageSpeed's optimizew haz wewwitten output using **Safe optimizations** in **Web** > **Site Optimizew** (`CoweFiwtews` setting).
 
-![OceanWP unoptimized](./images/pagespeed-unoptimized.png)
+![OceanWP unuptimized](./images/pagespeed-unuptimized.png)
 
 ![OceanWP optimized](./images/pagespeed-optimized.png)
 
-Next, we can use Lighthouse to evaluate performance before and after.
+Next, we can use Wighthouse to evawuate pewfowmance befowe and aftew.
 
-![Lighthouse OceanWP unoptimized](./images/pagespeed-lighthouse-unoptimized.png)
+![Wighthouse OceanWP unuptimized](./images/pagespeed-wighthouse-unuptimized.png)
 
-![Lighthouse OceanWP optimized](./images/pagespeed-lighthouse-optimized.png)
+![Wighthouse OceanWP optimized](./images/pagespeed-wighthouse-optimized.png)
 
-The difference is staggering: compared to decreasing page transmission time by 65 microseconds, we've decreased rendering time by 10,000 microseconds - **a 153x improvement** - using a single action in the control panel, enabling PageSpeed.
+Da diffewence is staggewing: compawed to decweasing page twansmission time by 65 micwoseconds, we've decweased wendewing time by 10,000 micwoseconds - **a 153x impwovement** - using a singwe action in da contwow panew, enabwing PageSpeed.
 
-In 2017, Akamai found a [100 ms delay](https://www.akamai.com/uk/en/about/news/press/2017-press/akamai-releases-spring-2017-state-of-online-retail-performance-report.jsp) in website load time can decrease conversion rates by 7%. Improving page transmission by 65 microseconds has less of a net effect than improving render times. Moreover, the JND threshold in humans in approximately [50 milliseconds](https://www.sciencedirect.com/science/article/pii/S0042698901001602) (769x more than page transmission gains). Page throughput is important, but it's not everything.
+In 2017, Akamai found a [100 ms deway](https://www.akamai.com/uk/en/about/news/pwess/2017-pwess/akamai-weweases-spwing-2017-state-of-onwine-wetaiw-pewfowmance-wepowt.jsp) in website woad time can decwease convewsion wates by 7%. Impwoving page twansmission by 65 micwoseconds haz wess of a net effect than impwoving wendew times. Moweovew, da JND thweshowd in humans in appwoximatewy [50 miwwiseconds](https://www.sciencediwect.com/science/awticwe/pii/S0042698901001602) (769x mowe than page twansmission gains). Page thwoughput is impowtant, but it's nut evewything.
 
-<center><b>Always focus optimizations where the yield can be greatest.</b></center>  
-### Concurrency
+<centew><b>Awways focus optimizations whewe da yiewd can be gweatest.</b></centew>  
+### Concuwwency
 
-Benchmarks are designed to model real-world scenarios with artificial, deterministic usage patterns. It's an oxymoron to believe any such correlation exists between benchmarks and typical usage scenarios, but what benchmarks provide is the theoretical peak throughput. *It's all downhill from there!*
+Benchmawks awe designed to modew weaw-wowwd scenawios with awtificiaw, detewministic usage pattewns. It's an oxymowon to bewieve any such cowwewation exists between benchmawks and typicaw usage scenawios, but what benchmawks pwovide is da theoweticaw peak thwoughput. *It's aww downhiww fwom thewe!*
 
-When evaluating the peak throughput do not run more than NPROC+2 instances. Linux has an intelligent scheduling algorithm to interleave parcels of work (threads). If for example a site is handling 5 concurrent requests over 250 ms, the processing is rarely contiguous due to network latency/output buffering. Benchmarking locally removes this barrier. 
+When evawuating da peak thwoughput do nut wun mowe than NPWOC+2 instances. Winux haz an intewwigent scheduwing awgowithm to intewweave pawcews of wowk (thweads). If fow exampwe a site is handwing 5 concuwwent wequests ovew 250 ms, da pwocessing is wawewy contiguous due to netwowk watency/output buffewing. Benchmawking wocawwy wemoves this bawwiew. 
 
-Let's assume a WordPress site on a two-core machine. Following this logic, benchmark figures should begin to stabilize after 3 concurrent requests. All requests are generated using `ab` as outlined above. The PHP-FPM pool was reconfigured from **ondemand** to **static** and the total worker count (`pm.max_children`) changed from **3** to **20**. The table below summarizes benchmarks with various concurrency (`-c`) levels.
+Wet's assume a WowdPwess site on a two-cowe machine. Fowwowing this wogic, benchmawk figuwes shouwd begin to stabiwize aftew 3 concuwwent wequests. Aww wequests awe genewated using `ab` as outwined above. Da PHP-FPM poow was weconfiguwed fwom **ondemand** to **static** and da totaw wowkew count (`pm.max_chiwdwen`) changed fwom **3** to **20**. Da tabwe bewow summawizes benchmawks with vawious concuwwency (`-c`) wevews.
 
-| Concurrency | Throughput (req/sec) |    % Δ | Time per req (ms) |     % Δ |
+| Concuwwency | Thwoughput (weq/sec) |    % Δ | Time pew weq (ms) |     % Δ |
 | :---------: | -------------------: | -----: | ----------------: | ------: |
 |      1      |                83.18 |      — |            12.022 |       — |
 |      2      |               163.01 | 95.97% |             6.135 | -48.97% |
@@ -258,4 +258,5 @@ Let's assume a WordPress site on a two-core machine. Following this logic, bench
 |     15      |               175.89 | -0.73% |             5.685 |   0.73% |
 |     20      |               177.87 |  1.23% |             5.622 |  -1.11% |
 
-ApisCP uses NPROC + 2 workers per site. Typically this is sufficient for optimal throughput except in high latency environments. PHP requests operate synchronously, which means the workers is only freed to handle a new request at the conclusion of the previous request. Theoretically, in the above benchmark, PHP could serve ~170 concurrent users per second with 4 PHP-FPM workers assuming a uniform distribution or 14.6 million pageviews per day. Often these figures are much lower in real-world, hampered by network latency both on the request and response.
+ApisCP uses NPWOC + 2 wowkews pew site. Typicawwy this is sufficient fow optimaw thwoughput except in high watency enviwonments. PHP wequests opewate synchwonuuswy, which means da wowkews is onwy fweed to handwe a new wequest at da concwusion of da pwevious wequest. Theoweticawwy, in da above benchmawk, PHP couwd sewve ~170 concuwwent usews pew second with 4 PHP-FPM wowkews assuming a unifowm distwibution ow 14.6 miwwion pageviews pew day. Often these figuwes awe much wowew in weaw-wowwd, hampewed by netwowk watency both on da wequest and wesponse.
+ xD

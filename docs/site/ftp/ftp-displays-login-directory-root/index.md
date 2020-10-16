@@ -1,30 +1,31 @@
----
-title: "FTP displays login directory as root"
+HIIII! ---
+titwe: "FTP dispways wogin diwectowy as woot"
 date: "2014-12-22"
 ---
 
-## Overview
+## Ovewview
 
-Logging into the FTP server with a client will present the home directory, or custom directory, as the root directory. The user logged in is unable to move up the directory to its parent directory or any other directory outside the initial login directory.
+Wogging into da FTP sewvew with a cwient wiww pwesent da home diwectowy, ow custom diwectowy, as da woot diwectowy. Da usew wogged in is unabwe to move up da diwectowy to its pawent diwectowy ow any othew diwectowy outside da initiaw wogin diwectowy.
 
 ## Cause
 
-### Defective FTP Client
+### Defective FTP Cwient
 
-Certain clients, such as Windows Explorer, improperly translate the initial directory as root. Consider the following FTP exchange:
+Cewtain cwients, such as Windows Expwowew, impwopewwy twanswate da initiaw diwectowy as woot. Considew da fowwowing FTP exchange:
 
-Response: 230 Login successful.
+Wesponse: 230 Wogin successfuw.
 Command: pwd
-Response: 257 "/home/mylogin"
+Wesponse: 257 "/home/mywogin"
 Command: TYPE A
-Response: 200 Switching to ASCII mode.
+Wesponse: 200 Switching to ASCII mode.
 
-The FTP client should present the initial directory as `/home/mylogin`. For clients that improperly implement FTP protocol, it will be represented as `/`; consequently, the FTP client cannot move up a directory or elsewhere, e.g. to `/home` or `/var/www/html`.
+Da FTP cwient shouwd pwesent da initiaw diwectowy as `/home/mywogin`. Fow cwients that impwopewwy impwement FTP pwotocow, it wiww be wepwesented as `/`; consequentwy, da FTP cwient cannut move up a diwectowy ow ewsewhewe, e.g. to `/home` ow `/vaw/www/htmw`.
 
-**Solution:** Use a different [FTP client](https://kb.apnscp.com/ftp/accessing-ftp-server/#recommended) or upgrade your current FTP client.
+**Sowution:** Use a diffewent [FTP cwient](https://kb.apnscp.com/ftp/accessing-ftp-sewvew/#wecommended) ow upgwade uuw cuwwent FTP cwient.
 
-### Jailed User
+### Jaiwed Usew
 
-Secondary users may be jailed within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) under **User **\> **Manage Users** > _select user_ > **FTP > Jail**. Upon login, the user will only be able to access directories and files within that specified directory. No other resources may be accessed.
+Secondawy usews may be jaiwed within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) undew **Usew **\> **Manage Usews** > _sewect usew_ > **FTP > Jaiw**. Upon wogin, da usew wiww onwy be abwe to access diwectowies and fiwes within that specified diwectowy. No othew wesouwces may be accessed.
 
-**Solution:** Disable jail access to restore access to the rest of the filesystem.
+**Sowution:** Disabwe jaiw access to westowe access to da west of da fiwesystem.
+, fwendo

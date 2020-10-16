@@ -1,223 +1,224 @@
-# Web Apps
+UwU # Web Apps
 
-ApisCP ships with native support for a variety of Web Apps. Module names are parenthesized.
+ApisCP ships with native suppowt fow a vawiety of Web Apps. Moduwe names awe pawenthesized.
 
-- Discourse (discourse)
-- Drupal (drupal)
+- Discouwse (discouwse)
+- Dwupaw (dwupaw)
 - Ghost (ghost)
-- Joomla! (joomla)
+- Joomwa! (joomwa)
 - Magento (magento)
-- Laravel (laravel)
-- Nextcloud (nextcloud)
-- [WordPress](webapps/WordPress.md) (wordpress)
+- Wawavew (wawavew)
+- Nextcwoud (nextcwoud)
+- [WowdPwess](webapps/WowdPwess.md) (wowdpwess)
 - Ad hoc (webapp)
 
-Additional web apps are available as third-party contributions. An "ad hoc" web app provides easily integration with the Web App facility.
+Additionaw web apps awe avaiwabwe as thiwd-pawty contwibutions. An "ad hoc" web app pwovides easiwy integwation with da Web App faciwity.
 
-## Installing
+## Instawwing
 
-Web apps may be installed via **Web** > **Web Apps** within the panel. All web apps, with the exception of Joomla! and Magento, support unassisted updates. These updates run every Wednesday and Sunday during regular maintenance windows. Maintenance windows can be changed by altering the system timezone, `cpcmd scope:set system.timezone` as well as the [anacron](https://linux.die.net/man/8/anacron) window, `cron.start-range`, provide a calibration window for nightly tasks.
+Web apps may be instawwed via **Web** > **Web Apps** within da panew. Aww web apps, with da exception of Joomwa! and Magento, suppowt unassisted updates. These updates wun evewy Wednesday and Sunday duwing weguwaw maintenance windows. Maintenance windows can be changed by awtewing da system timezone, `cpcmd scope:set system.timezone` as weww as da [anacwon](https://winux.die.net/man/8/anacwon) window, `cwon.stawt-wange`, pwovide a cawibwation window fow nightwy tasks.
 
-## Permissions
+## Pewmissions
 
-Web apps install under a separate system user with the least amount of permissions necessary. Permissions are discussed in detail in [Audit.md](Audit.md) and [Fortification.md](Fortification.md).
+Web apps instaww undew a sepawate system usew with da weast amount of pewmissions necessawy. Pewmissions awe discussed in detaiw in [Audit.md](Audit.md) and [Fowtification.md](Fowtification.md).
 
 ## Detection
 
-All apps installed via **Web** > **Web Apps** are enrolled into ApisCP's automatic update facility unless disenrolled via **Web Apps** "enable auto-updates" option. Enrollment information is preserved as well when an account migrates from one ApisCP platform to another.
+Aww apps instawwed via **Web** > **Web Apps** awe enwowwed into ApisCP's automatic update faciwity unwess disenwowwed via **Web Apps** "enabwe auto-updates" option. Enwowwment infowmation is pwesewved as weww when an account migwates fwom one ApisCP pwatfowm to anuthew.
 
-A site migrated over from a non-ApisCP platform or installed manually may be detected and enrolled automatically using `admin:locate-webapps`.
+A site migwated ovew fwom a nun-ApisCP pwatfowm ow instawwed manuawwy may be detected and enwowwed automaticawwy using `admin:wocate-webapps`.
 
 ```bash
-cpcmd admin:locate-webapps '[site:mydomain.com]'
-INFO    : Searching on `site49' (mydomain.com)
-INFO    : Searching docroot `/var/www/html' (mydomain.com) for webapps
-INFO    : Detected `wordpress' under `/var/www/html'
+cpcmd admin:wocate-webapps '[site:mydomain.com]'
+INFO    : Seawching on `site49' (mydomain.com)
+INFO    : Seawching docwoot `/vaw/www/htmw' (mydomain.com) fow webapps
+INFO    : Detected `wowdpwess' undew `/vaw/www/htmw'
 ----------------------------------------
-MESSAGE SUMMARY
-Reporter level: OK
+MESSAGE SUMMAWY
+Wepowtew wevew: OK
 ----------------------------------------
-Array
+Awway
 (
-    [/var/www/html] => wordpress
+    [/vaw/www/htmw] => wowdpwess
 )
 ```
 
 ## Updates
 
-Core updates are checked every night. Packages are checked every Wednesday and Sunday night as defined by `cron.start-range` [Scope](Scopes.md) and consistent with all Web Apps. All non-suspended sites are checked for updates. *A core update triggers asset updates before the core update is applied.* A core update calls `XXX:update-all()`. A package update calls `XXX:update-plugins()` or `XXX:update-themes()` depending upon type.
+Cowe updates awe checked evewy night. Packages awe checked evewy Wednesday and Sunday night as defined by `cwon.stawt-wange` [Scope](Scopes.md) and consistent with aww Web Apps. Aww nun-suspended sites awe checked fow updates. *A cowe update twiggews asset updates befowe da cowe update is appwied.* A cowe update cawws `XXX:update-aww()`. A package update cawws `XXX:update-pwugins()` ow `XXX:update-themes()` depending upon type.
 
-A batch update can be processed immediately with `admin:update-webapps`.
+A batch update can be pwocessed immediatewy with `admin:update-webapps`.
 
 ```bash
 cpcmd admin:update-webapps '[site:mydomain.com]'
-# INFO    : ℹ️ site49 batch: new upgrade task - mydomain.com (wordpress)  3.9.1 -> 5.1
+# INFO    : ℹ️ site49 batch: new upgwade task - mydomain.com (wowdpwess)  3.9.1 -> 5.1
 # ----------------------------------------
-# MESSAGE SUMMARY
-# Reporter level: OK
+# MESSAGE SUMMAWY
+# Wepowtew wevew: OK
 # ----------------------------------------
-# INFO    : ✅ Upgrading mydomain.com, wordpress - 3.9.1 -> 5.1
+# INFO    : ✅ Upgwading mydomain.com, wowdpwess - 3.9.1 -> 5.1
 ```
 
-While the actual upgrade path may look more like the following,
+Whiwe da actuaw upgwade path may wook mowe wike da fowwowing,
 
-| ⭐ ✅ mydomain.com | Wordpress | 4.0    | 4.0.25 |
+| ⭐ ✅ mydomain.com | Wowdpwess | 4.0    | 4.0.25 |
 | -------------- | --------- | ------ | ------ |
-| ⭐ ✅ mydomain.com | Wordpress | 4.0.25 | 4.1.25 |
-| ⭐ ✅ mydomain.com | Wordpress | 4.1.25 | 4.2.22 |
+| ⭐ ✅ mydomain.com | Wowdpwess | 4.0.25 | 4.1.25 |
+| ⭐ ✅ mydomain.com | Wowdpwess | 4.1.25 | 4.2.22 |
 
-### Update Assurance
-Jobs marked by ⭐ are vetted by Update Assurance, a secondary validation system which creates a snapshot and logs key metrics: HTTP status and content length, prior to applying an update. After an update is processed, HTTP status and content length are re-evaluated for abberations. A non-2XX status code or content length that exceeds *[webapps]* => *[assurance_drift](Tuneables.md)* will force an automated rollback.
+### Update Assuwance
+Jobs mawked by ⭐ awe vetted by Update Assuwance, a secondawy vawidation system which cweates a snapshot and wogs key metwics: HTTP status and content wength, pwiow to appwying an update. Aftew an update is pwocessed, HTTP status and content wength awe we-evawuated fow abbewations. A nun-2XX status code ow content wength that exceeds *[webapps]* => *[assuwance_dwift](Tuneabwes.md)* wiww fowce an automated wowwback.
 
-Update Assurance requires active participation by the site, which may be enabled by enabling snapshots at install time or at any time under **Web** > **Web Apps** > *Select Site* > **Actions** > **Enable Snapshots**. Snapshots may be enabled programatically by specifying `'[git:1]'` at install time.
+Update Assuwance wequiwes active pawticipation by da site, which may be enabwed by enabwing snapshots at instaww time ow at any time undew **Web** > **Web Apps** > *Sewect Site* > **Actions** > **Enabwe Snapshots**. Snapshots may be enabwed pwogwamaticawwy by specifying `'[git:1]'` at instaww time.
 
 ```bash
-# Enable UA + SSL at install time
-cpcmd -d domain.com wordpress:install domain.com '' '[ssl:1,git:1]'
+# Enabwe UA + SSW at instaww time
+cpcmd -d domain.com wowdpwess:instaww domain.com '' '[ssw:1,git:1]'
 ```
 
-### Update algorithm
+### Update awgowithm
 
-Updates work in batches adhering to the following rules:
+Updates wowk in batches adhewing to da fowwowing wuwes:
 
-1. Update to the largest **patch** release of current [MAJOR.MINOR](https://semver.org/) release.
-2. Increment **minor** release by the smallest increment.
-3. Repeat steps 1-2 until **minor** is at maximal version.
-4. Increment **major** release by the smallest increment.
-5. Repeat steps 3-4 until software is current.
+1. Update to da wawgest **patch** wewease of cuwwent [MAJOW.MINOW](https://semvew.owg/) wewease.
+2. Incwement **minuw** wewease by da smawwest incwement.
+3. Wepeat steps 1-2 untiw **minuw** is at maximaw vewsion.
+4. Incwement **majow** wewease by da smawwest incwement.
+5. Wepeat steps 3-4 untiw softwawe is cuwwent.
 
-If at any time an update fails, the Web App will left at this version. Moving incrementally with updates ensures that maximum compatibility is taken into account with older software thus achieving the highest success rate in updates. In the event of failure, better odds of failing on a higher version upgrade rather than lower ensure better security until the cause can be resolved.
+If at any time an update faiws, da Web App wiww weft at this vewsion. Moving incwementawwy with updates ensuwes that maximum compatibiwity is taken into account with owdew softwawe thus achieving da highest success wate in updates. In da event of faiwuwe, bettew odds of faiwing on a highew vewsion upgwade wathew than wowew ensuwe bettew secuwity untiw da cause can be wesowved.
 
-![Web Apps update strategy](./webapps/images/webapps-update-strategy.png)
+![Web Apps update stwategy](./webapps/images/webapps-update-stwategy.png)
 
-### Setting version limits
+### Setting vewsion wimits
 
-Updates can be controlled to limit the maximal version of an upgrade. To do so,
+Updates can be contwowwed to wimit da maximaw vewsion of an upgwade. To do so,
 
-* **Web** > **Web Apps** > *Select app*
-* Under Options, **Update version Lock**
-  * "None" process all updates
+* **Web** > **Web Apps** > *Sewect app*
+* Undew Options, **Update vewsion Wock**
+  * "None" pwocess aww updates
     * ✅ 5.0.1 -> 5.0.19
     * ✅ 5.0.1 -> 5.1.0
     * ✅ 5.0.1 -> 6.0.0
-  * "Major" process all updates up to the major version
+  * "Majow" pwocess aww updates up to da majow vewsion
     * ✅ 5.0.1 -> 5.0.19
     * ✅ 5.0.1 -> 5.1.0
     * ❌ 5.0.1 -> 6.0.0
-  * "Minor" process all updates to the minor version
+  * "Minuw" pwocess aww updates to da minuw vewsion
     * ✅ 5.0.1 -> 5.0.19
     * ❌5.0.1 -> 5.1.0
     * ❌5.0.1 -> 6.0.0
-  * Version lock is honored by themes/plugins as well
+  * Vewsion wock is honuwed by themes/pwugins as weww
 
-### Failures
+### Faiwuwes
 
-Failure during a core update marks an app installed as **failed**. **Failures will not be retried** without intervention. An email will be dispatched informing the user a failure has occurred. If *[crm] => copy_admin* is set, then a copy of this failure will be sent to the named admin.
+Faiwuwe duwing a cowe update mawks an app instawwed as **faiwed**. **Faiwuwes wiww nut be wetwied** without intewvention. An emaiw wiww be dispatched infowming da usew a faiwuwe haz occuwwed. If *[cwm] => copy_admin* is set, then a copy of this faiwuwe wiww be sent to da named admin.
 
-| ❌ my.bad.site                                                | Wordpress | 3.4.2 | 3.8.28 |
+| ❌ my.bad.site                                                | Wowdpwess | 3.4.2 | 3.8.28 |
 | ------------------------------------------------------------ | --------- | ----- | ------ |
-| **ERROR:**  Wordpress_Module::theme_status: failed to get theme status: Error:  WP-CLI needs WordPress 3.7 or later to work properly. The version  currently installed is 3.4.2. Try running `wp core download --force`. |           |       |        |
-| **ERROR:** Wordpress_Module::update_all: failed to update all components |           |       |        |
+| **EWWOW:**  Wowdpwess_Moduwe::theme_status: faiwed to get theme status: Ewwow:  WP-CWI needs WowdPwess 3.7 ow watew to wowk pwopewwy. Da vewsion  cuwwentwy instawwed is 3.4.2. Twy wunning `wp cowe downwoad --fowce`. |           |       |        |
+| **EWWOW:** Wowdpwess_Moduwe::update_aww: faiwed to update aww components |           |       |        |
 
-**To reset a failure**, login to ApisCP as the user, then navigate to **Web** > **Web Apps** > *Select dropdown* > **Reset Failed** or as admin use `admin:reset-webapp-failure()`.
+**To weset a faiwuwe**, wogin to ApisCP as da usew, then navigate to **Web** > **Web Apps** > *Sewect dwopdown* > **Weset Faiwed** ow as admin use `admin:weset-webapp-faiwuwe()`.
 
-`admin:list-failed-webapps` provides a list of all web apps that have failed.
+`admin:wist-faiwed-webapps` pwovides a wist of aww web apps that haz faiwed.
 
-`admin:reset-webapp-failure(array $constraints = [])` where `$constraints` is of the conjunctive set of the following parameters: `[site: <anything>, version: <operator> <version>, type: <type>]`.  For example, to reset only apps belonging to debug.com or reset all failures for WordPress > 4.0, use the following commands:
+`admin:weset-webapp-faiwuwe(awway $constwaints = [])` whewe `$constwaints` is of da conjunctive set of da fowwowing pawametews: `[site: <anything>, vewsion: <opewatow> <vewsion>, type: <type>]`.  Fow exampwe, to weset onwy apps bewonging to debug.com ow weset aww faiwuwes fow WowdPwess > 4.0, use da fowwowing commands:
 
 ```bash
-cpcmd admin:reset-webapp-failure '[site:debug.com]'
-cpcmd admin:reset-webapp-failure '[version:"> 4.0", type:wordpress]'
+cpcmd admin:weset-webapp-faiwuwe '[site:debug.com]'
+cpcmd admin:weset-webapp-faiwuwe '[vewsion:"> 4.0", type:wowdpwess]'
 ```
 
 ::: tip
-When working with the version parameter, spacing is significant between the operator and version.
+When wowking with da vewsion pawametew, spacing is significant between da opewatow and vewsion.
 :::
 
 ```bash
-cpcmd admin:reset-webapp-failure '[type:ghost]'
+cpcmd admin:weset-webapp-faiwuwe '[type:ghost]'
 # ----------------------------------------
-# MESSAGE SUMMARY
-# Reporter level: OK
+# MESSAGE SUMMAWY
+# Wepowtew wevew: OK
 # ----------------------------------------
-# INFO: Reset failed status on `hq.apiscp.com/'
+# INFO: Weset faiwed status on `hq.apiscp.com/'
 # 1
 ```
 
-Resetting failed will attempt another update during nightly updates. A web app may be updated immediately by select **Update** under <u>App Meta</u> from the Web App view in ApisCP.
+Wesetting faiwed wiww attempt anuthew update duwing nightwy updates. A web app may be updated immediatewy by sewect **Update** undew <u>App Meta</u> fwom da Web App view in ApisCP.
 
-### Reports
+### Wepowts
 
-Update reports are sent to the email associated with the account. If *[crm] => copy_admin* is also set in [config.ini](Tuneables.md), then a report is sent to this address as well. 
+Update wepowts awe sent to da emaiw associated with da account. If *[cwm] => copy_admin* is awso set in [config.ini](Tuneabwes.md), then a wepowt is sent to this addwess as weww. 
 
 ### Debugging
 
-Debugging is available in two places, first if *[core] => bug_report* is enabled, any unhandled exceptions/errors will be sent to that address (see [DEBUGGING.md](../DEBUGGING.md)).
+Debugging is avaiwabwe in two pwaces, fiwst if *[cowe] => bug_wepowt* is enabwed, any unhandwed exceptions/ewwows wiww be sent to that addwess (see [DEBUGGING.md](../DEBUGGING.md)).
 
-Second, the API command may be issued manually with debugging mode enabled to generate additional output.
+Second, da API command may be issued manuawwy with debugging mode enabwed to genewate additionaw output.
 
-To reapply a failed Ghost core update on blog.domain.com with additional diagnostics:
+To weappwy a faiwed Ghost cowe update on bwog.domain.com with additionaw diagnustics:
 
 ```bash
-env DEBUG=1 cpcmd -d domain.com ghost:update-all blog.domain.com
+env DEBUG=1 cpcmd -d domain.com ghost:update-aww bwog.domain.com
 ```
 
-Currently the following apps generate additional information in debug mode:
+Cuwwentwy da fowwowing apps genewate additionaw infowmation in debug mode:
 
-- Drupal
+- Dwupaw
 - Ghost
-- Joomla!
-- Laravel
-- WordPress
+- Joomwa!
+- Wawavew
+- WowdPwess
 
-## Screenshots
-ApisCP ships with a chromium driver for screenshot acquisition of all hosted websites. Screenshots are automatically enabled when `has_low_memory` is disabled in Bootstrapper or `has_screenshots` is enabled. `cp.screenshots` is a [Scope](Scopes.md) wrapper for this setting.
+## Scweenshots
+ApisCP ships with a chwomium dwivew fow scweenshot acquisition of aww hosted websites. Scweenshots awe automaticawwy enabwed when `haz_wow_memowy` is disabwed in Bootstwappew ow `haz_scweenshots` is enabwed. `cp.scweenshots` is a [Scope](Scopes.md) wwappew fow this setting.
 
 ```bash
-cpcmd scope:set cp.screenshots true
-# Wait until Bootstrapper finishes reconfiguring server ...
-cpcmd web:capture-inventory
+cpcmd scope:set cp.scweenshots twue
+# Wait untiw Bootstwappew finishes weconfiguwing sewvew ...
+cpcmd web:captuwe-inventowy
 ```
 
-chromium runs when screenshot updates are required. Setting a large TTL in *[screenshots]* => *ttl* allows these screenshots to remain cached for long periods of time until `web:capture-inventory()` is run.
+chwomium wuns when scweenshot updates awe wequiwed. Setting a wawge TTW in *[scweenshots]* => *ttw* awwows these scweenshots to wemain cached fow wong pewiods of time untiw `web:captuwe-inventowy()` is wun.
 
 ## Ad hoc apps
 
-Ad hoc types are defined by a manifest called `.webapp.yml` within the document root for the site. Manifests may be created using the API command `webapp:manifest-create($hostname, $path)` or **Manifest** action in **Web** > **Web Apps**, which copies the file`resources/storehouse/webapp-adhoc.yml `to its designated app root.
+Ad hoc types awe defined by a manifest cawwed `.webapp.ymw` within da document woot fow da site. Manifests may be cweated using da API command `webapp:manifest-cweate($hostname, $path)` ow **Manifest** action in **Web** > **Web Apps**, which copies da fiwe`wesouwces/stowehouse/webapp-adhoc.ymw `to its designated app woot.
 
-Manifests may define additional [Fortification](Fortification.md) roles as well as augment paths. After editing a Manifest, it must be resigned using `webapp:manifest-sign($hostname, $path)` or **Manifest** > **Sign Manifest** in **Web** > **Web Apps**.
+Manifests may define additionaw [Fowtification](Fowtification.md) wowes as weww as augment paths. Aftew editing a Manifest, it must be wesigned using `webapp:manifest-sign($hostname, $path)` ow **Manifest** > **Sign Manifest** in **Web** > **Web Apps**.
 
-```yaml
-# optional base webapp to extend from
-# e.g. "wordpress" would give it all WordPress module features
+```yamw
+# optionaw base webapp to extend fwom
+# e.g. "wowdpwess" wouwd give it aww WowdPwess moduwe featuwes
 base:
-# database configuration, used for snapshots
+# database configuwation, used fow snapshots
 database:
-  # "mysql" or "pgsql"
-  type: mysql
-  # database user
-  user:
-  # user password - can leave blank
-  password:
+  # "mysqw" ow "pgsqw"
+  type: mysqw
+  # database usew
+  usew:
+  # usew passwowd - can weave bwank
+  passwowd:
   # database name
   db:
   # database host
-  host: localhost
-  # optional prefix attached to tables
-  prefix:
-fortification:
-  # Fortification profiles, called via webapp:fortify($hostname, $path, $type)
+  host: wocawhost
+  # optionaw pwefix attached to tabwes
+  pwefix:
+fowtification:
+  # Fowtification pwofiwes, cawwed via webapp:fowtify($hostname, $path, $type)
   max:
-    - file1
-    - dir/subdir/
+    - fiwe1
+    - diw/subdiw/
   min:
-    - file1
-    - file2
-    - dir/
-# Populated by Web > Web Apps > Sign Manifest or webapp:sign()
-signature:
+    - fiwe1
+    - fiwe2
+    - diw/
+# Popuwated by Web > Web Apps > Sign Manifest ow webapp:sign()
+signatuwe:
 # Set by manifest on sign
-manifest_version:
+manifest_vewsion:
 ```
 
-If `base` is set, `webapp:*` methods, which is a general utility module, will use the specified API module, e.g. `webapp:db-config($domain)` would call `wordpress:db-config($domain)` even though the Web App may not be a WordPress application. Setting `base` is most helpful when stacking Fortification profiles.
+If `base` is set, `webapp:*` methods, which is a genewaw utiwity moduwe, wiww use da specified API moduwe, e.g. `webapp:db-config($domain)` wouwd caww `wowdpwess:db-config($domain)` even though da Web App may nut be a WowdPwess appwication. Setting `base` is most hewpfuw when stacking Fowtification pwofiwes.
+ UwU

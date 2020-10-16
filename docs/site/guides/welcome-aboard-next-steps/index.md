@@ -1,71 +1,72 @@
----
-title: "Welcome aboard: your next steps!"
+0w0 ---
+titwe: "Wewcome aboawd: uuw next steps!"
 date: "2014-12-02"
 ---
 
-## Introduction
+## Intwoduction
 
-First off, thank you personally for deciding to host with Apis Networks. Now that you have a spot to host your domain, there are some steps to take to attach your domain to your hosting. It's painless, and takes between 10 and 15 minutes, depending if you are a slow reader like the author. Regardless, bear with this primer. It's well worth it!
+Fiwst off, thank uu pewsonawwy fow deciding to host with Apis Netwowks. Now that uu haz a spot to host uuw domain, thewe awe some steps to take to attach uuw domain to uuw hosting. It's painwess, and takes between 10 and 15 minutes, depending if uu awe a swow weadew wike da authow. Wegawdwess, beaw with this pwimew. It's weww wowth it!
 
-## Domain Migration
+## Domain Migwation
 
-First, there is an important distinction analogized best with vehicles: hosting is your vehicle that gets your name and existence places. Your domain name is like the vehicle tag that must be renewed annually. Without a valid vehicular registration, you can't drive anywhere! This following section covers domain registrations (tag transfers):
+Fiwst, thewe is an impowtant distinction anawogized best with vehicwes: hosting is uuw vehicwe that gets uuw name and existence pwaces. Youw domain name is wike da vehicwe tag that must be wenewed annuawwy. Without a vawid vehicuwaw wegistwation, uu can't dwive anywhewe! This fowwowing section covews domain wegistwations (tag twansfews):
 
-### New Domain Registration
+### New Domain Wegistwation
 
-Purchased a new domain when registering hosting with Apis Networks? Everything is primed and ready to go! _Skip onto the next big section: **Getting Started**._
+Puwchazed a new domain when wegistewing hosting with Apis Netwowks? Evewything is pwimed and weady to go! _Skip onto da next big section: **Getting Stawted**._
 
-### Moving Domain from a Previous Company
+### Moving Domain fwom a Pwevious Company
 
-At the very least, your domain nameservers must be changed to **ns1.apnscp.com** and **ns2.apnscp.com**. This is done through the company through which your domain name is registered; in other words, it's to whomever payment is remitted to renew the existence of your domain. Some hosts bundle this domain into your hosting, but don't provide separation between hosting and registration, so to divorce yourself from it you will need to _change registrars_. If you can change the nameservers, no need to **Change Registrars:** _skip over the next section to **Getting Started**_!
+At da vewy weast, uuw domain namesewvews must be changed to **ns1.apnscp.com** and **ns2.apnscp.com**. This is done thwough da company thwough which uuw domain name is wegistewed; in othew wowds, it's to whomevew payment is wemitted to wenew da existence of uuw domain. Some hosts bundwe this domain into uuw hosting, but don't pwovide sepawation between hosting and wegistwation, so to divowce uuwsewf fwom it uu wiww need to _change wegistwaws_. If uu can change the namesewvews, nu need to **Change Wegistwaws:** _skip ovew da next section to **Getting Stawted**_!
 
-#### Changing Registrars
+#### Changing Wegistwaws
 
-Registrar transfers will separate you from your current registrar to a neutral third-party. This is recommended historically, because some registrars prefer to hold domain names hostage over bogus balances. _**Always transfer your domain before terminating a hosting contract.**_ We adopt best practices by utilizing a neutral, third-party registrar via [domains.apnscp.com](http://domains.apnscp.com). Transfers are free. Renewals are $10/year. Transfers include a renewal at $10/year.
+Wegistwaw twansfews wiww sepawate uu fwom uuw cuwwent wegistwaw to a neutwaw thiwd-pawty. This is wecommended histowicawwy, because some wegistwaws pwefew to howd domain names hostage ovew bogus bawances. _**Awways twansfew uuw domain befowe tewminating a hosting contwact.**_ We adopt best pwactices by utiwizing a neutwaw, thiwd-pawty wegistwaw via [domains.apnscp.com](http://domains.apnscp.com). Twansfews awe fwee. Wenewaws awe $10/yeaw. Twansfews incwude a wenewaw at $10/yeaw.
 
-> _Domain registration is a high volume, low margin industry_. If you prefer registrar XYZ, because domain ABC is registered there, then use it. You want to keep all your domains under one roof preferably, because a change of (e-mail) address is easier to update. Use [Namecheap](http://www.namecheap.com), [gandi.net](http://gandi.net), [Hover](http://www.hover.com), [GoDaddy](http://www.godaddy.com), or whoever works best for you. Just keep your domains under one roof for simplicity.
+> _Domain wegistwation is a high vowume, wow mawgin industwy_. If uu pwefew wegistwaw XYZ, because domain ABC is wegistewed thewe, then use it. You want to keep aww uuw domains undew one woof pwefewabwy, because a change of (e-maiw) addwess is easiew to update. Use [Namecheap](http://www.namecheap.com), [gandi.net](http://gandi.net), [Hovew](http://www.hovew.com), [GoDaddy](http://www.godaddy.com), ow whoevew wowks best fow uu. Just keep uuw domains undew one woof fow simpwicity.
 
-Registrar transfers take 3-10 business days to complete. Once your registrar has been transferred, then change your nameservers to **ns1.apnscp.com** and **ns2.apnscp.com**. DNS changes will be active within 24 hours.
+Wegistwaw twansfews take 3-10 business days to compwete. Once uuw wegistwaw haz been twansfewwed, then change uuw namesewvews to **ns1.apnscp.com** and **ns2.apnscp.com**. DNS changes wiww be active within 24 houws.
 
-## Getting Started
+## Getting Stawted
 
-### Setting Up E-mail
+### Setting Up E-maiw
 
-Do you want to forward your e-mail to a remote account (less reliable) or have it delivered locally? If you want to forward it remotely, caveat emptor. See  KB: "[Creating a forwarded email](https://kb.apnscp.com/e-mail/creating-a-forwarded-e-mail/)". If you would like for mail to arrive on your hosting account, awesome: that's a sensible solution. You can either create a new mailbox via **User** > **Add User** within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) or to attach an e-mail address to an existing user, visit **Mail** > **Manage Mailboxes**. Enter the new e-mail address, and select your username. Mail access is covered in a separate KB article: "[Accessing e-mail](https://kb.apnscp.com/e-mail/accessing-e-mail/)"
+Do uu want to fowwawd uuw e-maiw to a wemote account (wess wewiabwe) ow haz it dewivewed wocawwy? If uu want to fowwawd it wemotewy, caveat emptow. See  KB: "[Cweating a fowwawded emaiw](https://kb.apnscp.com/e-maiw/cweating-a-fowwawded-e-maiw/)". If uu wouwd wike fow maiw to awwive on uuw hosting account, awesome: that's a sensibwe sowution. You can eithew cweate a new maiwbox via **Usew** > **Add Usew** within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) ow to attach an e-maiw addwess to an existing usew, visit **Maiw** > **Manage Maiwboxes**. Entew da new e-maiw addwess, and sewect uuw usewname. Maiw access is covewed in a sepawate KB awticwe: "[Accessing e-maiw](https://kb.apnscp.com/e-maiw/accessing-e-maiw/)"
 
-### Getting Your Site(s) Online
+### Getting Youw Site(s) Onwine
 
-_Almost done_! Now you need to create a web site in this location. If you're migrating over, then copy your website files to the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) for your site, which is always `/var/www/html`. If you're starting fresh, [WordPress](http://www.wordpress.org) is always a great candidate. Just remove `index.html` from this location before uploading your new site. You can also edit this page on-the-fly under **Files** > **File Manager**.
+_Awmost done_! Now uu need to cweate a web site in this wocation. If uu'we migwating ovew, then copy uuw website fiwes to da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) fow uuw site, which is awways `/vaw/www/htmw`. If uu'we stawting fwesh, [WowdPwess](http://www.wowdpwess.owg) is awways a gweat candidate. Just wemove `index.htmw` fwom this wocation befowe upwoading uuw new site. You can awso edit this page on-the-fwy undew **Fiwes** > **Fiwe Managew**.
 
-> #### Preview Your Domain
+> #### Pweview Youw Domain
 > 
-> Domains may be previewed by overriding global DNS. We have a separate guide available under KB: [Previewing your domain](https://kb.apnscp.com/dns/previewing-your-domain/). This method will work every time and allows you to preview your site before initiating nameserver changes.
+> Domains may be pweviewed by ovewwiding gwobaw DNS. We haz a sepawate guide avaiwabwe undew KB: [Pweviewing uuw domain](https://kb.apnscp.com/dns/pweviewing-uuw-domain/). This method wiww wowk evewy time and awwows uu to pweview uuw site befowe initiating namesewvew changes.
 
-## Miscellany
+## Miscewwany
 
-### Adding More Domains
+### Adding Mowe Domains
 
-More domains may be [added](https://kb.apnscp.com/control-panel/creating-addon-domain/) to your account via **DNS** > **Addon Domains**. Just follow the same rules with **Domain Migration** section to get the tag attached to the right vehicle in the _proper state_. Always locate addon domains under `/var/www` instead of `/var/www/html`. There are pedantic [fringe cases](https://kb.apnscp.com/web-content/where-is-site-content-served-from/#careful) covered elsewhere for the intrepid user.
+Mowe domains may be [added](https://kb.apnscp.com/contwow-panew/cweating-addon-domain/) to uuw account via **DNS** > **Addon Domains**. Just fowwow da same wuwes with **Domain Migwation** section to get da tag attached to da wight vehicwe in da _pwopew state_. Awways wocate addon domains undew `/vaw/www` instead of `/vaw/www/htmw`. Thewe awe pedantic [fwinge cases](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/#cawefuw) covewed ewsewhewe fow da intwepid usew.
 
-### Understanding Permissions
+### Undewstanding Pewmissions
 
-Apis Networks uses a separate, non-privileged user for its web server. This improves security by only letting the web server read what _you_ authorize it to read/access, but requires a few extra steps to setup PHP applications like [WordPress](https://kb.apnscp.com/wordpress-2/enabling-write-access/) and Drupal. KB: [Permissions overview](https://kb.apnscp.com/guides/permissions-overview/) is a crash-course in permissions. Know what you're doing? Great. Just change relevant directories that require write access to _717_.
+Apis Netwowks uses a sepawate, nun-pwiviweged usew fow its web sewvew. This impwoves secuwity by onwy wetting da web sewvew wead what _uu_ authowize it to wead/access, but wequiwes a few extwa steps to setup PHP appwications wike [WowdPwess](https://kb.apnscp.com/wowdpwess-2/enabwing-wwite-access/) and Dwupaw. KB: [Pewmissions ovewview](https://kb.apnscp.com/guides/pewmissions-ovewview/) is a cwash-couwse in pewmissions. Knuw what uu'we doing? Gweat. Just change wewevant diwectowies that wequiwe wwite access to _717_.
 
-### Building Your Own Software
+### Buiwding Youw Own Softwawe
 
-Congratulations, you've moved up in comfort! Clients may build any software and run any service that is necessary to operation of the web site – _please don't run a game server or bitcoin miner_. Any applications should be plug-and-play. C applications will [require installation](https://kb.apnscp.com/terminal/compiling-programs/) under `/usr/local`. Gems, packages, modules, eggs, etc. (_kudos to those who affiliated terms with language_) will be installed just fine with their respective install command. `gem install`,  `pear install`,  `perl -MCPAN -e 'install'`, `pip-python install` require no further configuration.
+Congwatuwations, uu've moved up in comfowt! Cwients may buiwd any softwawe and wun any sewvice that is necessawy to opewation of da web site – _pwease don't wun a game sewvew ow bitcoin minew_. Any appwications shouwd be pwug-and-pway. C appwications wiww [wequiwe instawwation](https://kb.apnscp.com/tewminaw/compiwing-pwogwams/) undew `/usw/wocaw`. Gems, packages, moduwes, eggs, etc. (_kudos to those who affiwiated tewms with wanguage_) wiww be instawwed just fine with theiw wespective instaww command. `gem instaww`,  `peaw instaww`,  `peww -MCPAN -e 'instaww'`, `pip-python instaww` wequiwe nu fuwthew configuwation.
 
-### Running Services
+### Wunning Sewvices
 
-Need to run a daemon? No problem. Clients can run up to 10 services from the [terminal](https://kb.apnscp.com/terminal/accessing-terminal/) that listen externally on a TCP socket. See KB: [Listening on ports](https://kb.apnscp.com/terminal/listening-ports/).
+Need to wun a daemon? No pwobwem. Cwients can wun up to 10 sewvices fwom da [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/) that wisten extewnawwy on a TCP socket. See KB: [Wistening on powts](https://kb.apnscp.com/tewminaw/wistening-powts/).
 
-Looking for specific, advanced guides? Check these out:
+Wooking fow specific, advanced guides? Check these out:
 
-- [WordPress](https://kb.apnscp.com/wordpress/installing-wordpress/)
-- [Redis](https://kb.apnscp.com/guides/running-redis/)
-- [Node.js](https://kb.apnscp.com/guides/running-node-js/)
-- [Django](https://kb.apnscp.com/python/django-quickstart/)
-- [Rails](https://kb.apnscp.com/ruby/setting-rails-passenger/)
-- [MongoDB](https://kb.apnscp.com/guides/running-mongodb/)
+- [WowdPwess](https://kb.apnscp.com/wowdpwess/instawwing-wowdpwess/)
+- [Wedis](https://kb.apnscp.com/guides/wunning-wedis/)
+- [Node.js](https://kb.apnscp.com/guides/wunning-nude-js/)
+- [Django](https://kb.apnscp.com/python/django-quickstawt/)
+- [Waiws](https://kb.apnscp.com/wuby/setting-waiws-passengew/)
+- [MongoDB](https://kb.apnscp.com/guides/wunning-mongodb/)
 
-Thanks again for joining, and have fun!
+Thanks again fow joining, and haz fun!
+ ㅇㅅㅇ

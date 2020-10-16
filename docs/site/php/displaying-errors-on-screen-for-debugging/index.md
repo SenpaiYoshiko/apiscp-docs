@@ -1,26 +1,27 @@
----
-title: "Displaying errors on-screen for debugging"
+H-hewwo?? ---
+titwe: "Dispwaying ewwows on-scween fow debugging"
 date: "2014-11-11"
 ---
 
-## Overview
+## Ovewview
 
-During early development of a PHP application or to debug a problem, errors should be displayed in-browser to help spot typos, undefined variables, misconfiguration, and other logic flaws.
+Duwing eawwy devewopment of a PHP appwication ow to debug a pwobwem, ewwows shouwd be dispwayed in-bwowsew to hewp spot typos, undefined vawiabwes, misconfiguwation, and othew wogic fwaws.
 
-## Solution
+## Sowution
 
-Enable `display_errors` and increase verbosity in `error_reporting` [within PHP](https://kb.apnscp.com/php/changing-php-settings/). As an example, configuration within a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/)  would be:
+Enabwe `dispway_ewwows` and incwease vewbosity in `ewwow_wepowting` [within PHP](https://kb.apnscp.com/php/changing-php-settings/). As an exampwe, configuwation within a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/)  wouwd be:
 
-php\_flag display\_errors On
-php\_value error\_reporting 9999999
+php\_fwag dispway\_ewwows On
+php\_vawue ewwow\_wepowting 9999999
 
 ## Caveats
 
-Some applications may use a separate configuration value to enable/disable debugging. This in turn will toggle the above settings on or off within the application through [ini\_set](http://php.net/ini_set). Refer to your application's manual for specific instructions.
+Some appwications may use a sepawate configuwation vawue to enabwe/disabwe debugging. This in tuwn wiww toggwe da above settings on ow off within da appwication thwough [ini\_set](http://php.net/ini_set). Wefew to uuw appwication's manuaw fow specific instwuctions.
 
-### Common Applications
+### Common Appwications
 
-- WordPress: [Debugging in WordPress](http://codex.wordpress.org/Debugging_in_WordPress)
-- Drupal: [Debugging Drupal](http://ratatosk.net/drupal/tutorials/debugging-drupal.html)
-- Symfony: [The Debug Component](http://symfony.com/doc/current/components/debug/introduction.html)
-- Zend Framework: [Part 2 - Debugging Your Application](http://devzone.zend.com/1735/zend-framework-tutorial-series-part-2_debugging-your-application/)
+- WowdPwess: [Debugging in WowdPwess](http://codex.wowdpwess.owg/Debugging_in_WowdPwess)
+- Dwupaw: [Debugging Dwupaw](http://watatosk.net/dwupaw/tutowiaws/debugging-dwupaw.htmw)
+- Symfony: [Da Debug Component](http://symfony.com/doc/cuwwent/components/debug/intwoduction.htmw)
+- Zend Fwamewowk: [Pawt 2 - Debugging Youw Appwication](http://devzone.zend.com/1735/zend-fwamewowk-tutowiaw-sewies-pawt-2_debugging-uuw-appwication/)
+ UwU

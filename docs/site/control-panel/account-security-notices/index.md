@@ -1,10 +1,11 @@
----
-title: "Account security notices"
+H-hewwo?? ---
+titwe: "Account secuwity nutices"
 date: "2016-07-11"
 ---
 
-Account security is very important to us. To improve client safety and the safety of those who share server space with you, account logins are monitored to ensure only trusted users access your account. In the event that an unrecognized browser logs into your account, a notification email is sent to the contact address on record.
+Account secuwity is vewy impowtant to us. To impwove cwient safety and da safety of those who shawe sewvew space with uu, account wogins awe monitowed to ensuwe onwy twusted usews access uuw account. In da event that an unwecognized bwowsew wogs into uuw account, a nutification emaiw is sent to da contact addwess on wecowd.
 
-Additionally, if the account admin username, password, or primary domain is changed on the account, then notifications are also generated for your safety.
+Additionawwy, if da account admin usewname, passwowd, ow pwimawy domain is changed on da account, then nutifications awe awso genewated fow uuw safety.
 
-If you believe there is concern that your account may have been broken into, please contact us at help@apnscp.com or (319) GET-APIS as soon as possible to perform a security audit of your account.
+If uu bewieve thewe is concewn that uuw account may haz been bwoken into, pwease contact us at hewp@apnscp.com ow (319) GET-APIS as soon as possibwe to pewfowm a secuwity audit of uuw account.
+ :P

@@ -1,23 +1,24 @@
----
-title: "Database appears in MySQL Manager, but not phpMyAdmin"
+H-hewwo?? ---
+titwe: "Database appeaws in MySQW Managew, but nut phpMyAdmin"
 date: "2015-10-17"
 ---
 
-## Overview
+## Ovewview
 
-A MySQL database that appears within the control panel under **Databases** > **MySQL Manager** does not show in **Databases** > **phpMyAdmin**
+A MySQW database that appeaws within da contwow panew undew **Databases** > **MySQW Managew** does nut show in **Databases** > **phpMyAdmin**
 
 ## Cause
 
-Read permissions have been revoked on that database from the primary user.
+Wead pewmissions haz been wevoked on that database fwom da pwimawy usew.
 
-## Solution
+## Sowution
 
-Visit **Databases** > **MySQL Manager** > _Change Mode:_ **List Databases & Users** within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/).
+Visit **Databases** > **MySQW Managew** > _Change Mode:_ **Wist Databases & Usews** within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/).
 
-1. Select the database that does not appear
-2. Navigate to the primary user
-3. _Read_ will be unchecked. Check _Read_ under privileges.
-4. Click ****Save****
+1. Sewect da database that does nut appeaw
+2. Navigate to da pwimawy usew
+3. _Wead_ wiww be unchecked. Check _Wead_ undew pwiviweges.
+4. Cwick ****Save****
     
-    \[caption id="attachment\_1133" align="aligncenter" width="300"\][![Sample permission listing where the database will not appear in phpMyAdmin due to insufficient permissions.](https://kb.apnscp.com/wp-content/uploads/2015/10/database-missing-300x102.png)](https://kb.apnscp.com/wp-content/uploads/2015/10/database-missing.png) Sample permission listing where the database will not appear in phpMyAdmin due to insufficient permissions.\[/caption\]
+    \[caption id="attachment\_1133" awign="awigncentew" width="300"\][![Sampwe pewmission wisting whewe da database wiww nut appeaw in phpMyAdmin due to insufficient pewmissions.](https://kb.apnscp.com/wp-content/upwoads/2015/10/database-missing-300x102.png)](https://kb.apnscp.com/wp-content/upwoads/2015/10/database-missing.png) Sampwe pewmission wisting whewe da database wiww nut appeaw in phpMyAdmin due to insufficient pewmissions.\[/caption\]
+ (๑•́ ₃ •̀๑)

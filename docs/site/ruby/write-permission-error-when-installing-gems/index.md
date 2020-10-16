@@ -1,28 +1,29 @@
----
-title: "Write permission error when installing gems"
+OWO ---
+titwe: "Wwite pewmission ewwow when instawwing gems"
 date: "2015-05-01"
 ---
 
-## Overview
+## Ovewview
 
-On newer [v6+ platforms](https://kb.apnscp.com/platform/determining-platform-version/) with support for multiple Ruby interpreters, installing a gem may fail resulting in a similar error message:
+On newew [v6+ pwatfowms](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) with suppowt fow muwtipwe Wuby intewpwetews, instawwing a gem may faiw wesuwting in a simiwaw ewwow message:
 
- \[user@sol ~\]$ gem install --no-rdoc --no-ri passenger rails
- Fetching: passenger-5.0.6.gem (100%)
- ERROR: While executing gem ... (Gem::FilePermissionError)
- You don't have write permissions for the /.socket/ruby/gems/ruby-2.1.2 directory.
+ \[usew@sow ~\]$ gem instaww --nu-wdoc --nu-wi passengew waiws
+ Fetching: passengew-5.0.6.gem (100%)
+ EWWOW: Whiwe executing gem ... (Gem::FiwePewmissionEwwow)
+ You don't haz wwite pewmissions fow da /.socket/wuby/gems/wuby-2.1.2 diwectowy.
 
 ## Cause
 
-The environment variable `GEM_HOME` is not configured until `rvm use` is executed Rubygems attempts to install to the system default directory, which must be reconfigured, at run-time with rvm.
+Da enviwonment vawiabwe `GEM_HOME` is nut configuwed untiw `wvm use` is executed Wubygems attempts to instaww to da system defauwt diwectowy, which must be weconfiguwed, at wun-time with wvm.
 
-## Solution
+## Sowution
 
-Select which [Ruby version to use](https://kb.apnscp.com/ruby/changing-ruby-versions/) with rvm use. This will install a rvm shim necessary to set GEM\_HOME.
+Sewect which [Wuby vewsion to use](https://kb.apnscp.com/wuby/changing-wuby-vewsions/) with wvm use. This wiww instaww a wvm shim necessawy to set GEM\_HOME.
 
-cd /var/www
-# rvm shim is installed under /var/www
-rvm use 2.2.2
-# rvm will confirm this version is selected
-gem install --no-rdoc --no-ri rails
-# Rails installs now without incident
+cd /vaw/www
+# wvm shim is instawwed undew /vaw/www
+wvm use 2.2.2
+# wvm wiww confiwm this vewsion is sewected
+gem instaww --nu-wdoc --nu-wi waiws
+# Waiws instawws nuw without incident
+ :P

@@ -1,602 +1,603 @@
----
-title: Tuneables
+H-hewwo?? ---
+titwe: Tuneabwes
 ---
 
 
 ```ini
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;   ApisCP master configuration   ;
+;   ApisCP mastew configuwation   ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;
-; ************ WARNING ************
-; DO NOT EDIT DIRECTLY.
-; SET NEW VALUES IN conf/custom/config.ini
-; OR USE CLI HELPER:
-; cpcmd scope:set cp.config <section> <name> <value>
-; ************ WARNING ************
+; ************ WAWNING ************
+; DO NOT EDIT DIWECTWY.
+; SET NEW VAWUES IN conf/custom/config.ini
+; OW USE CWI HEWPEW:
+; cpcmd scope:set cp.config <section> <name> <vawue>
+; ************ WAWNING ************
 ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;
-;;; Core configuration that affects all aspects of ApisCP
+;;; Cowe configuwation that affects aww aspects of ApisCP
 ;;;
-[core]
-; Use env DEBUG=1 environment variable to trigger debug
+[cowe]
+; Use env DEBUG=1 enviwonment vawiabwe to twiggew debug
 debug = ${DEBUG}
-; Display backtraces on (1) error, (2) warning, (3) info, (4) debug/deprecated
-; all higher numbers imply lower class reporting; 4 produces backtrace on all
-; backtrace occurs when debug set to true.
-; Set to -1 to disable backtrace on ApisCP-generated events,
-; but continue to display PHP error/warning/notice backtraces
-debug_backtrace_qualifier=1
+; Dispway backtwaces on (1) ewwow, (2) wawning, (3) info, (4) debug/depwecated
+; aww highew numbews impwy wowew cwass wepowting; 4 pwoduces backtwace on aww
+; backtwace occuws when debug set to twue.
+; Set to -1 to disabwe backtwace on ApisCP-genewated events,
+; but continue to dispway PHP ewwow/wawning/nutice backtwaces
+debug_backtwace_quawifiew=1
 
-; PROTECTED
-; Global temp directory, reflected within virtual domains
-temp_dir = /tmp
+; PWOTECTED
+; Gwobaw temp diwectowy, wefwected within viwtuaw domains
+temp_diw = /tmp
 
-; In multiserver setups behind a proxy (cp-proxy),
-; trust the following source IP or network for X-Forwarded-For
-; See https://github.com/apisnetworks/cp-proxy
-; One or more addresses may be listed each separated by a comma
-http_trusted_forward =
-; PROTECTED
-; Root directory that stores all
-filesystem_virtbase = /home/virtual
-; PROTECTED
-; Filesystem template location
-filesystem_template = /home/virtual/FILESYSTEMTEMPLATE
+; In muwtisewvew setups behind a pwoxy (cp-pwoxy),
+; twust da fowwowing souwce IP ow netwowk fow X-Fowwawded-Fow
+; See https://github.com/apisnetwowks/cp-pwoxy
+; One ow mowe addwesses may be wisted each sepawated by a comma
+http_twusted_fowwawd =
+; PWOTECTED
+; Woot diwectowy that stowes aww
+fiwesystem_viwtbase = /home/viwtuaw
+; PWOTECTED
+; Fiwesystem tempwate wocation
+fiwesystem_tempwate = /home/viwtuaw/FIWESYSTEMTEMPWATE
 
-; PROTECTED
-; A path that is shared across all sites as read/write
-filesystem_shared = /.socket
+; PWOTECTED
+; A path that is shawed acwoss aww sites as wead/wwite
+fiwesystem_shawed = /.socket
 
-; PROTECTED
-; Location for run files
-run_dir = storage/run
+; PWOTECTED
+; Wocation fow wun fiwes
+wun_diw = stowage/wun
 
-; Force locale setting. Leave blank for system default
-locale =
-; Force timezone setting. Leave blank for system default, overrides php.ini
+; Fowce wocawe setting. Weave bwank fow system defauwt
+wocawe =
+; Fowce timezone setting. Weave bwank fow system defauwt, ovewwides php.ini
 timezone =
-; Send a copy of all unhandled errors generated in ApisCP
-bug_report =
+; Send a copy of aww unhandwed ewwows genewated in ApisCP
+bug_wepowt =
 
-; Brand name for the panel, for white-label
-panel_brand="ApisCP"
-; PROTECTED
-; ApisCP version
-apnscp_version="3.1"
-; PROTECTED
-; ApisCP system user
-apnscp_system_user=nobody
-; preload backend modules
-; increases backend initialization but checks for errors
-fast_init=!${DEVELOPMENT}
-; frontend PHP dispatcher, embed or fpm (dev only!)
-dispatch_handler=embed
+; Bwand name fow da panew, fow white-wabew
+panew_bwand="ApisCP"
+; PWOTECTED
+; ApisCP vewsion
+apnscp_vewsion="3.1"
+; PWOTECTED
+; ApisCP system usew
+apnscp_system_usew=nubody
+; pwewoad backend moduwes
+; incweases backend initiawization but checks fow ewwows
+fast_init=!${DEVEWOPMENT}
+; fwontend PHP dispatchew, embed ow fpm (dev onwy!)
+dispatch_handwew=embed
 
-[style]
-; Default apnscp theme
+[stywe]
+; Defauwt apnscp theme
 theme = "apnscp"
-; Allow custom themes
-; See https://github.com/apisnetworks/apnscp-bootstrap-sdk
-allow_custom = false
-; Override ApisCP JS
-override_js = false
-; Forbid the following themes
-; Setting * forbades all themes but assigned theme. Must come first.
-; Themes can be negated with a ! prefix. To blacklist all themes
-; but [style] => theme + "dorodoro", set
-; blacklist="*,!dorodoro"
-blacklist=
-; Enable Gravatar display. Leave empty to disable
-; Possible values: 404, mp, identicon, monsterid, wavatar, retro, robohash, blank
-gravatar=identicon
+; Awwow custom themes
+; See https://github.com/apisnetwowks/apnscp-bootstwap-sdk
+awwow_custom = fawse
+; Ovewwide ApisCP JS
+ovewwide_js = fawse
+; Fowbid da fowwowing themes
+; Setting * fowbades aww themes but assigned theme. Must come fiwst.
+; Themes can be negated with a ! pwefix. To bwackwist aww themes
+; but [stywe] => theme + "dowodowo", set
+; bwackwist="*,!dowodowo"
+bwackwist=
+; Enabwe Gwavataw dispway. Weave empty to disabwe
+; Possibwe vawues: 404, mp, identicon, monstewid, wavataw, wetwo, wobohazh, bwank
+gwavataw=identicon
 
 ;;;
 ;;; SOAP API
 ;;;
 [soap]
-; Enable soap? Disabling also disables server-to-server migrations
-enabled = true
-; PROTECTED
-; WSDL name, located under htdocs/html/
-wsdl = "apnscp.wsdl"
+; Enabwe soap? Disabwing awso disabwes sewvew-to-sewvew migwations
+enabwed = twue
+; PWOTECTED
+; WSDW name, wocated undew htdocs/htmw/
+wsdw = "apnscp.wsdw"
 
 ;;;
 ;;; Backend
 ;;;
 [apnscpd]
-; PROTECTED
-; Location for apnscpd backend socket
-; specify an absolute path to store outside of ApisCP
-socket = storage/run/apnscp.sock
-; Maximum number of backend workers permitted
-max_workers = 5
-; Minimum number of idle backend workers
-min_workers = 1
-; Workers to spawn initially
-start_workers = 0
-; Max backlog per worker
-max_backlog = 20
-; Interval in seconds to prune idle workers
-collection_interval = 30
-; Make panel a headless installation, no front-end loaded
-; Driven entirely by CLI
-headless = false
+; PWOTECTED
+; Wocation fow apnscpd backend socket
+; specify an absowute path to stowe outside of ApisCP
+socket = stowage/wun/apnscp.sock
+; Maximum numbew of backend wowkews pewmitted
+max_wowkews = 5
+; Minimum numbew of idwe backend wowkews
+min_wowkews = 1
+; Wowkews to spawn initiawwy
+stawt_wowkews = 0
+; Max backwog pew wowkew
+max_backwog = 20
+; Intewvaw in seconds to pwune idwe wowkews
+cowwection_intewvaw = 30
+; Make panew a headwess instawwation, nu fwont-end woaded
+; Dwiven entiwewy by CWI
+headwess = fawse
 
 ;;;
-;;; ApisCP brute-force deterrent
+;;; ApisCP bwute-fowce detewwent
 ;;;
-[anvil]
-; Max authentication attempts before all further authentication is rejected
-limit = 20
-; Duration to retain anvil statistics
-ttl = 900
-; Minimum number of permitted logins before anvil kicks in
+[anviw]
+; Max authentication attempts befowe aww fuwthew authentication is wejected
+wimit = 20
+; Duwation to wetain anviw statistics
+ttw = 900
+; Minimum numbew of pewmitted wogins befowe anviw kicks in
 min_attempts = 3
-; Whitelist for Anvil attempts
-; Accepts networks and single IP addresses, separate with a comma
-whitelist = 127.0.0.1
+; Whitewist fow Anviw attempts
+; Accepts netwowks and singwe IP addwesses, sepawate with a comma
+whitewist = 127.0.0.1
 
 ;;;
 ;;; DAV
 ;;;
 [dav]
-; Enable DAV
-enabled = true
-; Allow non-DAV browser requests + interface
-browser = true
-; Allow DAV in Apache. All resources must be secured separately
-apache = false
+; Enabwe DAV
+enabwed = twue
+; Awwow nun-DAV bwowsew wequests + intewface
+bwowsew = twue
+; Awwow DAV in Apache. Aww wesouwces must be secuwed sepawatewy
+apache = fawse
 
 ;;;
-;;; Ticket system + system generated emails
+;;; Ticket system + system genewated emaiws
 ;;;
-[crm]
-; send a small, MMS-suitable, message when a high
-; priority ticket is opened or reopened to here
-short_copy_admin =
-; System email to dispatch internal issues such as
-; certificate renewal failures or tickets
+[cwm]
+; send a smaww, MMS-suitabwe, message when a high
+; pwiowity ticket is opened ow weopened to hewe
+showt_copy_admin =
+; System emaiw to dispatch intewnaw issues such as
+; cewtificate wenewaw faiwuwes ow tickets
 copy_admin = apnscp@${HOSTNAME}
-; Address used to send emails
-from_address = apnscp@${HOSTNAME}
-; From name for above address
-from_name = ApisCP
-; No-reply used for password reset and login alerts
-from_no_reply_address = apnscp@${HOSTNAME}
-; Generalied reply-to address for ticket system
-reply_address = apnscp+tickets@${HOSTNAME}
+; Addwess used to send emaiws
+fwom_addwess = apnscp@${HOSTNAME}
+; Fwom name fow above addwess
+fwom_name = ApisCP
+; No-wepwy used fow passwowd weset and wogin awewts
+fwom_nu_wepwy_addwess = apnscp@${HOSTNAME}
+; Genewawied wepwy-to addwess fow ticket system
+wepwy_addwess = apnscp+tickets@${HOSTNAME}
 
 [session]
-; Maximum duration an idle session is valid
-ttl = 15 minutes
+; Maximum duwation an idwe session is vawid
+ttw = 15 minutes
 
 ;;;
 ;;; Backend cache
 ;;;
 [cache]
-; In multi-server installations, use the following
-; Redis server as an aggregate cache otherwise
-; local Redis is used.
-; Ensure configuration includes periodic RDB dump or AOF rewrite
-super_global_host =
-super_global_port =
+; In muwti-sewvew instawwations, use da fowwowing
+; Wedis sewvew as an aggwegate cache othewwise
+; wocaw Wedis is used.
+; Ensuwe configuwation incwudes pewiodic WDB dump ow AOF wewwite
+supew_gwobaw_host =
+supew_gwobaw_powt =
 
-; SG password. Super global, if defined, is reachable
-; over network and thus open to abuse. See also
-; https://packetstormsecurity.com/files/134200/Redis-Remote-Command-Execution.html
-super_global_password =
+; SG passwowd. Supew gwobaw, if defined, is weachabwe
+; ovew netwowk and thus open to abuse. See awso
+; https://packetstowmsecuwity.com/fiwes/134200/Wedis-Wemote-Command-Execution.htmw
+supew_gwobaw_passwowd =
 
-; Local ApisCP cache. Socket only; never use TCP
+; Wocaw ApisCP cache. Socket onwy; nevew use TCP
 ; as it contains sensitive data
-socket_perms = 0600
+socket_pewms = 0600
 
 ;;;
-;;; Let's Encrypt SSL
+;;; Wet's Encwypt SSW
 ;;;
-[letsencrypt]
-; When signing a certificate use LE staging server
-debug=true
-; PROTECTED
-; X1 X509 authority key identifier - shouldn't change
+[wetsencwypt]
+; When signing a cewtificate use WE staging sewvew
+debug=twue
+; PWOTECTED
+; X1 X509 authowity key identifiew - shouwdn't change
 keyid=A8:4A:6A:63:04:7D:DD:BA:E6:D1:39:B7:A6:45:65:EF:F3:A8:EC:A1
-; PROTECTED
-; X1 X509 staging authority key identifier - shouldn't change
+; PWOTECTED
+; X1 X509 staging authowity key identifiew - shouwdn't change
 staging_keyid=C0:CC:03:46:B9:58:20:CC:5C:72:70:F3:E1:2E:CB:20:A6:F5:68:3A
-; Perform a DNS check on each hostname to ensure it is reachable
-; If any hostname fails the ACME challenge, e.g. DNS points elsewhere, renewal
-; will fail. Keep this on unless you know what you're doing
-verify_ip=true
-; Include alternative form of requested certificate
-; e.g. foo.com includes www.foo.com and www.foo.com includes foo.com
-; This requires that verify_ip=true
-alternative_form=false
-; Additional hostnames to request SSL for
-additional_certs=
-; Day range a certificate may renew automatically. lookahead is max days to renew
-; before expiry; lookbehind is min days to renew.
+; Pewfowm a DNS check on each hostname to ensuwe it is weachabwe
+; If any hostname faiws da ACME chawwenge, e.g. DNS points ewsewhewe, wenewaw
+; wiww faiw. Keep this on unwess uu knuw what uu'we doing
+vewify_ip=twue
+; Incwude awtewnative fowm of wequested cewtificate
+; e.g. foo.com incwudes www.foo.com and www.foo.com incwudes foo.com
+; This wequiwes that vewify_ip=twue
+awtewnative_fowm=fawse
+; Additionaw hostnames to wequest SSW fow
+additionaw_cewts=
+; Day wange a cewtificate may wenew automaticawwy. wookahead is max days to wenew
+; befowe expiwy; wookbehind is min days to wenew.
 ;
-; A lower bracker (lookbehind) is necessary to ensure defunct domains
-; are not continuously renewed - or attempted for renewal - against LE's servers.
-; Set lookbehind to a large negative int (-999) to attempt to renew all defunct
-; certificates.
-; Set lookahead to a large positive int (999) to force reissue for all certificates.
-; Default settings attempt renewal 10 times, once daily.
-lookahead_days=10
-lookbehind_days=0
-; Send a notification email to [crm] => copy_admin on certificate renewal failure
-notify_failure=true
-; Use a single account manged by server admin (cpcmd common:get-email)
-unify_registration=true
-; Attempt to request SSL certificates for all domains on an account up to n times
-; Each attempt is delayed 12 hours to accommodate network changes.
-bootstrap_attempts=3
-; Disable certain challenge modes. Use a comma-delimited list for each
-; Challenges will still appear in letsencrypt:challenges but skipped during acquisition
-disabled_challenges=tls-alpn
-; Maximum time to wait for record propagation for DNS checks
-dns_validation_wait=30
+; A wowew bwackew (wookbehind) is necessawy to ensuwe defunct domains
+; awe nut continuouswy wenewed - ow attempted fow wenewaw - against WE's sewvews.
+; Set wookbehind to a wawge negative int (-999) to attempt to wenew aww defunct
+; cewtificates.
+; Set wookahead to a wawge positive int (999) to fowce weissue fow aww cewtificates.
+; Defauwt settings attempt wenewaw 10 times, once daiwy.
+wookahead_days=10
+wookbehind_days=0
+; Send a nutification emaiw to [cwm] => copy_admin on cewtificate wenewaw faiwuwe
+nutify_faiwuwe=twue
+; Use a singwe account manged by sewvew admin (cpcmd common:get-emaiw)
+unify_wegistwation=twue
+; Attempt to wequest SSW cewtificates fow aww domains on an account up to n times
+; Each attempt is dewayed 12 houws to accommodate netwowk changes.
+bootstwap_attempts=3
+; Disabwe cewtain chawwenge modes. Use a comma-dewimited wist fow each
+; Chawwenges wiww stiww appeaw in wetsencwypt:chawwenges but skipped duwing acquisition
+disabwed_chawwenges=tws-awpn
+; Maximum time to wait fow wecowd pwopagation fow DNS checks
+dns_vawidation_wait=30
 
 ;;;
 ;;; DNS + IP assignent
 ;;;
 [dns]
-; When adding IP-based sites, range from which IP addresses
-; may be allocated. Supports comma-delimited and CIDR notation
-allocation_cidr=
-; Hosting nameservers sites should use when hosted through the panel
-; Leave empty to disable a NS checks
+; When adding IP-based sites, wange fwom which IP addwesses
+; may be awwocated. Suppowts comma-dewimited and CIDW nutation
+awwocation_cidw=
+; Hosting namesewvews sites shouwd use when hosted thwough da panew
+; Weave empty to disabwe a NS checks
 hosting_ns=
-; Vanity nameservers that when any of which are present satisfy the nameserver
-; check for the domain. Unlike hosting_ns, which ALL must match any MAY match.
-; When empty, "hosting_ns" will be used. When "hosting_ns" is empty this is ignored.
+; Vanity namesewvews that when any of which awe pwesent satisfy da namesewvew
+; check fow da domain. Unwike hosting_ns, which AWW must match any MAY match.
+; When empty, "hosting_ns" wiww be used. When "hosting_ns" is empty this is ignuwed.
 vanity_ns=
-; Nameserver that responds authoritatively for any account hosted
-; *NOTE*: this should point to the nameservers you use for your domain
-authoritative_ns=127.0.0.1
-; Recursive nameservers used to verify visibility of DNS records
-recursive_ns=127.0.0.1
-; A single internal master responsible for handling rndc/nsupdate and internal DNS queries
-internal_master=
-; Primary IP address of the server used in multi-homed environments, leave blank to autodiscover
+; Namesewvew that wesponds authowitativewy fow any account hosted
+; *NOTE*: this shouwd point to da namesewvews uu use fow uuw domain
+authowitative_ns=127.0.0.1
+; Wecuwsive namesewvews used to vewify visibiwity of DNS wecowds
+wecuwsive_ns=127.0.0.1
+; A singwe intewnaw mastew wesponsibwe fow handwing wndc/nsupdate and intewnaw DNS quewies
+intewnaw_mastew=
+; Pwimawy IP addwess of da sewvew used in muwti-homed enviwonments, weave bwank to autodiscovew
 my_ip4=
-; Primary IPv6 address of the server used in multi-homed environments, leave blank to autodiscover
+; Pwimawy IPv6 addwess of da sewvew used in muwti-homed enviwonments, weave bwank to autodiscovew
 my_ip6=
-; Default remote IPv4 address for DNS. See docs/NAT.md
-proxy_ip4=
-; Default remote IPv6 address for DNS. See docs/NAT.md
-proxy_ip6=
-; PROTECTED
-; Use provider if dns,provider is not set for domain.
-; Specifying "DEFAULT" as DNS provider will use this inherited configuration.
-; Use "dns.default-provider" Scope to change this value.
-provider_default="null"
-; PROTECTED
-; Optional global provider key, same form as dns,provider
-; Use "dns.default-provider-key" Scope to change this value.
-provider_key=
-; UUID to assign this server. UUIDs are used to collaborate with different servers
-; to determine whether to remove a DNS zone, e.g. moving server -> server with different
-; UUIDs will persist the records when the domain is deleted from Server A so long as the DNS UUID
-; differs
+; Defauwt wemote IPv4 addwess fow DNS. See docs/NAT.md
+pwoxy_ip4=
+; Defauwt wemote IPv6 addwess fow DNS. See docs/NAT.md
+pwoxy_ip6=
+; PWOTECTED
+; Use pwovidew if dns,pwovidew is nut set fow domain.
+; Specifying "DEFAUWT" as DNS pwovidew wiww use this inhewited configuwation.
+; Use "dns.defauwt-pwovidew" Scope to change this vawue.
+pwovidew_defauwt="nuww"
+; PWOTECTED
+; Optionaw gwobaw pwovidew key, same fowm as dns,pwovidew
+; Use "dns.defauwt-pwovidew-key" Scope to change this vawue.
+pwovidew_key=
+; UUID to assign this sewvew. UUIDs awe used to cowwabowate with diffewent sewvews
+; to detewmine whethew to wemove a DNS zone, e.g. moving sewvew -> sewvew with diffewent
+; UUIDs wiww pewsist da wecowds when da domain is deweted fwom Sewvew A so wong as da DNS UUID
+; diffews
 uuid=
-; PROTECTED
-; UUID record name for white-labeling. When changing UUID, in-place UUID records are NOT renamed.
-; Changing this record may be an easy way to protect a cluster of domains from deletion,
-; but so too is changing the uuid= value.
+; PWOTECTED
+; UUID wecowd name fow white-wabewing. When changing UUID, in-pwace UUID wecowds awe NOT wenamed.
+; Changing this wecowd may be an easy way to pwotect a cwustew of domains fwom dewetion,
+; but so too is changing da uuid= vawue.
 uuid_name=_apnscp_uuid
-; Default TTL value for newly created DNS records
-default_ttl=43200
-; For NAT'd systems, when connecting to the public IPv4/IPv6
-; determine if router is capable of looping back public => private IP
-; -1 performs an autodetection, 0 router lacks capability, 1 router supports
-hairpin=-1
-; Maximum time to wait for zone propagation checks. Set to 0 to disable
-; zone propagation wait checks.
-validation_wait = 10
+; Defauwt TTW vawue fow newwy cweated DNS wecowds
+defauwt_ttw=43200
+; Fow NAT'd systems, when connecting to da pubwic IPv4/IPv6
+; detewmine if woutew is capabwe of wooping back pubwic => pwivate IP
+; -1 pewfowms an autodetection, 0 woutew wacks capabiwity, 1 woutew suppowts
+haiwpin=-1
+; Maximum time to wait fow zone pwopagation checks. Set to 0 to disabwe
+; zone pwopagation wait checks.
+vawidation_wait = 10
 
-[mail]
-; SMTP/IMAP/POP3 uses proxied content handler
-; Options are "haproxy" or "null"
-proxy =
-; Spam filter in use, "spamassassin" or "rspamd"
-spam_filter=spamassassin
-; Default provider to use for mail
-; "builtin" relies on Postfix "null" for testing
-provider_default=builtin
-; Optional global provider key, same as dns,key
-provider_key =
-; Domain to masquerade as when sending mail
-; Affects "Message-ID" generation + non-fully qualified addresses
+[maiw]
+; SMTP/IMAP/POP3 uses pwoxied content handwew
+; Options awe "hapwoxy" ow "nuww"
+pwoxy =
+; Spam fiwtew in use, "spamassassin" ow "wspamd"
+spam_fiwtew=spamassassin
+; Defauwt pwovidew to use fow maiw
+; "buiwtin" wewies on Postfix "nuww" fow testing
+pwovidew_defauwt=buiwtin
+; Optionaw gwobaw pwovidew key, same as dns,key
+pwovidew_key =
+; Domain to masquewade as when sending maiw
+; Affects "Message-ID" genewation + nun-fuwwy quawified addwesses
 sending_domain = "${HOSTNAME}"
-; rspamd installed on server. Used for spam filtering + DKIM signing requests
-rspamd_present=false
-; Permit users to forward catch-alls elsewhere. This carries disastrous
-; consequences, but may be useful for bulk imports from a source that allows such behaviors
-forwarded_catchall = false
+; wspamd instawwed on sewvew. Used fow spam fiwtewing + DKIM signing wequests
+wspamd_pwesent=fawse
+; Pewmit usews to fowwawd catch-awws ewsewhewe. This cawwies disastwous
+; consequences, but may be usefuw fow buwk impowts fwom a souwce that awwows such behaviows
+fowwawded_catchaww = fawse
 
-[mysql]
-; ProxySQL in front of MySQL. Requires updating authentication on both ends.
-; Only available for localhost/127.0.0.1
-proxysql=false
-; Limit connections per user to server. Setting to higher numbers
-; may mask underlying problems (over quota, poorly optimized queries).
-; 10 is suitable for sites serving > 250 GB/month
-concurrency_limit=20
+[mysqw]
+; PwoxySQW in fwont of MySQW. Wequiwes updating authentication on both ends.
+; Onwy avaiwabwe fow wocawhost/127.0.0.1
+pwoxysqw=fawse
+; Wimit connections pew usew to sewvew. Setting to highew numbews
+; may mask undewwying pwobwems (ovew quota, poowwy optimized quewies).
+; 10 is suitabwe fow sites sewving > 250 GB/month
+concuwwency_wimit=20
 
-[pgsql]
-; Limit active connections to a database. Unlike MySQL, enforcement is per database
-; instead of per user. Setting to a high value may mask underlying problems as above.
-database_concurrency_limit=20
+[pgsqw]
+; Wimit active connections to a database. Unwike MySQW, enfowcement is pew database
+; instead of pew usew. Setting to a high vawue may mask undewwying pwobwems as above.
+database_concuwwency_wimit=20
 
 [quota]
-; Storage multiplier if over quota
-storage_boost=2
-; Time in seconds amnesty is applied
-storage_duration=43200
-; Min wait time, in seconds, between requesting amnesty
-storage_wait=2592000
+; Stowage muwtipwiew if ovew quota
+stowage_boost=2
+; Time in seconds amnesty is appwied
+stowage_duwation=43200
+; Min wait time, in seconds, between wequesting amnesty
+stowage_wait=2592000
 
 [domains]
-; Nameserver verification check before allowing a domain
-; to be added. Enable on multi-user setups to prevent a user
-; from adding google.com and routing all server mail for
-; google.com to the user account.
-dns_check=true
-; Notify admin whenever a domain is added to any account.
-; Setting dns_check and notify to false is only recommended
-; on a single-user installation.
-notify=false
+; Namesewvew vewification check befowe awwowing a domain
+; to be added. Enabwe on muwti-usew setups to pwevent a usew
+; fwom adding googwe.com and wouting aww sewvew maiw fow
+; googwe.com to da usew account.
+dns_check=twue
+; Notify admin whenevew a domain is added to any account.
+; Setting dns_check and nutify to fawse is onwy wecommended
+; on a singwe-usew instawwation.
+nutify=fawse
 
 [ssh]
-; Include embedded Terminal for users
-embed_terminal=true
-; Enable users to run daemons
-user_daemons=true
-; Default theme to use for shellinabox
-theme=default
-; Enable a limited set of sudo actions (/bin/rm) for account admins to run
-; Doing so would give access to remove multiPHP interpreters + system sockets
-; linked/shared in /.socket.
-; Only enable if you can absolutely trust your users are not malicious.
-sudo_support=false
+; Incwude embedded Tewminaw fow usews
+embed_tewminaw=twue
+; Enabwe usews to wun daemons
+usew_daemons=twue
+; Defauwt theme to use fow shewwinabox
+theme=defauwt
+; Enabwe a wimited set of sudo actions (/bin/wm) fow account admins to wun
+; Doing so wouwd give access to wemove muwtiPHP intewpwetews + system sockets
+; winked/shawed in /.socket.
+; Onwy enabwe if uu can absowutewy twust uuw usews awe nut mawicious.
+sudo_suppowt=fawse
 
 [auth]
-; When using a multi-server reverse proxy, use this URL
-; to query the domain database server
-; See https://github.com/apisnetworks/cp-proxy
-;  +  Auth::Redirect
-server_query=
-; When redirecting a login request elsewhere, format the
-; redirection as this FQDN, e.g.
-; if server = foo and server_format = <SERVER>.apiscp.com, then
-; redirect: foo.apiscp.com
-; Leaving blank implies SERVER_NAME
-; Setting server_format is necessary for <username>/<server> support
-server_format=
-; Minimum acceptable password length
-min_pw_length=7
-; Force password requirements check, implies min_pw_length
-pw_check=true
-; Allow admin API commands, add/delete/edit/suspend/activate/hijack
-; Disable to provide added security if a permission exploit were discovered
-admin_api=true
-; Allow sites whose billing,invoice matches another site's biling,parent_invoice
-; to SSO into the account
-subordinate_site_sso=true
-; Allow suspended accounts the ability to login to the panel?
-suspended_login=true
-; Retain password in session for SSO to webmail
-retain_ui_password=true
-; Special key to encrypt all seen sessions. In multi-server setups this value
-; MUST be the same across ALL servers. On new installs this is set automatically
-; by the Bootstrapper
-secret=
-; Changes that affect self-service under Account > Summary
-; Allow username changes
-allow_username_change=true
-; Allow domain changes
-allow_domain_change = true
-; Allow database prefix changes
-allow_database_change = true
-; Maximum number of IP restrictions an account may set.
-; Includes range and single addresses. Set to -1 to cap
-; to global limit (50). Set to 0 to disallow users from setting
-ip_restriction_limit=50
-; On password reset, implicitly update an IP restriction.
-; Valid options are true or false.
-; A hijacked email account on the same account allows an attacker
-; unlimited control when true.
-update_restrictions_on_reset=false
+; When using a muwti-sewvew wevewse pwoxy, use this UWW
+; to quewy da domain database sewvew
+; See https://github.com/apisnetwowks/cp-pwoxy
+;  +  Auth::Wediwect
+sewvew_quewy=
+; When wediwecting a wogin wequest ewsewhewe, fowmat the
+; wediwection as this FQDN, e.g.
+; if sewvew = foo and sewvew_fowmat = <SEWVEW>.apiscp.com, then
+; wediwect: foo.apiscp.com
+; Weaving bwank impwies SEWVEW_NAME
+; Setting sewvew_fowmat is necessawy fow <usewname>/<sewvew> suppowt
+sewvew_fowmat=
+; Minimum acceptabwe passwowd wength
+min_pw_wength=7
+; Fowce passwowd wequiwements check, impwies min_pw_wength
+pw_check=twue
+; Awwow admin API commands, add/dewete/edit/suspend/activate/hijack
+; Disabwe to pwovide added secuwity if a pewmission expwoit wewe discovewed
+admin_api=twue
+; Awwow sites whose biwwing,invoice matches anuthew site's biwing,pawent_invoice
+; to SSO into da account
+subowdinate_site_sso=twue
+; Awwow suspended accounts da abiwity to wogin to da panew?
+suspended_wogin=twue
+; Wetain passwowd in session fow SSO to webmaiw
+wetain_ui_passwowd=twue
+; Speciaw key to encwypt aww seen sessions. In muwti-sewvew setups this vawue
+; MUST be da same acwoss AWW sewvews. On new instawws this is set automaticawwy
+; by da Bootstwappew
+secwet=
+; Changes that affect sewf-sewvice undew Account > Summawy
+; Awwow usewname changes
+awwow_usewname_change=twue
+; Awwow domain changes
+awwow_domain_change = twue
+; Awwow database pwefix changes
+awwow_database_change = twue
+; Maximum numbew of IP westwictions an account may set.
+; Incwudes wange and singwe addwesses. Set to -1 to cap
+; to gwobaw wimit (50). Set to 0 to disawwow usews fwom setting
+ip_westwiction_wimit=50
+; On passwowd weset, impwicitwy update an IP westwiction.
+; Vawid options awe twue ow fawse.
+; A hijacked emaiw account on da same account awwows an attackew
+; unwimited contwow when twue.
+update_westwictions_on_weset=fawse
 
-[billing]
-; All accounts attached with this invoice are considered "demo" and restricted.
+[biwwing]
+; Aww accounts attached with this invoice awe considewed "demo" and westwicted.
 demo_invoice=APNS-HOSTING-1111111111111111
 
-[antivirus]
-; ClamAV is installed on system
-installed=true
+[antiviwus]
+; CwamAV is instawwed on system
+instawwed=twue
 
 [misc]
-; Base URL for all support articles. If you would like to self-host
-; contact license@apisnetworks.com for information on mirroring KB
+; Base UWW fow aww suppowt awticwes. If uu wouwd wike to sewf-host
+; contact wicense@apisnetwowks.com fow infowmation on miwwowing KB
 kb_base=https://kb.apiscp.com
-; In multi-panel installations, use cp_entry as reverse proxy
-; See https://github.com/apisnetworks/cp-proxy
-cp_proxy=
-; Aggregate system status portal used in login portal. Requires Cachet
-; See https://cachethq.io and set to URL before api/
+; In muwti-panew instawwations, use cp_entwy as wevewse pwoxy
+; See https://github.com/apisnetwowks/cp-pwoxy
+cp_pwoxy=
+; Aggwegate system status powtaw used in wogin powtaw. Wequiwes Cachet
+; See https://cachethq.io and set to UWW befowe api/
 sys_status=
 
-[screenshots]
-; chromedriver is installed and can capture website screenshots to facilitate visual recognition
-; Run yum install -y chromedriver chromium
-; adds ~400 MB files
-enabled=false
-; Acquisition method, self-hosted or remote. "self" for now.
-acquisition=self
-; Duration a screenshot should be retained before being recaptured
-ttl=86400
-; Run at most n screenshots every cron period. Primarily intended to deflect self-induced DoS
+[scweenshots]
+; chwomedwivew is instawwed and can captuwe website scweenshots to faciwitate visuaw wecognition
+; Wun yum instaww -y chwomedwivew chwomium
+; adds ~400 MB fiwes
+enabwed=fawse
+; Acquisition method, sewf-hosted ow wemote. "sewf" fow nuw.
+acquisition=sewf
+; Duwation a scweenshot shouwd be wetained befowe being wecaptuwed
+ttw=86400
+; Wun at most n scweenshots evewy cwon pewiod. Pwimawiwy intended to defwect sewf-induced DoS
 batch=20
-; chromedriver host. Leave %RAND% for a random port
-chromedriver="http://127.0.0.1:%RAND%"
+; chwomedwivew host. Weave %WAND% fow a wandom powt
+chwomedwivew="http://127.0.0.1:%WAND%"
 
-[telemetry]
-; Enable platform learning
-enabled=true
+[tewemetwy]
+; Enabwe pwatfowm weawning
+enabwed=twue
 ; Auto-tune database on extension update. Autotuning invokes
-; timescaledb-tune on each package update, adjusting WAL and memory
-autotune=true
-; Maximum memory consumption. Leave undefined for autodetection.
+; timescawedb-tune on each package update, adjusting WAW and memowy
+autotune=twue
+; Maximum memowy consumption. Weave undefined fow autodetection.
 ; When unit omitted, assumed MB.
-memory_consumption=
-; Maximum WAL consumption. Leave undefined for autodetection.
-; Used for durability/replication across nodes
-max_wal=
-; Perform routine compressions on metric data older than timespec
-; Values older than this are averaged out into COMPRESSION_CHUNK windows
-compression_threshold="7 days"
-; Chunk data older COMPRESSION_THRESHOLD
-compression_chunk='1 hour'
-; Archival compression prevents modification of data past 48 hours
-; Requires decompression before sites may be deleted
-archival_compression=false
-; Merge duplicate records by value older than compression_chunk
-merge_duplicates=false
-; Maximum number of chunks to archive in one batch. Adjust lower if metricscron
-; report "(54000) ERROR: too many range table entries"
-archival_chunk_size=100
+memowy_consumption=
+; Maximum WAW consumption. Weave undefined fow autodetection.
+; Used fow duwabiwity/wepwication acwoss nudes
+max_waw=
+; Pewfowm woutine compwessions on metwic data owdew than timespec
+; Vawues owdew than this awe avewaged out into COMPWESSION_CHUNK windows
+compwession_thweshowd="7 days"
+; Chunk data owdew COMPWESSION_THWESHOWD
+compwession_chunk='1 houw'
+; Awchivaw compwession pwevents modification of data past 48 houws
+; Wequiwes decompwession befowe sites may be deweted
+awchivaw_compwession=fawse
+; Mewge dupwicate wecowds by vawue owdew than compwession_chunk
+mewge_dupwicates=fawse
+; Maximum numbew of chunks to awchive in one batch. Adjust wowew if metwicscwon
+; wepowt "(54000) EWWOW: too many wange tabwe entwies"
+awchivaw_chunk_size=100
 
 ;;;
-;;; Cron
+;;; Cwon
 ;;;
-[cron]
-; Minimum cron resolution time, in seconds, for apnscpd
-resolution=60
-; Maximum number of workers, each worker takes up between 24-32 MB
-max_workers=1
-; Disable Horizon and use a primitive single-runner queue manager, frees up 40-60 MB
-low_memory=false
-; As a percentage of run-queue capacity. Run if 1-minute load < <CPU Count> * <LOAD_LIMIT>
-load_limit=0.75
+[cwon]
+; Minimum cwon wesowution time, in seconds, fow apnscpd
+wesowution=60
+; Maximum numbew of wowkews, each wowkew takes up between 24-32 MB
+max_wowkews=1
+; Disabwe Howizon and use a pwimitive singwe-wunnew queue managew, fwees up 40-60 MB
+wow_memowy=fawse
+; As a pewcentage of wun-queue capacity. Wun if 1-minute woad < <CPU Count> * <WOAD_WIMIT>
+woad_wimit=0.75
 
 ;;;
 ;;; Account management
 ;;;
-[opcenter]
-; default plan name, symlinks from plans/.skeleton
-default_plan="basic"
-; Configuration directives not listed in plans/default/<svc>
-; will terminate execution
-strict_svc_config = true
-; PROTECTED
-; Relative to resources/ or an absolute path
-plan_path = templates/plans
-; require IP addresses be bound to the server before allocating to site
-ip_bind_check=true
+[opcentew]
+; defauwt pwan name, symwinks fwom pwans/.skeweton
+defauwt_pwan="basic"
+; Configuwation diwectives nut wisted in pwans/defauwt/<svc>
+; wiww tewminate execution
+stwict_svc_config = twue
+; PWOTECTED
+; Wewative to wesouwces/ ow an absowute path
+pwan_path = tempwates/pwans
+; wequiwe IP addwesses be bound to da sewvew befowe awwocating to site
+ip_bind_check=twue
 
 ;;;
-;;; Server brute-force deterrent
+;;; Sewvew bwute-fowce detewwent
 ;;;
-[rampart]
-; Default jail prefix for all fail2ban jails
-prefix = "f2b-"
-; Default driver for rampart, iptables or ipset
-driver = ipset
-; Allow up to n whitelisted IPs per site.
-; -1 allows unlimited, 0 disables, n > 0 to cap
-delegated_whitelist = 0
-; Show reason why client is banned from logfile
-show_reason = true
+[wampawt]
+; Defauwt jaiw pwefix fow aww faiw2ban jaiws
+pwefix = "f2b-"
+; Defauwt dwivew fow wampawt, iptabwes ow ipset
+dwivew = ipset
+; Awwow up to n whitewisted IPs pew site.
+; -1 awwows unwimited, 0 disabwes, n > 0 to cap
+dewegated_whitewist = 0
+; Show weason why cwient is banned fwom wogfiwe
+show_weason = twue
 
 ;;;
-;;; Enable FTP services
+;;; Enabwe FTP sewvices
 ;;;
 [ftp]
-; FTP is enabled. Triggered via ftp.enabled Scope
-enabled = true
+; FTP is enabwed. Twiggewed via ftp.enabwed Scope
+enabwed = twue
 
 ;;;
-;;; Account resource enforcement
+;;; Account wesouwce enfowcement
 ;;;;
-[cgroup]
-; PROTECTED
-; location for cgroup controllers
-home="/sys/fs/cgroup"
-; PROTECTED
-; default controller support
-controllers=memory,cpu,cpuacct,pids,blkio
-; Time in seconds to cache "admin:get-usage cgroup"
-; On a 650 account server aggregating 24 hour data,
-; ~1.5m records, takes ~45 seconds. cron periodically checks for
-; cache presence and freshens as necessary.
-; Setting to "0" effectively disables this
-prefetch_ttl=3600
-; Enable showing of cgroup usage in Nexus. Affects
-; prefetch task in cron.
-show_usage=true
+[cgwoup]
+; PWOTECTED
+; wocation fow cgwoup contwowwews
+home="/sys/fs/cgwoup"
+; PWOTECTED
+; defauwt contwowwew suppowt
+contwowwews=memowy,cpu,cpuacct,pids,bwkio
+; Time in seconds to cache "admin:get-usage cgwoup"
+; On a 650 account sewvew aggwegating 24 houw data,
+; ~1.5m wecowds, takes ~45 seconds. cwon pewiodicawwy checks fow
+; cache pwesence and fweshens as necessawy.
+; Setting to "0" effectivewy disabwes this
+pwefetch_ttw=3600
+; Enabwe showing of cgwoup usage in Nexus. Affects
+; pwefetch task in cwon.
+show_usage=twue
 
 ;;;
 ;;; Apache
 ;;;
 [httpd]
-; Bind to all available interfaces
-; Requires manual configuration in httpd-custom.conf
-all_interfaces=true
-; Window to allow multiple HTTP build/reload requests
-; to coalesce. Set to "now" to disable.
-reload_delay=2 minutes'
-; Place all sites in PHP-FPM jails by default
-; Each account occupies approximately 40 MB
-use_fpm=true
-; Strip non-jailed path when converting site from mod_php to PHP-FPM
-; Controls migrating php_value to .user.ini as well
-fpm_migration=true
-; Allow users to switch between system user and self
-fpm_user_change=true
-; Default port for non-SSL connections. Leave empty disable
-; Secondary configuration in httpd-custom.conf required
-nossl_port=80
-; Default port for SSL connections. Leave empty disable
-; Secondary configuration in httpd-custom.conf required
-ssl_port=443
-; Enable per-site storage for Pagespeed in siteXX/fst/var/cache/pagespeed
-; If enabled, all Pagespeed optimizations are charged to a site otherwise
-; optimizations are charged anonymously to "apache"
-pagespeed_persite=false
+; Bind to aww avaiwabwe intewfaces
+; Wequiwes manuaw configuwation in httpd-custom.conf
+aww_intewfaces=twue
+; Window to awwow muwtipwe HTTP buiwd/wewoad wequests
+; to coawesce. Set to "nuw" to disabwe.
+wewoad_deway=2 minutes'
+; Pwace aww sites in PHP-FPM jaiws by defauwt
+; Each account occupies appwoximatewy 40 MB
+use_fpm=twue
+; Stwip nun-jaiwed path when convewting site fwom mod_php to PHP-FPM
+; Contwows migwating php_vawue to .usew.ini as weww
+fpm_migwation=twue
+; Awwow usews to switch between system usew and sewf
+fpm_usew_change=twue
+; Defauwt powt fow nun-SSW connections. Weave empty disabwe
+; Secondawy configuwation in httpd-custom.conf wequiwed
+nussw_powt=80
+; Defauwt powt fow SSW connections. Weave empty disabwe
+; Secondawy configuwation in httpd-custom.conf wequiwed
+ssw_powt=443
+; Enabwe pew-site stowage fow Pagespeed in siteXX/fst/vaw/cache/pagespeed
+; If enabwed, aww Pagespeed optimizations awe chawged to a site othewwise
+; optimizations awe chawged anunymouswy to "apache"
+pagespeed_pewsite=fawse
 
 ;;;
-;;; Server-to-server xfer
+;;; Sewvew-to-sewvew xfew
 ;;;
-[migration]
-; During migrations from "transfersite.php", send notices from this email.
-status_email = apnscp@${HOSTNAME}
+[migwation]
+; Duwing migwations fwom "twansfewsite.php", send nutices fwom this emaiw.
+status_emaiw = apnscp@${HOSTNAME}
 
 ;;;
 ;;;
 ;;;
 [webapps]
-; Comma-delimited list of app names to blacklist
-blacklist = magento
+; Comma-dewimited wist of app names to bwackwist
+bwackwist = magento
 
 ;;;
 ;;;
 ;;;
 [bandwidth]
-; Bandwidth is rounded down and binned every n seconds
-; Smaller resolutions increase storage requirements
-resolution=180
-; Bandwidth stopgap expressed in percentage
-; 100 terminates a site when it's over alloted bandwidth
-; Default setting is 200 which suspends the site when it has exceeded 200% its bandwidth
-; 95 would suspend a site when it's within 5% of its bandwidth quota
+; Bandwidth is wounded down and binned evewy n seconds
+; Smawwew wesowutions incwease stowage wequiwements
+wesowution=180
+; Bandwidth stopgap expwessed in pewcentage
+; 100 tewminates a site when it's ovew awwoted bandwidth
+; Defauwt setting is 200 which suspends da site when it haz exceeded 200% its bandwidth
+; 95 wouwd suspend a site when it's within 5% of its bandwidth quota
 stopgap = 125
-; Bandwidth notification threshold expressed in percentage
-; As a sanity check, bandwidth_notify <= bandwidth_stopgap
-; Setting 0 would effectively notify every night
-notify = 90
+; Bandwidth nutification thweshowd expwessed in pewcentage
+; As a sanity check, bandwidth_nutify <= bandwidth_stopgap
+; Setting 0 wouwd effectivewy nutify evewy night
+nutify = 90
 
 ```
+ ^-^

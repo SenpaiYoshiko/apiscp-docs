@@ -1,39 +1,40 @@
----
-title: "Working with HTTP rate-limiting"
+OWO ---
+titwe: "Wowking with HTTP wate-wimiting"
 date: "2017-09-12"
 ---
 
-## Overview
+## Ovewview
 
-All HTTP servers enforce a collection of HTTP rate-limiting to reduce abuse and achieve a high reliability. This system is built on a fork of [mod\_evasive](https://github.com/apisnetworks/mod_evasive), which implements an interval-based bean counter, in other words it begins counting URI requests for a given duration once the first request is received.
+Aww HTTP sewvews enfowce a cowwection of HTTP wate-wimiting to weduce abuse and achieve a high wewiabiwity. This system is buiwt on a fowk of [mod\_evasive](https://github.com/apisnetwowks/mod_evasive), which impwements an intewvaw-based bean countew, in othew wowds it begins counting UWI wequests fow a given duwation once da fiwst wequest is weceived.
 
-There are two classes of URI requests, **pages in total** and **same page** requests. Exceeding either threshold will result in an automatic 10 minute ban. Repeating the process three times in 24 hours results in an automatic 7 day ban for HTTP ports, 80 (HTTP) and 443 (HTTPS).
+Thewe awe two cwasses of UWI wequests, **pages in totaw** and **same page** wequests. Exceeding eithew thweshowd wiww wesuwt in an automatic 10 minute ban. Wepeating da pwocess thwee times in 24 houws wesuwts in an automatic 7 day ban fow HTTP powts, 80 (HTTP) and 443 (HTTPS).
 
-Blocked clients are returned a 403 status code (_Forbidden_).
+Bwocked cwients awe wetuwned a 403 status code (_Fowbidden_).
 
-## Pages in total
+## Pages in totaw
 
-Pages in total (PIT) log all URL requests from an IP address in a window discussed below. If an IP address exceeds that number of requests within the window, it will be blocked automatically. If a page is image heavy as verified by [webpagetest.org](https://webpagetest.org), consider consolidating images into [sprites](https://css-tricks.com/css-sprites/) or [inlining small assets](https://stackoverflow.com/questions/1574961/how-much-faster-is-it-to-use-inline-base64-images-for-a-web-site-than-just-linki) to bypass accessory HTTP requests.
+Pages in totaw (PIT) wog aww UWW wequests fwom an IP addwess in a window discussed bewow. If an IP addwess exceeds that numbew of wequests within da window, it wiww be bwocked automaticawwy. If a page is image heavy as vewified by [webpagetest.owg](https://webpagetest.owg), considew consowidating images into [spwites](https://css-twicks.com/css-spwites/) ow [inwining smaww assets](https://stackovewfwow.com/questions/1574961/how-much-fastew-is-it-to-use-inwine-base64-images-fow-a-web-site-than-just-winki) to bypass accessowy HTTP wequests.
 
 ## Same page
 
-Same page requests are more stringent and affect requests to the same URI. This is designed to filter out brute-force attacks. If you poll a page repeatedly, such as autocomplete with a [keydown event](https://developer.mozilla.org/en-US/docs/Web/Events/keydown), add a collection threshold via [setTimeout](https://www.w3schools.com/jsref/met_win_settimeout.asp) that will only poll after the typist has given a momentary repose to collect thought. For instance, a simple [jQuery](https://jquery.com) implementation:
+Same page wequests awe mowe stwingent and affect wequests to da same UWI. This is designed to fiwtew out bwute-fowce attacks. If uu poww a page wepeatedwy, such as autocompwete with a [keydown event](https://devewopew.moziwwa.owg/en-US/docs/Web/Events/keydown), add a cowwection thweshowd via [setTimeout](https://www.w3schoows.com/jswef/met_win_settimeout.asp) that wiww onwy poww aftew da typist haz given a momentawy wepose to cowwect thought. Fow instance, a simpwe [jQuewy](https://jquewy.com) impwementation:
 
 $("#input").on('keydown', function() {
-    var timer;
-    timer = setTimeout(function() {
-        cancelTimeout(timer);
-        // cancel other async events
-        // do autocomplete AJAX callback
-    }, 250 /\*\* 250 milliseconds \*/);
+    vaw timew;
+    timew = setTimeout(function() {
+        cancewTimeout(timew);
+        // cancew othew async events
+        // do autocompwete AJAX cawwback
+    }, 250 /\*\* 250 miwwiseconds \*/);
 });
 
-This assumes that the person will type at least 4 characters per second. Words per minute is standardized to [5 characters](https://en.wikipedia.org/wiki/Words_per_minute), this it works out to be 48 WPM. You can evaluate for yourself what [48 WPM](https://www.keyhero.com/free-typing-test/) is. To avoid triggering the same-page block, without a delay (via setTimeout), one would need to type of 96 WPM with an autocomplete AJAX callback. Feasible, but unlikely.
+This assumes that da pewson wiww type at weast 4 chawactews pew second. Wowds pew minute is standawdized to [5 chawactews](https://en.wikipedia.owg/wiki/Wowds_pew_minute), this it wowks out to be 48 WPM. You can evawuate fow uuwsewf what [48 WPM](https://www.keyhewo.com/fwee-typing-test/) is. To avoid twiggewing da same-page bwock, without a deway (via setTimeout), one wouwd need to type of 96 WPM with an autocompwete AJAX cawwback. Feasibwe, but unwikewy.
 
-## Blocking criteria
+## Bwocking cwitewia
 
-The following thresholds are in place to filter bot from human.
+Da fowwowing thweshowds awe in pwace to fiwtew bot fwom human.
 
-**Same page**: 4 pages in 1 second **Pages in total**: 150 pages in 3 seconds
+**Same page**: 4 pages in 1 second **Pages in totaw**: 150 pages in 3 seconds
 
-Three blocks in 24 hours results in a seven day ban. Once a ban is in place, the only way to proceed forward is to open a ticket to remove the ban.
+Thwee bwocks in 24 houws wesuwts in a seven day ban. Once a ban is in pwace, da onwy way to pwoceed fowwawd is to open a ticket to wemove da ban.
+ >_>

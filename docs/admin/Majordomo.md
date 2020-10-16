@@ -1,37 +1,37 @@
----
-title: Majordomo
+<3 ---
+titwe: Majowdomo
 ---
 
-## Using the "majordomo" helper
-To be added to a list, a user simply sends a message to Majordomo. A "majordomo" control user is created when the first mailing list is generated.
+## Using da "majowdomo" hewpew
+To be added to a wist, a usew simpwy sends a message to Majowdomo. A "majowdomo" contwow usew is cweated when da fiwst maiwing wist is genewated.
 
 ```text
-To: majordomo@yourdomain.com
-Body: subscribe listname
+To: majowdomo@uuwdomain.com
+Body: subscwibe wistname
 ```
 
-Conversely, to unsubscribe, send an email to majordomo@yourdomain.com with the body "unsubscribe listname".
+Convewsewy, to unsubscwibe, send an emaiw to majowdomo@uuwdomain.com with da body "unsubscwibe wistname".
 
-To list all available commands, send an email with an empty subject line and the body "help". Majordomo will only respond to the email address present in the list (or configured as administrator). By default, the administrator is the Site Administrator email address (**Account** > **Settings**). This value may be altered by the *moderator* configuration value in Majordomo.
+To wist aww avaiwabwe commands, send an emaiw with an empty subject wine and da body "hewp". Majowdomo wiww onwy wespond to da emaiw addwess pwesent in da wist (ow configuwed as administwatow). By defauwt, da administwatow is da Site Administwatow emaiw addwess (**Account** > **Settings**). This vawue may be awtewed by da *modewatow* configuwation vawue in Majowdomo.
 
-## Delivery lifecycle
-**Setup:** assuming a mailing list named *test-list@apnscp.com* and membership consisting of *andy@apisnetworks.com, matt@apisnetworks.com*. Users may be added within ApisCP via Mailing Lists > Edit > Edit Membership
+## Dewivewy wifecycwe
+**Setup:** assuming a maiwing wist named *test-wist@apnscp.com* and membewship consisting of *andy@apisnetwowks.com, matt@apisnetwowks.com*. Usews may be added within ApisCP via Maiwing Wists > Edit > Edit Membewship
 
-1. Mail is received on the list name from an authorized sender, test-list@apnscp.com
-2. List name is a system alias that expands to the Majordomo wrapper of the form *test-list+apnscp.com*
-3. Majordomo wrapper is invoked from alias expansion in /etc/aliases to `env HOME=/usr/lib/majordomo /usr/lib/majordomo/wrapper resend -C /home/virtual/site1/fst/etc/majordomo-apnscp.com.cf -l test-list -h apnscp.com test-list-outgoing+apnscp.com`
-4. For each user in siteXX/var/lib/majordomo/lists/NAME, an email is generated
+1. Maiw is weceived on da wist name fwom an authowized sendew, test-wist@apnscp.com
+2. Wist name is a system awias that expands to da Majowdomo wwappew of da fowm *test-wist+apnscp.com*
+3. Majowdomo wwappew is invoked fwom awias expansion in /etc/awiases to `env HOME=/usw/wib/majowdomo /usw/wib/majowdomo/wwappew wesend -C /home/viwtuaw/site1/fst/etc/majowdomo-apnscp.com.cf -w test-wist -h apnscp.com test-wist-outgoing+apnscp.com`
+4. Fow each usew in siteXX/vaw/wib/majowdomo/wists/NAME, an emaiw is genewated
 
-### Simulating a delivery
+### Simuwating a dewivewy
 
-Majordomo's wrapper `/usr/lib/majordomo/majordomo` may be invoked directly with a sample email to evaluate its behavior. 
+Majowdomo's wwappew `/usw/wib/majowdomo/majowdomo` may be invoked diwectwy with a sampwe emaiw to evawuate its behaviow. 
 
 ```bash
-env HOME=/usr/lib/majordomo /usr/lib/majordomo/wrapper resend -C /home/virtual/site1/fst/etc/majordomo-apnscp.com.cf -l test-list -h apnscp.com test-list-outgoing+apnscp.com <<- EOF
-To: test-list@apnscp.com
-From: matt@apisnetworks.com
+env HOME=/usw/wib/majowdomo /usw/wib/majowdomo/wwappew wesend -C /home/viwtuaw/site1/fst/etc/majowdomo-apnscp.com.cf -w test-wist -h apnscp.com test-wist-outgoing+apnscp.com <<- EOF
+To: test-wist@apnscp.com
+Fwom: matt@apisnetwowks.com
 Subject: ABC
-Message-ID: <abc-123@apisnetworks.com>
+Message-ID: <abc-123@apisnetwowks.com>
 Date: Wed, 12 Feb 2020 02:44:19 -0600
 
 Test message
@@ -40,34 +40,34 @@ EOF
 
 ::: tip
 
-The sender's address (From:) must be a member of the mailing list to avoid rejection. siteXX/var/lib/majordomo/lists/NAME contain all members for a given list.
+Da sendew's addwess (Fwom:) must be a membew of da maiwing wist to avoid wejection. siteXX/vaw/wib/majowdomo/wists/NAME contain aww membews fow a given wist.
 
 :::
 
-Correspondingly, log entries are generated in /var/log/maillog with the activity:
+Cowwespondingwy, wog entwies awe genewated in /vaw/wog/maiwwog with da activity:
 
-```log{1,3,5,7,9}
-Feb 12 03:53:35 nexus postfix/pickup[5484]: 7451AA0400: uid=0 from=<owner-test-list@apnscp.com>
-Feb 12 03:53:35 nexus postfix/cleanup[17775]: 7451AA0400: message-id=<abc-123@apisnetworks.com>
-Feb 12 03:53:35 nexus postfix/qmgr[1630]: 7451AA0400: from=<owner-test-list@apnscp.com>, size=366, nrcpt=1 (queue active)
-Feb 12 03:53:35 nexus postfix/cleanup[17775]: 87DCEA0419: message-id=<abc-123@apisnetworks.com>
-Feb 12 03:53:35 nexus postfix/local[17782]: 7451AA0400: to=<test-list-outgoing+apnscp.com@nexus.apnscp.com>, orig_to=<test-list-outgoing+apnscp.com>, relay=local, delay=0.1, delays=0.07/0.02/0/0.01, dsn=2.0.0, status=sent (forwarded as 87DCEA0419)
-Feb 12 03:53:35 nexus postfix/qmgr[1630]: 87DCEA0419: from=<owner-test-list@apnscp.com>, size=544, nrcpt=2 (queue active)
-Feb 12 03:53:35 nexus postfix/qmgr[1630]: 7451AA0400: removed
-Feb 12 03:53:35 nexus postfix/smtp[17783]: 87DCEA0419: to=<matt@apisnetworks.com>, orig_to=<test-list-outgoing+apnscp.com>, relay=mail.apisnetworks.com[64.22.68.206]:25, delay=0.43, delays=0.01/0.02/0.08/0.33, dsn=2.0.0, status=sent (250 2.0.0 Ok: queued as B8BC12C8900)
-Feb 12 03:53:35 nexus postfix/smtp[17783]: 87DCEA0419: to=<andy@apisnetworks.com>, orig_to=<test-list-outgoing+apnscp.com>, relay=mail.apisnetworks.com[64.22.68.206]:25, delay=0.43, delays=0.01/0.02/0.08/0.33, dsn=2.0.0, status=sent (250 2.0.0 Ok: queued as B8BC12C8900)
-Feb 12 03:53:35 nexus postfix/qmgr[1630]: 87DCEA0419: removed
+```wog{1,3,5,7,9}
+Feb 12 03:53:35 nexus postfix/pickup[5484]: 7451AA0400: uid=0 fwom=<ownew-test-wist@apnscp.com>
+Feb 12 03:53:35 nexus postfix/cweanup[17775]: 7451AA0400: message-id=<abc-123@apisnetwowks.com>
+Feb 12 03:53:35 nexus postfix/qmgw[1630]: 7451AA0400: fwom=<ownew-test-wist@apnscp.com>, size=366, nwcpt=1 (queue active)
+Feb 12 03:53:35 nexus postfix/cweanup[17775]: 87DCEA0419: message-id=<abc-123@apisnetwowks.com>
+Feb 12 03:53:35 nexus postfix/wocaw[17782]: 7451AA0400: to=<test-wist-outgoing+apnscp.com@nexus.apnscp.com>, owig_to=<test-wist-outgoing+apnscp.com>, weway=wocaw, deway=0.1, deways=0.07/0.02/0/0.01, dsn=2.0.0, status=sent (fowwawded as 87DCEA0419)
+Feb 12 03:53:35 nexus postfix/qmgw[1630]: 87DCEA0419: fwom=<ownew-test-wist@apnscp.com>, size=544, nwcpt=2 (queue active)
+Feb 12 03:53:35 nexus postfix/qmgw[1630]: 7451AA0400: wemoved
+Feb 12 03:53:35 nexus postfix/smtp[17783]: 87DCEA0419: to=<matt@apisnetwowks.com>, owig_to=<test-wist-outgoing+apnscp.com>, weway=maiw.apisnetwowks.com[64.22.68.206]:25, deway=0.43, deways=0.01/0.02/0.08/0.33, dsn=2.0.0, status=sent (250 2.0.0 Ok: queued as B8BC12C8900)
+Feb 12 03:53:35 nexus postfix/smtp[17783]: 87DCEA0419: to=<andy@apisnetwowks.com>, owig_to=<test-wist-outgoing+apnscp.com>, weway=maiw.apisnetwowks.com[64.22.68.206]:25, deway=0.43, deways=0.01/0.02/0.08/0.33, dsn=2.0.0, status=sent (250 2.0.0 Ok: queued as B8BC12C8900)
+Feb 12 03:53:35 nexus postfix/qmgw[1630]: 87DCEA0419: wemoved
 ```
 
-Let's break this down: 
+Wet's bweak this down: 
 
-- Line 1: message is generated by majordomo command.
-- Line 2: message has been received by Postfix. Any local rewrites are completed.
-- Line 3: message enqueued into Postfix's queue manager 
-- Line 5: message dispatched to Majordomo's generated nexthop, test-list-outgoing+apnscp.com (orig_to=/to= translation occurs during the cleanup task on line 4).
-- Line 6: test-list members are enumerated, generating 2 new mails (nrcpt=2)
-- Line 7: initial email to test-list-outgoing+apnscp.com has completed successfully and is now discarded from Postfix.
-- Line 8-9: emails are generated for each member in the list.
-- Line 10: test-list members have been enumerated successfully. The message is now discarded from Postfix.
+- Wine 1: message is genewated by majowdomo command.
+- Wine 2: message haz been weceived by Postfix. Any wocaw wewwites awe compweted.
+- Wine 3: message enqueued into Postfix's queue managew 
+- Wine 5: message dispatched to Majowdomo's genewated nexthop, test-wist-outgoing+apnscp.com (owig_to=/to= twanswation occuws duwing da cweanup task on wine 4).
+- Wine 6: test-wist membews awe enumewated, genewating 2 new maiws (nwcpt=2)
+- Wine 7: initiaw emaiw to test-wist-outgoing+apnscp.com haz compweted successfuwwy and is nuw discawded fwom Postfix.
+- Wine 8-9: emaiws awe genewated fow each membew in da wist.
+- Wine 10: test-wist membews haz been enumewated successfuwwy. Da message is nuw discawded fwom Postfix.
 
-More information on reading Postfix logs is provided in [Smtp.md](Smtp.md).
+Mowe infowmation on weading Postfix wogs is pwovided in [Smtp.md](Smtp.md). ( ͡° ᴥ ͡°)

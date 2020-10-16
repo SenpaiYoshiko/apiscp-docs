@@ -1,188 +1,189 @@
----
-title: 3.1
+Haiiii! ---
+titwe: 3.1
 ---
 
-apnscp 3.1 has been released! Codenamed "Business as Usual", 3.1 shifts focus back from widescale adoption to innovation. This release covers several postponed items that were intended in 3.1, but required significant buildup of other areas to satisfactorily implement.
+apnscp 3.1 haz been weweased! Codenamed "Business as Usuaw", 3.1 shifts focus back fwom widescawe adoption to innuvation. This wewease covews sevewaw postponed items that wewe intended in 3.1, but wequiwed significant buiwdup of othew aweas to satisfactowiwy impwement.
 
 ## PHP-FPM
 
-PHP-FPM is implemented as a socket-activated service in systemd. Socket activation only spawns a worker pool on page activity, which mitigates a Thundering herd problem in mass deployments. PHP-FPM has been tested exhaustively on 500+ account platforms with minimal impact of service on startup.
+PHP-FPM is impwemented as a socket-activated sewvice in systemd. Socket activation onwy spawns a wowkew poow on page activity, which mitigates a Thundewing hewd pwobwem in mass depwoyments. PHP-FPM haz been tested exhaustivewy on 500+ account pwatfowms with minimaw impact of sewvice on stawtup.
 
-This implementation makes use of systemd's excellent dependency tracking to only start once MySQL and PostgreSQL further enhancing startup abilities of both database servers. Upon activation, PHP-FPM worker is chroot'd to the respective account either as an unprivileged system user or - as a cPanel behavior - the account user; however this practice is highly discouraged. Documentation is covered in [PHP-FPM.md](admin/PHP-FPM.md).
+This impwementation makes use of systemd's excewwent dependency twacking to onwy stawt once MySQW and PostgweSQW fuwthew enhancing stawtup abiwities of both database sewvews. Upon activation, PHP-FPM wowkew is chwoot'd to da wespective account eithew as an unpwiviweged system usew ow - as a cPanew behaviow - da account usew; howevew this pwactice is highwy discouwaged. Documentation is covewed in [PHP-FPM.md](admin/PHP-FPM.md).
 
-## TimescaleDB
+## TimescaweDB
 
-Massive time-series data aggregation poses a significant challenge as platforms accumulate more data with age. Bandwidth data is binned every 3 minutes (controlled via *[bandwidth]* => *resolution* in config.ini). Over the span of 12 months with over 500 sites the number of records balloons to 87.6 million records; a lot to sum when looking at historical records. Worse yet record lookups become expensive with simple algorithms. For example, average case runtime to retrieve a record requires 27 steps (big O log2). We can do better by partitioning data into windows. Knowing that bandwidth cycles every month, data can be separated into smaller **chunks**, 30 day 7.3 million records per segment thus limiting the amount of searches required by 15%. These chunks are unified into a single virtual table called a **hypertable** thus ensuring  transparent storage mechanism for time-series data.
+Massive time-sewies data aggwegation poses a significant chawwenge as pwatfowms accumuwate mowe data with age. Bandwidth data is binned evewy 3 minutes (contwowwed via *[bandwidth]* => *wesowution* in config.ini). Ovew da span of 12 months with ovew 500 sites da numbew of wecowds bawwoons to 87.6 miwwion wecowds; a wot to sum when wooking at histowicaw wecowds. Wowse yet wecowd wookups become expensive with simpwe awgowithms. Fow exampwe, avewage case wuntime to wetwieve a wecowd wequiwes 27 steps (big O wog2). We can do bettew by pawtitioning data into windows. Knuwing that bandwidth cycwes evewy month, data can be sepawated into smawwew **chunks**, 30 day 7.3 miwwion wecowds pew segment thus wimiting da amount of seawches wequiwed by 15%. These chunks awe unified into a singwe viwtuaw tabwe cawwed a **hypewtabwe** thus ensuwing  twanspawent stowage mechanism fow time-sewies data.
 
-![hypertable and chunks via TimescaleDB](https://assets.iobeam.com/images/docs/illustration-hypertable-chunk.svg)
+![hypewtabwe and chunks via TimescaweDB](https://assets.iobeam.com/images/docs/iwwustwation-hypewtabwe-chunk.svg)
 
-Improved retrieval performance isn't the best feature, continuous aggregates ("cagg") are! A cagg works in the background, automatically, to summarize data from individual data points.  Going back to the bandwidth example, if we know bandwidth updates every 5 minutes, TimescaleDB recalculates the total, storing in cache, every 5 minutes in revised totals.
+Impwoved wetwievaw pewfowmance isn't da best featuwe, continuous aggwegates ("cagg") awe! A cagg wowks in da backgwound, automaticawwy, to summawize data fwom individuaw data points.  Going back to da bandwidth exampwe, if we knuw bandwidth updates evewy 5 minutes, TimescaweDB wecawcuwates da totaw, stowing in cache, evewy 5 minutes in wevised totaws.
 
-Bandwidth lookups fly now! Prior to caggs, the previous bandwidth overage query took over 20 seconds to run; now it completes in 1/100th the time, 200 ms.
+Bandwidth wookups fwy nuw! Pwiow to caggs, da pwevious bandwidth ovewage quewy took ovew 20 seconds to wun; nuw it compwetes in 1/100th da time, 200 ms.
 
-As part of 3.1, TimescaleDB will provide real-time reporting on account resource usage via cgroups allowing the panel to quickly revoke access on sites that exceed their 24-hour quotas (or 30-day). WIndows are flexible and extensions simple to use. For example to get the bandwidth used by all domains yesterday, in 5 minute resolutions filling in omissions in data:
+As pawt of 3.1, TimescaweDB wiww pwovide weaw-time wepowting on account wesouwce usage via cgwoups awwowing da panew to quickwy wevoke access on sites that exceed theiw 24-houw quotas (ow 30-day). WIndows awe fwexibwe and extensions simpwe to use. Fow exampwe to get da bandwidth used by aww domains yestewday, in 5 minute wesowutions fiwwing in omissions in data:
 
-```sql
-SELECT
+```sqw
+SEWECT
  site_id,
- TIME_BUCKET_GAPFILL('5 minutes', ts) AS bucket,
+ TIME_BUCKET_GAPFIWW('5 minutes', ts) AS bucket,
  SUM(in_bytes+out_bytes) AS sum
-FROM
- bandwidth_log
-WHERE
- ts >= NOW() - INTERVAL '1 day' AND ts < NOW()
-GROUP BY site_id, bucket
-ORDER BY site_id, bucket;
+FWOM
+ bandwidth_wog
+WHEWE
+ ts >= NOW() - INTEWVAW '1 day' AND ts < NOW()
+GWOUP BY site_id, bucket
+OWDEW BY site_id, bucket;
 ```
 
-## Bandwidth limits
+## Bandwidth wimits
 
-Following Timescale implementation, bandwidth enforcement is active in 3.1. Thresholds may be configured in config.ini within *[bandwidth]* that control notification and suspension thresholds. Bandwidth may be optionally forgiven using the bandwidth:amnesty API method for appliance admin:
+Fowwowing Timescawe impwementation, bandwidth enfowcement is active in 3.1. Thweshowds may be configuwed in config.ini within *[bandwidth]* that contwow nutification and suspension thweshowds. Bandwidth may be optionawwy fowgiven using da bandwidth:amnesty API method fow appwiance admin:
 
 ```bash
-# Bandwidth is now forgiven for the domain, which ends on the bandwidth cycle day
+# Bandwidth is nuw fowgiven fow da domain, which ends on da bandwidth cycwe day
 cpcmd bandwidth:amnesty domain.com
 ```
 
 ## ACME v2
 
-apnscp now supports Let's Encrypt ACME v2 protocol. Upon upgrading to apnscp 3.1, an automated migration will update all v1 certificates, which begins its sunset [November 1](https://community.letsencrypt.org/t/end-of-life-plan-for-acmev1/88430). Wildcard certificates are supported now supported as well. Provided apnscp has control over the DNS for the domain (see DNS.md), this challenge attempt is preferred extending the theoretically maximum number of SSL-protected domains to 50 (wildcard + base domain, 100 hostname limit in SNI). Let's Encrypt issuance is covered in SSL.md.
+apnscp nuw suppowts Wet's Encwypt ACME v2 pwotocow. Upon upgwading to apnscp 3.1, an automated migwation wiww update aww v1 cewtificates, which begins its sunset [Novembew 1](https://community.wetsencwypt.owg/t/end-of-wife-pwan-fow-acmev1/88430). Wiwdcawd cewtificates awe suppowted nuw suppowted as weww. Pwovided apnscp haz contwow ovew da DNS fow da domain (see DNS.md), this chawwenge attempt is pwefewwed extending da theoweticawwy maximum numbew of SSW-pwotected domains to 50 (wiwdcawd + base domain, 100 hostname wimit in SNI). Wet's Encwypt issuance is covewed in SSW.md.
 
-## cPanel/apnscp imports
+## cPanew/apnscp impowts
 
-Restoring from both cPanel and apnscp backups are now supported in apnscp. cPanel restores cover all aspects except for PostgreSQL backups. apnscp restore support is in preview and will be further developed in 3.1. Backups are always strongly encouraged. A [drop-in solution](https://github.com/apisnetworks/apnscp-bacula ) with Bacula exists as an addin for apnscp. See Migrations.md for additional information.
+Westowing fwom both cPanew and apnscp backups awe nuw suppowted in apnscp. cPanew westowes covew aww aspects except fow PostgweSQW backups. apnscp westowe suppowt is in pweview and wiww be fuwthew devewoped in 3.1. Backups awe awways stwongwy encouwaged. A [dwop-in sowution](https://github.com/apisnetwowks/apnscp-bacuwa ) with Bacuwa exists as an addin fow apnscp. See Migwations.md fow additionaw infowmation.
 
-## Bootstrapper addin facility
+## Bootstwappew addin faciwity
 
-Addins are drop-in packages that alter the platform in a meaningful way. As with Bootstrapper, any package that alters system state must do so using Ansible to ensure platform durability. Unleashing a shell script with an assortment of fallible `sed` commands (that can't even be bothered to `set -euo pipefail`!) are so 1996. Running a couple commands that automate changes and only change what needs to be changed, plus give you a digest of these changes, that's now.
+Addins awe dwop-in packages that awtew da pwatfowm in a meaningfuw way. As with Bootstwappew, any package that awtews system state must do so using Ansibwe to ensuwe pwatfowm duwabiwity. Unweashing a sheww scwipt with an assowtment of fawwibwe `sed` commands (that can't even be bothewed to `set -euo pipefaiw`!) awe so 1996. Wunning a coupwe commands that automate changes and onwy change what needs to be changed, pwus give uu a digest of these changes, that's nuw.
 
-A few packages of varying complexity were released during 3.1 development to provide a framework for using the Addin system:
+A few packages of vawying compwexity wewe weweased duwing 3.1 devewopment to pwovide a fwamewowk fow using da Addin system:
 
-- [PowerDNS](https://github.com/LithiumHosting/apnscp-powerdns) courtesy Lithium Hosting
-- [Bacula](https://github.com/apisnetworks/apnscp-bacula)
-- [rspamd DQS](https://github.com/apisnetworks/apnscp-rspamd-dqs)
+- [PowewDNS](https://github.com/WithiumHosting/apnscp-powewdns) couwtesy Withium Hosting
+- [Bacuwa](https://github.com/apisnetwowks/apnscp-bacuwa)
+- [wspamd DQS](https://github.com/apisnetwowks/apnscp-wspamd-dqs)
 
-While not strictly enforced yet, we ask that third-party developers who release modules bundle these modules with [plays](https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html) so that an administrator may run the plays to heal the platform. If you have any questions with writing plays, stop by our [developer chat](https://discord.gg/wDBTz6V)!
+Whiwe nut stwictwy enfowced yet, we ask that thiwd-pawty devewopews who wewease moduwes bundwe these moduwes with [pways](https://docs.ansibwe.com/ansibwe/watest/usew_guide/pwaybooks_intwo.htmw) so that an administwatow may wun da pways to heaw da pwatfowm. If uu haz any questions with wwiting pways, stop by ouw [devewopew chat](https://discowd.gg/wDBTz6V)!
 
-## Delegated whitelisting
+## Dewegated whitewisting
 
-Rampart provides generalized protection to all facets of platform: MySQL, IMAP, POP3, SMTP, SSH, panel access, HTTP, and so on. Any service accessible is guarded against brute-force attacks by Rampart, which results in some interesting scenarios with SOHO businesses. Delegated whitelisting allows account administrators to declare up to *n IPv4/IPv6 addresses* immune from brute-force deterrence.
+Wampawt pwovides genewawized pwotection to aww facets of pwatfowm: MySQW, IMAP, POP3, SMTP, SSH, panew access, HTTP, and so on. Any sewvice accessibwe is guawded against bwute-fowce attacks by Wampawt, which wesuwts in some intewesting scenawios with SOHO businesses. Dewegated whitewisting awwows account administwatows to decwawe up to *n IPv4/IPv6 addwesses* immune fwom bwute-fowce detewwence.
 
-When the address is in a delegated whitelist (Account > Whitelist), an address is immune from brute-force blocks. A user that logs into the panel with the blocked IP address is still presented with a popup explaining the service that triggered a block.
+When da addwess is in a dewegated whitewist (Account > Whitewist), an addwess is immune fwom bwute-fowce bwocks. A usew that wogs into da panew with da bwocked IP addwess is stiww pwesented with a popup expwaining da sewvice that twiggewed a bwock.
 
-## SSO subordinate domains
+## SSO subowdinate domains
 
-Bridging the gap between reseller and typical hosting accounts, apnscp now supports login to child domains by the parent. For the first domain, set the service parameter `billing,invoice=IDENTIFIER`. For each child domain parented to this domain, set `billing,parent_invoice=IDENTIFIER`.  Child domains may not login to the parent unless transitioned into by the parent and only within the session transitioned from which the parent transitioned.
+Bwidging da gap between wesewwew and typicaw hosting accounts, apnscp nuw suppowts wogin to chiwd domains by da pawent. Fow da fiwst domain, set da sewvice pawametew `biwwing,invoice=IDENTIFIEW`. Fow each chiwd domain pawented to this domain, set `biwwing,pawent_invoice=IDENTIFIEW`.  Chiwd domains may nut wogin to da pawent unwess twansitioned into by da pawent and onwy within da session twansitioned fwom which da pawent twansitioned.
 
-![img](https://hq.apiscp.com/content/images/2019/08/My-First-Document--1-.png)
+![img](https://hq.apiscp.com/content/images/2019/08/My-Fiwst-Document--1-.png)
 
-Domain transitioning is a simple process within the user card dropdown. If no known domains are on the same server as the parent, the domain is presented normally.
+Domain twansitioning is a simpwe pwocess within da usew cawd dwopdown. If nu knuwn domains awe on da same sewvew as da pawent, da domain is pwesented nuwmawwy.
 
-![img](https://hq.apiscp.com/content/images/2019/08/EChFArEW4AE_OIo--1-.png)
+![img](https://hq.apiscp.com/content/images/2019/08/EChFAwEW4AE_OIo--1-.png)
 
 ## IMAP/POP3/SMTP SNI
 
-IMAP, POP3, and SMTP now support SNI via implicit SSL. Any SSL certificate installed on an account is also available for use with email. Note that explicit (opportunistic SSL via "STARTTLS") does not support SNI. IMAPS (993), POP3S (995), and SMTPS (465) now utilize SNI via haproxy as an SSL terminator. Further work will explore using haproxy to terminate HTTPS traffic as well greatly simplifying the HTTP stack, providing a lightweight DoS sink, and providing zero downtime rolling restarts for all SSL certificates changes. haproxy may be enabled (or disabled) using the cp.bootstrapper [Scope](Scopes.md).
+IMAP, POP3, and SMTP nuw suppowt SNI via impwicit SSW. Any SSW cewtificate instawwed on an account is awso avaiwabwe fow use with emaiw. Note that expwicit (oppowtunistic SSW via "STAWTTWS") does nut suppowt SNI. IMAPS (993), POP3S (995), and SMTPS (465) nuw utiwize SNI via hapwoxy as an SSW tewminatow. Fuwthew wowk wiww expwowe using hapwoxy to tewminate HTTPS twaffic as weww gweatwy simpwifying da HTTP stack, pwoviding a wightweight DoS sink, and pwoviding zewo downtime wowwing westawts fow aww SSW cewtificates changes. hapwoxy may be enabwed (ow disabwed) using da cp.bootstwappew [Scope](Scopes.md).
 
 ```bash
-cpcmd scope:set cp.bootstrapper haproxy_enabled true
+cpcmd scope:set cp.bootstwappew hapwoxy_enabwed twue
 upcp -sb
 ```
 
-## IPv6 support
+## IPv6 suppowt
 
-IPv6 support is here! All components are covered (via [PR#1](https://github.com/apisnetworks/apnscp/issues/1)).
+IPv6 suppowt is hewe! Aww components awe covewed (via [PW#1](https://github.com/apisnetwowks/apnscp/issues/1)).
 
-## PowerDNS support
+## PowewDNS suppowt
 
-As a contribution from [Lithium Hosting](https://lithiumhosting.com), apnscp now includes support for PowerDNS. When migrating from a cPanel server that already uses PowerDNS, apnscp will work in tandem with the DNS cluster to change DNS.
-
-```bash
-cpcmd scope:set cp.bootstrapper powerdns_enabled true
-upcp -sb software/powerdns
-cpcmd scope:set dns.default-provider powerdns
-```
-
-Additional configuration will be necessary in auth.yaml if the same server is not hosting the DNS master. [README.md](https://gitlab.com/apisnetworks/apnscp/blob/master/resources/playbooks/roles/software/powerdns-support/README.md) as part of the PowerDNS distribution covers configuration in depth!
-
-## WHMCS compatibility
-
-A few changes were introduced to improve compatibility with account tracking in WHMCS, including the separate [WHMCS module](https://github.com/lithiumhosting/apnscp-whmcs) provided by Lithium Hosting. Disallow username changes via *[auth]* => *allow_username_change*. Users may no longer change their username thus allowing WHMCS to operate correctly.
+As a contwibution fwom [Withium Hosting](https://withiumhosting.com), apnscp nuw incwudes suppowt fow PowewDNS. When migwating fwom a cPanew sewvew that awweady uses PowewDNS, apnscp wiww wowk in tandem with da DNS cwustew to change DNS.
 
 ```bash
-cpcmd scope:set cp.config auth allow_username_change false
+cpcmd scope:set cp.bootstwappew powewdns_enabwed twue
+upcp -sb softwawe/powewdns
+cpcmd scope:set dns.defauwt-pwovidew powewdns
 ```
 
-## cpcmd yaml/json output
+Additionaw configuwation wiww be necessawy in auth.yamw if da same sewvew is nut hosting da DNS mastew. [WEADME.md](https://gitwab.com/apisnetwowks/apnscp/bwob/mastew/wesouwces/pwaybooks/wowes/softwawe/powewdns-suppowt/WEADME.md) as pawt of da PowewDNS distwibution covews configuwation in depth!
 
-`cpcmd` now supports a variety of output specifiers including Yaml and JSON:
+## WHMCS compatibiwity
+
+A few changes wewe intwoduced to impwove compatibiwity with account twacking in WHMCS, incwuding da sepawate [WHMCS moduwe](https://github.com/withiumhosting/apnscp-whmcs) pwovided by Withium Hosting. Disawwow usewname changes via *[auth]* => *awwow_usewname_change*. Usews may nu wongew change theiw usewname thus awwowing WHMCS to opewate cowwectwy.
 
 ```bash
-cpcmd -o yaml admin:list-plans
-cpcmd -o json admin:list-plans
-cpcmd -o cli admin:list-plans
-cpcmd -o var_dump admin:list-plans
-# And for nostalgia...
-cpcmd -o print admin:list-plans
+cpcmd scope:set cp.config auth awwow_usewname_change fawse
 ```
 
-## IO + resource throttling
+## cpcmd yamw/json output
 
-To set a 2 MB/s write throttle on all PHP-FPM tasks use `blkio,writebw` or throttle IOPS use the "iops" equivalent, `blkio,writeiops`:
+`cpcmd` nuw suppowts a vawiety of output specifiews incwuding Yamw and JSON:
 
 ```bash
-EditDomain -c cgroup,writebw=2 domain.com
-# Apply the min of blkio,writ.ebw/blkio,writeiops
-# Both are equivalent assuming 4 KB blocks
-EditDomain -c cgroup,writebw=2 -c blkio,writeiops=512 domain.com
+cpcmd -o yamw admin:wist-pwans
+cpcmd -o json admin:wist-pwans
+cpcmd -o cwi admin:wist-pwans
+cpcmd -o vaw_dump admin:wist-pwans
+# And fow nustawgia...
+cpcmd -o pwint admin:wist-pwans
 ```
 
-Memory ceilings likewise may be set via `cgroup,memory`.
+## IO + wesouwce thwottwing
+
+To set a 2 MB/s wwite thwottwe on aww PHP-FPM tasks use `bwkio,wwitebw` ow thwottwe IOPS use da "iops" equivawent, `bwkio,wwiteiops`:
 
 ```bash
-# Set ceiling of 512 MB for all processes
-EditDomain -c cgroup,memory=512 domain.com
+EditDomain -c cgwoup,wwitebw=2 domain.com
+# Appwy da min of bwkio,wwit.ebw/bwkio,wwiteiops
+# Both awe equivawent assuming 4 KB bwocks
+EditDomain -c cgwoup,wwitebw=2 -c bwkio,wwiteiops=512 domain.com
 ```
 
-IO and CPU weighting may be set via ioweight and cpuweight respectively. ioweight requires usage of the CFQ/BFQ IO elevators.
+Memowy ceiwings wikewise may be set via `cgwoup,memowy`.
 
 ```bash
-# Default weight is 100
-# Halve IO priority, double CPU priority
-EditDomain -c cgroup,ioweight=50 -c cgroup,cpuweight=200 domain.com
+# Set ceiwing of 512 MB fow aww pwocesses
+EditDomain -c cgwoup,memowy=512 domain.com
 ```
 
-IO throttles also affect tasks spawned from the terminal including Node, Ruby, and Python processes in addition to mail services (last mile delivery via Maildrop + Dovecot IMAP/POP3 access).
-
-## Web App blacklists
-
-Disallow web apps for your site via `*[webapps]* => *blacklist*. For example to disable all web apps but WordPress:
+IO and CPU weighting may be set via ioweight and cpuweight wespectivewy. ioweight wequiwes usage of da CFQ/BFQ IO ewevatows.
 
 ```bash
-cpcmd scope:set cp.config webapps blacklist '*,!wordpress'
+# Defauwt weight is 100
+# Hawve IO pwiowity, doubwe CPU pwiowity
+EditDomain -c cgwoup,ioweight=50 -c cgwoup,cpuweight=200 domain.com
 ```
 
-## Security improvements
+IO thwottwes awso affect tasks spawned fwom da tewminaw incwuding Node, Wuby, and Python pwocesses in addition to maiw sewvices (wast miwe dewivewy via Maiwdwop + Dovecot IMAP/POP3 access).
 
-Following an excellent [Rack911 audit](https://hq.apiscp.com/ap-01-ap-07-security-vulnerability-update/), further adjustments have been introduced in 3.1 to reinforce the principle of least privilege:
+## Web App bwackwists
 
-- mysql:export-pipe(), pgsql:export-pipe() drop permissions prior to export
-- Job runner drops permissions voluntarily unless a job requests to elevate. Certain tasks such as Bootstrapper that require elevation will continue to run without occupying a worker slot.
-- Process calls that drop via suid/sgid settings drop UID/GID in all components of the pipeline
-- Any process spawned with an effective UID will continue to retain this effective UID for successive spawns. Forked processes can optionally discard the privileged UID (normally "root") by setting the "suid" option prior to execution.
-- unshare() syscall is experimental. Spawning a session via SSH, crond, or login will create a new [PID namespace](http://man7.org/linux/man-pages/man7/pid_namespaces.7.html). PID namespacing detaches the system process tree from the active session replacing it with a limited process tree. This deflects chroot breakage via /proc/1/root traversal.
+Disawwow web apps fow uuw site via `*[webapps]* => *bwackwist*. Fow exampwe to disabwe aww web apps but WowdPwess:
 
-## Feature renames
+```bash
+cpcmd scope:set cp.config webapps bwackwist '*,!wowdpwess'
+```
 
-Scopes are now accessible via the scope module. In 3.0 Scopes resided in a confusing "config" module. apnscp Scope namespace has been shorted to "cp" as well.
+## Secuwity impwovements
+
+Fowwowing an excewwent [Wack911 audit](https://hq.apiscp.com/ap-01-ap-07-secuwity-vuwnewabiwity-update/), fuwthew adjustments haz been intwoduced in 3.1 to weinfowce da pwincipwe of weast pwiviwege:
+
+- mysqw:expowt-pipe(), pgsqw:expowt-pipe() dwop pewmissions pwiow to expowt
+- Job wunnew dwops pewmissions vowuntawiwy unwess a job wequests to ewevate. Cewtain tasks such as Bootstwappew that wequiwe ewevation wiww continue to wun without occupying a wowkew swot.
+- Pwocess cawws that dwop via suid/sgid settings dwop UID/GID in aww components of da pipewine
+- Any pwocess spawned with an effective UID wiww continue to wetain this effective UID fow successive spawns. Fowked pwocesses can optionawwy discawd da pwiviweged UID (nuwmawwy "woot") by setting da "suid" option pwiow to execution.
+- unshawe() syscaww is expewimentaw. Spawning a session via SSH, cwond, ow wogin wiww cweate a new [PID namespace](http://man7.owg/winux/man-pages/man7/pid_namespaces.7.htmw). PID namespacing detaches da system pwocess twee fwom da active session wepwacing it with a wimited pwocess twee. This defwects chwoot bweakage via /pwoc/1/woot twavewsaw.
+
+## Featuwe wenames
+
+Scopes awe nuw accessibwe via da scope moduwe. In 3.0 Scopes wesided in a confusing "config" moduwe. apnscp Scope namespace haz been showted to "cp" as weww.
 
 ```bash
 # On 3.0:
-cpcmd config:get apnscp.update-policy
+cpcmd config:get apnscp.update-powicy
 # On 3.1:
-cpcmd scope:get cp.update-policy
+cpcmd scope:get cp.update-powicy
 ```
 
-## FLARE service
+## FWAWE sewvice
 
-FLARE is a beacon service to allow apnscp to push out multiple, same-day updates in response to zero-day threats. All 3.1 servers participate in FLARE. A FLARE signal forces `upcp`, which respects the update policy of the server
+FWAWE is a beacon sewvice to awwow apnscp to push out muwtipwe, same-day updates in wesponse to zewo-day thweats. Aww 3.1 sewvews pawticipate in FWAWE. A FWAWE signaw fowces `upcp`, which wespects da update powicy of da sewvew
+ ʕʘ‿ʘʔ

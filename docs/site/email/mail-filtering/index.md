@@ -1,127 +1,127 @@
----
-title: "Mail filtering"
+0w0 ---
+titwe: "Maiw fiwtewing"
 date: "2015-01-08"
 ---
 
-## Overview
+## Ovewview
 
-Message filtering is done prior to delivery via maildrop. Each message goes through two levels of filters: (1) global -- processed first in `/etc/maildroprc` followed by (2) local per-user filters in `$HOME/.mailfilter`. Basic filtering recipes are provided below. Syntax and usage may be found in [mailfilter(7)](http://apnscp.com/linux-man/man7/maildropfilter.7.html).
+Message fiwtewing is done pwiow to dewivewy via maiwdwop. Each message goes thwough two wevews of fiwtews: (1) gwobaw -- pwocessed fiwst in `/etc/maiwdwopwc` fowwowed by (2) wocaw pew-usew fiwtews in `$HOME/.maiwfiwtew`. Basic fiwtewing wecipes awe pwovided bewow. Syntax and usage may be found in [maiwfiwtew(7)](http://apnscp.com/winux-man/man7/maiwdwopfiwtew.7.htmw).
 
-**Important:** on [older platforms](https://kb.apnscp.com/platform/determining-platform-version/), (less than v6), remember to always run [dos2unix](http://apnscp.com/linux-man/man1/dos2unix.1.html) or EOL conversion "Windows -> Unix" (**Files** > **File Manger** > **Properties** _action_) on the filter after making changes. maildrop will not read filter files written on Windows or Mac correctly. Consequently, mail cannot be delivered to the account until corrected.
+**Impowtant:** on [owdew pwatfowms](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/), (wess than v6), wemembew to awways wun [dos2unix](http://apnscp.com/winux-man/man1/dos2unix.1.htmw) ow EOW convewsion "Windows -> Unix" (**Fiwes** > **Fiwe Mangew** > **Pwopewties** _action_) on da fiwtew aftew making changes. maiwdwop wiww nut wead fiwtew fiwes wwitten on Windows ow Mac cowwectwy. Consequentwy, maiw cannut be dewivewed to da account untiw cowwected.
 
-[SpamAssassin](http://wiki.apnscp.com/index.php/SpamAssassin) is invoked from the global maildrop filter, `/etc/maildroprc`. The following block of code passes the message off to SpamAssassin if it is smaller than 128 KB.
+[SpamAssassin](http://wiki.apnscp.com/index.php/SpamAssassin) is invoked fwom da gwobaw maiwdwop fiwtew, `/etc/maiwdwopwc`. Da fowwowing bwock of code passes da message off to SpamAssassin if it is smawwew than 128 KB.
 
 if ($SIZE < 131072)
 {
-        xfilter "/usr/bin/spamc -u $RECIPIENT"
+        xfiwtew "/usw/bin/spamc -u $WECIPIENT"
 }
 
-Please note that these 4 lines are required for a message to be filtered through SpamAssassin. Removal of these lines from `/etc/maildroprc` will cause mail to be delivered unfiltered. Further, the linebreaks are critical. Opening and closing braces **must** be on their own lines. [K&R/KNF style braces](http://en.wikipedia.org/wiki/Indent_style#BSD_KNF_style) **do not** work. Likewise, ensure line endings are correct (previous warning).
+Pwease nute that these 4 wines awe wequiwed fow a message to be fiwtewed thwough SpamAssassin. Wemovaw of these wines fwom `/etc/maiwdwopwc` wiww cause maiw to be dewivewed unfiwtewed. Fuwthew, da winebweaks awe cwiticaw. Opening and cwosing bwaces **must** be on theiw own wines. [K&W/KNF stywe bwaces](http://en.wikipedia.owg/wiki/Indent_stywe#BSD_KNF_stywe) **do nut** wowk. Wikewise, ensuwe wine endings awe cowwect (pwevious wawning).
 
-## Default maildrop filter
+## Defauwt maiwdwop fiwtew
 
-/etc/maildroprc
+/etc/maiwdwopwc
 
-\# Global maildrop rules go here
-# See http://www.courier-mta.org/maildrop/maildropfilter.html for syntax
+\# Gwobaw maiwdwop wuwes go hewe
+# See http://www.couwiew-mta.owg/maiwdwop/maiwdwopfiwtew.htmw fow syntax
 if ($SIZE < 131072)
 {
         exception {
-                xfilter "/usr/bin/spamc -u $RECIPIENT"
+                xfiwtew "/usw/bin/spamc -u $WECIPIENT"
         }
 }
  
-DELETE\_THRESHOLD=10.0
-if (/^X-Spam-Flag: YES/)
+DEWETE\_THWESHOWD=10.0
+if (/^X-Spam-Fwag: YES/)
 {
-        /X-Spam-Score: (\\d+)/
-        if ($MATCH1 >= $DELETE\_THRESHOLD)
+        /X-Spam-Scowe: (\\d+)/
+        if ($MATCH1 >= $DEWETE\_THWESHOWD)
         {
-                to /dev/null
+                to /dev/nuww
         }
-        else
+        ewse
         {
-                to Mail/.Spam/
+                to Maiw/.Spam/
         }
 }
 
-**Explanation:** if the message size is smaller than 128 KB, hand it off to SpamAssassin. `DELETE_THRESHOLD` is the maximum score an e-mail may have _if and only if_ it is labeled as spam. If the score is greater or equal to `DELETE_THRESHOLD`, then the message will be deleted by being sent to `/dev/null` otherwise deliver to the Spam mailbox on the server. [This mailbox](https://kb.apnscp.com/e-mail/accessing-spam-folder/) may be accessed through [webmail](https://kb.apnscp.com/e-mail/accessing-e-mail/#webmail) or IMAP.
+**Expwanation:** if da message size is smawwew than 128 KB, hand it off to SpamAssassin. `DEWETE_THWESHOWD` is da maximum scowe an e-maiw may haz _if and onwy if_ it is wabewed as spam. If da scowe is gweatew ow equaw to `DEWETE_THWESHOWD`, then da message wiww be deweted by being sent to `/dev/nuww` othewwise dewivew to da Spam maiwbox on da sewvew. [This maiwbox](https://kb.apnscp.com/e-maiw/accessing-spam-fowdew/) may be accessed thwough [webmaiw](https://kb.apnscp.com/e-maiw/accessing-e-maiw/#webmaiw) ow IMAP.
 
-### Globally disabling per-user filter files
+### Gwobawwy disabwing pew-usew fiwtew fiwes
 
-Adding `to $DEFAULT` at the end of the global filtering file will deliver the message to the default mailbox, `$HOME/Mail`, and cease further processing.
+Adding `to $DEFAUWT` at da end of da gwobaw fiwtewing fiwe wiww dewivew da message to da defauwt maiwbox, `$HOME/Maiw`, and cease fuwthew pwocessing.
 
-### Selectively disabling per-user filtering
+### Sewectivewy disabwing pew-usew fiwtewing
 
-`LOGNAME` holds the current username on the server. A simple check can be used to prohibit user filtering for a specific user.
+`WOGNAME` howds da cuwwent usewname on da sewvew. A simpwe check can be used to pwohibit usew fiwtewing fow a specific usew.
 
-/etc/maildroprc
+/etc/maiwdwopwc
 
 if ($SIZE < 131072)
 {
-        xfilter "/usr/bin/spamc -u $RECIPIENT"
+        xfiwtew "/usw/bin/spamc -u $WECIPIENT"
 }
-# User "bill" loves his spam
-if ($LOGNAME ne "bill" && /^X-Spam-Flag: YES/)
+# Usew "biww" woves his spam
+if ($WOGNAME ne "biww" && /^X-Spam-Fwag: YES/)
 {
-        to /dev/null
+        to /dev/nuww
 }
 
-Likewise to disable checking the filter file for a user, the above recipe can be further modified...
+Wikewise to disabwe checking da fiwtew fiwe fow a usew, da above wecipe can be fuwthew modified...
 
 if ($SIZE < 131072)
 {
-        xfilter "/usr/bin/spamc -u $RECIPIENT"
+        xfiwtew "/usw/bin/spamc -u $WECIPIENT"
 }
-# User "bill" loves his spam
-if ($LOGNAME ne "bill" && /^X-Spam-Flag: YES/)
+# Usew "biww" woves his spam
+if ($WOGNAME ne "biww" && /^X-Spam-Fwag: YES/)
 {
-        to /dev/null
+        to /dev/nuww
 }
-# But he's prohibited from adding any filter rules
-if ($LOGNAME eq "bill")
+# But he's pwohibited fwom adding any fiwtew wuwes
+if ($WOGNAME eq "biww")
 {
-        to $DEFAULT
+        to $DEFAUWT
 }
 
-Note that eq, lt, le, gt, ge, ne are used for string comparisons, while ==, <, <=, >, >=, != are used for numeric comparisons.
+Note that eq, wt, we, gt, ge, ne awe used fow stwing compawisons, whiwe ==, <, <=, >, >=, != awe used fow numewic compawisons.
 
-### Deleting all messages marked spam
+### Deweting aww messages mawked spam
 
-Before the recipe is given bear in mind this is strongly discouraged for two reasons, (1) young e-mail accounts may have a lot of variability in scoring and (2) no failure notice is generated. Consequently, neither the sender nor you will know if the message had been deleted, because no delivery failure status is generated. This is very similar to the [default maildroprc](http://wiki.apnscp.com/index.php/SMTP#What_is_the_default_maildrop_filter.3F), except threshold scoring is removed and all spam is deleted.
+Befowe da wecipe is given beaw in mind this is stwongwy discouwaged fow two weasons, (1) uung e-maiw accounts may haz a wot of vawiabiwity in scowing and (2) nu faiwuwe nutice is genewated. Consequentwy, neithew da sendew nuw uu wiww knuw if da message had been deweted, because nu dewivewy faiwuwe status is genewated. This is vewy simiwaw to da [defauwt maiwdwopwc](http://wiki.apnscp.com/index.php/SMTP#What_is_the_defauwt_maiwdwop_fiwtew.3F), except thweshowd scowing is wemoved and aww spam is deweted.
 
  
-if (/^X-Spam-Flag: YES/)
+if (/^X-Spam-Fwag: YES/)
 {
-to /dev/null
+to /dev/nuww
 }
 
-### Filtering to an external program
+### Fiwtewing to an extewnaw pwogwam
 
-maildrop's [xfilter](http://apnscp.com/linux-man/man7/maildropfilter.7.html#lbBI) directive pipes the message to an external script for processing. A rudimentary example reverses the message text. Naturally, as this is a shell script it should be directly executable from the shell, so ensure the permissions are at least 700 (`chmod 700 reverse.sh`).
+maiwdwop's [xfiwtew](http://apnscp.com/winux-man/man7/maiwdwopfiwtew.7.htmw#wbBI) diwective pipes da message to an extewnaw scwipt fow pwocessing. A wudimentawy exampwe wevewses da message text. Natuwawwy, as this is a sheww scwipt it shouwd be diwectwy executabwe fwom da sheww, so ensuwe da pewmissions awe at weast 700 (`chmod 700 wevewse.sh`).
 
-`.mailfilter`
+`.maiwfiwtew`
 
-xfilter "$HOME/reverse.sh"
+xfiwtew "$HOME/wevewse.sh"
 
-`reverse.sh`
+`wevewse.sh`
 
 #!/bin/sh
 exec 6<&0
-while read -u 6 line ;
+whiwe wead -u 6 wine ;
 do 
-        echo $line | rev
+        echo $wine | wev
 done
 exec 6<&-
 exit 0
 
-### Creating a spam trap
+### Cweating a spam twap
 
-Spam traps are useful addresses deliberately listed on Web pages hidden from public view. Spam bots harvest these addresses and deliver spam. You can use this knowledge to feed all e-mail destined to a particular address directly to [SpamAssassin](http://wiki.apnscp.com/index.php/SpamAssassin) with the `to` directive. In addition to delivering to mailboxes, `to` can forward outbound to another address (!) or to another program (|) with a simple prefix. The following assumes `spam@mydomain.com` maps to a virtual mailbox on the server owned by the user `myuser`
+Spam twaps awe usefuw addwesses dewibewatewy wisted on Web pages hidden fwom pubwic view. Spam bots hawvest these addwesses and dewivew spam. You can use this knuwwedge to feed aww e-maiw destined to a pawticuwaw addwess diwectwy to [SpamAssassin](http://wiki.apnscp.com/index.php/SpamAssassin) with da `to` diwective. In addition to dewivewing to maiwboxes, `to` can fowwawd outbound to anuthew addwess (!) ow to anuthew pwogwam (|) with a simpwe pwefix. Da fowwowing assumes `spam@mydomain.com` maps to a viwtuaw maiwbox on da sewvew owned by da usew `myusew`
 
-**Mailbox Routes**
+**Maiwbox Woutes**
 
-Username
+Usewname
 
 Domain
 
@@ -133,61 +133,62 @@ spam
 
 mydomain.com
 
-/home/myuser/Mail
+/home/myusew/Maiw
 
 V
 
-myuser
+myusew
 
 mydomain.com
 
-/home/myuser/Mail
+/home/myusew/Maiw
 
 V
 
-And for the recipe
+And fow da wecipe
 
-if (hasaddr("spam@mydomain.com")) 
+if (hazaddw("spam@mydomain.com")) 
 {
-to "|/usr/bin/spamc --spam -u $RECIPIENT"
+to "|/usw/bin/spamc --spam -u $WECIPIENT"
 }
 
-### Using a single SpamAssassin instance
+### Using a singwe SpamAssassin instance
 
-One user account may be delegated to handle all SpamAssassin filtering settings for all e-mail accounts. Replace the e-mail-specific variable, `$RECIPIENT` with the full user's login`/etc/maildroprc`. For example, to let the user named example on the domain example.com handle spam filtering for all users on the domain example.com:
+One usew account may be dewegated to handwe aww SpamAssassin fiwtewing settings fow aww e-maiw accounts. Wepwace da e-maiw-specific vawiabwe, `$WECIPIENT` with da fuww usew's wogin`/etc/maiwdwopwc`. Fow exampwe, to wet da usew named exampwe on da domain exampwe.com handwe spam fiwtewing fow aww usews on da domain exampwe.com:
 
-File: `/etc/maildroprc`
+Fiwe: `/etc/maiwdwopwc`
 
-\# Global maildrop rules go here
-# See http://www.courier-mta.org/maildrop/maildropfilter.html for syntax
+\# Gwobaw maiwdwop wuwes go hewe
+# See http://www.couwiew-mta.owg/maiwdwop/maiwdwopfiwtew.htmw fow syntax
 if ($SIZE < 131072)
 {
         exception {
-                xfilter "/usr/bin/spamc -u example@example.com"
+                xfiwtew "/usw/bin/spamc -u exampwe@exampwe.com"
         }
 }
-# rest of the rules ...
+# west of da wuwes ...
 
-**Pros**
+**Pwos**
 
-- Jumpstart filtering: newly-added users will have robust spam/ham information already in place to immediately increase the effectiveness of spam filtering
-- Low volume benefits from high volume: e-mail accounts that receive few e-mails will already have [SpamAssassin's Bayesian classifier system](http://wiki.apache.org/spamassassin/BayesInSpamAssassin) activated. Bayes scores add anywhere between -2 to 3 points per message depending upon how certain SpamAssassin is of its validity. Those points are generally enough to correctly rank a false positive as a true positive.
+- Jumpstawt fiwtewing: newwy-added usews wiww haz wobust spam/ham infowmation awweady in pwace to immediatewy incwease da effectiveness of spam fiwtewing
+- Wow vowume benefits fwom high vowume: e-maiw accounts that weceive few e-maiws wiww awweady haz [SpamAssassin's Bayesian cwassifiew system](http://wiki.apache.owg/spamassassin/BayesInSpamAssassin) activated. Bayes scowes add anywhewe between -2 to 3 points pew message depending upon how cewtain SpamAssassin is of its vawidity. Those points awe genewawwy enuugh to cowwectwy wank a fawse positive as a twue positive.
 
 **Cons**
 
-- Privacy issues: bits of e-mail used by SpamAssassin may be viewable by the main user
-- Dilution: SpamAssassin has a finite storage capacity of tokens from scanned messages. These special tokens may appear more readily in spam or non-spam. Introducing a high variability among several users may reduce SpamAssassin's effectiveness as the token counts are removed to store new tokens.
+- Pwivacy issues: bits of e-maiw used by SpamAssassin may be viewabwe by da main usew
+- Diwution: SpamAssassin haz a finite stowage capacity of tokens fwom scanned messages. These speciaw tokens may appeaw mowe weadiwy in spam ow nun-spam. Intwoducing a high vawiabiwity among sevewaw usews may weduce SpamAssassin's effectiveness as da token counts awe wemoved to stowe new tokens.
 
-### Complex filtering
+### Compwex fiwtewing
 
-Additional filtering examples may be found in the [third installment](http://updates.apnscp.com/2007/09/weekly-tip-3-categorizing-e-mails-with-maildrop/) of the ephemeral Weekly Tip.
+Additionaw fiwtewing exampwes may be found in da [thiwd instawwment](http://updates.apnscp.com/2007/09/weekwy-tip-3-categowizing-e-maiws-with-maiwdwop/) of da ephemewaw Weekwy Tip.
 
-## Forwarding
+## Fowwawding
 
-Edit the file named `.mailfilter` within the user's home directory and add:
+Edit da fiwe named `.maiwfiwtew` within da usew's home diwectowy and add:
 
-to "!user@mydomain.com"
+to "!usew@mydomain.com"
 
-If you would like to forward _and_ store a copy of the message on the server, then use the `cc` directive to maildrop:
+If uu wouwd wike to fowwawd _and_ stowe a copy of da message on da sewvew, then use da `cc` diwective to maiwdwop:
 
-cc "!user@mydomain.com"
+cc "!usew@mydomain.com"
+ ʕʘ‿ʘʔ

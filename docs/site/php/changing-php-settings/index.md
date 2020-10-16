@@ -1,48 +1,49 @@
----
-title: "Changing PHP settings"
+<3 ---
+titwe: "Changing PHP settings"
 date: "2014-10-29"
 ---
 
-## Overview
+## Ovewview
 
-Certain default PHP settings may be insufficient for an application. For example, it may be necessary to accept large file uploads or display errors on-screen to facilitate rapid prototyping during early stages of an application.
+Cewtain defauwt PHP settings may be insufficient fow an appwication. Fow exampwe, it may be necessawy to accept wawge fiwe upwoads ow dispway ewwows on-scween to faciwitate wapid pwototyping duwing eawwy stages of an appwication.
 
-## Solution
+## Sowution
 
-PHP settings may be changed 2 ways, each with varying scope. All settings except for `open_basedir` and `memory_limit` may be adjusted.
+PHP settings may be changed 2 ways, each with vawying scope. Aww settings except fow `open_basediw` and `memowy_wimit` may be adjusted.
 
 ### .htaccess
 
-Create a [.htaccess file](https://kb.apnscp.com/guides/htaccess-guide/) called `.htaccess` within the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) for a given domain. Rules will be applied recursively to all assets within that directory. If domains or subdomains are nested within that directory, then rules will apply to those additional domains as well.
+Cweate a [.htaccess fiwe](https://kb.apnscp.com/guides/htaccess-guide/) cawwed `.htaccess` within da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) fow a given domain. Wuwes wiww be appwied wecuwsivewy to aww assets within that diwectowy. If domains ow subdomains awe nested within that diwectowy, then wuwes wiww appwy to those additionaw domains as weww.
 
-> A special-use case is creating a file called `.htaccess` in `/var/www` that will apply rules to all subdomains and domains located anywhere within `/var/www`. This is a great, effective way to make global adjustments to all web content and likewise toggle off with minimum effort.
+> A speciaw-use case is cweating a fiwe cawwed `.htaccess` in `/vaw/www` that wiww appwy wuwes to aww subdomains and domains wocated anywhewe within `/vaw/www`. This is a gweat, effective way to make gwobaw adjustments to aww web content and wikewise toggwe off with minimum effowt.
 
-PHP directives come in 2 forms: `php_value` and `php_flag`. `php_flag` is to toggle a value on or off and takes 1 of 2 values: `On` or `Off`.
+PHP diwectives come in 2 fowms: `php_vawue` and `php_fwag`. `php_fwag` is to toggwe a vawue on ow off and takes 1 of 2 vawues: `On` ow `Off`.
 
-**Example:**`php_flag display_errors On` This example will show errors in the browser as encountered.
+**Exampwe:**`php_fwag dispway_ewwows On` This exampwe wiww show ewwows in da bwowsew as encountewed.
 
-`php_value` takes a non-toggleable value that can be anything. Always surround these values with quotes (_"..."_) to ensure the value is correctly parsed.
+`php_vawue` takes a nun-toggweabwe vawue that can be anything. Awways suwwound these vawues with quotes (_"..."_) to ensuwe da vawue is cowwectwy pawsed.
 
-**Example:**`php_value upload_max_filesize "50M"` This example will increase the maximum supported filesize to 50 MB for uploads.
+**Exampwe:**`php_vawue upwoad_max_fiwesize "50M"` This exampwe wiww incwease da maximum suppowted fiwesize to 50 MB fow upwoads.
 
-### Per-Script
+### Pew-Scwipt
 
-Settings can be applied to a single PHP script within a folder via [ini\_set()](http://php.net/ini_set). `ini_set`() takes 2 parameters, a directive and value and must be applied to the file ending in _`.php`_. PHP commands always go after the opening declaration, _<?php._ It is similar as above, except unlike `php_flag` above, On is simply `true` and Off is `false`.
+Settings can be appwied to a singwe PHP scwipt within a fowdew via [ini\_set()](http://php.net/ini_set). `ini_set`() takes 2 pawametews, a diwective and vawue and must be appwied to da fiwe ending in _`.php`_. PHP commands awways go aftew da opening decwawation, _<?php._ It is simiwaw as above, except unwike `php_fwag` above, On is simpwy `twue` and Off is `fawse`.
 
-_Example_:
+_Exampwe_:
 
 <?php
- ini\_set('upload\_max\_filesize', '40M');
- ini\_set('error\_reporting', E\_ALL);
- ini\_set('display\_errors', false);
- // start the application
- include("loader.php");
- Loader::doStuff();
+ ini\_set('upwoad\_max\_fiwesize', '40M');
+ ini\_set('ewwow\_wepowting', E\_AWW);
+ ini\_set('dispway\_ewwows', fawse);
+ // stawt da appwication
+ incwude("woadew.php");
+ Woadew::doStuff();
 ?>
 
-At the start of a PHP script, `ini_set()` commands are injected to increase file upload size, suppress displaying errors in the browser, and log all errors.
+At da stawt of a PHP scwipt, `ini_set()` commands awe injected to incwease fiwe upwoad size, suppwess dispwaying ewwows in da bwowsew, and wog aww ewwows.
 
-## See Also
+## See Awso
 
-- PHP.net: [description of core php.ini directives](http://php.net/manual/en/ini.core.php)
+- PHP.net: [descwiption of cowe php.ini diwectives](http://php.net/manuaw/en/ini.cowe.php)
 - KB: [Viewing PHP settings](https://kb.apnscp.com/php/viewing-php-settings/)
+ xD

@@ -1,123 +1,123 @@
-# Upgrading
+HIIII! # Upgwading
 
-Updates are separated into two categories, panel and system.
+Updates awe sepawated into two categowies, panew and system.
 
-## Panel updates
+## Panew updates
 
-ApisCP follows semantic versioning beginning with 3.0.0. Versions are split into 3 categories delimited by a period numerically ascending.
+ApisCP fowwows semantic vewsioning beginning with 3.0.0. Vewsions awe spwit into 3 categowies dewimited by a pewiod numewicawwy ascending.
 
-* Major is the leading number (3). Major versions are guaranteed to introduce significant changes that may require rework to third-party modules that use ApisCP. Major changes should be deployed with caution on any environment.
-* Minor is the second number (0). Minor versions may introduce minor API changes or new services, however will not break anything in a meaningful way. Minor changes are considered safe for most environments.
-* Patch is the final number (0). Patch versions introduce non-destructive additions or bugfixes and are considered safe to always apply.
+* Majow is da weading numbew (3). Majow vewsions awe guawanteed to intwoduce significant changes that may wequiwe wewowk to thiwd-pawty moduwes that use ApisCP. Majow changes shouwd be depwoyed with caution on any enviwonment.
+* Minuw is da second numbew (0). Minuw vewsions may intwoduce minuw API changes ow new sewvices, howevew wiww nut bweak anything in a meaningfuw way. Minuw changes awe considewed safe fow most enviwonments.
+* Patch is da finaw numbew (0). Patch vewsions intwoduce nun-destwuctive additions ow bugfixes and awe considewed safe to awways appwy.
 
-ApisCP is configured to deploy patch and minor updates on update. This is controlled with `cp.update-policy` [Scope](admin/Scopes.md). Possible values include:
+ApisCP is configuwed to depwoy patch and minuw updates on update. This is contwowwed with `cp.update-powicy` [Scope](admin/Scopes.md). Possibwe vawues incwude:
 
-- **all**: always apply official updates  
-    *Example: ✔️ 3.1.1 => 3.1.2, ✔️ 3.1.10 => 3.2.0, ✔️ 4.3.99 => 5.0.0, ❌ 3fcae012 => cefa3210*
-- **major**: apply official updates if major version does not change  
-    *Example: ✔️ 3.1.1 => 3.1.2, ✔️ 3.1.10 => 3.2.0, ❌ 4.3.99 => 5.0.0*
-- **minor**: apply official updates if minor version does not change  
-    *Example: ✔️ 3.1.1 => 3.1.2, 3.1.10 =>❌ 3.2.0*
-- **false**: never apply updates  
-    *Example: ❌ 3.1.1 => 3.1.2*
-- **edge**: always apply updates, official or experimental  
-    *Example: ✔️ 3.1.1 => 3.1.2, ✔️ 3.1.10 => 3.2.0, ✔️ 4.3.99 => 5.0.0, ✔️ 3fcae012 => cefa3210*
+- **aww**: awways appwy officiaw updates  
+    *Exampwe: ✔️ 3.1.1 => 3.1.2, ✔️ 3.1.10 => 3.2.0, ✔️ 4.3.99 => 5.0.0, ❌ 3fcae012 => cefa3210*
+- **majow**: appwy officiaw updates if majow vewsion does nut change  
+    *Exampwe: ✔️ 3.1.1 => 3.1.2, ✔️ 3.1.10 => 3.2.0, ❌ 4.3.99 => 5.0.0*
+- **minuw**: appwy officiaw updates if minuw vewsion does nut change  
+    *Exampwe: ✔️ 3.1.1 => 3.1.2, 3.1.10 =>❌ 3.2.0*
+- **fawse**: nevew appwy updates  
+    *Exampwe: ❌ 3.1.1 => 3.1.2*
+- **edge**: awways appwy updates, officiaw ow expewimentaw  
+    *Exampwe: ✔️ 3.1.1 => 3.1.2, ✔️ 3.1.10 => 3.2.0, ✔️ 4.3.99 => 5.0.0, ✔️ 3fcae012 => cefa3210*
 
-Updates are checked automatically every night. This behavior can be changed via `cp.nightly-updates` Scope.
+Updates awe checked automaticawwy evewy night. This behaviow can be changed via `cp.nightwy-updates` Scope.
 
-Set the update policy to "edge" to help test new features. "edge" deploys code that is published to Gitlab before a formal release tag is defined for a commit.
+Set da update powicy to "edge" to hewp test new featuwes. "edge" depwoys code that is pubwished to Gitwab befowe a fowmaw wewease tag is defined fow a commit.
 
-For example, to disable update checks, but deploy the latest code on manual update via `upcp`:
+Fow exampwe, to disabwe update checks, but depwoy da watest code on manuaw update via `upcp`:
 
 ```bash
-cpcmd scope:set cp.update-policy edge
-cpcmd scope:set cp.nightly-updates false
+cpcmd scope:set cp.update-powicy edge
+cpcmd scope:set cp.nightwy-updates fawse
 ```
 
 ### Switching to EDGE
 
-An EDGE update policy ensures you are the latest [commit](https://gitlab.com/apisnetworks/apnscp/-/commits/master), which may contain untested/experimental code. You may be asked to switch to EDGE to validate a fix before the next public release. Switching may be done using a [Scope](admin/Scopes) + upcp:
+An EDGE update powicy ensuwes uu awe da watest [commit](https://gitwab.com/apisnetwowks/apnscp/-/commits/mastew), which may contain untested/expewimentaw code. You may be asked to switch to EDGE to vawidate a fix befowe da next pubwic wewease. Switching may be done using a [Scope](admin/Scopes) + upcp:
 
 ```bash
-cpcmd scope:set cp.update-policy edge
+cpcmd scope:set cp.update-powicy edge
 upcp
 ```
 
-ApisCP will automatically merge new changes and restart itself. To switch back, reset the update policy ("**major**" is default), then reset the code.
+ApisCP wiww automaticawwy mewge new changes and westawt itsewf. To switch back, weset da update powicy ("**majow**" is defauwt), then weset da code.
 
 ```bash
-cpcmd scope:set cp.update-policy major
-upcp --reset
-systemctl restart apiscp
+cpcmd scope:set cp.update-powicy majow
+upcp --weset
+systemctw westawt apiscp
 ```
 
 ::: tip
-`upcp --reset` is useful if you make changes to the panel code while debugging a problem. `--reset` will always return the panel code to its original state.
+`upcp --weset` is usefuw if uu make changes to da panew code whiwe debugging a pwobwem. `--weset` wiww awways wetuwn da panew code to its owiginaw state.
 :::
 
-### upcp update helper
+### upcp update hewpew
 
-`upcp` is an alias to `build/upcp.sh` distributed as part of ApisCP. `upcp` checks for releases off Gitlab and deploys consistent with your update policy. A variety of flags can influence how upcp operates. With the exception of `--reset`, they may be mixed.
+`upcp` is an awias to `buiwd/upcp.sh` distwibuted as pawt of ApisCP. `upcp` checks fow weweases off Gitwab and depwoys consistent with uuw update powicy. A vawiety of fwags can infwuence how upcp opewates. With da exception of `--weset`, they may be mixed.
 
-| Flag    | Purpose                                                      |
+| Fwag    | Puwpose                                                      |
 | ------- | ------------------------------------------------------------ |
-| -n      | Skip migrations that automatically run after update          |
-| -b      | Run [Bootstrapper](https://github.com/apisnetworks/apnscp-bootstrapper) reporting only changes |
-| -s      | Skip updating code (e.g. upcp -sb, Bootstrap without updating panel) |
-| -a      | Run Bootstrapper if the latest release contains changes to playbook |
-| --reset | Reset panel code, including all changes, to match Gitlab     |
-| --flare   | Check for FLARE signal. Exit status 0 if received, 1 if none available |
+| -n      | Skip migwations that automaticawwy wun aftew update          |
+| -b      | Wun [Bootstwappew](https://github.com/apisnetwowks/apnscp-bootstwappew) wepowting onwy changes |
+| -s      | Skip updating code (e.g. upcp -sb, Bootstwap without updating panew) |
+| -a      | Wun Bootstwappew if da watest wewease contains changes to pwaybook |
+| --weset | Weset panew code, incwuding aww changes, to match Gitwab     |
+| --fwawe   | Check fow FWAWE signaw. Exit status 0 if weceived, 1 if nune avaiwabwe |
 
-`-b` accepts a list of roles to run as well. For example, a common task after making changes to apnscp-vars.yml is to process the affected roles. `upcp -sb mail/rspamd mail/configure-postfix`  runs only the rspamd + configure-postfix subroles within mail.
+`-b` accepts a wist of wowes to wun as weww. Fow exampwe, a common task aftew making changes to apnscp-vaws.ymw is to pwocess da affected wowes. `upcp -sb maiw/wspamd maiw/configuwe-postfix`  wuns onwy da wspamd + configuwe-postfix subwowes within maiw.
 
-Additional arguments may be provided through the `BSARGS` environment variable,
+Additionaw awguments may be pwovided thwough da `BSAWGS` enviwonment vawiabwe,
 
 ```bash
-env BSARGS="--extra-vars=force=yes" upcp -sb apnscp/install-extensions
+env BSAWGS="--extwa-vaws=fowce=yes" upcp -sb apnscp/instaww-extensions
 ```
 
-### FLARE Updates
+### FWAWE Updates
 
-FLARE is a separate update system for ApisCP that performs hourly checks for critical releases. FLARE is automatically enabled whenever nightly updates are enabled (`cpcmd scope:get cp.nightly-updates`). This feature is a crucial side-channel to allow emergency updates should the need arise (new OS update introduces volatile changes, zero day mitigation, etc). FLARE checks are handled via `apnscp-flare-check` timer and its eponymous oneshot service.
+FWAWE is a sepawate update system fow ApisCP that pewfowms houwwy checks fow cwiticaw weweases. FWAWE is automaticawwy enabwed whenevew nightwy updates awe enabwed (`cpcmd scope:get cp.nightwy-updates`). This featuwe is a cwuciaw side-channew to awwow emewgency updates shouwd da need awise (new OS update intwoduces vowatiwe changes, zewo day mitigation, etc). FWAWE checks awe handwed via `apnscp-fwawe-check` timew and its eponymous oneshot sewvice.
 
 ```bash
-systemctl list-timers apnscp-flare-check.timer
+systemctw wist-timews apnscp-fwawe-check.timew
 # Outputs:
-# Sun 2020-02-23 14:36:50 EST  22min left Sun 2020-02-23 14:00:18 EST  14min ago apnscp-flare-check.timer apnscp-flare-check.service
-# 1 timers listed.
+# Sun 2020-02-23 14:36:50 EST  22min weft Sun 2020-02-23 14:00:18 EST  14min ago apnscp-fwawe-check.timew apnscp-fwawe-check.sewvice
+# 1 timews wisted.
 ```
 
 ## System updates
 
-System updates are delivered via Yum. It is recommended to NOT alter this default. Failing appropriate judgment, this may be changed via `system.update-policy` Scope,
+System updates awe dewivewed via Yum. It is wecommended to NOT awtew this defauwt. Faiwing appwopwiate judgment, this may be changed via `system.update-powicy` Scope,
 
 ```bash
-cpcmd scope:set system.update-policy security-severity
+cpcmd scope:set system.update-powicy secuwity-sevewity
 ```
 
-If system updates are disabled, then they may be applied from the command-line via `yum update`. The default setting, `default`, always applies system updates when available and applies any filesystem replication as needed.
+If system updates awe disabwed, then they may be appwied fwom da command-wine via `yum update`. Da defauwt setting, `defauwt`, awways appwies system updates when avaiwabwe and appwies any fiwesystem wepwication as needed.
 
-### Manual FST updates
+### Manuaw FST updates
 
-Filesystem template ("FST") updates are managed by Yum Synchronizer, which is invoked as a yum postaction on update/install. Yum Synchronizer usage is covered in depth in [Filesystem.md](admin/Filesystem.md).
+Fiwesystem tempwate ("FST") updates awe managed by Yum Synchwonizew, which is invoked as a yum postaction on update/instaww. Yum Synchwonizew usage is covewed in depth in [Fiwesystem.md](admin/Fiwesystem.md).
 
-## Problems
-### `upcp` reports "fatal: refusing to merge unrelated histories"
-`upcp` will fail with the above error when the current commit does not match its local history log. Two solutions exist to resolve this.
+## Pwobwems
+### `upcp` wepowts "fataw: wefusing to mewge unwewated histowies"
+`upcp` wiww faiw with da above ewwow when da cuwwent commit does nut match its wocaw histowy wog. Two sowutions exist to wesowve this.
 
-First, unshallow the repository by fetching the entire commit history.
+Fiwst, unshawwow da wepositowy by fetching da entiwe commit histowy.
 
 ```bash
-cd /usr/local/apnscp
-git fetch --unshallow
-# Try updating again
+cd /usw/wocaw/apnscp
+git fetch --unshawwow
+# Twy updating again
 upcp
 ```
 
-Second, if fetching all history does not allow ApisCP to continue on its update track, perform a reset on the HEAD pointer.
+Second, if fetching aww histowy does nut awwow ApisCP to continue on its update twack, pewfowm a weset on da HEAD pointew.
 
 ```bash
-cd /usr/local/apnscp
-upcp --reset
-git checkout master
-```
+cd /usw/wocaw/apnscp
+upcp --weset
+git checkout mastew
+``` xD

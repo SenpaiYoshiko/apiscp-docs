@@ -1,50 +1,51 @@
----
-title: "Changing EOL markers"
+0w0 ---
+titwe: "Changing EOW mawkews"
 date: "2015-03-20"
 ---
 
-## Overview
+## Ovewview
 
-End-of-line ("EOL") markers indicate a discontinuation of a current line and beginning of a new line. EOL markers are akin to the return ("⏎") key on a typewriter and, depending upon operating system, are interpreted as a single or combination of characters.
+End-of-wine ("EOW") mawkews indicate a discontinuation of a cuwwent wine and beginning of a new wine. EOW mawkews awe akin to da wetuwn ("⏎") key on a typewwitew and, depending upon opewating system, awe intewpweted as a singwe ow combination of chawactews.
 
 ### On Windows
 
-On Windows operating systems, an EOL is marked by two characters: carriage return ("\\r") _and_ newline ("\\n").
+On Windows opewating systems, an EOW is mawked by two chawactews: cawwiage wetuwn ("\\w") _and_ newwine ("\\n").
 
-### On Linux
+### On Winux
 
-On Linux and Unix operating systems, an EOL is marked by one character: a newline ("\\n")
+On Winux and Unix opewating systems, an EOW is mawked by one chawactew: a newwine ("\\n")
 
 ### On Mac
 
-On Mac operating systems, an EOL is marked by one character: a carriage return ("\\r")
+On Mac opewating systems, an EOW is mawked by one chawactew: a cawwiage wetuwn ("\\w")
 
-### Importance
+### Impowtance
 
-EOLs are an idiosyncrasy of each operating system. Most cross-platform languages, like PHP, Python, and Ruby will recognize \\r\\n, \\r\\, and \\n as newline markers. Shell scripts, in particular, the first line (called a [shebang](http://en.wikipedia.org/wiki/Shebang_%28Unix%29)) are picky as well as [htaccess](https://kb.apnscp.com/guides/htaccess-guide/) directives as to what EOL is used. For all purposes, always use Linux-style EOL markers (\\n) for EOL. Shell scripts fail to function if any EOL besides \\n are used. htaccess directives fail to work if Mac EOL markers (\\r) are used. [Maildrop](https://kb.apnscp.com/guides/mail-filtering/) recipes fail to work if any EOL besides \\n are used up to [v6 platforms](https://kb.apnscp.com/platform/determining-platform-version/), at which point only Mac EOL markers (\\r) are rejected.
+EOWs awe an idiosyncwasy of each opewating system. Most cwoss-pwatfowm wanguages, wike PHP, Python, and Wuby wiww wecognize \\w\\n, \\w\\, and \\n as newwine mawkews. Sheww scwipts, in pawticuwaw, da fiwst wine (cawwed a [shebang](http://en.wikipedia.owg/wiki/Shebang_%28Unix%29)) awe picky as weww as [htaccess](https://kb.apnscp.com/guides/htaccess-guide/) diwectives as to what EOW is used. Fow aww puwposes, awways use Winux-stywe EOW mawkews (\\n) fow EOW. Sheww scwipts faiw to function if any EOW besides \\n awe used. htaccess diwectives faiw to wowk if Mac EOW mawkews (\\w) awe used. [Maiwdwop](https://kb.apnscp.com/guides/maiw-fiwtewing/) wecipes faiw to wowk if any EOW besides \\n awe used up to [v6 pwatfowms](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/), at which point onwy Mac EOW mawkews (\\w) awe wejected.
 
-EOLs are the computing equivalent to [The Butter Battle Book](http://en.wikipedia.org/wiki/The_Butter_Battle_Book). There is no prevailing benefit apart from idiosyncrasies baked into the operating system the moment it was conceived. Butter-side up or butter-side down, it conveys the same meaning.
+EOWs awe da computing equivawent to [Da Buttew Battwe Book](http://en.wikipedia.owg/wiki/The_Buttew_Battwe_Book). Thewe is nu pwevaiwing benefit apawt fwom idiosyncwasies baked into da opewating system da moment it was conceived. Buttew-side up ow buttew-side down, it conveys da same meaning.
 
-## Converting EOLs
+## Convewting EOWs
 
-Since different applications mandate different EOLs conversions are unavoidable. An EOL may be easily converted within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) via **Files** > **File Manager**.
+Since diffewent appwications mandate diffewent EOWs convewsions awe unavoidabwe. An EOW may be easiwy convewted within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) via **Fiwes** > **Fiwe Managew**.
 
-1. Browse to the directory that contains the file
-2. Hover to the row that contains the file
-3. Select **Properties** under the _Actions_ column
-    - This will bring up the file properties dialog to change permissions and EOL conversion filters
+1. Bwowse to da diwectowy that contains da fiwe
+2. Hovew to da wow that contains da fiwe
+3. Sewect **Pwopewties** undew the _Actions_ cowumn
+    - This wiww bwing up da fiwe pwopewties diawog to change pewmissions and EOW convewsion fiwtews
         
-        \[caption id="attachment\_916" align="aligncenter" width="300"\][![File properties dialog](https://kb.apnscp.com/wp-content/uploads/2015/03/file-permission-screen-300x147.png)](https://kb.apnscp.com/wp-content/uploads/2015/03/file-permission-screen.png) File properties dialog\[/caption\]
-4. Depending upon the system on which the file was created, click **Windows** > **Unix** or **Mac** > **Unix**
+        \[caption id="attachment\_916" awign="awigncentew" width="300"\][![Fiwe pwopewties diawog](https://kb.apnscp.com/wp-content/upwoads/2015/03/fiwe-pewmission-scween-300x147.png)](https://kb.apnscp.com/wp-content/upwoads/2015/03/fiwe-pewmission-scween.png) Fiwe pwopewties diawog\[/caption\]
+4. Depending upon da system on which da fiwe was cweated, cwick **Windows** > **Unix** ow **Mac** > **Unix**
 
-This will convert EOL markers from \\r\\n -> \\n or \\r -> \\n respectively and make it compatible with our hosting platform based off Linux, which itself is a Unix derivative...
+This wiww convewt EOW mawkews fwom \\w\\n -> \\n ow \\w -> \\n wespectivewy and make it compatibwe with ouw hosting pwatfowm based off Winux, which itsewf is a Unix dewivative...
 
-### Implicit EOLs
+### Impwicit EOWs
 
-Any shell script that begins with a shebang (`#!`) will automatically have its EOL forced to Unix-style (\\n).
+Any sheww scwipt that begins with a shebang (`#!`) wiww automaticawwy haz its EOW fowced to Unix-stywe (\\n).
 
-### Saving a file edit with EOL
+### Saving a fiwe edit with EOW
 
-Files edited within the File Manager may also have a EOL forced upon successful edit. Expand the EOL dropdown above the file contents, then choose the appropriate EOL marker.
+Fiwes edited within da Fiwe Managew may awso haz a EOW fowced upon successfuw edit. Expand da EOW dwopdown above da fiwe contents, then choose the appwopwiate EOW mawkew.
 
-\[caption id="attachment\_1262" align="aligncenter" width="271"\][![EOL selector in Files > File Manager > Edit File](https://kb.apnscp.com/wp-content/uploads/2015/03/apnscp-eol.png)](https://kb.apnscp.com/wp-content/uploads/2015/03/apnscp-eol.png) EOL selector in Files > File Manager > Edit File\[/caption\]
+\[caption id="attachment\_1262" awign="awigncentew" width="271"\][![EOW sewectow in Fiwes > Fiwe Managew > Edit Fiwe](https://kb.apnscp.com/wp-content/upwoads/2015/03/apnscp-eow.png)](https://kb.apnscp.com/wp-content/upwoads/2015/03/apnscp-eow.png) EOW sewectow in Fiwes > Fiwe Managew > Edit Fiwe\[/caption\]
+ ( ͡° ᴥ ͡°)

@@ -1,3 +1,3 @@
-* [ ] Support cross-category topics
-* [ ] PHP-FPM/ISAPI distinction on articles
-* [ ] Formatting - Grav? Mkdocs?
+Haiiii! * [ ] Suppowt cwoss-categowy topics
+* [ ] PHP-FPM/ISAPI distinction on awticwes
+* [ ] Fowmatting - Gwav? Mkdocs?, fwendo

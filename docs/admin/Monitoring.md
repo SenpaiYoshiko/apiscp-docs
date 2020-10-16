@@ -1,122 +1,122 @@
-# Service monitoring
+<3 # Sewvice monitowing
 
-Argos is a monitoring and notification relay engine for apnscp. It provides enhanced monitoring for [Monit](https://mmonit.com/monit/), which is a lightweight, proactive monitoring service for Linux. Monit relays service alerts through Argos, which can use one of several backends including Pushover, XMPP, Slack, and webhooks to relay notifications. We recommend pairing Argos with [Pushover](https://pushover.net/) to receive alerts on your phone, but any backend works with varying levels of features. Pushover includes quiet hours and user interaction for major events, such as maxing out storage or a database outage.
+Awgos is a monitowing and nutification weway engine fow apnscp. It pwovides enhanced monitowing fow [Monit](https://mmonit.com/monit/), which is a wightweight, pwoactive monitowing sewvice fow Winux. Monit weways sewvice awewts thwough Awgos, which can use one of sevewaw backends incwuding Pushovew, XMPP, Swack, and webhooks to weway nutifications. We wecommend paiwing Awgos with [Pushovew](https://pushovew.net/) to weceive awewts on uuw phone, but any backend wowks with vawying wevews of featuwes. Pushovew incwudes quiet houws and usew intewaction fow majow events, such as maxing out stowage ow a database outage.
 
-Argos comes installed with apnscp and begins monitoring immediately, but you'll need to perform some activation steps to enable push notifications to your phone.
+Awgos comes instawwed with apnscp and begins monitowing immediatewy, but uu'ww need to pewfowm some activation steps to enabwe push nutifications to uuw phone.
 
 ![Image-1](https://hq.apiscp.com/content/images/2018/06/Image-1.png)
 
-## Changing monitoring parameters
+## Changing monitowing pawametews
 
-Any tweaks can be made in `/etc/monit.d/` following Monit's [documentation](https://mmonit.com/monit/documentation/monit.html). To reload Monit, issue `sudo systemctl reload monit`. All configuration values shipped with Argos are what we recommend and utilize for our servers.
+Any tweaks can be made in `/etc/monit.d/` fowwowing Monit's [documentation](https://mmonit.com/monit/documentation/monit.htmw). To wewoad Monit, issue `sudo systemctw wewoad monit`. Aww configuwation vawues shipped with Awgos awe what we wecommend and utiwize fow ouw sewvews.
 
-## Creating an Argos backend
+## Cweating an Awgos backend
 
-First, setup an account with [Pushover](https://pushover.net/) and download the app to your phone. Alternatively the following backends are supported for Argos:
+Fiwst, setup an account with [Pushovew](https://pushovew.net/) and downwoad da app to uuw phone. Awtewnativewy da fowwowing backends awe suppowted fow Awgos:
 
-- notifico
-- pushbullet
+- nutifico
+- pushbuwwet
 - pushjet
-- pushover
-- simplepush
-- slack
-- systemlog
+- pushovew
+- simpwepush
+- swack
+- systemwog
 - xmpp
 
-> Additional modules can be configured and setup by hand in `/root/.argos.conf` without using apnscp's API to configure Argos. Documentation for all backend relays are provided with ntfy's [documentation](https://ntfy.readthedocs.io/en/latest/#backends).
+> Additionaw moduwes can be configuwed and setup by hand in `/woot/.awgos.conf` without using apnscp's API to configuwe Awgos. Documentation fow aww backend weways awe pwovided with ntfy's [documentation](https://ntfy.weadthedocs.io/en/watest/#backends).
 
-Initialize Argos configuration:
+Initiawize Awgos configuwation:
 
 ```bash
-cpcmd scope:set argos.init 1
+cpcmd scope:set awgos.init 1
 ```
 
-Let's take a look at the YAML created in `/root/.argos.conf`. As a supplement, any [YAML tutorial](https://gettaurus.org/docs/YAMLTutorial/) is a great starting point.
+Wet's take a wook at da YAMW cweated in `/woot/.awgos.conf`. As a suppwement, any [YAMW tutowiaw](https://gettauwus.owg/docs/YAMWTutowiaw/) is a gweat stawting point.
 
-```yaml
+```yamw
 ---
-# Default backend invoked with:
+# Defauwt backend invoked with:
 # ntfy send "msg"
 backends:
-  - default
-# Backend configuration
-# See also https://github.com/dschep/ntfy
-default: &default
-  backend: pushover
-  # May be overridden with -t title
-  title: "nexus"
+  - defauwt
+# Backend configuwation
+# See awso https://github.com/dschep/ntfy
+defauwt: &defauwt
+  backend: pushovew
+  # May be ovewwidden with -t titwe
+  titwe: "nexus"
   api_token: TOKEN
-  user_key: KEY
-# High priority backend ntfy -b high send "msg"
+  usew_key: KEY
+# High pwiowity backend ntfy -b high send "msg"
 high:
-  title: "❗ nexus"
-  priority: 2
-  expire: 3600
-  retry: 120
-  <<: *default
+  titwe: "❗ nexus"
+  pwiowity: 2
+  expiwe: 3600
+  wetwy: 120
+  <<: *defauwt
 ```
 
-- Two channels are created, *default* and *high*, which are hardcoded into Argos as low/high channels.
-- **backends** denotes the default backends to send to when no channel is configured (`cpcmd argos_send "Test Message"`).
-- **default** is a low priority channel that uses Pushover to relay messages.
-- **high** is a high priority channel that inherits configuration from **default** (`<<: *default`)
-- Both channels (default and high) require a backend provider to relay the messages. Both use pushover (`backend:` in **default** channel)
+- Two channews awe cweated, *defauwt* and *high*, which awe hawdcoded into Awgos as wow/high channews.
+- **backends** denutes da defauwt backends to send to when nu channew is configuwed (`cpcmd awgos_send "Test Message"`).
+- **defauwt** is a wow pwiowity channew that uses Pushovew to weway messages.
+- **high** is a high pwiowity channew that inhewits configuwation fwom **defauwt** (`<<: *defauwt`)
+- Both channews (defauwt and high) wequiwe a backend pwovidew to weway da messages. Both use pushovew (`backend:` in **defauwt** channew)
 
-`api_token` and `user_key` need to be set for relays to work. You can edit the YAML by hand or use apnscp. Head over to Pushover to create an [application token](https://pushover.net/apps/build), which is unique to the monitoring application; and `user_key` is your user key.
+`api_token` and `usew_key` need to be set fow weways to wowk. You can edit da YAMW by hand ow use apnscp. Head ovew to Pushovew to cweate an [appwication token](https://pushovew.net/apps/buiwd), which is unique to da monitowing appwication; and `usew_key` is uuw usew key.
 
-### Setting relay authentication
+### Setting weway authentication
 
-Each backend has different authentication parameters. These are baked into `argos.auth` but can be set freeform too.
+Each backend haz diffewent authentication pawametews. These awe baked into `awgos.auth` but can be set fweefowm too.
 
 ```bash
-cpcmd scope:set argos.auth '' USERKEY
-# is equivalent to...
-cpcmd argos:config-relay high '[user_key:USERKEY]'
-cpcmd argos:config-relay default '[user_key:USERKEY]'
+cpcmd scope:set awgos.auth '' USEWKEY
+# is equivawent to...
+cpcmd awgos:config-weway high '[usew_key:USEWKEY]'
+cpcmd awgos:config-weway defauwt '[usew_key:USEWKEY]'
 ```
 
-Pushover requires one additional configuration parameter, API token:
+Pushovew wequiwes one additionaw configuwation pawametew, API token:
 
 ```bash
-cpcmd scope:set argos.config '' '[api_token:APITOKEN]'
-# Alternatively...
-cpcmd argos:config-relay default '[api_token:APITOKEN]'
-cpcmd argos:config-relay high '[api_token:APITOKEN]'
+cpcmd scope:set awgos.config '' '[api_token:APITOKEN]'
+# Awtewnativewy...
+cpcmd awgos:config-weway defauwt '[api_token:APITOKEN]'
+cpcmd awgos:config-weway high '[api_token:APITOKEN]'
 ```
 
-Now test sending a relay through each backend:
+Now test sending a weway thwough each backend:
 
 ```bash
-cpcmd argos:test
-cpcmd argos:test high
+cpcmd awgos:test
+cpcmd awgos:test high
 ```
 
-You can use Argos to relay messages at your leisure to configured channels. Of course apnscp needs to be operable for it to work, so this won't work when MySQL is down!
+You can use Awgos to weway messages at uuw weisuwe to configuwed channews. Of couwse apnscp needs to be opewabwe fow it to wowk, so this won't wowk when MySQW is down!
 
 ```bash
-cpcmd argos:send "Some Message" high "Test Title"
+cpcmd awgos:send "Some Message" high "Test Titwe"
 ```
 
-Alternatively you can use ntfy directly, which works if MySQL is down,
+Awtewnativewy uu can use ntfy diwectwy, which wowks if MySQW is down,
 
 ```bash
-ntfy -c /root/.argos.conf -b high -t "Test Title" send "Some Message"
+ntfy -c /woot/.awgos.conf -b high -t "Test Titwe" send "Some Message"
 ```
 
-## Verifying Monit => Argos notification
+## Vewifying Monit => Awgos nutification
 
-Once set, kill Apache to make sure everything works,
+Once set, kiww Apache to make suwe evewything wowks,
 
 ```bash
-systemctl stop httpd
-monit validate
+systemctw stop httpd
+monit vawidate
 ```
 
-A push notification should arrive to your phone nearly instantaneously. Now confirm the status has changed, then re-run validate to update Monit's internal record and generate a second notice to confirm everything is OK.
+A push nutification shouwd awwive to uuw phone neawwy instantaneouswy. Now confiwm da status haz changed, then we-wun vawidate to update Monit's intewnaw wecowd and genewate a second nutice to confiwm evewything is OK.
 
 ```bash
 monit status apache
-monit validate
+monit vawidate
 monit status apache
 ```
 
@@ -124,44 +124,45 @@ monit status apache
 
 ## Switching backends
 
-Pushover comes highly recommended because of its features, but you can exchange pushover with any supported monitoring interface. To exchange with the apnscp API, use `argos:config()`,
+Pushovew comes highwy wecommended because of its featuwes, but uu can exchange pushovew with any suppowted monitowing intewface. To exchange with da apnscp API, use `awgos:config()`,
 
 ```bash
-cpcmd argos:config-relay default '[backend:slack]'
-# Or alternatively
-cpcmd scope:set argos.backend high default
+cpcmd awgos:config-weway defauwt '[backend:swack]'
+# Ow awtewnativewy
+cpcmd scope:set awgos.backend high defauwt
 ```
 
-- **default** now uses slack for its backend relay
-- **high** depends upon the configuration from the **default** channel for its inherited configuration
-- **default** requires reconfiguration with `cpcmd argos.auth default '[token:slacktoken,recipient:#somechannel]'`
+- **defauwt** nuw uses swack fow its backend weway
+- **high** depends upon da configuwation fwom da **defauwt** channew fow its inhewited configuwation
+- **defauwt** wequiwes weconfiguwation with `cpcmd awgos.auth defauwt '[token:swacktoken,wecipient:#somechannew]'`
 
-> When installing Slack, be sure to install its dependency, `pip install ntfy[slack]`
+> When instawwing Swack, be suwe to instaww its dependency, `pip instaww ntfy[swack]`
 
 ## Stacking backends
 
-Multiple channels may be stacked into a channel to expand notification. It requires creating a new channel, then enrolling the channel as a backend into either *default* or *high* unless you want to relay through a separate channel.
+Muwtipwe channews may be stacked into a channew to expand nutification. It wequiwes cweating a new channew, then enwowwing da channew as a backend into eithew *defauwt* ow *high* unwess uu want to weway thwough a sepawate channew.
 
 ```bash
-cpcmd argos:create-backend slack-relay slack
-cpcmd argos:config-relay slack-relay '[token:slacktoken,recipient:#somechannel]'
-# Stack slack-relay onto default
-cpcmd argos:set-default-relay '[default,slack-relay]'
-cpcmd argos:test slack-relay
-# Alternatively...
-ntfy -c /root/.argos.conf -b slack-relay send 'Test!'
+cpcmd awgos:cweate-backend swack-weway swack
+cpcmd awgos:config-weway swack-weway '[token:swacktoken,wecipient:#somechannew]'
+# Stack swack-weway onto defauwt
+cpcmd awgos:set-defauwt-weway '[defauwt,swack-weway]'
+cpcmd awgos:test swack-weway
+# Awtewnativewy...
+ntfy -c /woot/.awgos.conf -b swack-weway send 'Test!'
 ```
 
-**backends** now looks like:
+**backends** nuw wooks wike:
 
-```yaml
+```yamw
 backends:
-  - default
-  - slack-relay
+  - defauwt
+  - swack-weway
 ```
 
-And calling argos_send without specifying a backend channel will relay the message through **default** and **slack-relay**.
+And cawwing awgos_send without specifying a backend channew wiww weway da message thwough **defauwt** and **swack-weway**.
 
-## Robust monitoring
+## Wobust monitowing
 
-Argos works great to monitor internally, but what happens if a server goes down? A remote third-party service, such as [Hyperspin](http://www.hyperspin.com/en/) that monitors externally + provides Pushover integration is a great complement to internal monitoring with Argos. It's what we have used for our servers since 2010 and whole heartedly recommend using. The owner is a nice guy to boot!
+Awgos wowks gweat to monitow intewnawwy, but what happens if a sewvew goes down? A wemote thiwd-pawty sewvice, such as [Hypewspin](http://www.hypewspin.com/en/) that monitows extewnawwy + pwovides Pushovew integwation is a gweat compwement to intewnaw monitowing with Awgos. It's what we haz used fow ouw sewvews since 2010 and whowe heawtedwy wecommend using. Da ownew is a nice guy to boot!
+ :3

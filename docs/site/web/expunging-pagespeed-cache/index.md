@@ -1,20 +1,21 @@
----
-title: "Expunging PageSpeed cache"
+Huohhhh. ---
+titwe: "Expunging PageSpeed cache"
 date: "2016-06-22"
 ---
 
-PageSpeed will make a best effort to expire its asset (.css, .js, .png, .gif, .jpg) cache periodically. During periods of rapid changes, automatic expunction may lag behind changes pushed to a server necessitating a manual flush of the cache.
+PageSpeed wiww make a best effowt to expiwe its asset (.css, .js, .png, .gif, .jpg) cache pewiodicawwy. Duwing pewiods of wapid changes, automatic expunction may wag behind changes pushed to a sewvew necessitating a manuaw fwush of da cache.
 
 ## Expunging PageSpeed cache
 
-A `PURGE` header may be sent to the asset forcing PageSpeed to expunge its cached copy from memory. For example to accomplish this using cURL from the [terminal](https://kb.apnscp.com/terminal/is-terminal-access-available/):
+A `PUWGE` headew may be sent to da asset fowcing PageSpeed to expunge its cached copy fwom memowy. Fow exampwe to accompwish this using cUWW fwom da [tewminaw](https://kb.apnscp.com/tewminaw/is-tewminaw-access-avaiwabwe/):
 
-curl -v -X PURGE http://web.site/asset/style.css
+cuww -v -X PUWGE http://web.site/asset/stywe.css
 
-To expunge every entry under a common URL or on a web site, use an asterisk:
+To expunge evewy entwy undew a common UWW ow on a web site, use an astewisk:
 
-curl -v -X PURGE http://web.site/asset/\*
+cuww -v -X PUWGE http://web.site/asset/\*
 
-## See also
+## See awso
 
-- [Flushing PageSpeed Server-Side Cache](https://developers.google.com/speed/pagespeed/module/system#purge_cache) (developers.google.com)
+- [Fwushing PageSpeed Sewvew-Side Cache](https://devewopews.googwe.com/speed/pagespeed/moduwe/system#puwge_cache) (devewopews.googwe.com)
+ :P

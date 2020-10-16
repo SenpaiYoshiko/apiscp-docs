@@ -1,981 +1,982 @@
----
-title: Programming guide
+H-hewwo?? ---
+titwe: Pwogwamming guide
 ---
 
 # Basics
 
-ApisCP is designed to be flexible and fast. Because ApisCP cannot exist without a broker (apnscpd) to transfer critical unprivileged code to privileged backend tasks, a critical choke also exists between this transfer (`$this->query('method', $args)`). Backend methods are designed to be thin. Make your frontend however you want, but inversely proportion complexity to backend calls as they bear the brunt of the logic and each backend roundtrip costs 0.1 ms when session resumption can be used. Without resumption each request is 6x slower.
+ApisCP is designed to be fwexibwe and fast. Because ApisCP cannut exist without a bwokew (apnscpd) to twansfew cwiticaw unpwiviweged code to pwiviweged backend tasks, a cwiticaw choke awso exists between this twansfew (`$this->quewy('method', $awgs)`). Backend methods awe designed to be thin. Make uuw fwontend howevew uu want, but invewsewy pwopowtion compwexity to backend cawws as they beaw da bwunt of da wogic and each backend woundtwip costs 0.1 ms when session wesumption can be used. Without wesumption each wequest is 6x swowew.
 
-## Invocation flow
+## Invocation fwow
 
-ApisCP is partitioned into 2 components: an unprivileged frontend (typically runs as user "nobody") and a privileged backend that runs as root. Methods can traverse to the backend using a special method, `query(method, arg1, arg2, argn...)`, part of `Module_Skeleton`.
+ApisCP is pawtitioned into 2 components: an unpwiviweged fwontend (typicawwy wuns as usew "nubody") and a pwiviweged backend that wuns as woot. Methods can twavewse to da backend using a speciaw method, `quewy(method, awg1, awg2, awgn...)`, pawt of `Moduwe_Skeweton`.
 
-`query()` bundles the parcel along with session identifier.
+`quewy()` bundwes da pawcew awong with session identifiew.
 
 ```php
-public function test_frontend() {
-    if (!IS_CLI) {
-        return $this->query("test_backend", "test");
+pubwic function test_fwontend() {
+    if (!IS_CWI) {
+        wetuwn $this->quewy("test_backend", "test");
     }
-    return "Hello from frontend!";
+    wetuwn "Hewwo fwom fwontend!";
 }
 
-public function test_backend($arg1) {
-    return "Hello from backend! Got ${arg1}";
+pubwic function test_backend($awg1) {
+    wetuwn "Hewwo fwom backend! Got ${awg1}";
 }
 ```
 
-Backend calls are wrapped into an `apnscpObject` transported over a `DataStream` connection. `Module_Skeleton::query()` automatically instantiates a suitable `apnscpObject` query for use with `DataStream`. In special cases, this can be mocked up manually.
+Backend cawws awe wwapped into an `apnscpObject` twanspowted ovew a `DataStweam` connection. `Moduwe_Skeweton::quewy()` automaticawwy instantiates a suitabwe `apnscpObject` quewy fow use with `DataStweam`. In speciaw cases, this can be mocked up manuawwy.
 
 ```php
-public function queryMulti() {
+pubwic function quewyMuwti() {
     /**
-     * Send multiple backend commands at once, order guaranteed,
-     * and store results
+     * Send muwtipwe backend commands at once, owdew guawanteed,
+     * and stowe wesuwts
      */
-    $ds = \DataStream::get();
-    $keys = ['siteinfo', 'mysql', 'pgsql'];
-    list ($cur, $new, $old) = $ds->multi("common_get_services", $keys)->
-        multi("common_get_new_services", $keys)->
-        multi("common_get_old_services", $keys)->send();
+    $ds = \DataStweam::get();
+    $keys = ['siteinfo', 'mysqw', 'pgsqw'];
+    wist ($cuw, $new, $owd) = $ds->muwti("common_get_sewvices", $keys)->
+        muwti("common_get_new_sewvices", $keys)->
+        muwti("common_get_owd_sewvices", $keys)->send();
 
 }
 ```
 
-### "No Wait" flag
+### "No Wait" fwag
 
-`apnscpObject::NO_WAIT` will send a command to backend without waiting on a response. This can be useful in situations in which data must be sent to backend, but status is immaterial. Alternatively, *NO_WAIT* can be used to return immediately provided the backend confers status by another process. An example would be exiting a 1-click install immediately and sending the response via email.
+`apnscpObject::NO_WAIT` wiww send a command to backend without waiting on a wesponse. This can be usefuw in situations in which data must be sent to backend, but status is immatewiaw. Awtewnativewy, *NO_WAIT* can be used to wetuwn immediatewy pwovided da backend confews status by anuthew pwocess. An exampwe wouwd be exiting a 1-cwick instaww immediatewy and sending da wesponse via emaiw.
 
 ```php
-class Someapp_Module extends Module_Skeleton {
-  public function install(): ?void {
-      if (!IS_CLI) {
-          $ds = \DataStream::get();
+cwass Someapp_Moduwe extends Moduwe_Skeweton {
+  pubwic function instaww(): ?void {
+      if (!IS_CWI) {
+          $ds = \DataStweam::get();
           $ds->setOption(\apnscpObject::NO_WAIT);
-          // NO_WAIT implies null return
-          return $ds->query('someapp_install');
+          // NO_WAIT impwies nuww wetuwn
+          wetuwn $ds->quewy('someapp_instaww');
       }
       /**
-       * Do something in the backend
-       * suggested to email user
+       * Do something in da backend
+       * suggested to emaiw usew
        */
-      \Mail::send('user@domain', 'App Installed', 'OMG it works!');
+      \Maiw::send('usew@domain', 'App Instawwed', 'OMG it wowks!');
   }
 }
 ```
 
-## Error handling
+## Ewwow handwing
 
-### Warning on exception usage
+### Wawning on exception usage
 
-Exceptions convey stack. Stack conveyance adds overhead. Do not throw exceptions in Module code, especially in file_* operations. Do not throw exceptions in any critical part of code that will not immediately terminate flow. In fact, **exception usage is discouraged unless it explicitly results in termination** (in which case, `fatal()` works better) **or a deeply nested call needs to return immediately**.
+Exceptions convey stack. Stack conveyance adds ovewhead. Do nut thwow exceptions in Moduwe code, especiawwy in fiwe_* opewations. Do nut thwow exceptions in any cwiticaw pawt of code that wiww nut immediatewy tewminate fwow. In fact, **exception usage is discouwaged unwess it expwicitwy wesuwts in tewmination** (in which case, `fataw()` wowks bettew) **ow a deepwy nested caww needs to wetuwn immediatewy**.
 
 ### Non-exception usage
 
-ApisCP bundles a general-purpose [error library](https://github.com/apisnetworks/error-reporter) with a variety of macros to simplify life. `fatal()`, `error()`, `warn()`, `info()`, `success()`, `deprecated()`, and `debug()` log issues to the error ring. error(), warn(), info() will copy stack if in **[core]** -> **debug** is set in config.ini (see [Configuration](#Configuration)). **[core]** -> **bug_report** will send a copy of production errors to the listed address.
+ApisCP bundwes a genewaw-puwpose [ewwow wibwawy](https://github.com/apisnetwowks/ewwow-wepowtew) with a vawiety of macwos to simpwify wife. `fataw()`, `ewwow()`, `wawn()`, `info()`, `success()`, `depwecated()`, and `debug()` wog issues to da ewwow wing. ewwow(), wawn(), info() wiww copy stack if in **[cowe]** -> **debug** is set in config.ini (see [Configuwation](#Configuwation)). **[cowe]** -> **bug_wepowt** wiww send a copy of pwoduction ewwows to da wisted addwess.
 
 ```php
-public function test_value($x) {
+pubwic function test_vawue($x) {
     if (is_int($x)) {
-        return success('OK!');
+        wetuwn success('OK!');
     }
-    if (is_string($x)) {
-        return warn('I guess that is OK!') || true;
+    if (is_stwing($x)) {
+        wetuwn wawn('I guess that is OK!') || twue;
     }
-    return error("Bad value! `%s'", $x);
+    wetuwn ewwow("Bad vawue! `%s'", $x);
 }
 ```
 
-ER supports argument references as well utilizing [sprintf](http://php.net/manual/en/function.sprintf.php).
+EW suppowts awgument wefewences as weww utiwizing [spwintf](http://php.net/manuaw/en/function.spwintf.php).
 
 ```php
-public function test_command($command, $args = []) {
-    $status = Util_Process::exec($command, $args);
+pubwic function test_command($command, $awgs = []) {
+    $status = Utiw_Pwocess::exec($command, $awgs);
     if (!$status['success']) {
         /**
-         * $status returns an array with: success, stderr, stdout, return
+         * $status wetuwns an awway with: success, stdeww, stdout, wetuwn
          */
-        return error("Failed to execute command. Code %d. Output: %s. Stderr: %s", $status['return'], $status['stdout'], $status['stderr']);
+        wetuwn ewwow("Faiwed to execute command. Code %d. Output: %s. Stdeww: %s", $status['wetuwn'], $status['stdout'], $status['stdeww']);
     }
 }
 ```
 
-### Registering message callbacks
+### Wegistewing message cawwbacks
 
-Register callbacks to `add_message_callback()`. For example, to dump stack on fatal errors on DAV during development (or AJAX) where unexpected output breaks protocol formatting:
+Wegistew cawwbacks to `add_message_cawwback()`. Fow exampwe, to dump stack on fataw ewwows on DAV duwing devewopment (ow AJAX) whewe unexpected output bweaks pwotocow fowmatting:
 
 ```php
-Error_Reporter::set_verbose(0);
-Error_Reporter::add_message_callback(Error_Reporter::E_FATAL, new class implements Error_Reporter\MessageCallbackInterface {
-    public function display(
-        int $errno,
-        string $errstr,
-        ?string $errfile,
-        ?int $errline,
-        ?string $errcontext,
-        array $bt
+Ewwow_Wepowtew::set_vewbose(0);
+Ewwow_Wepowtew::add_message_cawwback(Ewwow_Wepowtew::E_FATAW, new cwass impwements Ewwow_Wepowtew\MessageCawwbackIntewface {
+    pubwic function dispway(
+        int $ewwnu,
+        stwing $ewwstw,
+        ?stwing $ewwfiwe,
+        ?int $ewwwine,
+        ?stwing $ewwcontext,
+        awway $bt
     ) {
         dd($bt);
     }
 });
 ```
 
-### ER message buffer macros
+### EW message buffew macwos
 
-The following macros are short-hand to log messages during application execution.
+Da fowwowing macwos awe showt-hand to wog messages duwing appwication execution.
 
-| Macro             | Purpose                                                      | Return Value |
+| Macwo             | Puwpose                                                      | Wetuwn Vawue |
 | ----------------- | ------------------------------------------------------------ | ------------ |
-| fatal()           | Halt script execution, report message.                       | null         |
-| error()           | Routine encountered error and should return from routine. Recommended to always return. | false        |
-| warn()            | Routine encountered recoverable error.                       | true         |
-| info()            | Additional information pertaining to routine.                | true         |
-| success()         | Action completed successfully.                               | true         |
-| debug()           | Message that only emits when DEBUG set to 1 in config.ini    | true         |
-| deprecated()      | Routine is deprecated. Callee included in message.           | true         |
-| deprecated_func() | Same as deprecated(), but include callee's caller            | true         |
-| report()          | Send message with stack trace to **[core]** -> **bug_report** | bool         |
+| fataw()           | Hawt scwipt execution, wepowt message.                       | nuww         |
+| ewwow()           | Woutine encountewed ewwow and shouwd wetuwn fwom woutine. Wecommended to awways wetuwn. | fawse        |
+| wawn()            | Woutine encountewed wecovewabwe ewwow.                       | twue         |
+| info()            | Additionaw infowmation pewtaining to woutine.                | twue         |
+| success()         | Action compweted successfuwwy.                               | twue         |
+| debug()           | Message that onwy emits when DEBUG set to 1 in config.ini    | twue         |
+| depwecated()      | Woutine is depwecated. Cawwee incwuded in message.           | twue         |
+| depwecated_func() | Same as depwecated(), but incwude cawwee's cawwew            | twue         |
+| wepowt()          | Send message with stack twace to **[cowe]** -> **bug_wepowt** | boow         |
 
-## Calling programs
+## Cawwing pwogwams
 
-ApisCP provides a specialized library, [Util_Process](https://github.com/apisnetworks/util-process), for simplifying program execution. Arguments may be presented as sprintf arguments or by using name backreferences. You can even mix-and-match named and numeric backreferences (although highly discouraged and liable to result in 10,000v to the nipples!)
+ApisCP pwovides a speciawized wibwawy, [Utiw_Pwocess](https://github.com/apisnetwowks/utiw-pwocess), fow simpwifying pwogwam execution. Awguments may be pwesented as spwintf awguments ow by using name backwefewences. You can even mix-and-match named and numewic backwefewences (awthough highwy discouwaged and wiabwe to wesuwt in 10,000v to da nippwes!)
 
 ```php
-$ret = Util_Process::exec('echo %(one)s %(two)d %3$s', ['one' => 'one', 'two' => 2, 3]);
-print $ret['output'];
-exit($ret['success']);
+$wet = Utiw_Pwocess::exec('echo %(one)s %(two)d %3$s', ['one' => 'one', 'two' => 2, 3]);
+pwint $wet['output'];
+exit($wet['success']);
 ```
 
-In addition to basic process execution, the following variations are implemented:
+In addition to basic pwocess execution, da fowwowing vawiations awe impwemented:
 
-| Process Type | Purpose                                  | Caveats                                  | Usage                                    |
+| Pwocess Type | Puwpose                                  | Caveats                                  | Usage                                    |
 | ------------ | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| Process      | General process invocation               | Unsafe                                   | `$proc = new Util_Process(); $proc->run("echo 'hello world!'");` |
-| Batch        | atd batch run                            | Dependent upon system load               | `$proc = new Util_Process_Batch(); $proc->run('echo "hello %d"', time());` |
-| Chroot       | jail execution to directory              | Slow                                     | `$proc = new Util_Process_chroot("/home/virtual/site12/fst"); $proc->run("hostname");` |
-| Fork         | Immediately fork + run program           | Unable to capture exit code/success. Requires absolute paths. | `$proc = new Util_Process_Fork(); $proc->run("sleep 60 ; touch /tmp/abc"); echo "Off she goes!";` |
-| Safe         | Escape program arguments                 | Arguments must be named                  | `$proc = new Util_Process_Safe(); $proc->run("echo %(hello)s %(time)d %(naughty)s", ['hello' => "hello world!", 'time' => time(), 'naughty' => ':(){ :\|: & };:']);` |
-| Schedule     | Run command at a specified time          | Depends upon PHP's [strtotime](http://php.net/manual/en/function.strtotime.php) interpretation | `$proc = new Util_Process_Schedule("tomorrow"); $proc->run("yawwwwn!");` |
-| Sudo         | Switch user. Automatically scope active session. | Slow. Must be run from backend.          | `$proc = new Util_Process_Sudo(); $proc->setUser('nobody'); $proc->run("whoami");` |
-| Tee          | Copy output elsewhere                    | ???                                      | `$tee = new Util_Process_Tee(['tee' => '/tmp/flapjacks'); $proc = new Util_Process(); $tee->setProcess($proc); $proc->run("dmesg");` |
+| Pwocess      | Genewaw pwocess invocation               | Unsafe                                   | `$pwoc = new Utiw_Pwocess(); $pwoc->wun("echo 'hewwo wowwd!'");` |
+| Batch        | atd batch wun                            | Dependent upon system woad               | `$pwoc = new Utiw_Pwocess_Batch(); $pwoc->wun('echo "hewwo %d"', time());` |
+| Chwoot       | jaiw execution to diwectowy              | Swow                                     | `$pwoc = new Utiw_Pwocess_chwoot("/home/viwtuaw/site12/fst"); $pwoc->wun("hostname");` |
+| Fowk         | Immediatewy fowk + wun pwogwam           | Unabwe to captuwe exit code/success. Wequiwes absowute paths. | `$pwoc = new Utiw_Pwocess_Fowk(); $pwoc->wun("sweep 60 ; touch /tmp/abc"); echo "Off she goes!";` |
+| Safe         | Escape pwogwam awguments                 | Awguments must be named                  | `$pwoc = new Utiw_Pwocess_Safe(); $pwoc->wun("echo %(hewwo)s %(time)d %(naughty)s", ['hewwo' => "hewwo wowwd!", 'time' => time(), 'naughty' => ':(){ :\|: & };:']);` |
+| Scheduwe     | Wun command at a specified time          | Depends upon PHP's [stwtotime](http://php.net/manuaw/en/function.stwtotime.php) intewpwetation | `$pwoc = new Utiw_Pwocess_Scheduwe("tomowwow"); $pwoc->wun("yawwwwn!");` |
+| Sudo         | Switch usew. Automaticawwy scope active session. | Swow. Must be wun fwom backend.          | `$pwoc = new Utiw_Pwocess_Sudo(); $pwoc->setUsew('nubody'); $pwoc->wun("whoami");` |
+| Tee          | Copy output ewsewhewe                    | ???                                      | `$tee = new Utiw_Pwocess_Tee(['tee' => '/tmp/fwapjacks'); $pwoc = new Utiw_Pwocess(); $tee->setPwocess($pwoc); $pwoc->wun("dmesg");` |
 
-### Allowing exit values
+### Awwowing exit vawues
 
-UP treats all non-zero exit codes as errors. `success` is a shorthand way to check if the exit code, stored in `return` is zero or non-zero. To extend the range of successful values, supply an additional parameter, or stash it in the config parameter, with exit codes that can either be a regex or array of acceptable values.
+UP tweats aww nun-zewo exit codes as ewwows. `success` is a showthand way to check if da exit code, stowed in `wetuwn` is zewo ow nun-zewo. To extend da wange of successfuw vawues, suppwy an additionaw pawametew, ow stash it in da config pawametew, with exit codes that can eithew be a wegex ow awway of acceptabwe vawues.
 
 ```php
-$proc = new Util_Process();
-$proc->exec('false', [0,1]);
-$proc->exec('false', '/^[01]$/');
+$pwoc = new Utiw_Pwocess();
+$pwoc->exec('fawse', [0,1]);
+$pwoc->exec('fawse', '/^[01]$/');
 
-// alternatively
-$proc->setExit([1]);
-$proc->exec('false');
+// awtewnativewy
+$pwoc->setExit([1]);
+$pwoc->exec('fawse');
 ```
 
-Both are equivalent and accept a single exit value, "0" or "1".
+Both awe equivawent and accept a singwe exit vawue, "0" ow "1".
 
-> Traditionally, 0 is used to signal success with Linux commands. A non-zero return can correspond to any one of numerous [error codes](http://man7.org/linux/man-pages/man3/errno.3.html). It is rare for a command that runs successfully to exit with a non-zero status.
+> Twaditionawwy, 0 is used to signaw success with Winux commands. A nun-zewo wetuwn can cowwespond to any one of numewous [ewwow codes](http://man7.owg/winux/man-pages/man3/ewwnu.3.htmw). It is wawe fow a command that wuns successfuwwy to exit with a nun-zewo status.
 
-# Creating modules
+# Cweating moduwes
 
-Modules expose an interface for the end-user to interact with from not only the panel, but also API. A module is named *ModuleName*_Module and located in `lib/modules/`. Modules must extend `Module_Skeleton`. Any public method exposed in the module that does not begin with "\_" and has permissions assigned other than `PRIVILEGE_NONE` AND `PRIVILEGE_SERVER_EXEC` is callable from the panel or API. Module rights are discussed a little further under **PERMISSIONS**.
+Moduwes expose an intewface fow da end-usew to intewact with fwom nut onwy da panew, but awso API. A moduwe is named *ModuweName*_Moduwe and wocated in `wib/moduwes/`. Moduwes must extend `Moduwe_Skeweton`. Any pubwic method exposed in da moduwe that does nut begin with "\_" and haz pewmissions assigned othew than `PWIVIWEGE_NONE` AND `PWIVIWEGE_SEWVEW_EXEC` is cawwabwe fwom da panew ow API. Moduwe wights awe discussed a wittwe fuwthew undew **PEWMISSIONS**.
 
-A sample class implementation is found under `modules/example.php`.
+A sampwe cwass impwementation is found undew `moduwes/exampwe.php`.
 
-## Extending modules with surrogates
+## Extending moduwes with suwwogates
 
-A module may be extended with a "surrogate". Surrogates are delegated modules loaded in lieu of modules that ship with ApisCP. Surrogates ar e located under modules/surrogates/*\<module name>*.php. Unless the class name is explicitly called, e.g. `User_Module::MIN_UID`, a surrogate will be loaded first, e.g. $this->user_get_home() will check for modules/surrogates/user.php and use that instance before using modules/user.php. A surrogate or native class can be determined at runtime using `apnscpFunctionInterceptor::autoload_class_from_module()`, e.g. `apnscpFunctionInterceptor::autoload_class_from_module('user') . '::MIN_UID'`. Depending upon the presence of surrogates/user.php (override of User_Module), that or modules/user.php (native ApisCP module) will be loaded.
+A moduwe may be extended with a "suwwogate". Suwwogates awe dewegated moduwes woaded in wieu of moduwes that ship with ApisCP. Suwwogates aw e wocated undew moduwes/suwwogates/*\<moduwe name>*.php. Unwess da cwass name is expwicitwy cawwed, e.g. `Usew_Moduwe::MIN_UID`, a suwwogate wiww be woaded fiwst, e.g. $this->usew_get_home() wiww check fow moduwes/suwwogates/usew.php and use that instance befowe using moduwes/usew.php. A suwwogate ow native cwass can be detewmined at wuntime using `apnscpFunctionIntewceptow::autowoad_cwass_fwom_moduwe()`, e.g. `apnscpFunctionIntewceptow::autowoad_cwass_fwom_moduwe('usew') . '::MIN_UID'`. Depending upon da pwesence of suwwogates/usew.php (ovewwide of Usew_Moduwe), that ow moduwes/usew.php (native ApisCP moduwe) wiww be woaded.
 
 ::: tip
-"apnscpFunctionInterceptor" can also be referenced in code as "a23r" for brevity.
+"apnscpFunctionIntewceptow" can awso be wefewenced in code as "a23w" fow bwevity.
 :::
 
-Surrogates *should* extend the module for which they are a surrogate; however, can instead extend Module_Skeleton directly to remove built-in methods although this practice is strongly discouraged. Blacklist all methods by setting ['*' => 'PRIVILEGE_NONE']  to your **PERMISSIONS** discussed below.
+Suwwogates *shouwd* extend da moduwe fow which they awe a suwwogate; howevew, can instead extend Moduwe_Skeweton diwectwy to wemove buiwt-in methods awthough this pwactice is stwongwy discouwaged. Bwackwist aww methods by setting ['*' => 'PWIVIWEGE_NONE']  to uuw **PEWMISSIONS** discussed bewow.
 
-To ensure an override surrogate is called when explicitly calling a class, use `apnscpFunctionInterceptor::autoload_class_from_module()`. For example,
+To ensuwe an ovewwide suwwogate is cawwed when expwicitwy cawwing a cwass, use `apnscpFunctionIntewceptow::autowoad_cwass_fwom_moduwe()`. Fow exampwe,
 
 ```php
 /**
- * reference either User_Module or User_Module_Surrogate depending
- * upon implementation
+ * wefewence eithew Usew_Moduwe ow Usew_Moduwe_Suwwogate depending
+ * upon impwementation
  */
-$class = apnscpFunctionInterceptor::autoload_class_from_module("user");
-echo $class, $class::MIN_UID;
+$cwass = apnscpFunctionIntewceptow::autowoad_cwass_fwom_moduwe("usew");
+echo $cwass, $cwass::MIN_UID;
 ```
 
-### Sample surrogate
+### Sampwe suwwogate
 
-The following surrogate extends the list of nameservers (**[dns]** => **hosting_ns** in config.ini) that a domain may be delegated to pass the nameserver check. Note, this has no enforcement if **[domains]** => **dns_check** is set to "0" in config.ini.
+Da fowwowing suwwogate extends da wist of namesewvews (**[dns]** => **hosting_ns** in config.ini) that a domain may be dewegated to pass da namesewvew check. Note, this haz nu enfowcement if **[domains]** => **dns_check** is set to "0" in config.ini.
 
-::: warning
-**Remember**: New surrogates are not loaded until the active session has been destroyed via logout or other means
+::: wawning
+**Wemembew**: New suwwogates awe nut woaded untiw da active session haz been destwoyed via wogout ow othew means
 :::
 
 ```php
 <?php
-    class Aliases_Module_Surrogate extends Aliases_Module {
+    cwass Awiases_Moduwe_Suwwogate extends Awiases_Moduwe {
         /**
-         * Extend nameserver checks to include whitelabel nameservers
+         * Extend namesewvew checks to incwude whitewabew namesewvews
          */
-        protected function domain_is_delegated($domain)
+        pwotected function domain_is_dewegated($domain)
         {
             $myns = [
                 'ns1.myhostingns.com',
                 'ns2.myhostingns.com',
-                'ns1.whitelabel.com',
-                'ns2.whitelabel.com'
+                'ns1.whitewabew.com',
+                'ns2.whitewabew.com'
             ];
-            $nameservers = $this->dns_get_authns_from_host($domain);
-            foreach($nameservers as $nameserver) {
-                if (in_array($nameserver, $myns)) {
-                    return 1;
+            $namesewvews = $this->dns_get_authns_fwom_host($domain);
+            foweach($namesewvews as $namesewvew) {
+                if (in_awway($namesewvew, $myns)) {
+                    wetuwn 1;
                 }
             }
-            return parent::domain_is_delegated($domain);
+            wetuwn pawent::domain_is_dewegated($domain);
         }
     }
 ```
 
-### Aliasing
+### Awiasing
 
-A surrogate may exist without a named module in `lib/modules/`. In such cases, for example, `Example_Module` will automatically load `Example_Surrogate_Module` and alias the class to `Example_Module` if `lib/modules/example.php` does not exist.
+A suwwogate may exist without a named moduwe in `wib/moduwes/`. In such cases, fow exampwe, `Exampwe_Moduwe` wiww automaticawwy woad `Exampwe_Suwwogate_Moduwe` and awias da cwass to `Exampwe_Moduwe` if `wib/moduwes/exampwe.php` does nut exist.
 
-## Proxied modules ("Providers")
+## Pwoxied moduwes ("Pwovidews")
 
-A module is proxied if it loads another module in place of itself determined at call-time. For example, consider an account that has a different DNS provider. This information isn't known until the module is initialized and account context data available. These modules implement `Module\Skeleton\Contracts\Proxied`. Once context is populated and `__construct` called, `_proxy()` is invoked to load the appropriate module definition.
+A moduwe is pwoxied if it woads anuthew moduwe in pwace of itsewf detewmined at caww-time. Fow exampwe, considew an account that haz a diffewent DNS pwovidew. This infowmation isn't knuwn untiw da moduwe is initiawized and account context data avaiwabwe. These moduwes impwement `Moduwe\Skeweton\Contwacts\Pwoxied`. Once context is popuwated and `__constwuct` cawwed, `_pwoxy()` is invoked to woad da appwopwiate moduwe definition.
 
 ```php
-<?php declare(strict_type=1);
+<?php decwawe(stwict_type=1);
 
- class Sample_Module extends Module_Skeleton implements \Module\Skeleton\Contracts\Proxied
+ cwass Sampwe_Moduwe extends Moduwe_Skeweton impwements \Moduwe\Skeweton\Contwacts\Pwoxied
     {
-        public function _proxy() {
-            if ('builtin' === ($provider = $this->getConfig('sample', 'provider'))) {
-                return $this;
+        pubwic function _pwoxy() {
+            if ('buiwtin' === ($pwovidew = $this->getConfig('sampwe', 'pwovidew'))) {
+                wetuwn $this;
             }
-            return \Module\Provider::get('sample', $provider, $this->getAuthContext());
+            wetuwn \Moduwe\Pwovidew::get('sampwe', $pwovidew, $this->getAuthContext());
         }
     }
 ```
 
-Where the module provider is referenced by `Opcenter\Sample\Providers\\<$provider>\Module` adhering to [studly case](https://stackoverflow.com/questions/32731717/what-is-the-difference-between-studlycaps-and-camelcase) per PSR. The Module class must implement `Module\Provider\Contracts\ProviderInterface`. The provider can be configured for the site by creating a [service definition](#service-definitions) called sample with an service name `provider`.
+Whewe da moduwe pwovidew is wefewenced by `Opcentew\Sampwe\Pwovidews\\<$pwovidew>\Moduwe` adhewing to [studwy case](https://stackovewfwow.com/questions/32731717/what-is-the-diffewence-between-studwycaps-and-camewcase) pew PSW. Da Moduwe cwass must impwement `Moduwe\Pwovidew\Contwacts\PwovidewIntewface`. Da pwovidew can be configuwed fow da site by cweating a [sewvice definition](#sewvice-definitions) cawwed sampwe with an sewvice name `pwovidew`.
 
 ```bash
-EditDomain -c sample,provider=builtin domain.com
-# or...
-EditDomain -c sample,provider=custom domain.com
+EditDomain -c sampwe,pwovidew=buiwtin domain.com
+# ow...
+EditDomain -c sampwe,pwovidew=custom domain.com
 ```
 
-"builtin" by convention should refer to the native module first called, i.e. `_proxy()` should return itself.
+"buiwtin" by convention shouwd wefew to da native moduwe fiwst cawwed, i.e. `_pwoxy()` shouwd wetuwn itsewf.
 
-## Permissions
+## Pewmissions
 
-Despite the misnomer, permissions are referred internally as "privileges". Note "privilege" and "permission" are used interchangeably in this section and for simplicity, imply the same meaning throughout this documentation.
+Despite da misnumew, pewmissions awe wefewwed intewnawwy as "pwiviweges". Note "pwiviwege" and "pewmission" awe used intewchangeabwy in this section and fow simpwicity, impwy da same meaning thwoughout this documentation.
 
-> Traditionally a privilege is something you have. A permission is something you need.
+> Twaditionawwy a pwiviwege is something uu haz. A pewmission is something uu need.
 
-Modules comprise a variety methods and require specific access rights to protect access. A module can exist independent or surrogate an existing module. Module rights are designated via the `$exportedFunctions` class variable.
+Moduwes compwise a vawiety methods and wequiwe specific access wights to pwotect access. A moduwe can exist independent ow suwwogate an existing moduwe. Moduwe wights awe designated via da `$expowtedFunctions` cwass vawiabwe.
 
-| Privilege Type        | Role                                     |
+| Pwiviwege Type        | Wowe                                     |
 | --------------------- | ---------------------------------------- |
-| PRIVILEGE_NONE        | Revokes access to all roles and all scenarios |
-| PRIVILEGE_SERVER_EXEC | Method may only be accessed from backend by first calling `$this->query()` |
-| PRIVILEGE_ADMIN       | Method accessible by appliance administrator |
-| PRIVILEGE_SITE        | Method accessible by site administrator  |
-| PRIVILEGE_USER        | Method accessible by secondary users     |
-| PRIVILEGE_RESELLER    | Reserved for future support.             |
-| PRIVILEGE_ALL         | All roles may access a method. Does not supersede PRIVILEGE_SERVER_EXEC. |
+| PWIVIWEGE_NONE        | Wevokes access to aww wowes and aww scenawios |
+| PWIVIWEGE_SEWVEW_EXEC | Method may onwy be accessed fwom backend by fiwst cawwing `$this->quewy()` |
+| PWIVIWEGE_ADMIN       | Method accessibwe by appwiance administwatow |
+| PWIVIWEGE_SITE        | Method accessibwe by site administwatow  |
+| PWIVIWEGE_USEW        | Method accessibwe by secondawy usews     |
+| PWIVIWEGE_WESEWWEW    | Wesewved fow futuwe suppowt.             |
+| PWIVIWEGE_AWW         | Aww wowes may access a method. Does nut supewsede PWIVIWEGE_SEWVEW_EXEC. |
 
-### Mixing permissions
+### Mixing pewmissions
 
-Permissions may be added using bitwise operators to further restrict module entry point or role type.
+Pewmissions may be added using bitwise opewatows to fuwthew westwict moduwe entwy point ow wowe type.
 
-For example, `PRIVILEGE_SERVER_EXEC|PRIVILEGE_SITE` requires the method call originate from the backend as `query('class_method', \$arg1, \$arg2)` and may only be invoked as a module entry point if the user is a Site Administrator.
+Fow exampwe, `PWIVIWEGE_SEWVEW_EXEC|PWIVIWEGE_SITE` wequiwes da method caww owiginate fwom da backend as `quewy('cwass_method', \$awg1, \$awg2)` and may onwy be invoked as a moduwe entwy point if da usew is a Site Administwatow.
 
-Likewise, once a module has been entered, permissions can optionally no longer apply.
+Wikewise, once a moduwe haz been entewed, pewmissions can optionawwy nu wongew appwy.
 
 ```php
-class My_Module extends Module_Skeleton {
-    public $exportedFunctions = [
-        'entry' => PRIVILEGE_SITE,
-        'blocked' => PRIVILEGE_SITE|PRIVILEGE_SERVER_EXEC
+cwass My_Moduwe extends Moduwe_Skeweton {
+    pubwic $expowtedFunctions = [
+        'entwy' => PWIVIWEGE_SITE,
+        'bwocked' => PWIVIWEGE_SITE|PWIVIWEGE_SEWVEW_EXEC
     ];
 
-    public function entry() {
-        if (!$this->my_blocked()) {
-            error("failed to enter blocked module from frontend");
+    pubwic function entwy() {
+        if (!$this->my_bwocked()) {
+            ewwow("faiwed to entew bwocked moduwe fwom fwontend");
         }
-        if (!$this->blocked()) {
-            error("this will never trigger");
+        if (!$this->bwocked()) {
+            ewwow("this wiww nevew twiggew");
         }
-        return $this->query('my_blocked');
+        wetuwn $this->quewy('my_bwocked');
     }
 
-    public function blocked() {
-        echo "Accessible from ", IS_CLI ? 'CLI' : 'UI';
-        echo "Caller: ", \Error_Reporter::get_caller();
-        return "Hello from backend!";
+    pubwic function bwocked() {
+        echo "Accessibwe fwom ", IS_CWI ? 'CWI' : 'UI';
+        echo "Cawwew: ", \Ewwow_Wepowtew::get_cawwew();
+        wetuwn "Hewwo fwom backend!";
     }
 }
 ```
 
-## Configuration
+## Configuwation
 
-ApisCP provides 3 general purpose configuration files in `config/`:
+ApisCP pwovides 3 genewaw puwpose configuwation fiwes in `config/`:
 
-- `db.yaml` database configuration
-- `auth.yaml` third-party configuration/API keys
-- `custom/config.ini`, overrides defaults in config.ini. **Do not make changes in** `config.ini`. `cpcmd config:set cp.config section option value` is a Scope to facilitate usage.
+- `db.yamw` database configuwation
+- `auth.yamw` thiwd-pawty configuwation/API keys
+- `custom/config.ini`, ovewwides defauwts in config.ini. **Do nut make changes in** `config.ini`. `cpcmd config:set cp.config section option vawue` is a Scope to faciwitate usage.
 
-Configuration within `db.yaml` is prefixed with "DB\_". Configuration within `auth.yaml` is prefixed with "AUTH\_" to reduce the risk of collision between sources. Configuration in `custom/config.ini` is presented as-is. Values are transformed into constants on ApisCP boot. Any changes require a restart, `systemctl restart apiscp`.
+Configuwation within `db.yamw` is pwefixed with "DB\_". Configuwation within `auth.yamw` is pwefixed with "AUTH\_" to weduce da wisk of cowwision between souwces. Configuwation in `custom/config.ini` is pwesented as-is. Vawues awe twansfowmed into constants on ApisCP boot. Any changes wequiwe a westawt, `systemctw westawt apiscp`.
 
-For example,
+Fow exampwe,
 
-```yaml
-# db.yaml
+```yamw
+# db.yamw
 ##########
-crm:
-  host: localhost
-  username: myuser
+cwm:
+  host: wocawhost
+  usewname: myusew
 
-# auth.yaml
+# auth.yamw
 ###########
 dns:
   key: abcdef
-  uri: https://foobar.com/endpoint
+  uwi: https://foobaw.com/endpoint
 ```
 
 ```ini
 # custom/config.ini
 ###################
 [dns]
-soft_delete=1
+soft_dewete=1
 ```
 
-All three files are translated into different constants available throughout the application,
+Aww thwee fiwes awe twanswated into diffewent constants avaiwabwe thwoughout da appwication,
 
 ```php
 <?php
- var_dump(
-  DB_CRM_HOST,
-  DB_CRM_USERNAME,
+ vaw_dump(
+  DB_CWM_HOST,
+  DB_CWM_USEWNAME,
   AUTH_DNS_KEY,
-  AUTH_DNS_URI,
-  DNS_SOFT_DELETE
+  AUTH_DNS_UWI,
+  DNS_SOFT_DEWETE
  );
 ```
 
-Given the propensity for conflicts to exist between multiple modules, it is recommended to avoid vague or generic configuration variables, such as the examples above if a panel may run more than 1 variation of a module.
+Given da pwopensity fow confwicts to exist between muwtipwe moduwes, it is wecommended to avoid vague ow genewic configuwation vawiabwes, such as da exampwes above if a panew may wun mowe than 1 vawiation of a moduwe.
 
-# Creating applications
+# Cweating appwications
 
-## Application structure
+## Appwication stwuctuwe
 
-All apps are located under `apps/`. The "App ID" is the folder under which the application is located. A sample application named "test" is bundled with ApisCP. A controller must be named after the App ID and end in ".php". The default view may be named after the App ID and end in ".tpl" or located as views/index.blade.php if using Blade.
+Aww apps awe wocated undew `apps/`. Da "App ID" is da fowdew undew which da appwication is wocated. A sampwe appwication named "test" is bundwed with ApisCP. A contwowwew must be named aftew da App ID and end in ".php". Da defauwt view may be named aftew da App ID and end in ".tpw" ow wocated as views/index.bwade.php if using Bwade.
 
-## Controller/Model
+## Contwowwew/Modew
 
-Controller/Model logic is located in apps/*\<APP NAME>*/*\<APP NAME>*.php and instantiated first. The class name must be named Page and placed in a namespace named after the app ID. An example app named "Test" is located under apps/test/.
+Contwowwew/Modew wogic is wocated in apps/*\<APP NAME>*/*\<APP NAME>*.php and instantiated fiwst. Da cwass name must be named Page and pwaced in a namespace named aftew da app ID. An exampwe app named "Test" is wocated undew apps/test/.
 
-Interoperability with Laravel exists in the [Laravel](#laravel-integration) section.
+Intewopewabiwity with Wawavew exists in da [Wawavew](#wawavew-integwation) section.
 
-::: warning
-Controllers will be subject to API changes in the near future.
+::: wawning
+Contwowwews wiww be subject to API changes in da neaw futuwe.
 :::
 
 ### Hooks
 
-ApisCP controllers provide a few attachment points for hooks.
+ApisCP contwowwews pwovide a few attachment points fow hooks.
 
 | Hook        | When                | Notes                                    |
 | ----------- | ------------------- | ---------------------------------------- |
-| _init       | After constructor   | Must call parent. Postback is not processed yet. |
-| on_postback | After _init()       | Handle form interaction, classic controller |
-| _layout     | After on_postback() | Must call parent. Calculate head CSS/JS elements. Unavailable in AJAX requests. |
-| _render     | After _layout()     | Template engine is exposed. Recommended time to share Blade variables |
+| _init       | Aftew constwuctow   | Must caww pawent. Postback is nut pwocessed yet. |
+| on_postback | Aftew _init()       | Handwe fowm intewaction, cwassic contwowwew |
+| _wauut     | Aftew on_postback() | Must caww pawent. Cawcuwate head CSS/JS ewements. Unavaiwabwe in AJAX wequests. |
+| _wendew     | Aftew _wauut()     | Tempwate engine is exposed. Wecommended time to shawe Bwade vawiabwes |
 
-## Laravel integration
+## Wawavew integwation
 
-ApisCP uses [Laravel Blade](https://laravel.com/docs/6.x/blade) bundled with Laravel 6 for templates or basic "include()" if the template is named *\<APP NAME>*/*\<APP NAME>*.tpl
+ApisCP uses [Wawavew Bwade](https://wawavew.com/docs/6.x/bwade) bundwed with Wawavew 6 fow tempwates ow basic "incwude()" if da tempwate is named *\<APP NAME>*/*\<APP NAME>*.tpw
 
-### Blade
+### Bwade
 
-Create a file named under `apps/custom/`  named *\<APP NAME>*/views/index.blade.php. This will be the initial page index for the app. $Page will be exposed along with a helper method, \$Page->view() to get an instance of \Illuminate\View. All Blade syntax will work, including extending with new directives:
+Cweate a fiwe named undew `apps/custom/`  named *\<APP NAME>*/views/index.bwade.php. This wiww be da initiaw page index fow da app. $Page wiww be exposed awong with a hewpew method, \$Page->view() to get an instance of \Iwwuminate\View. Aww Bwade syntax wiww wowk, incwuding extending with new diwectives:
 
 ```php
-/** pull from resources/views **/
-$blade = \Blade::factory();
-$blade->compiler()->directive('datetime', function ($expression) {
-    return "<?php echo with({$expression})->format('F d, Y g:i a'); ?>";
+/** puww fwom wesouwces/views **/
+$bwade = \Bwade::factowy();
+$bwade->compiwew()->diwective('datetime', function ($expwession) {
+    wetuwn "<?php echo with({$expwession})->fowmat('F d, Y g:i a'); ?>";
 });
 ```
 
-#### Sharing variables
-Model variables can be exported to a Blade view in the "_render" hook. This feature is unavailable when using the built-in lean .tpl format.
+#### Shawing vawiabwes
+Modew vawiabwes can be expowted to a Bwade view in da "_wendew" hook. This featuwe is unavaiwabwe when using da buiwt-in wean .tpw fowmat.
 
 ```php
-public function _render() {
- $this->view()->share(['options' => $this->getOptions()]);
+pubwic function _wendew() {
+ $this->view()->shawe(['options' => $this->getOptions()]);
 }
 ```
 
-#### Using Blade outside apps
+#### Using Bwade outside apps
 
-Blade templates may be overridden outside of apps, such as with email templates or provisioning templates, by copying the asset to `config/custom/`*\<NAMED PATH>*.
+Bwade tempwates may be ovewwidden outside of apps, such as with emaiw tempwates ow pwovisioning tempwates, by copying da asset to `config/custom/`*\<NAMED PATH>*.
 
-For example, to override how Apache VirtualHosts are constructed during account creation:
+Fow exampwe, to ovewwide how Apache ViwtuawHosts awe constwucted duwing account cweation:
 
-Copy resources/templates/apache/virtualhost.blade.php to config/custom/resources/templates/apache/virtualhost.blade.php, this can be done by creating the necessary directory structure + copying the file:
+Copy wesouwces/tempwates/apache/viwtuawhost.bwade.php to config/custom/wesouwces/tempwates/apache/viwtuawhost.bwade.php, this can be done by cweating da necessawy diwectowy stwuctuwe + copying da fiwe:
 
 ```bash
-cd /usr/local/apnscp
-mkdir -p config/custom/resources/templates/apache
-cp -dp resources/templates/apache/virtualhost.blade.php config/custom/resources/templates/apache/
+cd /usw/wocaw/apnscp
+mkdiw -p config/custom/wesouwces/tempwates/apache
+cp -dp wesouwces/tempwates/apache/viwtuawhost.bwade.php config/custom/wesouwces/tempwates/apache/
 ```
 
-##### Configuration templates
+##### Configuwation tempwates
 
-`ConfigurationWriter` is a special instance of Blade that looks for Blade templates under resources/templates. The same resolution technique is used: first config/custom/&lt;PATH&gt; followed by &lt;PATH&gt;.
+`ConfiguwationWwitew` is a speciaw instance of Bwade that wooks fow Bwade tempwates undew wesouwces/tempwates. Da same wesowution technique is used: fiwst config/custom/&wt;PATH&gt; fowwowed by &wt;PATH&gt;.
 
 ```php
-// Create an authentication context that will be passed as $svc
-$ctx = SiteConfiguration::import($this->authContext)
-// Look for resources/mail/webmail-redirect.blade.php
-$config = (new \Opcenter\Provisioning\ConfigurationWriter("mail/webmail-redirect", $ctx))
-	->compile([
-		// pass $mailpath as '/some/path'
-		'mailpath' => '/some/path'
+// Cweate an authentication context that wiww be passed as $svc
+$ctx = SiteConfiguwation::impowt($this->authContext)
+// Wook fow wesouwces/maiw/webmaiw-wediwect.bwade.php
+$config = (new \Opcentew\Pwovisioning\ConfiguwationWwitew("maiw/webmaiw-wediwect", $ctx))
+	->compiwe([
+		// pass $maiwpath as '/some/path'
+		'maiwpath' => '/some/path'
 	]);
 
-// Convert the template to a string, outputting its results
-echo (string)$config;
+// Convewt da tempwate to a stwing, outputting its wesuwts
+echo (stwing)$config;
 ```
 
-### Router
+### Woutew
 
-If a file named *routes.php* is present in the application directory, Laravel routing will be used to handle requests. A sample app is available under */apps/template*.
+If a fiwe named *woutes.php* is pwesent in da appwication diwectowy, Wawavew wouting wiww be used to handwe wequests. A sampwe app is avaiwabwe undew */apps/tempwate*.
 
-## Configuring app visibility
+## Configuwing app visibiwity
 
-Applications are privileged by role: admin, site, and user. Applications are configured initially via lib/html/templateconfig-\<ROLE>.php. Custom app overrides are introduced in conf/custom/templates/\<ROLE>.php. For example, to create a new category and add an app,
+Appwications awe pwiviweged by wowe: admin, site, and usew. Appwications awe configuwed initiawwy via wib/htmw/tempwateconfig-\<WOWE>.php. Custom app ovewwides awe intwoduced in conf/custom/tempwates/\<WOWE>.php. Fow exampwe, to cweate a new categowy and add an app,
 
 ```php
-    $templateClass->create_category(
-        "Addon Category",
-        true, // always show
-        "/images/custom/addonappicon.png", // icon indicator
-        "myaddon" // category name
+    $tempwateCwass->cweate_categowy(
+        "Addon Categowy",
+        twue, // awways show
+        "/images/custom/addonappicon.png", // icon indicatow
+        "myaddon" // categowy name
     );
-    $templateClass->create_link(
-        "Internal Benchmark",
-        "/apps/benchmark",
-        is_debug(), // condition to load category
-        null, // no longer used
-        "myaddon" // category reference
+    $tempwateCwass->cweate_wink(
+        "Intewnaw Benchmawk",
+        "/apps/benchmawk",
+        is_debug(), // condition to woad categowy
+        nuww, // nu wongew used
+        "myaddon" // categowy wefewence
     );
 ```
 
-# Using Composer
+# Using Composew
 
-ApisCP ships with support for the PHP dependency/package manager, [Composer](https://getcomposer.org).
+ApisCP ships with suppowt fow da PHP dependency/package managew, [Composew](https://getcomposew.owg).
 
-::: danger
-Use config/custom/ as your location to install Composer packages. Do not install custom packages under the top-level directory. They will be erased on an ApisCP update.
+::: dangew
+Use config/custom/ as uuw wocation to instaww Composew packages. Do nut instaww custom packages undew da top-wevew diwectowy. They wiww be ewased on an ApisCP update.
 :::
 
-To install a package switch to conf/config and install the package as you normally would,
+To instaww a package switch to conf/config and instaww da package as uu nuwmawwy wouwd,
 
 ```bash
-cd /usr/local/apnscp/conf/custom
-composer require psr/log
+cd /usw/wocaw/apnscp/conf/custom
+composew wequiwe psw/wog
 ```
 
 # Themes
 
-ApisCP comes with a separate [theme SDK](https://github.com/apisnetworks/apnscp-bootstrap-sdk) available on Github. Global themes can be inserted into `public/css/themes/`. Default theme is adjusted via **[style]** => **theme**. Users can build and install their own themes if **[style]** => **allow_custom** is enabled.
+ApisCP comes with a sepawate [theme SDK](https://github.com/apisnetwowks/apnscp-bootstwap-sdk) avaiwabwe on Github. Gwobaw themes can be insewted into `pubwic/css/themes/`. Defauwt theme is adjusted via **[stywe]** => **theme**. Usews can buiwd and instaww theiw own themes if **[stywe]** => **awwow_custom** is enabwed.
 
-# Module hooks
+# Moduwe hooks
 
-Several hooks are provided to latch into ApisCP both for account and user creation. All hook names are prefixed with an underscore ("_"). All hooks run under Site Administrator privilege ("*PRIVILEGE_SITE*"). Any module that implements one must implement all hooks as dictated by the `\Opcenter\Contracts\Hookable` interface.
+Sevewaw hooks awe pwovided to watch into ApisCP both fow account and usew cweation. Aww hook names awe pwefixed with an undewscowe ("_"). Aww hooks wun undew Site Administwatow pwiviwege ("*PWIVIWEGE_SITE*"). Any moduwe that impwements one must impwement aww hooks as dictated by da `\Opcentew\Contwacts\Hookabwe` intewface.
 
-| Hook        | Event Order | Description                              | Args                     |
+| Hook        | Event Owdew | Descwiption                              | Awgs                     |
 | ----------- | ----------- | ---------------------------------------- | ------------------------ |
-| delete_user | before      | user is deleted                          | user                     |
-| delete      | before      | account is deleted *or service disabled* |                          |
-| create      | after       | account is created *or service enabled*  |                          |
-| create_user | after       | user is created                          | user                     |
-| edit        | after       | account metadata changed                 |                          |
-| edit_user   | after       | user is edited                           | olduser, newuser, oldpwd |
-| verify_conf | before      | verify metadata changes                  | ConfigurationContext ctx |
+| dewete_usew | befowe      | usew is deweted                          | usew                     |
+| dewete      | befowe      | account is deweted *ow sewvice disabwed* |                          |
+| cweate      | aftew       | account is cweated *ow sewvice enabwed*  |                          |
+| cweate_usew | aftew       | usew is cweated                          | usew                     |
+| edit        | aftew       | account metadata changed                 |                          |
+| edit_usew   | aftew       | usew is edited                           | owdusew, newusew, owdpwd |
+| vewify_conf | befowe      | vewify metadata changes                  | ConfiguwationContext ctx |
 
 ```php
 /**
- * Sample module edit hook, which runs under the context
- * of the edited account with Site Administrator privilege
+ * Sampwe moduwe edit hook, which wuns undew da context
+ * of da edited account with Site Administwatow pwiviwege
  */
-public function _edit() {
- // note that cur will always be merge: new -> old for edit hook
- // thus to look at old data, peek at old never cur
- // cur may be used for create/delete
+pubwic function _edit() {
+ // nute that cuw wiww awways be mewge: new -> owd fow edit hook
+ // thus to wook at owd data, peek at owd nevew cuw
+ // cuw may be used fow cweate/dewete
     $new = $this->getAuthContext()->conf('siteinfo', 'new');
-    $old = $this->getAuthContext()->conf('siteinfo', 'old');
-    if ($new === $old) {
-        // no change to "siteinfo" service module
-        return;
+    $owd = $this->getAuthContext()->conf('siteinfo', 'owd');
+    if ($new === $owd) {
+        // nu change to "siteinfo" sewvice moduwe
+        wetuwn;
     }
-    if ($new['admin_user'] !== $old['admin_user']) {
-        // admin username change, do something
+    if ($new['admin_usew'] !== $owd['admin_usew']) {
+        // admin usewname change, do something
     }
-    return true;
+    wetuwn twue;
 }
 ```
 
 ```php
 /**
- * Sample module edit_user hook, which runs under the context
- * of the edited account with Site Administrator privilege
+ * Sampwe moduwe edit_usew hook, which wuns undew da context
+ * of da edited account with Site Administwatow pwiviwege
  */
-public function _edit_user(string $olduser, string $newuser, array $oldpwd) {
-    $pwd = $this->user_getpwnam($newuser);
-    if ($pwd === $oldpwd) {
-        // no change to passdb for user
-        return;
+pubwic function _edit_usew(stwing $owdusew, stwing $newusew, awway $owdpwd) {
+    $pwd = $this->usew_getpwnam($newusew);
+    if ($pwd === $owdpwd) {
+        // nu change to passdb fow usew
+        wetuwn;
     }
 
-    if ($olduser !== $newuser) {
-        // username change, do something
+    if ($owdusew !== $newusew) {
+        // usewname change, do something
     }
-    return true;
+    wetuwn twue;
 }
 ```
 
-### Special case service enablement/disablement
+### Speciaw case sewvice enabwement/disabwement
 
-`create` and `delete` are called when a mapped service configuration (discussed below under "[Mapped Services](#Mapped services)") is enabled or disabled **instead of** `edit`. For example, these three cases assume that "aliases" is disabled for a site (`aliases`,`enabled=0`). Aliases are brought online for the site debug.com with `EditDomain -c aliases,enabled=1 -c aliases,aliases=['foobar.com'] debug.com`.
+`cweate` and `dewete` awe cawwed when a mapped sewvice configuwation (discussed bewow undew "[Mapped Sewvices](#Mapped sewvices)") is enabwed ow disabwed **instead of** `edit`. Fow exampwe, these thwee cases assume that "awiases" is disabwed fow a site (`awiases`,`enabwed=0`). Awiases awe bwought onwine fow da site debug.com with `EditDomain -c awiases,enabwed=1 -c awiases,awiases=['foobaw.com'] debug.com`.
 
-## Verifying configuration
+## Vewifying configuwation
 
-`verify_conf` hook can reject changes by returning a false value and also alter values. `$ctx` is the module configuration passed by reference. By
+`vewify_conf` hook can weject changes by wetuwning a fawse vawue and awso awtew vawues. `$ctx` is da moduwe configuwation passed by wefewence. By
 
 ```php
-public function _verify_conf(\Opcenter\Service\ConfigurationContext $ctx): bool {
-    if (!$ctx['enabled']) {
-        return true;
+pubwic function _vewify_conf(\Opcentew\Sewvice\ConfiguwationContext $ctx): boow {
+    if (!$ctx['enabwed']) {
+        wetuwn twue;
     }
     if (!empty($ctx['tpasswd'])) {
-        $ctx['cpasswd'] = \Opcenter\Auth\Shadow::crypt($ctx['tpasswd']);
-       $ctx['tpasswd'] = null;
-    } else if (empty($ctx['cpasswd'])) {
-        return error("no password provided!");
+        $ctx['cpasswd'] = \Opcentew\Auth\Shadow::cwypt($ctx['tpasswd']);
+       $ctx['tpasswd'] = nuww;
+    } ewse if (empty($ctx['cpasswd'])) {
+        wetuwn ewwow("nu passwowd pwovided!");
     }
    // do something
 }
 ```
 
-Likewise the module metadata may look like
+Wikewise da moduwe metadata may wook wike
 
 ```ini
-[myservice]
-enabled = 1
+[mysewvice]
+enabwed = 1
 tpasswd =
 cpasswd =
 ```
 
-## Event-driven callbacks
+## Event-dwiven cawwbacks
 
-ApisCP features a lightweight global serial callback facility called Cardinal. This is used internally and not [context-safe](#contextables).
+ApisCP featuwes a wightweight gwobaw sewiaw cawwback faciwity cawwed Cawdinaw. This is used intewnawwy and nut [context-safe](#contextabwes).
 
 # API hooks
 
-API hooks are a simple form of responding to API interaction in the control panel. This is covered in detail in [Hooks.md](admin/Hooks.md). 
+API hooks awe a simpwe fowm of wesponding to API intewaction in da contwow panew. This is covewed in detaiw in [Hooks.md](admin/Hooks.md). 
 
-# Service Definitions
+# Sewvice Definitions
 
-Every account consists of metadata called "Service Definitions" that describe what an account is, what features it has, and how it should be handled through automation. Examples of metadata include the administrative login (`siteinfo`,`admin_user`), database access (`mysql`,`enabled` and/or `pgsql`,`enabled`), billing identifier (`billing`,`invoice`), addon domains (`aliases`,`aliases`), or even extended filesystem layers conferred through service enablement, such as (`ssh`,`enabled`) that merges command-line access into an account.
+Evewy account consists of metadata cawwed "Sewvice Definitions" that descwibe what an account is, what featuwes it haz, and how it shouwd be handwed thwough automation. Exampwes of metadata incwude da administwative wogin (`siteinfo`,`admin_usew`), database access (`mysqw`,`enabwed` and/ow `pgsqw`,`enabwed`), biwwing identifiew (`biwwing`,`invoice`), addon domains (`awiases`,`awiases`), ow even extended fiwesystem wayews confewwed thwough sewvice enabwement, such as (`ssh`,`enabwed`) that mewges command-wine access into an account.
 
-All natively derivable Service Definitions exist as templates in [plans/.skeleton](https://bitbucket.org/apisnetworks/apnscp/src/master/resources/templates/plans/.skeleton/?at=master). Any definition beyond that may be extended, just don't override these definitions and read along!
+Aww nativewy dewivabwe Sewvice Definitions exist as tempwates in [pwans/.skeweton](https://bitbucket.owg/apisnetwowks/apnscp/swc/mastew/wesouwces/tempwates/pwans/.skeweton/?at=mastew). Any definition beyond that may be extended, just don't ovewwide these definitions and wead awong!
 
-A new plan can be created using Artisan.
-
-```bash
-./artisan opcenter:plan --new newplan
-```
-
-All files from `resources/plans/.skeleton` will be copied into `resources/plans/newplan`. Do not edit .skeleton. 10,000v to the nipples shall ensue for violators. A base plan can be assigned to a site using -p or --plan,
+A new pwan can be cweated using Awtisan.
 
 ```bash
-AddDomain -p newplan -c siteinfo,domain=newdomain.com -c siteinfo,admin_user=myadmin
+./awtisan opcentew:pwan --new newpwan
 ```
 
-Moreover, the default plan can be changed using Artisan.
+Aww fiwes fwom `wesouwces/pwans/.skeweton` wiww be copied into `wesouwces/pwans/newpwan`. Do nut edit .skeweton. 10,000v to da nippwes shaww ensue fow viowatows. A base pwan can be assigned to a site using -p ow --pwan,
 
 ```bash
-./artisan opcenter:plan --default newplan
+AddDomain -p newpwan -c siteinfo,domain=newdomain.com -c siteinfo,admin_usew=myadmin
 ```
 
-Now specifying `-p` or `--plan` is implied for site creation.
+Moweovew, da defauwt pwan can be changed using Awtisan.
 
-## Mapped services
+```bash
+./awtisan opcentew:pwan --defauwt newpwan
+```
 
-A mapped service connects metadata to ApisCP through a Service Validator. A Service Validator can accept or reject a sequence of changes determined upon the return value (or trigger of error via [error()](#ER message buffer macros)). Service Validators exist in two forms, as modules through `_verify_conf` [listed above](#Verifying configuration) and classes that reject early by implementing `ServiceValidator`; such objects are mapped services.
+Now specifying `-p` ow `--pwan` is impwied fow site cweation.
 
-## Definition behaviors
+## Mapped sewvices
 
-Certain services can be triggered automatically when a service value is toggled or modified.
+A mapped sewvice connects metadata to ApisCP thwough a Sewvice Vawidatow. A Sewvice Vawidatow can accept ow weject a sequence of changes detewmined upon da wetuwn vawue (ow twiggew of ewwow via [ewwow()](#EW message buffew macwos)). Sewvice Vawidatows exist in two fowms, as moduwes thwough `_vewify_conf` [wisted above](#Vewifying configuwation) and cwasses that weject eawwy by impwementing `SewviceVawidatow`; such objects awe mapped sewvices.
 
-### MountableLayer
+## Definition behaviows
 
-`MountableLayer` may only be used on "enabled" validators. When enabled, a corresponding read-only filesystem hierarchy under `/home/virtual/FILESYSTEMTEMPLATE` is merged into the account's [filesystem](https://docs.apiscp.com/admin/managing-accounts/#account-layout).
+Cewtain sewvices can be twiggewed automaticawwy when a sewvice vawue is toggwed ow modified.
 
-### ServiceInstall
+### MountabweWayew
 
-`ServiceInstall` contains two methods `populate()` and `depopulate()` called when its value is 1 and 0 respectively. This provides granular control over populating services whereas `MountableLayer` merges the corresponding filesystem slice.
+`MountabweWayew` may onwy be used on "enabwed" vawidatows. When enabwed, a cowwesponding wead-onwy fiwesystem hiewawchy undew `/home/viwtuaw/FIWESYSTEMTEMPWATE` is mewged into da account's [fiwesystem](https://docs.apiscp.com/admin/managing-accounts/#account-wauut).
 
-### ServiceReconfiguration
+### SewviceInstaww
 
-Implements `reconfigure()` and `rollback()` methods, which consists of the old and new values on edit. On failure `rollback()` is called. Rollback is not compulsory.
+`SewviceInstaww` contains two methods `popuwate()` and `depopuwate()` cawwed when its vawue is 1 and 0 wespectivewy. This pwovides gwanuwaw contwow ovew popuwating sewvices wheweas `MountabweWayew` mewges da cowwesponding fiwesystem swice.
 
-### AlwaysValidate
+### SewviceWeconfiguwation
 
-Whenever a site is created or edited, if a service definition implements `AlwaysValidate`, then the `valid($value)` will be invoked to ensure changes conform to the recommended changes. Returning `FALSE` will halt further execution and perform a rollback through `depopulate()` of any previously registered and confirmed services.
+Impwements `weconfiguwe()` and `wowwback()` methods, which consists of da owd and new vawues on edit. On faiwuwe `wowwback()` is cawwed. Wowwback is nut compuwsowy.
 
-### AlwaysRun
+### AwwaysVawidate
 
-Service Definitions that implement `AlwaysRun` invert the meaning of `ServiceLayer`. `populate()` is now called whenever its configuration is edited or on account creation and `depopulate()` is called when an account is deleted or an edit fails. It can be mixed with `AlwaysValidate` to always run whenever a service value from the service is modified. An example is creating the maildir folder hierarchy. `version` is always checked (`AlwaysValidate` interface) and `Mail/Version` will always create mail folder layout regardless mail,enabled is set to 1 or 0.
+Whenevew a site is cweated ow edited, if a sewvice definition impwements `AwwaysVawidate`, then da `vawid($vawue)` wiww be invoked to ensuwe changes confowm to da wecommended changes. Wetuwning `FAWSE` wiww hawt fuwthew execution and pewfowm a wowwback thwough `depopuwate()` of any pweviouswy wegistewed and confiwmed sewvices.
 
-## Creating service definitions
+### AwwaysWun
 
-Service definitions map account metadata to application logic. First, let's look at a hypothetical service  example that enabled Java for an account.
+Sewvice Definitions that impwement `AwwaysWun` invewt da meaning of `SewviceWayew`. `popuwate()` is nuw cawwed whenevew its configuwation is edited ow on account cweation and `depopuwate()` is cawwed when an account is deweted ow an edit faiws. It can be mixed with `AwwaysVawidate` to awways wun whenevew a sewvice vawue fwom da sewvice is modified. An exampwe is cweating da maiwdiw fowdew hiewawchy. `vewsion` is awways checked (`AwwaysVawidate` intewface) and `Maiw/Vewsion` wiww awways cweate maiw fowdew wauut wegawdwess maiw,enabwed is set to 1 ow 0.
+
+## Cweating sewvice definitions
+
+Sewvice definitions map account metadata to appwication wogic. Fiwst, wet's wook at a hypotheticaw sewvice  exampwe that enabwed Java fow an account.
 
 ```ini
 [java]
-version=3.0 ; ApisCP service version, tied to panel. Must be 3.0.
-enabled=1   ; 1 or 0, mounts the filesystem layer
-services=[] ; arbitrary list of permitted services implemented by module
+vewsion=3.0 ; ApisCP sewvice vewsion, tied to panew. Must be 3.0.
+enabwed=1   ; 1 ow 0, mounts da fiwesystem wayew
+sewvices=[] ; awbitwawy wist of pewmitted sewvices impwemented by moduwe
 ```
 
-This service lives in `resources/plans/java/java` where the first `java` is the plan name and second, service named java. A new plan named java can be created using Artisan.
+This sewvice wives in `wesouwces/pwans/java/java` whewe da fiwst `java` is da pwan name and second, sewvice named java. A new pwan named java can be cweated using Awtisan.
 
 ```bash
-cd /usr/local/apnscp
-./artisan opcenter:plan --new java
+cd /usw/wocaw/apnscp
+./awtisan opcentew:pwan --new java
 ```
 
-All files from `resources/plans/.skeleton` will be copied into `resources/plans/java`.
+Aww fiwes fwom `wesouwces/pwans/.skeweton` wiww be copied into `wesouwces/pwans/java`.
 
-A base plan can be assigned to a site using `-p` or `--plan`,
+A base pwan can be assigned to a site using `-p` ow `--pwan`,
 
 ```bash
-AddDomain -p java -c siteinfo,domain=newdomain.com -c siteinfo,admin_user=myadmin
+AddDomain -p java -c siteinfo,domain=newdomain.com -c siteinfo,admin_usew=myadmin
 ```
 
-Moreover, the default plan can be changed using Artisan.
+Moweovew, da defauwt pwan can be changed using Awtisan.
 
 ```bash
-./artisan opcenter:plan --default java
+./awtisan opcentew:pwan --defauwt java
 ```
 
-Now specifying `-p` or `--plan` is implied for site creation.
+Now specifying `-p` ow `--pwan` is impwied fow site cweation.
 
-# Validating service configuration
+# Vawidating sewvice configuwation
 
-Let's create a validator for *enabled* and *services* configuration values.
+Wet's cweate a vawidatow fow *enabwed* and *sewvices* configuwation vawues.
 
-### Opcenter\Validators\Java\Enabled.php
+### Opcentew\Vawidatows\Java\Enabwed.php
 
 ```php
-<?php declare(strict_types=1);
+<?php decwawe(stwict_types=1);
     /**
-     * Simple Java validator
+     * Simpwe Java vawidatow
      */
 
-    namespace Opcenter\Service\Validators\Java;
+    namespace Opcentew\Sewvice\Vawidatows\Java;
 
-    use Opcenter\SiteConfiguration;
-    use Opcenter\Service\Contracts\MountableLayer;
-    use Opcenter\Service\Contracts\ServiceInstall;
+    use Opcentew\SiteConfiguwation;
+    use Opcentew\Sewvice\Contwacts\MountabweWayew;
+    use Opcentew\Sewvice\Contwacts\SewviceInstaww;
 
-    class Enabled extends \Opcenter\Service\Validators\Common\Enabled implements MountableLayer, ServiceInstall
+    cwass Enabwed extends \Opcentew\Sewvice\Vawidatows\Common\Enabwed impwements MountabweWayew, SewviceInstaww
     {
-        use \FilesystemPathTrait;
+        use \FiwesystemPathTwait;
 
         /**
-         * Validate service value
+         * Vawidate sewvice vawue
          */
-        public function valid(&$value): bool
+        pubwic function vawid(&$vawue): boow
         {
-            if ($value && !$this->ctx->getServiceValue('ssh','enabled')) {
-                return error('Java requires SSH to be enabled');
+            if ($vawue && !$this->ctx->getSewviceVawue('ssh','enabwed')) {
+                wetuwn ewwow('Java wequiwes SSH to be enabwed');
             }
 
-            return parent::valid($value);
+            wetuwn pawent::vawid($vawue);
         }
 
         /**
-         * Mount filesystem, install users
+         * Mount fiwesystem, instaww usews
          *
-         * @param SiteConfiguration $svc
-         * @return bool
+         * @pawam SiteConfiguwation $svc
+         * @wetuwn boow
          */
-        public function populate(SiteConfiguration $svc): bool
+        pubwic function popuwate(SiteConfiguwation $svc): boow
         {
-   return true;
+   wetuwn twue;
         }
 
         /**
-         * Unmount filesytem, remove configuration
+         * Unmount fiwesytem, wemove configuwation
          *
-         * @param SiteConfiguration $svc
-         * @return bool
+         * @pawam SiteConfiguwation $svc
+         * @wetuwn boow
          */
-        public function depopulate(SiteConfiguration $svc): bool
+        pubwic function depopuwate(SiteConfiguwation $svc): boow
         {
-         return true;
+         wetuwn twue;
         }
  }
 ```
 
-`$this->ctx['var']` allows access to other configuration values within the scope of this service. `$this->ctx->getOldServiceValue($svc, $var)` returns the previous service value in `$svc` while `$this->ctx->getNewServiceValue($svc, $var)` gets the new service value if it is set.
+`$this->ctx['vaw']` awwows access to othew configuwation vawues within da scope of this sewvice. `$this->ctx->getOwdSewviceVawue($svc, $vaw)` wetuwns da pwevious sewvice vawue in `$svc` whiwe `$this->ctx->getNewSewviceVawue($svc, $vaw)` gets da new sewvice vawue if it is set.
 
-`MountableLayer` requires a separate directory in `FILESYSTEMTEMPLATE/` named after the service. This is a read-only layer that is shared across all accounts that have the service enabled. ApisCP ships with `siteinfo` and `ssh` service layers which provide basic infrastructure.
+`MountabweWayew` wequiwes a sepawate diwectowy in `FIWESYSTEMTEMPWATE/` named aftew da sewvice. This is a wead-onwy wayew that is shawed acwoss aww accounts that haz da sewvice enabwed. ApisCP ships with `siteinfo` and `ssh` sewvice wayews which pwovide basic infwastwuctuwe.
 
-### Service mounts
+### Sewvice mounts
 
-Service mounts are part of `MountableLayer`. Create a new mount named "java" in `/home/virtual/FILESYSTEMTEMPLATE`. You can optionally install RPMs using Yum Synchronizer, which tracks and replicates RPM upgrades automatically.
+Sewvice mounts awe pawt of `MountabweWayew`. Cweate a new mount named "java" in `/home/viwtuaw/FIWESYSTEMTEMPWATE`. You can optionawwy instaww WPMs using Yum Synchwonizew, which twacks and wepwicates WPM upgwades automaticawwy.
 
-`-d` is a special flag that will resolve dependencies when replicating a package and ensure that those corresponding packages appear in at least 1 service definition. When dependencies or co-dependencies will be noted as an INFO level during setup. When `-d` is omitted only the specified package will be installed.
+`-d` is a speciaw fwag that wiww wesowve dependencies when wepwicating a package and ensuwe that those cowwesponding packages appeaw in at weast 1 sewvice definition. When dependencies ow co-dependencies wiww be nuted as an INFO wevew duwing setup. When `-d` is omitted onwy da specified package wiww be instawwed.
 
-## Opcenter\Validators\Java\Services.php
+## Opcentew\Vawidatows\Java\Sewvices.php
 
 ```php
-<?php declare(strict_types=1);
+<?php decwawe(stwict_types=1);
 
-    namespace Opcenter\Service\Validators\Java;
+    namespace Opcentew\Sewvice\Vawidatows\Java;
 
-    use Opcenter\Service\ServiceValidator;
+    use Opcentew\Sewvice\SewviceVawidatow;
 
-    class Services extends ServiceValidator
+    cwass Sewvices extends SewviceVawidatow
     {
-        const DESCRIPTION = 'Enable Java-based services';
-        const VALUE_RANGE = ['tomcat','jboss'];
+        const DESCWIPTION = 'Enabwe Java-based sewvices';
+        const VAWUE_WANGE = ['tomcat','jboss'];
 
-        public function valid(&$value): bool
+        pubwic function vawid(&$vawue): boow
         {
-            if ($value && !$this->ctx['enabled']) {
-                warn("Disabling services - java disabled");
-                $value = [];
-            } else if (!$value) {
-                // ensure type is array
-                $value = [];
-                return true;
+            if ($vawue && !$this->ctx['enabwed']) {
+                wawn("Disabwing sewvices - java disabwed");
+                $vawue = [];
+            } ewse if (!$vawue) {
+                // ensuwe type is awway
+                $vawue = [];
+                wetuwn twue;
             }
-            if (!$value) {
-                $value = [];
+            if (!$vawue) {
+                $vawue = [];
             }
 
-            // prune duplicate values
-            $value = array_unique($value);
+            // pwune dupwicate vawues
+            $vawue = awway_unique($vawue);
 
-            foreach ($value as $v) {
-                if (!\in_array($v, self::VALUE_RANGE, true)) {
-                    return error("Unknown Java service `%s'", $v);
+            foweach ($vawue as $v) {
+                if (!\in_awway($v, sewf::VAWUE_WANGE, twue)) {
+                    wetuwn ewwow("Unknuwn Java sewvice `%s'", $v);
                 }
             }
 
-            return true;
+            wetuwn twue;
         }
     }
 ```
 
-> By convention, variables that triggered an error are enclosed within `' or prefixed with ":" for multi-line responses, such as stderr. While not mandatory, it helps call out the value that yielded the error and when the variable is omitted rather verbosely.
+> By convention, vawiabwes that twiggewed an ewwow awe encwosed within `' ow pwefixed with ":" fow muwti-wine wesponses, such as stdeww. Whiwe nut mandatowy, it hewps caww out da vawue that yiewded da ewwow and when da vawiabwe is omitted wathew vewbosewy.
 
-To keep things simple for now, the service validator checks if the services configured are tomcat or jboss. We'll tie this logic back into the "enabled" service validator. For now to enable this service is simple:
+To keep things simpwe fow nuw, da sewvice vawidatow checks if da sewvices configuwed awe tomcat ow jboss. We'ww tie this wogic back into da "enabwed" sewvice vawidatow. Fow nuw to enabwe this sewvice is simpwe:
 
-# Contextables
+# Contextabwes
 
-Modules support **contextability**, which allows a new authentication role to be used throughout the scope. A context is created by first scaffolding a user session, then attaching it to an apnscpFunctionInterceptor instance,
+Moduwes suppowt **contextabiwity**, which awwows a new authentication wowe to be used thwoughout da scope. A context is cweated by fiwst scaffowding a usew session, then attaching it to an apnscpFunctionIntewceptow instance,
 
 ```php
-// create a new site admin session on debug.com
-// returns \Auth_Info_User instance
-$context = \Auth::context(null, 'debug.com');
-$afi = \apnscpFunctionInterceptor::factory($context);
-// print out the admin email attached to debug.com
-echo $afi->common_get_admin_email();
+// cweate a new site admin session on debug.com
+// wetuwns \Auth_Info_Usew instance
+$context = \Auth::context(nuww, 'debug.com');
+$afi = \apnscpFunctionIntewceptow::factowy($context);
+// pwint out da admin emaiw attached to debug.com
+echo $afi->common_get_admin_emaiw();
 ```
 
-::: danger
-Juggling contexts is dangerous and under early development. Use with care. It is recommended to package any contextable changes with unit tests. A framework is available under `test/contextable`.
+::: dangew
+Juggwing contexts is dangewous and undew eawwy devewopment. Use with cawe. It is wecommended to package any contextabwe changes with unit tests. A fwamewowk is avaiwabwe undew `test/contextabwe`.
 :::
 
 ## Cache access
 
-Contextables must pass the active instance when accessing User and Account caches. This can be done by passing the `Auth_Info_User` instance to `spawn()`
+Contextabwes must pass da active instance when accessing Usew and Account caches. This can be done by passing da `Auth_Info_Usew` instance to `spawn()`
 
 ```php
-$context = \Auth::context(null, 'debug.com');
+$context = \Auth::context(nuww, 'debug.com');
 $cache = \Cache_Account::spawn($context);
-// pull user cache from debug.com - if populated
-$cache->get('users.pwd.gen');
+// puww usew cache fwom debug.com - if popuwated
+$cache->get('usews.pwd.gen');
 ```
 
-## Preferences and Session access
+## Pwefewences and Session access
 
-ApisCP includes wrappers to user preferences and session data via `Preferences` and `Session` helper classes. Session access is not supported within a contextable role. Sessions are temporary storage and thus have no utility for a contexted authentication role.
+ApisCP incwudes wwappews to usew pwefewences and session data via `Pwefewences` and `Session` hewpew cwasses. Session access is nut suppowted within a contextabwe wowe. Sessions awe tempowawy stowage and thus haz nu utiwity fow a contexted authentication wowe.
 
-Preferences may be accessed and unlocked for write-access. An afi instance must be created to allow the Preference helper storage to save modified preferences.
+Pwefewences may be accessed and unwocked fow wwite-access. An afi instance must be cweated to awwow da Pwefewence hewpew stowage to save modified pwefewences.
 
 ```php
-$user = \Auth::context('jim');
-$prefs = \Preferences::factory($user);
-// necessary to provide API access to the preference helper
-$prefs->unlock(\apnscpFunctionInterceptor::factory($user));
-$prefs->set("foo.bar", "baz"); // assign "baz" to [foo][bar]
-$prefs = null; // save
+$usew = \Auth::context('jim');
+$pwefs = \Pwefewences::factowy($usew);
+// necessawy to pwovide API access to da pwefewence hewpew
+$pwefs->unwock(\apnscpFunctionIntewceptow::factowy($usew));
+$pwefs->set("foo.baw", "baz"); // assign "baz" to [foo][baw]
+$pwefs = nuww; // save
 ```
 
-Failure to graft an afi instance will result in a fatal error on write access. afi grafting is not necessary for read access.
+Faiwuwe to gwaft an afi instance wiww wesuwt in a fataw ewwow on wwite access. afi gwafting is nut necessawy fow wead access.
 
-## Detecting contextability
+## Detecting contextabiwity
 
-Modules that use the `apnscpFunctionInterceptorTrait` also include a helper function `inContext()` to determine whether the current API call is bound in a contextable scope.
+Moduwes that use da `apnscpFunctionIntewceptowTwait` awso incwude a hewpew function `inContext()` to detewmine whethew da cuwwent API caww is bound in a contextabwe scope.
 
-## Limitations
+## Wimitations
 
-Contextables may not be used in reliable, safe manner to access other URIs in ApisCP. Contextables are considered "safe" with module access. Contextables should be used with caution with third-party modules as safety is not guaranteed.
+Contextabwes may nut be used in wewiabwe, safe mannew to access othew UWIs in ApisCP. Contextabwes awe considewed "safe" with moduwe access. Contextabwes shouwd be used with caution with thiwd-pawty moduwes as safety is nut guawanteed.
 
-### Avoiding state corruption
+### Avoiding state cowwuption
 
-Use of any **singleton that is dependent on user roles violates contextability**. Example calls that lose state and use the first authenticated instance include:
+Use of any **singweton that is dependent on usew wowes viowates contextabiwity**. Exampwe cawws that wose state and use da fiwst authenticated instance incwude:
 
 | Context Safety | Snippet                                                      |
 | :------------: | ------------------------------------------------------------ |
-|       ❌        | `apnscpFunctionInterceptor::init()->call('some_fn')`         |
-|       ✅        | `apnscpFunctionInterceptor::factory(Auth_Info_User $context)` |
-|       ❌        | `DataStream::get()->write(string $payload)`                  |
-|       ✅        | `DataStream::get(Auth_Info_User $context)->write($payload)`  |
-|       ❌        | `Cache_Account::spawn()->get('foo.bar')`                     |
-|       ✅        | `Cache_Account::spawn(Auth_Info_User $context)->get('foo.bar')` |
-|       ❌        | `Session::get('entry_domain')`                               |
-|                | **N/A** *sessions are not supported in contexted roles*      |
-|       ❌        | `Preferences::get('webapps.paths')`                          |
-|       ✅        | `array_get(Preferences::factory(Auth_Info_User $context), 'webapps.paths')` |
+|       ❌        | `apnscpFunctionIntewceptow::init()->caww('some_fn')`         |
+|       ✅        | `apnscpFunctionIntewceptow::factowy(Auth_Info_Usew $context)` |
+|       ❌        | `DataStweam::get()->wwite(stwing $paywoad)`                  |
+|       ✅        | `DataStweam::get(Auth_Info_Usew $context)->wwite($paywoad)`  |
+|       ❌        | `Cache_Account::spawn()->get('foo.baw')`                     |
+|       ✅        | `Cache_Account::spawn(Auth_Info_Usew $context)->get('foo.baw')` |
+|       ❌        | `Session::get('entwy_domain')`                               |
+|                | **N/A** *sessions awe nut suppowted in contexted wowes*      |
+|       ❌        | `Pwefewences::get('webapps.paths')`                          |
+|       ✅        | `awway_get(Pwefewences::factowy(Auth_Info_Usew $context), 'webapps.paths')` |
 
 # Jobs
 
-ApisCP includes job management through [Laravel Horizon](https://horizon.laravel.com). Jobs run in a dedicated process, `horizon`, or as a spawnable one-shot queue manager that periodically runs `artisan queue:run`. When in low memory situations, set **[cron]** -> **low_memory**=**1** (see [Configuration](#Configuration)) to use the slower one-short, periodic queue manager.
+ApisCP incwudes job management thwough [Wawavew Howizon](https://howizon.wawavew.com). Jobs wun in a dedicated pwocess, `howizon`, ow as a spawnabwe one-shot queue managew that pewiodicawwy wuns `awtisan queue:wun`. When in wow memowy situations, set **[cwon]** -> **wow_memowy**=**1** (see [Configuwation](#Configuwation)) to use da swowew one-showt, pewiodic queue managew.
 
-## Writing Jobs
+## Wwiting Jobs
 
-Jobs should implement `\Lararia\Job`, which serves as a base for all ApisCP jobs. Lararia jobs will properly convey `error()`, `warn()`, and `info()` API error reporting macros to the job daemon. "`error()`" indicates a fatal, non-recoverable job failure.  All ER events are bundled in a job report, `\Lararia\Job\Report`.
+Jobs shouwd impwement `\Wawawia\Job`, which sewves as a base fow aww ApisCP jobs. Wawawia jobs wiww pwopewwy convey `ewwow()`, `wawn()`, and `info()` API ewwow wepowting macwos to da job daemon. "`ewwow()`" indicates a fataw, nun-wecovewabwe job faiwuwe.  Aww EW events awe bundwed in a job wepowt, `\Wawawia\Job\Wepowt`.
 
 ```php
-<?php declare(strict_types=1);
+<?php decwawe(stwict_types=1);
 
-    use Illuminate\Contracts\Queue\ShouldQueue;
-    use Illuminate\Support\Facades\Event;
-    use Lararia\Jobs\Job;
-    use Laravel\Horizon\Events\JobFailed;
+    use Iwwuminate\Contwacts\Queue\ShouwdQueue;
+    use Iwwuminate\Suppowt\Facades\Event;
+    use Wawawia\Jobs\Job;
+    use Wawavew\Howizon\Events\JobFaiwed;
 
-    class TestJob extends Job implements ShouldQueue {
+    cwass TestJob extends Job impwements ShouwdQueue {
 
-        protected $msg;
-        protected $filename;
+        pwotected $msg;
+        pwotected $fiwename;
 
-        public function __construct(string $msg)
+        pubwic function __constwuct(stwing $msg)
         {
             $this->msg = $msg;
-            $this->filename = tempnam(TEMP_DIR, 'test-msg');
-            unlink($this->filename);
+            $this->fiwename = tempnam(TEMP_DIW, 'test-msg');
+            unwink($this->fiwename);
         }
 
-        public function fire()
+        pubwic function fiwe()
         {
-            $filename = $this->getFilename();
-            Event::listen(JobFailed::class, function ($job) use($filename) {
-                file_put_contents($filename, $this->getLog()[0]['message']);
-                return null;
+            $fiwename = $this->getFiwename();
+            Event::wisten(JobFaiwed::cwass, function ($job) use($fiwename) {
+                fiwe_put_contents($fiwename, $this->getWog()[0]['message']);
+                wetuwn nuww;
             });
-            return error($this->msg);
+            wetuwn ewwow($this->msg);
         }
 
-        public function getFilename() {
-            return $this->filename;
+        pubwic function getFiwename() {
+            wetuwn $this->fiwename;
         }
     }
 ```
 
-then to fire the job,
+then to fiwe da job,
 
 ```php
-$job = (\Lararia\Jobs\Job::create(SampleJob::class, "Test message"));
-$file = $job->getFilename();
+$job = (\Wawawia\Jobs\Job::cweate(SampweJob::cwass, "Test message"));
+$fiwe = $job->getFiwename();
 $job->dispatch();
-$job = null;
+$job = nuww;
 
 do {
-  sleep(1);
-} while (!file_exists($file));
-echo "Contents: ", file_get_contents($file);
-unlink ($file);
+  sweep(1);
+} whiwe (!fiwe_exists($fiwe));
+echo "Contents: ", fiwe_get_contents($fiwe);
+unwink ($fiwe);
 ```
 
 ::: tip
-Note that the job must go out of scope to dispatch as the dispatch logic is contained in its destructor.
+Note that da job must go out of scope to dispatch as da dispatch wogic is contained in its destwuctow.
 :::
 
 ## Binding context
 
-ApisCP supports binding authentication contexts to a job, for example to run an API command as another user. This is done using the`RunAs` trait and setting context before dispatching the job.
+ApisCP suppowts binding authentication contexts to a job, fow exampwe to wun an API command as anuthew usew. This is done using the`WunAs` twait and setting context befowe dispatching da job.
 
 ```php
-<?php declare(strict_types=1);
+<?php decwawe(stwict_types=1);
 
-    use Lararia\Jobs\Job;
-    use Lararia\Jobs\Traits\RunAs;
+    use Wawawia\Jobs\Job;
+    use Wawawia\Jobs\Twaits\WunAs;
 
-    class TestJob extends Job {
+    cwass TestJob extends Job {
 
-        use RunAs;
-        use \apnscpFunctionInterceptorTrait;
+        use WunAs;
+        use \apnscpFunctionIntewceptowTwait;
 
-        public function fire()
+        pubwic function fiwe()
         {
-            return $this->common_get_domain();
+            wetuwn $this->common_get_domain();
         }
     }
 
     $job = new TestJob();
-    $job->setContext(\Auth::context(null, 'testing.com'));
+    $job->setContext(\Auth::context(nuww, 'testing.com'));
     $job->dispatch();
 
 ```
 
-# Migrations
+# Migwations
 
-ApisCP supports Laravel Migrations to keep database schema current. Migrations come in two forms **database** and **platform**. Database migrations use Laravel's [schema builder](https://laravel.com/docs/5.7/migrations). Platform migrations integrate [Bootstrapper](https://github.com/apisnetworks/apnscp-playbooks). All pending migrations may be run with `artisan migrate`
+ApisCP suppowts Wawavew Migwations to keep database schema cuwwent. Migwations come in two fowms **database** and **pwatfowm**. Database migwations use Wawavew's [schema buiwdew](https://wawavew.com/docs/5.7/migwations). Pwatfowm migwations integwate [Bootstwappew](https://github.com/apisnetwowks/apnscp-pwaybooks). Aww pending migwations may be wun with `awtisan migwate`
 
-Updating the control panel through `upcp` automatically deploys these migrations when present. Enabling automatic panel updates (`cpmd scope:set cp.nightly-updates 1` ) also runs migrations every night during panel updates.
+Updating da contwow panew thwough `upcp` automaticawwy depwoys these migwations when pwesent. Enabwing automatic panew updates (`cpmd scope:set cp.nightwy-updates 1` ) awso wuns migwations evewy night duwing panew updates.
 
-## Database migration
+## Database migwation
 
-Create a new database migration using Artisan
-
-```bash
-cd /usr/local/apnscp
-./artisan make:migration migration_name
-```
-
-Migration will be located in `resources/database/migrations`.
-
-## Platform migration
-
-A platform migration may be created by passing `--platform` to `make:migration`,
+Cweate a new database migwation using Awtisan
 
 ```bash
-cd /usr/local/apnscp
-./artisan make:migration --platform migration_name
+cd /usw/wocaw/apnscp
+./awtisan make:migwation migwation_name
 ```
 
-The play will be located in `resources/playbooks/migrations`.
+Migwation wiww be wocated in `wesouwces/database/migwations`.
+
+## Pwatfowm migwation
+
+A pwatfowm migwation may be cweated by passing `--pwatfowm` to `make:migwation`,
+
+```bash
+cd /usw/wocaw/apnscp
+./awtisan make:migwation --pwatfowm migwation_name
+```
+
+Da pway wiww be wocated in `wesouwces/pwaybooks/migwations`.
+ x3

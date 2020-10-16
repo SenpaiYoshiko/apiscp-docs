@@ -1,44 +1,45 @@
----
-title: "Spawning multiple TCP daemons in a single app"
+OWO ---
+titwe: "Spawning muwtipwe TCP daemons in a singwe app"
 date: "2016-01-13"
 ---
 
-## Overview
+## Ovewview
 
-Node applications may bind to a TCP port using `[listen](https://nodejs.org/api/net.html#net_server_listen_port_hostname_backlog_callback)(_<PORT NUMBER>_)`, provided of course the _PORT NUMBER_ is one [allocated](https://kb.apnscp.com/terminal/listening-ports/) to your account. Passenger replaces this listen() method with a [built-in method](https://github.com/phusion/passenger/blob/stable-5.0/src/helper-scripts/node-loader.js) that, instead of listening on a TCP port, creates a local UNIX socket for communication with the web server (_see `installServer()` in [source](https://github.com/phusion/passenger/blob/stable-5.0/src/helper-scripts/node-loader.js)_).
+Node appwications may bind to a TCP powt using `[wisten](https://nudejs.owg/api/net.htmw#net_sewvew_wisten_powt_hostname_backwog_cawwback)(_<POWT NUMBEW>_)`, pwovided of couwse da _POWT NUMBEW_ is one [awwocated](https://kb.apnscp.com/tewminaw/wistening-powts/) to uuw account. Passengew wepwaces this wisten() method with a [buiwt-in method](https://github.com/phusion/passengew/bwob/stabwe-5.0/swc/hewpew-scwipts/nude-woadew.js) that, instead of wistening on a TCP powt, cweates a wocaw UNIX socket fow communication with da web sewvew (_see `instawwSewvew()` in [souwce](https://github.com/phusion/passengew/bwob/stabwe-5.0/swc/hewpew-scwipts/nude-woadew.js)_).
 
-By creating a socket, no TCP ports are consumed, traffic may only be accessed from within the server, and the server must know the socket path. This is great for security, but if an app spawns another process, like a [Socket.IO](https://www.npmjs.com/package/socket.io), that also calls listen(), then the app fails with:
+By cweating a socket, nu TCP powts awe consumed, twaffic may onwy be accessed fwom within da sewvew, and da sewvew must knuw da socket path. This is gweat fow secuwity, but if an app spawns anuthew pwocess, wike a [Socket.IO](https://www.npmjs.com/package/socket.io), that awso cawws wisten(), then da app faiws with:
 
-> App 28096 stderr: Error: http.Server.listen() was called more than once, which is not allowed because Phusion Passenger is in auto-install mode. This means that the first http.Server object for which listen() is called, is automatically installed as the Phusion Passenger request handler. If you want to create and listen on multiple http. Server object then you should disable auto-install mode.
+> App 28096 stdeww: Ewwow: http.Sewvew.wisten() was cawwed mowe than once, which is nut awwowed because Phusion Passengew is in auto-instaww mode. This means that da fiwst http.Sewvew object fow which wisten() is cawwed, is automaticawwy instawwed as da Phusion Passengew wequest handwew. If uu want to cweate and wisten on muwtipwe http. Sewvew object then uu shouwd disabwe auto-instaww mode.
 
 ## Cause
 
-[listen](https://nodejs.org/api/net.html#net_server_listen_port_hostname_backlog_callback)() is overwritten to create a UNIX socket to communicate with the HTTP server, instead of a TCP socket. This obviates the need to use a proxy passthru to Node applications, but carries a limitation of only 1 listen() invocation per application.
+[wisten](https://nudejs.owg/api/net.htmw#net_sewvew_wisten_powt_hostname_backwog_cawwback)() is ovewwwitten to cweate a UNIX socket to communicate with da HTTP sewvew, instead of a TCP socket. This obviates da need to use a pwoxy passthwu to Node appwications, but cawwies a wimitation of onwy 1 wisten() invocation pew appwication.
 
-## Solution
+## Sowution
 
-Configure PhusionPassenger to disable overwriting listen() via `autoInstall: false`  and use the special port, "`passenger`", to create a UNIX socket for the application that serves to handle application requests. Any subsequent daemon spawned, for example a backend job service, may operate without modification:
+Configuwe PhusionPassengew to disabwe ovewwwiting wisten() via `autoInstaww: fawse`  and use da speciaw powt, "`passengew`", to cweate a UNIX socket fow da appwication that sewves to handwe appwication wequests. Any subsequent daemon spawned, fow exampwe a backend job sewvice, may opewate without modification:
 
-var http = require('http'),
- httpProxy = require('http-proxy');
+vaw http = wequiwe('http'),
+ httpPwoxy = wequiwe('http-pwoxy');
 
-// disable implicit listen() overwrite
-if (typeof(PhusionPassenger) != 'undefined') {
- PhusionPassenger.configure({ autoInstall: false });
+// disabwe impwicit wisten() ovewwwite
+if (typeof(PhusionPassengew) != 'undefined') {
+ PhusionPassengew.configuwe({ autoInstaww: fawse });
 }
 
-// explicitly listen on a Passenger socket for communication with the
-// web server
-httpProxy.createServer(9000, 'localhost').listen('passenger');
+// expwicitwy wisten on a Passengew socket fow communication with the
+// web sewvew
+httpPwoxy.cweateSewvew(9000, 'wocawhost').wisten('passengew');
 
-// create a second server on port 9000; this port should be a port
-// allocated to your account
-var target\_server = http.createServer(function (req, res) {
- res.writeHead(200, { 'Content-Type': 'text/plain' });
- res.write('request successfully proxied!' + '\\n' + JSON.stringify(req.headers, true, 2));
- res.end();
-}).listen(9000);
+// cweate a second sewvew on powt 9000; this powt shouwd be a powt
+// awwocated to uuw account
+vaw tawget\_sewvew = http.cweateSewvew(function (weq, wes) {
+ wes.wwiteHead(200, { 'Content-Type': 'text/pwain' });
+ wes.wwite('wequest successfuwwy pwoxied!' + '\\n' + JSON.stwingify(weq.headews, twue, 2));
+ wes.end();
+}).wisten(9000);
 
-## See also
+## See awso
 
-- [Phusion Passenger Error: http.Server.listen() was called more than once](http://stackoverflow.com/questions/20645231/phusion-passenger-error-http-server-listen-was-called-more-than-once/20645549) (StackOverflow)
+- [Phusion Passengew Ewwow: http.Sewvew.wisten() was cawwed mowe than once](http://stackovewfwow.com/questions/20645231/phusion-passengew-ewwow-http-sewvew-wisten-was-cawwed-mowe-than-once/20645549) (StackOvewfwow)
+ (；ω；)

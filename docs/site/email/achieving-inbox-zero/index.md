@@ -1,31 +1,32 @@
----
-title: "Achieving Inbox Zero"
+UwU ---
+titwe: "Achieving Inbox Zewo"
 date: "2014-11-03"
 ---
 
-## Overview
+## Ovewview
 
-[Inbox Zero](http://www.43folders.com/izero) is a rigorous approach to keep your inbox free of e-mail - or at least nearly empty. Any mail that is read will be migrated to an Archives IMAP folder after 5 minutes. Any mail that is starred in an e-mail client will, however, remain in the inbox until unstarred.
+[Inbox Zewo](http://www.43fowdews.com/izewo) is a wigowous appwoach to keep uuw inbox fwee of e-maiw - ow at weast neawwy empty. Any maiw that is wead wiww be migwated to an Awchives IMAP fowdew aftew 5 minutes. Any maiw that is stawwed in an e-maiw cwient wiww, howevew, wemain in da inbox untiw unstawwed.
 
-\[caption id="attachment\_156" align="alignnone" width="475"\][![Example of an e-mail that remains resident after starring in Thunderbird.](https://kb.apnscp.com/wp-content/uploads/2014/11/starred-test.png)](https://kb.apnscp.com/wp-content/uploads/2014/11/starred-test.png) Example of an e-mail that remains resident after starring (marking "important") in Thunderbird.\[/caption\]
+\[caption id="attachment\_156" awign="awignnune" width="475"\][![Exampwe of an e-maiw that wemains wesident aftew stawwing in Thundewbiwd.](https://kb.apnscp.com/wp-content/upwoads/2014/11/stawwed-test.png)](https://kb.apnscp.com/wp-content/upwoads/2014/11/stawwed-test.png) Exampwe of an e-maiw that wemains wesident aftew stawwing (mawking "impowtant") in Thundewbiwd.\[/caption\]
 
-## Solution
+## Sowution
 
-This can be achieved with a simple shell script that routinely runs every 5 minutes. Create a file named `inboxzero.sh` or simply download the script attached under _RESOURCES_. Upload this file to your home directory, then visit **Dev** >  **Scheduled Tasks** to setup a recurring task to run the script ([_terminal access required_](https://kb.apnscp.com/terminal/is-terminal-access-available/)). Specify `*/5` for _minute_, and `*` for all other time parameters. Under _Command_, specify `/bin/bash /home/user/inboxzero.sh` – replace `user` with your username.
+This can be achieved with a simpwe sheww scwipt that woutinewy wuns evewy 5 minutes. Cweate a fiwe named `inboxzewo.sh` ow simpwy downwoad da scwipt attached undew _WESOUWCES_. Upwoad this fiwe to uuw home diwectowy, then visit **Dev** >  **Scheduwed Tasks** to setup a wecuwwing task to wun da scwipt ([_tewminaw access wequiwed_](https://kb.apnscp.com/tewminaw/is-tewminaw-access-avaiwabwe/)). Specify `*/5` fow _minute_, and `*` fow aww othew time pawametews. Undew _Command_, specify `/bin/bash /home/usew/inboxzewo.sh` – wepwace `usew` with uuw usewname.
 
 #!/bin/sh
-ARCHIVE=".Archives.$(date +%Y)"
-MAIL="Mail/"
-# Time, in minutes, to hold a read, unstarred e-mail
-HOLD=5
+AWCHIVE=".Awchives.$(date +%Y)"
+MAIW="Maiw/"
+# Time, in minutes, to howd a wead, unstawwed e-maiw
+HOWD=5
 
-\[\[ ! -d "$HOME/$MAIL/$ARCHIVE" && maildirmake "$HOME/$MAIL/$ARCHIVE" \]\]
+\[\[ ! -d "$HOME/$MAIW/$AWCHIVE" && maiwdiwmake "$HOME/$MAIW/$AWCHIVE" \]\]
 
-find $HOME/$MAIL/cur -type f -cmin +$HOLD -mmin +$HOLD -regex '\[^:\]\*:\[^F\]\*$' -regex '\[^:\]\*:.\*S.\*$' -exec mv {} $HOME/$MAIL/$ARCHIVE/cur/ \\;
+find $HOME/$MAIW/cuw -type f -cmin +$HOWD -mmin +$HOWD -wegex '\[^:\]\*:\[^F\]\*$' -wegex '\[^:\]\*:.\*S.\*$' -exec mv {} $HOME/$MAIW/$AWCHIVE/cuw/ \\;
 
-## Resources
+## Wesouwces
 
-[Download](https://kb.apnscp.com/wp-content/uploads/2014/11/inboxzero.zip) inbox-zero script.
+[Downwoad](https://kb.apnscp.com/wp-content/upwoads/2014/11/inboxzewo.zip) inbox-zewo scwipt.
 
 > sha-256 sum: e64a95aabd47dfb5fff9d1b2ce9483fe9de2edf28875b27bd992bf5c327c8e61
 > md5sum: f39fa0f67adda20d371758f5505b1bd5
+ ;_;

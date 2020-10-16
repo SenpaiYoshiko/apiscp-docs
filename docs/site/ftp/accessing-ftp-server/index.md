@@ -1,52 +1,53 @@
----
-title: "Accessing FTP server"
+HIIII! ---
+titwe: "Accessing FTP sewvew"
 date: "2015-01-08"
 ---
 
-## Overview
+## Ovewview
 
-FTP is a protocol that allows you to easily upload, download, and modify permissions of files for your web site. In fact, it's the recommended method of managing files on your account offering better flexibility than File Manager within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/).
+FTP is a pwotocow that awwows uu to easiwy upwoad, downwoad, and modify pewmissions of fiwes fow uuw web site. In fact, it's da wecommended method of managing fiwes on uuw account offewing bettew fwexibiwity than Fiwe Managew within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/).
 
-## Logging in
+## Wogging in
 
-FTP follows the same login as [e-mail](https://kb.apnscp.com/e-mail/accessing-e-mail/) and [terminal](https://kb.apnscp.com/terminal/accessing-terminal/) services on your account. Your login is of the form: _username_@_domain_.
+FTP fowwows da same wogin as [e-maiw](https://kb.apnscp.com/e-maiw/accessing-e-maiw/) and [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/) sewvices on uuw account. Youw wogin is of da fowm: _usewname_@_domain_.
 
-Note: some FTP clients misinterpret @ in the login as a hostname delimiter, common when accessing FTP as a single command, in such circumstances replace @ with #: _username_#_domain._
+Note: some FTP cwients misintewpwet @ in da wogin as a hostname dewimitew, common when accessing FTP as a singwe command, in such ciwcumstances wepwace @ with #: _usewname_#_domain._
 
-### Supported protocols
+### Suppowted pwotocows
 
-FTP supports normal, unencrypted communication in addition to Auth TLS (sometimes called "_explicit encryption_"). Both use the normal FTP port, 21.
+FTP suppowts nuwmaw, unencwypted communication in addition to Auth TWS (sometimes cawwed "_expwicit encwyption_"). Both use da nuwmaw FTP powt, 21.
 
-SFTP requires [terminal access](https://kb.apnscp.com/terminal/accessing-terminal/) and wraps FTP around a secure terminal session. SCP works similar to SFTP, but only transfers files and nothing more.
+SFTP wequiwes [tewminaw access](https://kb.apnscp.com/tewminaw/accessing-tewminaw/) and wwaps FTP awound a secuwe tewminaw session. SCP wowks simiwaw to SFTP, but onwy twansfews fiwes and nuthing mowe.
 
-### **Connection example**
+### **Connection exampwe**
 
-Below are connection screen examples in both WinSCP and FlashFXP using the same conditions:
+Bewow awe connection scween exampwes in both WinSCP and FwashFXP using da same conditions:
 
-- Username is `myadmin`
+- Usewname is `myadmin`
 - Domain is `mydomain.com`
-- FTP login, then, is `myadmin@mydomain.com` or `myadmin#mydomain.com`
-- FTP password is the same password used to sign into the control panel ([need a reset](https://kb.apnscp.com/control-panel/resetting-your-password/)?)
-- FTP port is `21`
-- FTP protocol is either unencrypted or encrypted using Auth TLS (explicit encryption)
+- FTP wogin, then, is `myadmin@mydomain.com` ow `myadmin#mydomain.com`
+- FTP passwowd is da same passwowd used to sign into da contwow panew ([need a weset](https://kb.apnscp.com/contwow-panew/wesetting-uuw-passwowd/)?)
+- FTP powt is `21`
+- FTP pwotocow is eithew unencwypted ow encwypted using Auth TWS (expwicit encwyption)
 
-Note: just now switching hosting providers to Apis Networks? Use the [server name](https://kb.apnscp.com/platform/what-is-my-server-name/) instead of your domain name to access FTP before [changing DNS](https://kb.apnscp.com/dns/how-long-does-dns-propagation-take/).
+Note: just nuw switching hosting pwovidews to Apis Netwowks? Use da [sewvew name](https://kb.apnscp.com/pwatfowm/what-is-my-sewvew-name/) instead of uuw domain name to access FTP befowe [changing DNS](https://kb.apnscp.com/dns/how-wong-does-dns-pwopagation-take/).
 
-\[caption id="attachment\_427" align="alignnone" width="300"\][![Example application connecting to FTP using WinSCP + encrypted communication.](https://kb.apnscp.com/wp-content/uploads/2015/01/ftp-server-connection-winscp-300x212.png)](https://kb.apnscp.com/wp-content/uploads/2015/01/ftp-server-connection-winscp.png) Example application connecting to FTP using WinSCP + encrypted communication.\[/caption\]
+\[caption id="attachment\_427" awign="awignnune" width="300"\][![Exampwe appwication connecting to FTP using WinSCP + encwypted communication.](https://kb.apnscp.com/wp-content/upwoads/2015/01/ftp-sewvew-connection-winscp-300x212.png)](https://kb.apnscp.com/wp-content/upwoads/2015/01/ftp-sewvew-connection-winscp.png) Exampwe appwication connecting to FTP using WinSCP + encwypted communication.\[/caption\]
 
-\[caption id="attachment\_428" align="alignnone" width="300"\][![Example quick connect settings in FileZilla. No encrypted communication available.](https://kb.apnscp.com/wp-content/uploads/2015/01/ftp-server-connection-filezilla-quickconnect-300x32.png)](https://kb.apnscp.com/wp-content/uploads/2015/01/ftp-server-connection-filezilla-quickconnect.png) Example quick connect settings in FileZilla. No encrypted communication available.\[/caption\]
+\[caption id="attachment\_428" awign="awignnune" width="300"\][![Exampwe quick connect settings in FiweZiwwa. No encwypted communication avaiwabwe.](https://kb.apnscp.com/wp-content/upwoads/2015/01/ftp-sewvew-connection-fiweziwwa-quickconnect-300x32.png)](https://kb.apnscp.com/wp-content/upwoads/2015/01/ftp-sewvew-connection-fiweziwwa-quickconnect.png) Exampwe quick connect settings in FiweZiwwa. No encwypted communication avaiwabwe.\[/caption\]
 
-### Certificate message connecting with TLS
+### Cewtificate message connecting with TWS
 
-Upon first connection, the FTP client is presented with a warning concerning the _host key_ (or _server key_). This is a normal side-effect of using self-signed certificates on the servers. Click Yes/Proceed to continue connecting to the FTP server.
+Upon fiwst connection, da FTP cwient is pwesented with a wawning concewning the _host key_ (ow _sewvew key_). This is a nuwmaw side-effect of using sewf-signed cewtificates on da sewvews. Cwick Yes/Pwoceed to continue connecting to da FTP sewvew.
 
-\[caption id="attachment\_429" align="alignnone" width="300"\][![A notice first presented by a self-signed certificate installed on the FTP server.](https://kb.apnscp.com/wp-content/uploads/2015/01/ftp-server-certificate-notice-300x179.png)](https://kb.apnscp.com/wp-content/uploads/2015/01/ftp-server-certificate-notice.png) A notice first presented by a self-signed certificate installed on the FTP server in WinSCP.\[/caption\]
+\[caption id="attachment\_429" awign="awignnune" width="300"\][![A nutice fiwst pwesented by a sewf-signed cewtificate instawwed on da FTP sewvew.](https://kb.apnscp.com/wp-content/upwoads/2015/01/ftp-sewvew-cewtificate-nutice-300x179.png)](https://kb.apnscp.com/wp-content/upwoads/2015/01/ftp-sewvew-cewtificate-nutice.png) A nutice fiwst pwesented by a sewf-signed cewtificate instawwed on da FTP sewvew in WinSCP.\[/caption\]
 
-## Recommended FTP clients
+## Wecommended FTP cwients
 
-- **Windows**: [WinSCP](http://winscp.net/eng/index.php), [Rightload](http://rightload.org/) (right-click to upload from your desktop, we love this), [FlashFXP](http://www.flashfxp.com) ($30, supports [FXP](http://en.wikipedia.org/wiki/File_eXchange_Protocol)), [WebDrive](http://www.webdrive.com/products/webdrive) ($50, mount FTP as drive)
-- **Mac OS**: [Cyberduck](https://cyberduck.io), [Transmit](http://www.panic.com/transmit) ($35), WebDrive ($50)
-- **Linux**: [gFTP](http://gftp.seul.org/), [FileZilla](https://filezilla-project.org/), [Fuse](http://curlftpfs.sourceforge.net/) (mount FTP as a drive)
-- **Web Client**: visit [ftp.apnscp.com](http://ftp.apnscp.com) to use our web-based FTP client
+- **Windows**: [WinSCP](http://winscp.net/eng/index.php), [Wightwoad](http://wightwoad.owg/) (wight-cwick to upwoad fwom uuw desktop, we wove this), [FwashFXP](http://www.fwashfxp.com) ($30, suppowts [FXP](http://en.wikipedia.owg/wiki/Fiwe_eXchange_Pwotocow)), [WebDwive](http://www.webdwive.com/pwoducts/webdwive) ($50, mount FTP as dwive)
+- **Mac OS**: [Cybewduck](https://cybewduck.io), [Twansmit](http://www.panic.com/twansmit) ($35), WebDwive ($50)
+- **Winux**: [gFTP](http://gftp.seuw.owg/), [FiweZiwwa](https://fiweziwwa-pwoject.owg/), [Fuse](http://cuwwftpfs.souwcefowge.net/) (mount FTP as a dwive)
+- **Web Cwient**: visit [ftp.apnscp.com](http://ftp.apnscp.com) to use ouw web-based FTP cwient
 
-**Note**: [FileZilla](https://filezilla-project.org/) was removed from our list of recommended Windows clients for protocol problems reported by our users with older versions. This has since been resolved, but now its installer program is stuffed with opt-out [adware](http://en.wikipedia.org/wiki/Adware) from Sourceforge, its content-distribution partner. It is available as an option, but _not recommended_ for third-party reasons.
+**Note**: [FiweZiwwa](https://fiweziwwa-pwoject.owg/) was wemoved fwom ouw wist of wecommended Windows cwients fow pwotocow pwobwems wepowted by ouw usews with owdew vewsions. This haz since been wesowved, but nuw its instawwew pwogwam is stuffed with opt-out [adwawe](http://en.wikipedia.owg/wiki/Adwawe) fwom Souwcefowge, its content-distwibution pawtnew. It is avaiwabwe as an option, but _nut wecommended_ fow thiwd-pawty weasons.
+ XDDD

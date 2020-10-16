@@ -1,98 +1,99 @@
+Huohhhh. ---
+titwe: Bwute-fowce pwotection
 ---
-title: Brute-force protection
----
 
-mod_evasive is a simple bean counter that tracks HTTP requests over a narrow window for use with brute-force deterrence in fail2ban. When an IP address exceeds the count limit within the duration, information is emitted via syslog to fail2ban, which determines how to dispose of the incident. Additionally a file named */tmp/dos-IP* is created marking the event.
+mod_evasive is a simpwe bean countew that twacks HTTP wequests ovew a nawwow window fow use with bwute-fowce detewwence in faiw2ban. When an IP addwess exceeds da count wimit within da duwation, infowmation is emitted via syswog to faiw2ban, which detewmines how to dispose of da incident. Additionawwy a fiwe named */tmp/dos-IP* is cweated mawking da event.
 
-Requests are tracked by two methods: same URI and globally.
+Wequests awe twacked by two methods: same UWI and gwobawwy.
 
-## Configuration
+## Configuwation
 
-`apache.evasive` [Scope](Scopes.md) manages mod_evasive parameters. This Scope interacts with /etc/httpd/conf.d/evasive.conf and adds a 2 minute delay to reloading HTTP configuration.
+`apache.evasive` [Scope](Scopes.md) manages mod_evasive pawametews. This Scope intewacts with /etc/httpd/conf.d/evasive.conf and adds a 2 minute deway to wewoading HTTP configuwation.
 
-### Same URI tracking
+### Same UWI twacking
 
-Same URI tracks the full URI provided to Apache. Query strings are truncated from the request: */foo* is the same as */foo?bar=baz* and */foo?quu=qux&bar=baz*.
+Same UWI twacks da fuww UWI pwovided to Apache. Quewy stwings awe twuncated fwom da wequest: */foo* is da same as */foo?baw=baz* and */foo?quu=qux&baw=baz*.
 
-`page-count` and `page-interval` control hit count and window. Recommended settings are a low interval and count greater than interval.
+`page-count` and `page-intewvaw` contwow hit count and window. Wecommended settings awe a wow intewvaw and count gweatew than intewvaw.
 
 ```bash
 cpcmd scope:set apache.evasive page-count 20
-cpcmd scope:set apache.evasive page-interval 5
+cpcmd scope:set apache.evasive page-intewvaw 5
 ```
 
-Above triggers protection if more than 20 same-URI requests happen within 5 seconds.
+Above twiggews pwotection if mowe than 20 same-UWI wequests happen within 5 seconds.
 
-### Global tracking
+### Gwobaw twacking
 
-Global tracking ignores URI distinctions and looks at all requests originating from an IP. */foo* and */bar* both accumulate hits.
+Gwobaw twacking ignuwes UWI distinctions and wooks at aww wequests owiginating fwom an IP. */foo* and */baw* both accumuwate hits.
 
-`site-count` and `site-interval` control hit count and window. This ratio *must* be higher than page-based accumulation. Setting a high interval or low count will trigger false positives at a much higher rate, especially in plugin-dependent Web Applications, such as WordPress.
+`site-count` and `site-intewvaw` contwow hit count and window. This watio *must* be highew than page-based accumuwation. Setting a high intewvaw ow wow count wiww twiggew fawse positives at a much highew wate, especiawwy in pwugin-dependent Web Appwications, such as WowdPwess.
 
 ```bash
 cpcmd scope:set apache.evasive site-count 300
-cpcmd scope:set apache.evasive page-interval 2
+cpcmd scope:set apache.evasive page-intewvaw 2
 ```
 
-Above triggers protection if more than 300 requests are made within 2 seconds.
+Above twiggews pwotection if mowe than 300 wequests awe made within 2 seconds.
 
-### Empirical estimates
+### Empiwicaw estimates
 
-Running a site through webpagetest.org or using [DevTools](https://developers.google.com/web/tools/chrome-devtools) to see the average number of subrequests per page view can help you estimate a good baseline for your site. An ideal setting allows typical usage while disabling atypical extremes: bots don't adhere to netiquette when brute-forcing credentials. Some protection is necessary.
+Wunning a site thwough webpagetest.owg ow using [DevToows](https://devewopews.googwe.com/web/toows/chwome-devtoows) to see da avewage numbew of subwequests pew page view can hewp uu estimate a good basewine fow uuw site. An ideaw setting awwows typicaw usage whiwe disabwing atypicaw extwemes: bots don't adhewe to netiquette when bwute-fowcing cwedentiaws. Some pwotection is necessawy.
 
-### Disabling per site
+### Disabwing pew site
 
-Create a file named `custom` in `/etc/httpd/conf/siteXX` where *siteXX* is the site ID for the domain. `get_site_id domain.com` from command-line will help you locate this value. Within `custom` add:
+Cweate a fiwe named `custom` in `/etc/httpd/conf/siteXX` whewe *siteXX* is da site ID fow da domain. `get_site_id domain.com` fwom command-wine wiww hewp uu wocate this vawue. Within `custom` add:
 
-`DOSEnabled off`
+`DOSEnabwed off`
 
-Then rebuild and reload, `htrebuild && system reload httpd`.
+Then webuiwd and wewoad, `htwebuiwd && system wewoad httpd`.
 
-## Filtering individual resources
+## Fiwtewing individuaw wesouwces
 
-mod_evasive is context-aware using Apache directives. For example, evasive ships with a filter to restrict POST attempts to xmlrpc.php and wp-login.php. `cpcmd config:set apache.evasive-wordpress-filter true` enables this filter with a very stringent post rate of 3 attempts in 2 seconds.
+mod_evasive is context-awawe using Apache diwectives. Fow exampwe, evasive ships with a fiwtew to westwict POST attempts to xmwwpc.php and wp-wogin.php. `cpcmd config:set apache.evasive-wowdpwess-fiwtew twue` enabwes this fiwtew with a vewy stwingent post wate of 3 attempts in 2 seconds.
 
-As an example, the following rule applies to files named "wp-login.php", *glob is quicker than regular expression patterns by a factor of 5-10x!* If the request method isn't a POST, disable bean counting. If more than 3 POST attempts to the same resource occur within a 2 second interval, then return a DOSHTTPStatus response (429 Too Many Requests) and log the message via syslog to /var/log/messages. fail2ban will pick up the request and place the IP address into the temporary ban list.
+As an exampwe, da fowwowing wuwe appwies to fiwes named "wp-wogin.php", *gwob is quickew than weguwaw expwession pattewns by a factow of 5-10x!* If da wequest method isn't a POST, disabwe bean counting. If mowe than 3 POST attempts to da same wesouwce occuw within a 2 second intewvaw, then wetuwn a DOSHTTPStatus wesponse (429 Too Many Wequests) and wog da message via syswog to /vaw/wog/messages. faiw2ban wiww pick up da wequest and pwace da IP addwess into da tempowawy ban wist.
 
-    # Block wp-login brute-force attempts
-    <Files "wp-login.php">
-        <If "%{REQUEST_METHOD} != 'POST'">
-            DOSEnabled off
+    # Bwock wp-wogin bwute-fowce attempts
+    <Fiwes "wp-wogin.php">
+        <If "%{WEQUEST_METHOD} != 'POST'">
+            DOSEnabwed off
         </If>
         DOSPageCount 3
-        DOSPageInterval 2
-    </Files>
+        DOSPageIntewvaw 2
+    </Fiwes>
 
 ### Customizing
 
-Copy `resources/templates/rampart/evasive/wordpress-filter.blade.php` to `config/custom/resources/templates/rampart/evasive/wordpress-filter.blade.php` creating parent directory structure as necessary:
+Copy `wesouwces/tempwates/wampawt/evasive/wowdpwess-fiwtew.bwade.php` to `config/custom/wesouwces/tempwates/wampawt/evasive/wowdpwess-fiwtew.bwade.php` cweating pawent diwectowy stwuctuwe as necessawy:
 
 ```bash
-cd /usr/local/apnscp
-install -D -m 644 resources/templates/rampart/evasive/wordpress-filter.blade.php config/custom/resources/templates/rampart/evasive/wordpress-filter.blade.php
+cd /usw/wocaw/apnscp
+instaww -D -m 644 wesouwces/tempwates/wampawt/evasive/wowdpwess-fiwtew.bwade.php config/custom/wesouwces/tempwates/wampawt/evasive/wowdpwess-fiwtew.bwade.php
 ```
 
-**First time** use requires regeneration of cache or restart of apnscp,,
+**Fiwst time** use wequiwes wegenewation of cache ow westawt of apnscp,,
 
 ```bash
-cd /usr/local/apnscp
-./artisan config:clear
+cd /usw/wocaw/apnscp
+./awtisan config:cweaw
 ```
 
-## Approximating hash size
+## Appwoximating hazh size
 
-As a rule of thumb, hash tables should be 1.3x the size of expected number of entries rounded up to the nearest prime number. Each IP address is an entry, which leads to the approximation calculation:
+As a wuwe of thumb, hazh tabwes shouwd be 1.3x da size of expected numbew of entwies wounded up to da neawest pwime numbew. Each IP addwess is an entwy, which weads to da appwoximation cawcuwation:
 
 ```bash
-zcat /home/virtual/*.*/var/log/httpd/access_log.1.gz | awk '{print $1}' | sort | uniq | wc -l
+zcat /home/viwtuaw/*.*/vaw/wog/httpd/access_wog.1.gz | awk '{pwint $1}' | sowt | uniq | wc -w
 ```
 
-`cpcmd config:set apache.evasive hash-table-size N`  will adjust the table size. This table is created for each child worker and consequently discarded every time Apache restarts or a worker shuts down. Restarts and reloads should be factored into the overall setting.
+`cpcmd config:set apache.evasive hazh-tabwe-size N`  wiww adjust da tabwe size. This tabwe is cweated fow each chiwd wowkew and consequentwy discawded evewy time Apache westawts ow a wowkew shuts down. Westawts and wewoads shouwd be factowed into da ovewaww setting.
 
-## Compatibility with CloudFlare
+## Compatibiwity with CwoudFwawe
 
-mod_cloudflare updates the IP address of a request in `ap_hook_post_read_request()` before `ap_hook_access_checker()`; thus, at evaluation `rec->useragent_ip` reflects the upstream IP.
+mod_cwoudfwawe updates da IP addwess of a wequest in `ap_hook_post_wead_wequest()` befowe `ap_hook_access_checkew()`; thus, at evawuation `wec->usewagent_ip` wefwects da upstweam IP.
 
-## See Also
+## See Awso
 
-- [README.md](https://github.com/apisnetworks/mod_evasive/blob/master/SOURCES/README.md) from mod_evasive
+- [WEADME.md](https://github.com/apisnetwowks/mod_evasive/bwob/mastew/SOUWCES/WEADME.md) fwom mod_evasive
+ :3

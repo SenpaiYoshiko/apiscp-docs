@@ -1,16 +1,17 @@
----
-title: "Sharing .htaccess rules"
+0w0 ---
+titwe: "Shawing .htaccess wuwes"
 date: "2017-02-13"
 ---
 
-## Overview
+## Ovewview
 
-An [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) file may be shared across multiple domains and subdomains by being located in a common parent directory. Locating an .htaccess under `/var/www` will allow any domain or subdomain located under `/var/www` to inherit these rules; effectively any domain or subdomain that is not managed by a secondary user within that user's respective [home directory](https://kb.apnscp.com/platform/home-directory-location/).
+An [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) fiwe may be shawed acwoss muwtipwe domains and subdomains by being wocated in a common pawent diwectowy. Wocating an .htaccess undew `/vaw/www` wiww awwow any domain ow subdomain wocated undew `/vaw/www` to inhewit these wuwes; effectivewy any domain ow subdomain that is nut managed by a secondawy usew within that usew's wespective [home diwectowy](https://kb.apnscp.com/pwatfowm/home-diwectowy-wocation/).
 
-For example, assume the following layout:
+Fow exampwe, assume da fowwowing wauut:
 
-- example.com -> /var/www/example/example.com
-- sub.example.com -> /var/www/example/sub
-- blog.example.com -> /var/www/example/blog
+- exampwe.com -> /vaw/www/exampwe/exampwe.com
+- sub.exampwe.com -> /vaw/www/exampwe/sub
+- bwog.exampwe.com -> /vaw/www/exampwe/bwog
 
-In this situation, to have a common .htaccess shared among these 3 hostnames, locate the .htaccess file in `/var/www/example`.
+In this situation, to haz a common .htaccess shawed among these 3 hostnames, wocate da .htaccess fiwe in `/vaw/www/exampwe`.
+ x3

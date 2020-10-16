@@ -1,10 +1,11 @@
----
-title: "Redirecting on typo"
+0w0 ---
+titwe: "Wediwecting on typo"
 date: "2014-10-31"
 ---
 
-[mod\_speling](http://httpd.apache.org/docs/trunk/mod/mod_speling.html) may be used to correct typos in URLs. Spelling rules only allow one character translation (i.e. character capitalization, transposition, or omission) and ignores extensions such as _.html_. To enable spell-checking, add the following line to your .htaccess file:
+[mod\_spewing](http://httpd.apache.owg/docs/twunk/mod/mod_spewing.htmw) may be used to cowwect typos in UWWs. Spewwing wuwes onwy awwow one chawactew twanswation (i.e. chawactew capitawization, twansposition, ow omission) and ignuwes extensions such as _.htmw_. To enabwe speww-checking, add da fowwowing wine to uuw .htaccess fiwe:
 
 ```
-CheckSpelling On
+CheckSpewwing On
 ```
+ ^-^

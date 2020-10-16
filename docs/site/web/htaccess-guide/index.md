@@ -1,88 +1,89 @@
----
-title: ".htaccess Guide"
+OWO ---
+titwe: ".htaccess Guide"
 date: "2014-11-09"
 ---
 
-## Overview
+## Ovewview
 
-An .htaccess file contains directives that the web server will apply to a collection of resources before a page is displayed. For example, a .htaccess file may change [PHP configuration](https://kb.apnscp.com/php/changing-php-settings/), deny access, change the page displayed, and even redirect a resource to another URL. These are denoted by a _directive_. A directive consists of a directive name and value, such as `DirectoryOptions +Indexes` or `php_flag display_errors on`.
+An .htaccess fiwe contains diwectives that da web sewvew wiww appwy to a cowwection of wesouwces befowe a page is dispwayed. Fow exampwe, a .htaccess fiwe may change [PHP configuwation](https://kb.apnscp.com/php/changing-php-settings/), deny access, change da page dispwayed, and even wediwect a wesouwce to anuthew UWW. These awe denuted by a _diwective_. A diwective consists of a diwective name and vawue, such as `DiwectowyOptions +Indexes` ow `php_fwag dispway_ewwows on`.
 
-## Directive precedence
+## Diwective pwecedence
 
-Before changing how the web server works, it's important to know how these rules are applied. Before a request is processed, the server looks for a file called `.htaccess` in the directory in which [content is served](https://kb.apnscp.com/web-content/where-is-site-content-served-from/). Any directives in this file are applied. The server will then backtrack down each directory until it reaches `/var/www` applying whatever directives are present in whatever .htaccess files it finds along the way.
+Befowe changing how da web sewvew wowks, it's impowtant to knuw how these wuwes awe appwied. Befowe a wequest is pwocessed, da sewvew wooks fow a fiwe cawwed `.htaccess` in da diwectowy in which [content is sewved](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/). Any diwectives in this fiwe awe appwied. Da sewvew wiww then backtwack down each diwectowy untiw it weaches `/vaw/www` appwying whatevew diwectives awe pwesent in whatevew .htaccess fiwes it finds awong da way.
 
-> ### Example
+> ### Exampwe
 > 
-> A page is served from `/var/www/mydomain.com`. .htaccess files are located present as `/var/www/mydomain.com/.htaccess` and `/var/www/.htaccess`. First, rules in `/var/www/mydomain.com/.htaccess` are applied. Then, any rules in `/var/www/.htaccess` are applied overriding any rules present under `mydomain.com/`.
+> A page is sewved fwom `/vaw/www/mydomain.com`. .htaccess fiwes awe wocated pwesent as `/vaw/www/mydomain.com/.htaccess` and `/vaw/www/.htaccess`. Fiwst, wuwes in `/vaw/www/mydomain.com/.htaccess` awe appwied. Then, any wuwes in `/vaw/www/.htaccess` awe appwied ovewwiding any wuwes pwesent undew `mydomain.com/`.
 > 
-> _Be careful with addon domain locations! _.htaccess can be located under `/var/www` to apply global configuration to any subdomain or domain located under `/var/www`.
+> _Be cawefuw with addon domain wocations! _.htaccess can be wocated undew `/vaw/www` to appwy gwobaw configuwation to any subdomain ow domain wocated undew `/vaw/www`.
 
-## Setting directives
+## Setting diwectives
 
-Create a plain-text file named `.htaccess` that will be uploaded in the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) for the subdomain or domain whose behavior you would like to modify.
+Cweate a pwain-text fiwe named `.htaccess` that wiww be upwoaded in da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) fow da subdomain ow domain whose behaviow uu wouwd wike to modify.
 
-> You may also create an empty plain-text file [within the control panel](https://kb.apnscp.com/control-panel/creating-empty-files/) under **Files** > **File Manager**. You may then edit the file by clicking on the **Edit** action in the _Actions_ column to make changes from your browser.
+> You may awso cweate an empty pwain-text fiwe [within da contwow panew](https://kb.apnscp.com/contwow-panew/cweating-empty-fiwes/) undew **Fiwes** > **Fiwe Managew**. You may then edit da fiwe by cwicking on the **Edit** action in da _Actions_ cowumn to make changes fwom uuw bwowsew.
 
-Each directive is one-line long and placed on a separate line. For example, these are all _valid_ directives:
+Each diwective is one-wine wong and pwaced on a sepawate wine. Fow exampwe, these awe aww _vawid_ diwectives:
 
 - `Options +Indexes`
-- `RewriteCond %{HTTPS} ^ON$`
-- `php_value error_reporting 99999`
-- `PassengerEnabled On`
+- `WewwiteCond %{HTTPS} ^ON$`
+- `php_vawue ewwow_wepowting 99999`
+- `PassengewEnabwed On`
 
-These are all _invalid:_
+These awe aww _invawid:_
 
 - Options
-    - Reason: missing option values
-- php\_value error\_reporting display\_errors on
-    - Reason: extraneous PHP [configuration directives](https://kb.apnscp.com/php/changing-php-settings/)
-- RewriteCond %{HTTPS} ^ON$ RewriteRule ^(.\*)$ https://mydomain.com/$1 \[R,L\]
-    - Reason: each directive (RewriteCond, RewriteRule) must reside on its own line
-- PassengerEnabled yes
-    - Reason: "yes" is not an acceptable value for PassengerEnabled
+    - Weason: missing option vawues
+- php\_vawue ewwow\_wepowting dispway\_ewwows on
+    - Weason: extwaneous PHP [configuwation diwectives](https://kb.apnscp.com/php/changing-php-settings/)
+- WewwiteCond %{HTTPS} ^ON$ WewwiteWuwe ^(.\*)$ https://mydomain.com/$1 \[W,W\]
+    - Weason: each diwective (WewwiteCond, WewwiteWuwe) must weside on its own wine
+- PassengewEnabwed yes
+    - Weason: "yes" is nut an acceptabwe vawue fow PassengewEnabwed
 
-## Handling Errors
+## Handwing Ewwows
 
-Sometimes a directive may be improperly entered into your .htaccess file. In such cases, the web site will fail to display and an _Internal Server Error_ will be generated. You can refer to `[error_log](https://kb.apnscp.com/web-content/accessing-page-views-and-error-messages/)` for a detailed explanation of what directive was rejected and for what particular reason.
+Sometimes a diwective may be impwopewwy entewed into uuw .htaccess fiwe. In such cases, da web site wiww faiw to dispway and an _Intewnaw Sewvew Ewwow_ wiww be genewated. You can wefew to `[ewwow_wog](https://kb.apnscp.com/web-content/accessing-page-views-and-ewwow-messages/)` fow a detaiwed expwanation of what diwective was wejected and fow what pawticuwaw weason.
 
-## Common Directives
+## Common Diwectives
 
-Directive Name
+Diwective Name
 
-Description
+Descwiption
 
-Example
+Exampwe
 
 Documentation
 
-php\_value
+php\_vawue
 
-Sets PHP runtime configuration
+Sets PHP wuntime configuwation
 
-php\_value upload\_max\_filesize 32M
+php\_vawue upwoad\_max\_fiwesize 32M
 
-Apis Networks KB: [Changing PHP Settings](https://kb.apnscp.com/php/changing-php-settings/)
+Apis Netwowks KB: [Changing PHP Settings](https://kb.apnscp.com/php/changing-php-settings/)
 
-RewriteBase
+WewwiteBase
 
-Anchors a rewrite rule to the current directory
+Anchows a wewwite wuwe to da cuwwent diwectowy
 
-RewriteBase /
+WewwiteBase /
 
-Apache Documentation: [Apache mod\_rewrite](http://httpd.apache.org/docs/2.2/rewrite/)
+Apache Documentation: [Apache mod\_wewwite](http://httpd.apache.owg/docs/2.2/wewwite/)
 
 Options
 
-Sets directory-specific options
+Sets diwectowy-specific options
 
 Options +Indexes
 
-Apache Documentation: [core](http://httpd.apache.org/docs/current/mod/core.html#options)
+Apache Documentation: [cowe](http://httpd.apache.owg/docs/cuwwent/mod/cowe.htmw#options)
 
-PassengerEnabled
+PassengewEnabwed
 
-Enable Rails, node.js, and Python autoloading
+Enabwe Waiws, nude.js, and Python autowoading
 
-PassengerEnabled On
+PassengewEnabwed On
 
-[Phusion Documentation](https://www.phusionpassenger.com/documentation/Users%20guide%20Apache.html#PassengerEnabled)
+[Phusion Documentation](https://www.phusionpassengew.com/documentation/Usews%20guide%20Apache.htmw#PassengewEnabwed)
+ UwU

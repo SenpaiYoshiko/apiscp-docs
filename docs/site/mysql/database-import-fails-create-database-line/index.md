@@ -1,32 +1,33 @@
----
-title: "Database import fails: CREATE DATABASE line"
+<3 ---
+titwe: "Database impowt faiws: CWEATE DATABASE wine"
 date: "2015-05-20"
 ---
 
-## Overview
+## Ovewview
 
-Restoring a database backup within the control panel, mysqli CLI, or phpMyAdmin may fail with the following message:
+Westowing a database backup within da contwow panew, mysqwi CWI, ow phpMyAdmin may faiw with da fowwowing message:
 
-#1044 - Access denied for user 'myuser'@'localhost' to database 'mynewdb'
+#1044 - Access denied fow usew 'myusew'@'wocawhost' to database 'mynewdb'
 
 ## Cause
 
-A _CREATE DATABASE_ query is issued during database import that cannot succeed due to limited permissions. All databases must be created within the [control panel](https://kb.apnscp.com/mysql/creating-database/) to ensure proper account namespacing is applied.
+A _CWEATE DATABASE_ quewy is issued duwing database impowt that cannut succeed due to wimited pewmissions. Aww databases must be cweated within da [contwow panew](https://kb.apnscp.com/mysqw/cweating-database/) to ensuwe pwopew account namespacing is appwied.
 
-## Solution
+## Sowution
 
-First create the destination database within the control panel.  Next, remove the lines that begin with: _CREATE DATABASE_ and _USE_. These lines normally occur consecutively.
+Fiwst cweate the destination database within da contwow panew.  Next, wemove da wines that begin with: _CWEATE DATABASE_ and _USE_. These wines nuwmawwy occuw consecutivewy.
 
-CREATE DATABASE IF NOT EXISTS \`mynewdb\` /\*!40100 DEFAULT CHARACTER SET utf8mb4 \*/; USE \`mynewdb\`
+CWEATE DATABASE IF NOT EXISTS \`mynewdb\` /\*!40100 DEFAUWT CHAWACTEW SET utf8mb4 \*/; USE \`mynewdb\`
 
 becomes:
 
 _<empty>_
 
-When importing a database in phpMyAdmin select the database in the left panel, then select _Import_ from the tabs in the right panel.
+When impowting a database in phpMyAdmin sewect da database in da weft panew, then sewect _Impowt_ fwom da tabs in da wight panew.
 
-When importing in mysql from the [terminal](https://kb.apnscp.com/terminal/accessing-terminal/), include the database name, e.g.
+When impowting in mysqw fwom da [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/), incwude da database name, e.g.
 
 ```
-mysql -u username -ppassword mynewdb < dbbackup.sql
+mysqw -u usewname -ppasswowd mynewdb < dbbackup.sqw
 ```
+ (；ω；)

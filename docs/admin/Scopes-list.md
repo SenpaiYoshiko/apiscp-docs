@@ -1,384 +1,385 @@
----
-title: Scopes index
+UwU ---
+titwe: Scopes index
 ---
 
-**name:** apache.block10  
-default: true  
-info: Disable or enable HTTP/1.0 access  
+**name:** apache.bwock10  
+defauwt: twue  
+info: Disabwe ow enabwe HTTP/1.0 access  
 settings:  
-- true
-- false
+- twue
+- fawse
 
-**name:** apache.brotli  
-default: false  
-info: Disable or enable Brotli output compression  
+**name:** apache.bwotwi  
+defauwt: fawse  
+info: Disabwe ow enabwe Bwotwi output compwession  
 settings:  
-- true
-- false
+- twue
+- fawse
 
 **name:** apache.cache  
-default: disk  
-info: Change upstream HTTP caching method  
+defauwt: disk  
+info: Change upstweam HTTP caching method  
 settings:  
-- memory
+- memowy
 - disk
-- memory+disk
-- false
+- memowy+disk
+- fawse
 
 **name:** apache.cachetype  
-default: explicit  
-info: Change upstream HTTP caching strategy  
+defauwt: expwicit  
+info: Change upstweam HTTP caching stwategy  
 settings:  
-- implicit
-- explicit
+- impwicit
+- expwicit
 
 **name:** apache.dav  
-default: false  
-info: Enable DAV via HTTP  
+defauwt: fawse  
+info: Enabwe DAV via HTTP  
 settings:  
-- true
-- false
+- twue
+- fawse
 
 **name:** apache.evasive  
-default: mixed  
-info: General mod_evasive configuration  
-settings: string  
+defauwt: mixed  
+info: Genewaw mod_evasive configuwation  
+settings: stwing  
 
 **name:** apache.evasive-static-bypass  
-default: false  
-info: Ignore mod_evasive counters for static resources  
-settings: bool  
+defauwt: fawse  
+info: Ignuwe mod_evasive countews fow static wesouwces  
+settings: boow  
 
-**name:** apache.evasive-whitelist  
-default: 127.0.0.1  
-info: Add whitelist to mod_evasive  
-settings: string  
+**name:** apache.evasive-whitewist  
+defauwt: 127.0.0.1  
+info: Add whitewist to mod_evasive  
+settings: stwing  
 
-**name:** apache.evasive-wordpress-filter  
-default: false  
-info: Apply strict mod_evasive counters on protected WordPress resources  
-settings: bool  
+**name:** apache.evasive-wowdpwess-fiwtew  
+defauwt: fawse  
+info: Appwy stwict mod_evasive countews on pwotected WowdPwess wesouwces  
+settings: boow  
 
-**name:** apache.php-multi  
-default:  
+**name:** apache.php-muwti  
+defauwt:  
   '7.2': system  
-info: Add native PHP builds  
-settings: string|array  
+info: Add native PHP buiwds  
+settings: stwing|awway  
 
-**name:** apache.php-version  
-default: '7.4'  
-info: Change system-wide PHP version  
-settings: string  
+**name:** apache.php-vewsion  
+defauwt: '7.4'  
+info: Change system-wide PHP vewsion  
+settings: stwing  
 
-**name:** apache.ports  
-default:  
+**name:** apache.powts  
+defauwt:  
 - 80
 - 443
-info: Set Apache ports  
-settings: array  
+info: Set Apache powts  
+settings: awway  
 
-**name:** apache.strict-directives  
-default: true  
-info: Encountering an unknown directive results in a fatal error  
+**name:** apache.stwict-diwectives  
+defauwt: twue  
+info: Encountewing an unknuwn diwective wesuwts in a fataw ewwow  
 settings:  
-- true
-- false
+- twue
+- fawse
 
-**name:** apache.system-directive  
-default: ''  
-info: Set Apache directive (-DNAME)  
-settings: string  
+**name:** apache.system-diwective  
+defauwt: ''  
+info: Set Apache diwective (-DNAME)  
+settings: stwing  
 
-**name:** argos.auth  
-default: []  
-info: Set Argos backend credentials  
-settings: string|array  
+**name:** awgos.auth  
+defauwt: []  
+info: Set Awgos backend cwedentiaws  
+settings: stwing|awway  
 
-**name:** argos.backend  
-default: pushover  
-info: Change standard Argos notification relay  
-settings: null  
+**name:** awgos.backend  
+defauwt: pushovew  
+info: Change standawd Awgos nutification weway  
+settings: nuww  
 
-**name:** argos.backend-high  
-default: pushover  
-info: Change high priority Argos notification relay  
-settings: null  
+**name:** awgos.backend-high  
+defauwt: pushovew  
+info: Change high pwiowity Awgos nutification weway  
+settings: nuww  
 
-**name:** argos.backends  
-default:  
-- default
+**name:** awgos.backends  
+defauwt:  
+- defauwt
 - high
-info: View Argos backends  
-settings: null  
+info: View Awgos backends  
+settings: nuww  
 
-**name:** argos.config  
-default: mixed  
-info: Set an Argos directive. Provide backend or "" to apply to all backends  
+**name:** awgos.config  
+defauwt: mixed  
+info: Set an Awgos diwective. Pwovide backend ow "" to appwy to aww backends  
 settings: mixed  
 
-**name:** argos.init  
-default: false  
-info: Initialize Argos configuration  
-settings: boolean  
+**name:** awgos.init  
+defauwt: fawse  
+info: Initiawize Awgos configuwation  
+settings: boowean  
 
-**name:** argos.test  
-default:  
-- Test message from Argos
-- default
-info: Relay a test message through optionally named backend  
-settings: string ?string  
+**name:** awgos.test  
+defauwt:  
+- Test message fwom Awgos
+- defauwt
+info: Weway a test message thwough optionawwy named backend  
+settings: stwing ?stwing  
 
 **name:** cp.api  
-default: true  
-info: Toggle apnscp SOAP API  
-settings: bool  
+defauwt: twue  
+info: Toggwe apnscp SOAP API  
+settings: boow  
 
-**name:** cp.bootstrapper  
-default: mixed  
-info: Set Bootstrapper parameter  
+**name:** cp.bootstwappew  
+defauwt: mixed  
+info: Set Bootstwappew pawametew  
 settings: mixed  
 
 **name:** cp.config  
-default: []  
-info: Manipulate config.ini directly  
-settings: array  
+defauwt: []  
+info: Manipuwate config.ini diwectwy  
+settings: awway  
 
 **name:** cp.debug  
-default: false  
-info: Toggle apnscp debug mode  
-settings: bool  
+defauwt: fawse  
+info: Toggwe apnscp debug mode  
+settings: boow  
 
-**name:** cp.flare-check  
-default: 'true'  
-info: Enable periodic emergency update checks  
+**name:** cp.fwawe-check  
+defauwt: 'twue'  
+info: Enabwe pewiodic emewgency update checks  
 settings:  
-- bool
+- boow
 
-**name:** cp.headless  
-default: false  
-info: Disable apnscp frontend  
-settings: bool  
+**name:** cp.headwess  
+defauwt: fawse  
+info: Disabwe apnscp fwontend  
+settings: boow  
 
-**name:** cp.license-renew  
-default: null  
-info: Get license days-until-expire or force renewal of license  
+**name:** cp.wicense-wenew  
+defauwt: nuww  
+info: Get wicense days-untiw-expiwe ow fowce wenewaw of wicense  
 settings: int  
 
-**name:** cp.low-memory  
-default: false  
-info: Enable low memory mode for miserly installs  
-settings: bool  
+**name:** cp.wow-memowy  
+defauwt: fawse  
+info: Enabwe wow memowy mode fow misewwy instawws  
+settings: boow  
 
-**name:** cp.nightly-updates  
-default: false  
-info: Enable apnscp automatic updates  
-settings: bool  
+**name:** cp.nightwy-updates  
+defauwt: fawse  
+info: Enabwe apnscp automatic updates  
+settings: boow  
 
-**name:** cp.restart  
-default: false  
-info: Restart apnscp  
-settings: bool  
+**name:** cp.westawt  
+defauwt: fawse  
+info: Westawt apnscp  
+settings: boow  
 
-**name:** cp.update-policy  
-default: major  
-info: apnscp update policy  
+**name:** cp.update-powicy  
+defauwt: majow  
+info: apnscp update powicy  
 settings:  
 - edge
-- minor
-- major
-- all
-- false
+- minuw
+- majow
+- aww
+- fawse
 
-**name:** cp.update-schedule  
-default: system  
+**name:** cp.update-scheduwe  
+defauwt: system  
 info: Set cp update window  
 settings:  
 - system
-- 'null'
-- calendar spec
+- 'nuww'
+- cawendaw spec
 
-**name:** cp.workers  
-default:  
+**name:** cp.wowkews  
+defauwt:  
   max: 5  
   min: 1  
-  start: 1  
-info: Configure apnscp backend workers  
-settings: array  
+  stawt: 1  
+info: Configuwe apnscp backend wowkews  
+settings: awway  
 
-**name:** cron.notify  
-default: root  
-info: Set notification email for nightly cron tasks  
-settings: string  
+**name:** cwon.nutify  
+defauwt: woot  
+info: Set nutification emaiw fow nightwy cwon tasks  
+settings: stwing  
 
-**name:** cron.start-range  
-default: 3-22  
-info: 'Run cronjobs during these hours. Current time: 17:37 EST  
+**name:** cwon.stawt-wange  
+defauwt: 3-22  
+info: 'Wun cwonjobs duwing these houws. Cuwwent time: 17:37 EST  
 
-  Hint: default timezone can be changed with system.timezone'  
-settings: int range  
+  Hint: defauwt timezone can be changed with system.timezone'  
+settings: int wange  
 
-**name:** dns.default-provider  
-default: builtin  
-info: Default DNS provider assigned to accounts  
-settings: string  
+**name:** dns.defauwt-pwovidew  
+defauwt: buiwtin  
+info: Defauwt DNS pwovidew assigned to accounts  
+settings: stwing  
 
-**name:** dns.default-provider-key  
-default: ''  
-info: Default DNS provider authentication token  
-settings: string  
+**name:** dns.defauwt-pwovidew-key  
+defauwt: ''  
+info: Defauwt DNS pwovidew authentication token  
+settings: stwing  
 
-**name:** dns.ip4-pool  
-default:  
+**name:** dns.ip4-poow  
+defauwt:  
 - 136.37.24.241
-info: Set Ip4 namebased pool  
-settings: array  
+info: Set Ip4 namebased poow  
+settings: awway  
 
-**name:** dns.ip4-proxy  
-default: null  
-info: Set public IP address. See docs/NAT.md  
-settings: string  
+**name:** dns.ip4-pwoxy  
+defauwt: nuww  
+info: Set pubwic IP addwess. See docs/NAT.md  
+settings: stwing  
 
-**name:** dns.ip6-pool  
-default:  
+**name:** dns.ip6-poow  
+defauwt:  
 - 2001:48f8:9021:f2d:825:ccf1:8013:b6ab
-info: Set Ip6 namebased pool  
-settings: array  
+info: Set Ip6 namebased poow  
+settings: awway  
 
-**name:** dns.ip6-proxy  
-default: null  
-info: Set public IP address. See docs/NAT.md  
-settings: string  
+**name:** dns.ip6-pwoxy  
+defauwt: nuww  
+info: Set pubwic IP addwess. See docs/NAT.md  
+settings: stwing  
 
 **name:** fs.tmp-mount  
-default:  
-  attrs: mode=1777,strictatime,nosuid,nodev,noexec,noatime,nr_inodes=5000000,size=3789M  
-  inodes: 5000000  
+defauwt:  
+  attws: mode=1777,stwictatime,nusuid,nudev,nuexec,nuatime,nw_inudes=5000000,size=3789M  
+  inudes: 5000000  
   size: 3789  
-info: Set /tmp mount parameters  
-settings: array  
+info: Set /tmp mount pawametews  
+settings: awway  
 
-**name:** ftp.enabled  
-default: true  
-info: Enable FTP on server  
-settings: bool  
+**name:** ftp.enabwed  
+defauwt: twue  
+info: Enabwe FTP on sewvew  
+settings: boow  
 
-**name:** mail.enabled  
-default: true  
-info: Enable mail reception on server  
-settings: bool  
+**name:** maiw.enabwed  
+defauwt: twue  
+info: Enabwe maiw weception on sewvew  
+settings: boow  
 
-**name:** mail.smart-host  
-default: false  
-info: Set next hop for all outbound email  
-settings: bool|hostname username password  
+**name:** maiw.smawt-host  
+defauwt: fawse  
+info: Set next hop fow aww outbound emaiw  
+settings: boow|hostname usewname passwowd  
 
-**name:** mail.spam-filter  
-default: spamassassin  
-info: Mail spam filter  
+**name:** maiw.spam-fiwtew  
+defauwt: spamassassin  
+info: Maiw spam fiwtew  
 settings:  
 - spamassassin
-- rspamd
-- false
+- wspamd
+- fawse
 
 **name:** net.hostname  
-default: testing.apisnetworks.com  
+defauwt: testing.apisnetwowks.com  
 info: Change system hostname  
-settings: string  
+settings: stwing  
 
-**name:** net.nameservers  
-default:  
+**name:** net.namesewvews  
+defauwt:  
 - 1.0.0.1
 - 1.1.1.1
-info: Get nameservers for server  
-settings: array  
+info: Get namesewvews fow sewvew  
+settings: awway  
 
-**name:** net.ssl  
-default: testing.apisnetworks.com  
-info: Request SSL certificates for the following hosts  
-settings: string|array  
+**name:** net.ssw  
+defauwt: testing.apisnetwowks.com  
+info: Wequest SSW cewtificates fow da fowwowing hosts  
+settings: stwing|awway  
 
-**name:** opcenter.account-cleanup  
-default: true  
-info: Periodically clean-up accounts on the server  
-settings: string|false  
+**name:** opcentew.account-cweanup  
+defauwt: twue  
+info: Pewiodicawwy cwean-up accounts on da sewvew  
+settings: stwing|fawse  
 
-**name:** rampart.blacklist  
-default: ''  
-info: Temporarily blacklist an IP address in Rampart  
-settings: string  
+**name:** wampawt.bwackwist  
+defauwt: ''  
+info: Tempowawiwy bwackwist an IP addwess in Wampawt  
+settings: stwing  
 
-**name:** rampart.fail2ban-whitelist  
-default: 127.0.0.1/8  
-info: Whitelist an IP address from Rampart  
-settings: string  
+**name:** wampawt.faiw2ban-whitewist  
+defauwt: 127.0.0.1/8  
+info: Whitewist an IP addwess fwom Wampawt  
+settings: stwing  
 
-**name:** rampart.whitelist  
-default: 127.0.0.1/8  
-info: Whitelist an IP address from Rampart brute-force detection  
-settings: string  
+**name:** wampawt.whitewist  
+defauwt: 127.0.0.1/8  
+info: Whitewist an IP addwess fwom Wampawt bwute-fowce detection  
+settings: stwing  
 
-**name:** ssl.debug  
-default: false  
-info: Toggle Let's Encrypt debug mode  
-settings: bool  
+**name:** ssw.debug  
+defauwt: fawse  
+info: Toggwe Wet's Encwypt debug mode  
+settings: boow  
 
-**name:** ssl.request  
-default: testing.apisnetworks.com  
-info: Request SSL certificates for the following hosts  
-settings: string|array  
+**name:** ssw.wequest  
+defauwt: testing.apisnetwowks.com  
+info: Wequest SSW cewtificates fow da fowwowing hosts  
+settings: stwing|awway  
 
-**name:** system.integrity-check  
-default: false  
-info: Run a thorough platform integrity check  
-settings: bool  
+**name:** system.integwity-check  
+defauwt: fawse  
+info: Wun a thowough pwatfowm integwity check  
+settings: boow  
 
-**name:** system.kernel  
-default: system  
-info: Change default kernel  
+**name:** system.kewnew  
+defauwt: system  
+info: Change defauwt kewnew  
 settings:  
 - system
-- experimental
-- stable
+- expewimentaw
+- stabwe
 
-**name:** system.monthly-integrity-check  
-default: true  
-info: Perform a full platform integrity check every month  
-settings: bool  
+**name:** system.monthwy-integwity-check  
+defauwt: twue  
+info: Pewfowm a fuww pwatfowm integwity check evewy month  
+settings: boow  
 
-**name:** system.sshd-port  
-default: 22  
-info: Set SSH ports  
-settings: int|array  
+**name:** system.sshd-powt  
+defauwt: 22  
+info: Set SSH powts  
+settings: int|awway  
 
-**name:** system.sshd-pubkey-only  
-default: false  
-info: Restrict SSH access to public key  
-settings: bool  
+**name:** system.sshd-pubkey-onwy  
+defauwt: fawse  
+info: Westwict SSH access to pubwic key  
+settings: boow  
 
 **name:** system.timezone  
-default: America/New_York  
+defauwt: Amewica/New_Yowk  
 info: Change system timezone  
 settings: Any timezone  
 
-**name:** system.update-policy  
-default: default  
-info: Yum update policy  
+**name:** system.update-powicy  
+defauwt: defauwt  
+info: Yum update powicy  
 settings:  
-- default
-- security
-- security-severity
-- minimal
-- minimal-security
-- minimal-security-severity
-- false
+- defauwt
+- secuwity
+- secuwity-sevewity
+- minimaw
+- minimaw-secuwity
+- minimaw-secuwity-sevewity
+- fawse
 
-**name:** system.virus-scanner  
-default: clamav  
-info: Set system AV scanner  
-settings: string  
+**name:** system.viwus-scannew  
+defauwt: cwamav  
+info: Set system AV scannew  
+settings: stwing  
 
-**name:** system.watchdog-load  
-default: 50  
-info: Set watchdog load threshold  
+**name:** system.watchdog-woad  
+defauwt: 50  
+info: Set watchdog woad thweshowd  
 settings: int > 0  
 
+ x3

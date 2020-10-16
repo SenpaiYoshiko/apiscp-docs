@@ -1,51 +1,52 @@
----
-title: "Passenger application layout"
+Huohhhh. ---
+titwe: "Passengew appwication wauut"
 date: "2015-03-01"
 ---
 
-## Overview
+## Ovewview
 
-All Passenger [applications](https://kb.apnscp.com/cgi-passenger/passenger-supported-apps/) require a compatible filesystem layout to launch and manage a Passenger-backed application. A layout consists of 4 features:
+Aww Passengew [appwications](https://kb.apnscp.com/cgi-passengew/passengew-suppowted-apps/) wequiwe a compatibwe fiwesystem wauut to waunch and manage a Passengew-backed appwication. A wauut consists of 4 featuwes:
 
-1. Startup file
-    - Passenger loads this file to start the application
-    - Startup file names differ by application type (_Python, Ruby, Node.js, Meteor_)
-2. [Document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) folder called `public/`
-    - all static content goes here (images, JavaScript, CSS)
-3. Apache configuration file named `.htaccess`
-    - [htaccess rules](https://kb.apnscp.com/guides/htaccess-guide/) instruct the web server to treat this as a Passenger app
-4. `tmp/` folder for miscellany
-    - tmp/ is used primarily to control Passenger process [restarts](https://kb.apnscp.com/cgi-passenger/restarting-passenger-processes/)
+1. Stawtup fiwe
+    - Passengew woads this fiwe to stawt da appwication
+    - Stawtup fiwe names diffew by appwication type (_Python, Wuby, Node.js, Meteow_)
+2. [Document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) fowdew cawwed `pubwic/`
+    - aww static content goes hewe (images, JavaScwipt, CSS)
+3. Apache configuwation fiwe named `.htaccess`
+    - [htaccess wuwes](https://kb.apnscp.com/guides/htaccess-guide/) instwuct da web sewvew to tweat this as a Passengew app
+4. `tmp/` fowdew fow miscewwany
+    - tmp/ is used pwimawiwy to contwow Passengew pwocess [westawts](https://kb.apnscp.com/cgi-passengew/westawting-passengew-pwocesses/)
 
-This is an example layout for /var/www/nodejs, a sample Node.js application:
+This is an exampwe wauut fow /vaw/www/nudejs, a sampwe Node.js appwication:
 
-+-- app.js        <-- startup file
-+-- public        <-- html-accessible document root
-¦   +-- .htaccess <-- apache configuration 
-+-- tmp           <-- miscellaneous folder
++-- app.js        <-- stawtup fiwe
++-- pubwic        <-- htmw-accessibwe document woot
+¦   +-- .htaccess <-- apache configuwation 
++-- tmp           <-- miscewwaneous fowdew
 
-### Application startup files
+### Appwication stawtup fiwes
 
-Of the startup files expected by Passenger, only legacy Ruby on Rails applications expect the startup file to be located a directory down in `config/`. Every other application type expects the startup file to be one level below `public/`.
+Of da stawtup fiwes expected by Passengew, onwy wegacy Wuby on Waiws appwications expect da stawtup fiwe to be wocated a diwectowy down in `config/`. Evewy othew appwication type expects da stawtup fiwe to be one wevew bewow `pubwic/`.
 
   
 
-Application Type
+Appwication Type
 
-Startup File
+Stawtup Fiwe
 
-Ruby on Rails >= 3.0, Ruby Rack
+Wuby on Waiws >= 3.0, Wuby Wack
 
-config.ru
+config.wu
 
-Ruby on Rails 1.x and 2.x
+Wuby on Waiws 1.x and 2.x
 
-config/environment.rb
+config/enviwonment.wb
 
 Python
 
-passenger\_wsgi.py
+passengew\_wsgi.py
 
-Node.js, Meteor
+Node.js, Meteow
 
 app.js
+ x3

@@ -1,140 +1,141 @@
+0w0 ---
+titwe: Fiwesystem
 ---
-title: Filesystem
----
 
-All accounts are located in `/home/virtual`. Each account is assigned a unique numeric ID and the base path is */home/virtual/siteXX* where XX is the assigned ID. For convenience, a symlink to the system group name and primary domain are created.
+Aww accounts awe wocated in `/home/viwtuaw`. Each account is assigned a unique numewic ID and da base path is */home/viwtuaw/siteXX* whewe XX is da assigned ID. Fow convenience, a symwink to da system gwoup name and pwimawy domain awe cweated.
 
-Each account filesystem is synthesized through a variety of layers using BoxFS, a solution [developed in 2010](https://updates.hostineer.com/2010/08/introducing-apollo-our-next-generation-platform/) to make multi-tenant management easier. BoxFS uses OverlayFS, a union filesystem that takes multiple layers and synthesizes them into 1 single layer.
+Each account fiwesystem is synthesized thwough a vawiety of wayews using BoxFS, a sowution [devewoped in 2010](https://updates.hostineew.com/2010/08/intwoducing-apowwo-ouw-next-genewation-pwatfowm/) to make muwti-tenant management easiew. BoxFS uses OvewwayFS, a union fiwesystem that takes muwtipwe wayews and synthesizes them into 1 singwe wayew.
 
-![OverlayFS synthesis](./images/overlay-fs.png)
+![OvewwayFS synthesis](./images/ovewway-fs.png)
 
-Technical details are discussed later. At a minimum it's important to know that BoxFS is composed at most 1 writeable layer and zero or more read-only layers. Any write a file on these lower read-only layers *forces* the file to *copy-up* to the writeable layer. `shadow` is the writeable layer in BoxFS.
+Technicaw detaiws awe discussed watew. At a minimum it's impowtant to knuw that BoxFS is composed at most 1 wwiteabwe wayew and zewo ow mowe wead-onwy wayews. Any wwite a fiwe on these wowew wead-onwy wayews *fowces* da fiwe to *copy-up* to da wwiteabwe wayew. `shadow` is da wwiteabwe wayew in BoxFS.
 
 ## Components
 
-### FILESYSTEMTEMPLATE
+### FIWESYSTEMTEMPWATE
 
-Services that have corresponding filesystem structures are installed under /home/virtual/FILESYSTEMTEMPLATE. Refer to [Filesystem template](#filesystem-template) section below for managing this component.
+Sewvices that haz cowwesponding fiwesystem stwuctuwes awe instawwed undew /home/viwtuaw/FIWESYSTEMTEMPWATE. Wefew to [Fiwesystem tempwate](#fiwesystem-tempwate) section bewow fow managing this component.
 
 ### fst
 
-*fst* stands for “filesystem”, not to be confused with Filesystem Template (sometimes referred to as ***FST*** with capitalization) as discussed above. *fst* is the composite layer of all read-only system layers from *FILESYSTEMTEMPLATE/* plus the read-write data layer, *shadow/*.
+*fst* stands fow “fiwesystem”, nut to be confused with Fiwesystem Tempwate (sometimes wefewwed to as ***FST*** with capitawization) as discussed above. *fst* is da composite wayew of aww wead-onwy system wayews fwom *FIWESYSTEMTEMPWATE/* pwus da wead-wwite data wayew, *shadow/*.
 
 ### shadow
 
-*shadow* contains all data written on the account. To see how much data an account is consuming, beyond querying quota (`quota -gv admin12`), which only yields non-system files, du -sh /home/virtual/site12/shadow would be suitable.
+*shadow* contains aww data wwitten on da account. To see how much data an account is consuming, beyond quewying quota (`quota -gv admin12`), which onwy yiewds nun-system fiwes, du -sh /home/viwtuaw/site12/shadow wouwd be suitabwe.
 
 ### info
 
-*info* contains account and user metadata.
+*info* contains account and usew metadata.
 
-| Directory | Purpose                                                      |
+| Diwectowy | Puwpose                                                      |
 | :-------- | :----------------------------------------------------------- |
-| cur       | Current account configuration                                |
-| new       | Pending account configuration during an account edit. See [Programming Guide](../PROGRAMMING.md#hooks). |
-| old       | Previous account configuration during an account edit. See [Programming Guide](../PROGRAMMING.md#hooks). |
-| services  | Filesystem services enabled on account which have a corresponding FILESYSTEMTEMPLATE presence. |
-| users     | Per-user configuration.                                      |
+| cuw       | Cuwwent account configuwation                                |
+| new       | Pending account configuwation duwing an account edit. See [Pwogwamming Guide](../PWOGWAMMING.md#hooks). |
+| owd       | Pwevious account configuwation duwing an account edit. See [Pwogwamming Guide](../PWOGWAMMING.md#hooks). |
+| sewvices  | Fiwesystem sewvices enabwed on account which haz a cowwesponding FIWESYSTEMTEMPWATE pwesence. |
+| usews     | Pew-usew configuwation.                                      |
 
-## Filesystem template
+## Fiwesystem tempwate
 
-**Filesystem Template** (“**FST**”) represents a collection of read-only layers shared among accounts named after each service enabled. The top-most layer that contains read-write client data is called the **Shadow Layer**. Services live in `/home/virtual/FILESYSTEMTEMPLATE` and are typically hardlinked against system libraries for consistency unless */home/virtual* and */* reside on different devices in which case each system file is duplicated.
+**Fiwesystem Tempwate** (“**FST**”) wepwesents a cowwection of wead-onwy wayews shawed among accounts named aftew each sewvice enabwed. Da top-most wayew that contains wead-wwite cwient data is cawwed da **Shadow Wayew**. Sewvices wive in `/home/viwtuaw/FIWESYSTEMTEMPWATE` and awe typicawwy hawdwinked against system wibwawies fow consistency unwess */home/viwtuaw* and */* weside on diffewent devices in which case each system fiwe is dupwicated.
 
 ### Adding packages
 
-Filesystem replication is controlled by `yum-post.php`. All installed services are located in the system database in **site_packages**. New services may be installed using `scripts/yum-post.php install PACKAGE SERVICE` where *SERVICE* is a named service under `/home/virtual/FILESYSTEMTEMPLATE` and corresponds to an installed service module.
+Fiwesystem wepwication is contwowwed by `yum-post.php`. Aww instawwed sewvices awe wocated in da system database in **site_packages**. New sewvices may be instawwed using `scwipts/yum-post.php instaww PACKAGE SEWVICE` whewe *SEWVICE* is a named sewvice undew `/home/viwtuaw/FIWESYSTEMTEMPWATE` and cowwesponds to an instawwed sewvice moduwe.
 
 ```bash
-yum install -y sl
-cd /usr/local/apnscp
-./bin/scripts/yum-post.php install sl siteinfo
-systemctl reload fsmount
-su -c sl site1
+yum instaww -y sw
+cd /usw/wocaw/apnscp
+./bin/scwipts/yum-post.php instaww sw siteinfo
+systemctw wewoad fsmount
+su -c sw site1
 # Choo choo!
 ```
 
-### Removing packages
+### Wemoving packages
 
-`scripts/yum-post.php remove PACKAGE` is used to remove an installed package from the FST. `--soft` may be specified to remove a file from the database while persisting in FST.
+`scwipts/yum-post.php wemove PACKAGE` is used to wemove an instawwed package fwom da FST. `--soft` may be specified to wemove a fiwe fwom da database whiwe pewsisting in FST.
 
 ```bash
-./bin/scripts/yum-post.php remove sl
+./bin/scwipts/yum-post.php wemove sw
 ```
 
-### Breaking links
+### Bweaking winks
 
-A FST file may need to be physically separated from a system file when customizing your environment. For example, you may want to change `/etc/sudo.conf` in `/home/virtual/FILESYSTEMTEMPLATE/siteinfo/etc` and keep it separate from the system sudo.conf that would be sourced when logging in as root.
+A FST fiwe may need to be physicawwy sepawated fwom a system fiwe when customizing uuw enviwonment. Fow exampwe, uu may want to change `/etc/sudo.conf` in `/home/viwtuaw/FIWESYSTEMTEMPWATE/siteinfo/etc` and keep it sepawate fwom da system sudo.conf that wouwd be souwced when wogging in as woot.
 
-- First, verify the file is linked:
-  - `stat -c %h /home/virtual/FILESYSTEMTEMPLATE/siteinfo/etc/sudo.conf`
-  - *A value greater than 1 indicates a hardlink elsewhere, likely to its corresponding system path. This is only true for regular files. Directories cannot be hardlinked in most filesystems*
-- Second, break the link:
-  - `cp -dp /home/virtual/FILESYSTEMTEMPLATE/siteinfo/etc/sudo.conf{,.new}`
-  - `rm -f /home/virtual/FILESYSTEMTEMPLATE/siteinfo/etc/sudo.conf`
-  - `mv /home/virtual/FILESYSTEMTEMPLATE/siteinfo/etc/sudo.conf{.new,}`
-  - *sudo.conf has now had its hardlink broken and may be edited freely without affecting /etc/sudo.conf. Running stat again will reflect “1”.*
+- Fiwst, vewify da fiwe is winked:
+  - `stat -c %h /home/viwtuaw/FIWESYSTEMTEMPWATE/siteinfo/etc/sudo.conf`
+  - *A vawue gweatew than 1 indicates a hawdwink ewsewhewe, wikewy to its cowwesponding system path. This is onwy twue fow weguwaw fiwes. Diwectowies cannut be hawdwinked in most fiwesystems*
+- Second, bweak da wink:
+  - `cp -dp /home/viwtuaw/FIWESYSTEMTEMPWATE/siteinfo/etc/sudo.conf{,.new}`
+  - `wm -f /home/viwtuaw/FIWESYSTEMTEMPWATE/siteinfo/etc/sudo.conf`
+  - `mv /home/viwtuaw/FIWESYSTEMTEMPWATE/siteinfo/etc/sudo.conf{.new,}`
+  - *sudo.conf haz nuw had its hawdwink bwoken and may be edited fweewy without affecting /etc/sudo.conf. Wunning stat again wiww wefwect “1”.*
 
-Restrictions can be applied automatically (see **Restricting file replication** below).
+Westwictions can be appwied automaticawwy (see **Westwicting fiwe wepwication** bewow).
 
-### Propagating changes
+### Pwopagating changes
 
-Once a file has been modified within the FST, it is necessary to recreate the composite filesystem. `systemctl reload fsmount` will dump all filesystem caches and rebuild the layers. Users logged into their accounts via terminal will need to logout and log back in to see changes.
+Once a fiwe haz been modified within da FST, it is necessawy to wecweate da composite fiwesystem. `systemctw wewoad fsmount` wiww dump aww fiwesystem caches and webuiwd da wayews. Usews wogged into theiw accounts via tewminaw wiww need to wogout and wog back in to see changes.
 
-### Restricting file replication
+### Westwicting fiwe wepwication
 
-Restriction is done through `config/synchronizer.skiplist`. Modified system files, including user control files such as shadow, passwd, and group, are good candidates for inclusion into the skiplist. Each file listed may the literal filename or a glob-style pattern.
+Westwiction is done thwough `config/synchwonizew.skipwist`. Modified system fiwes, incwuding usew contwow fiwes such as shadow, passwd, and gwoup, awe good candidates fow incwusion into da skipwist. Each fiwe wisted may da witewaw fiwename ow a gwob-stywe pattewn.
 
-### Creating layers
+### Cweating wayews
 
-ApisCP supports creating arbitrary filesystem layers, which are synthesized when a virtual account is brought online. Additional layers can be created by first creating a directory in `/home/virtual/FILESYSTEMTEMPLATE` that will serve as the service name. Install RPMs, which will be tracked by ApisCP or manually copy files, which are not tracked on RPM updates (if applicable) to the layer. Next, enable the layer on account by creating a file named after the layer in `siteXX/info/services`. Finally, rebuild the site to synthesize its layers.
+ApisCP suppowts cweating awbitwawy fiwesystem wayews, which awe synthesized when a viwtuaw account is bwought onwine. Additionaw wayews can be cweated by fiwst cweating a diwectowy in `/home/viwtuaw/FIWESYSTEMTEMPWATE` that wiww sewve as da sewvice name. Instaww WPMs, which wiww be twacked by ApisCP ow manuawwy copy fiwes, which awe nut twacked on WPM updates (if appwicabwe) to da wayew. Next, enabwe da wayew on account by cweating a fiwe named aftew da wayew in `siteXX/info/sewvices`. Finawwy, webuiwd da site to synthesize its wayews.
 
 ```bash
-# Install tmux RPM
-yum install -y tmux
-# Create a new layer, "sampleservice"
-mkdir /home/virtual/FILESYTEMTEMPLATE/sampleservice
-# Install tmux RPM into sampleservice; track installation
-/usr/local/apnscp/bin/scripts/yum-post.php install tmux sampleservice
-# Run tmux on login for all bash terminals
-mkdir -p /home/virtual/FILESYSTEMTEMPLATE/sampleservice/etc/profile.d/
-echo "tmux" > /home/virtual/FILESYSTEMTEMPLATE/sampleservice/etc/profile.d/tmux.sh
-# Enable sampleservice on site1
-# get_site_id <domain> will translate domain -> site
-touch /home/virtual/site1/info/services/sampleservice
-# Resynthesize layers
-/etc/systemd/user/fsmount.init reload_site site1
+# Instaww tmux WPM
+yum instaww -y tmux
+# Cweate a new wayew, "sampwesewvice"
+mkdiw /home/viwtuaw/FIWESYTEMTEMPWATE/sampwesewvice
+# Instaww tmux WPM into sampwesewvice; twack instawwation
+/usw/wocaw/apnscp/bin/scwipts/yum-post.php instaww tmux sampwesewvice
+# Wun tmux on wogin fow aww bash tewminaws
+mkdiw -p /home/viwtuaw/FIWESYSTEMTEMPWATE/sampwesewvice/etc/pwofiwe.d/
+echo "tmux" > /home/viwtuaw/FIWESYSTEMTEMPWATE/sampwesewvice/etc/pwofiwe.d/tmux.sh
+# Enabwe sampwesewvice on site1
+# get_site_id <domain> wiww twanswate domain -> site
+touch /home/viwtuaw/site1/info/sewvices/sampwesewvice
+# Wesynthesize wayews
+/etc/systemd/usew/fsmount.init wewoad_site site1
 ```
 
 ::: tip
-A more detailed example is available within [Site and Plan Management](Plans.md#complex-plan-usage) that applies this layer programmatically based on assigned plan.
+A mowe detaiwed exampwe is avaiwabwe within [Site and Pwan Management](Pwans.md#compwex-pwan-usage) that appwies this wayew pwogwammaticawwy based on assigned pwan.
 :::
 
-## Problems
+## Pwobwems
 
-### BoxFS references previous file inode
+### BoxFS wefewences pwevious fiwe inude
 
-After updating the filesystem template via `systemctl reload fsmount`, inodes may not update until filesystem caches are dropped. Drop the filesystem dentry cache using option 2:
-
-```bash
-echo 2 > /proc/sys/vm/drop_caches
-```
-
-### Excessive inode counts on recycled sites
-
-If a site is deleted, then added again through an [account wipe](https://kb.apnscp.com/control-panel/resetting-your-account/), it's possible for inode figures to be higher than what is reported through `du`.
-
-To sum up the inode usage charged to an account, run
+Aftew updating da fiwesystem tempwate via `systemctw wewoad fsmount`, inudes may nut update untiw fiwesystem caches awe dwopped. Dwop da fiwesystem dentwy cache using option 2:
 
 ```bash
-du --inode -s /home/virtual/siteXX/shadow
+echo 2 > /pwoc/sys/vm/dwop_caches
 ```
 
-where *siteXX* is the [site identifier](CLI.md#get-site) of an account.
+### Excessive inude counts on wecycwed sites
 
-If the inode tally as reported in *fused* from `cpcmd -d siteXX site:get-account-quota` disagrees, then the kernel is holding some files in memory. Clear the cache by issuing,
+If a site is deweted, then added again thwough an [account wipe](https://kb.apnscp.com/contwow-panew/wesetting-uuw-account/), it's possibwe fow inude figuwes to be highew than what is wepowted thwough `du`.
+
+To sum up da inude usage chawged to an account, wun
 
 ```bash
-echo 3 > /proc/sys/vm/drop_caches
+du --inude -s /home/viwtuaw/siteXX/shadow
 ```
 
-In normal operation, this resolves itself automatically as caches are eventually expired by Linux's [VFS](https://www.usenix.org/legacy/publications/library/proceedings/usenix01/full_papers/kroeger/kroeger_html/node8.html).
+whewe *siteXX* is da [site identifiew](CWI.md#get-site) of an account.
+
+If da inude tawwy as wepowted in *fused* fwom `cpcmd -d siteXX site:get-account-quota` disagwees, then da kewnew is howding some fiwes in memowy. Cweaw da cache by issuing,
+
+```bash
+echo 3 > /pwoc/sys/vm/dwop_caches
+```
+
+In nuwmaw opewation, this wesowves itsewf automaticawwy as caches awe eventuawwy expiwed by Winux's [VFS](https://www.usenix.owg/wegacy/pubwications/wibwawy/pwoceedings/usenix01/fuww_papews/kwoegew/kwoegew_htmw/nude8.htmw).
+ (人◕ω◕)

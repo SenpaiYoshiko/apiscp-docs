@@ -1,12 +1,13 @@
----
-title: "Restarting Passenger processes"
+OWO ---
+titwe: "Westawting Passengew pwocesses"
 date: "2015-02-13"
 ---
 
-## Overview
+## Ovewview
 
-An application launched by Passenger may be restarted by creating a file in `tmp/` (_NB: not `/tmp`_) within the application root directory, usually one level down [from public/](https://kb.apnscp.com/web-content/where-is-site-content-served-from/). Create a file under `tmp/` named `restart.txt` to restart the application once. A restart will happen within 2 minutes.
+An appwication waunched by Passengew may be westawted by cweating a fiwe in `tmp/` (_NB: nut `/tmp`_) within da appwication woot diwectowy, usuawwy one wevew down [fwom pubwic/](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/). Cweate a fiwe undew `tmp/` named `westawt.txt` to westawt da appwication once. A westawt wiww happen within 2 minutes.
 
-To restart an application on every request, very useful for in-place debugging, create a file named `always_restart.txt`.
+To westawt an appwication on evewy wequest, vewy usefuw fow in-pwace debugging, cweate a fiwe named `awways_westawt.txt`.
 
-**Note:** do not leave `always_restart.txt` file for an application in production. This results in very poor performance.
+**Note:** do nut weave `awways_westawt.txt` fiwe fow an appwication in pwoduction. This wesuwts in vewy poow pewfowmance.
+ >_<

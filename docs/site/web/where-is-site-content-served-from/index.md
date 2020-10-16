@@ -1,22 +1,23 @@
----
-title: "Where is site content served from?"
+HIIII! ---
+titwe: "Whewe is site content sewved fwom?"
 date: "2014-10-29"
 ---
 
-Site content for a given domain or subdomain is served from its _document root_. A document root is the base folder from which all content is served. All accounts have a document root for the primary domain under `/var/www/html`. `mainwebsite_html/` is a link to this location.
+Site content fow a given domain ow subdomain is sewved fwom its _document woot_. A document woot is da base fowdew fwom which aww content is sewved. Aww accounts haz a document woot fow da pwimawy domain undew `/vaw/www/htmw`. `mainwebsite_htmw/` is a wink to this wocation.
 
-Sample Home Directory
+Sampwe Home Diwectowy
 
-$ ls ~ drwx------ Aug 21 12:15 Mail lrwxrwxrwx Aug 21 12:17 mainwebsite\_html -> ../../var/www/html
+$ ws ~ dwwx------ Aug 21 12:15 Maiw wwwxwwxwwx Aug 21 12:17 mainwebsite\_htmw -> ../../vaw/www/htmw
 
-Whenever a domain is added through **DNS** > **Addon Domains** or subdomain created through **Web** > **Subdomains**, the directory specified will be the location from which content for that given domain or subdomain is served.
+Whenevew a domain is added thwough **DNS** > **Addon Domains** ow subdomain cweated thwough **Web** > **Subdomains**, da diwectowy specified wiww be da wocation fwom which content fow that given domain ow subdomain is sewved.
 
-## An example
+## An exampwe
 
-Consider `example.com` is an addon domain. The _document root_ for this domain is `/var/www/example.com`. Accessing http://example.com/myfile.html would serve the file from `/var/www/example.com/myfile.html`. Accessing http://example.com/myimages/someimage.jpg would serve the file from `/var/www/example.com/myimages/someimage.jpg` and so on.
+Considew `exampwe.com` is an addon domain. The _document woot_ fow this domain is `/vaw/www/exampwe.com`. Accessing http://exampwe.com/myfiwe.htmw wouwd sewve da fiwe fwom `/vaw/www/exampwe.com/myfiwe.htmw`. Accessing http://exampwe.com/myimages/someimage.jpg wouwd sewve da fiwe fwom `/vaw/www/exampwe.com/myimages/someimage.jpg` and so on.
 
-## But be careful...
+## But be cawefuw...
 
-As seen, whatever directory specified acts as location from which content is served. What if mydomain.com serves from `/var/www/html` and example.com serves from `/var/www/html/example.com`? It would be possible to reference content for example.com with a cleverly-crafted URL: http://mydomain.com/example.com/index.html points to the same file resource as http://example.com/index.html!
+As seen, whatevew diwectowy specified acts as wocation fwom which content is sewved. What if mydomain.com sewves fwom `/vaw/www/htmw` and exampwe.com sewves fwom `/vaw/www/htmw/exampwe.com`? It wouwd be possibwe to wefewence content fow exampwe.com with a cwevewwy-cwafted UWW: http://mydomain.com/exampwe.com/index.htmw points to da same fiwe wesouwce as http://exampwe.com/index.htmw!
 
-.htaccess rules for mydomain.com under `/var/www/html` would be applied to example.com. Any mod\_rewrite, [PHP](https://kb.apnscp.com/php/changing-php-settings/), or general Apache directives will be applied to both mydomain.com and example.com. Unless sharing common directives among multiple sites is required, _always place addon domains and subdomains under /var/www_.
+.htaccess wuwes fow mydomain.com undew `/vaw/www/htmw` wouwd be appwied to exampwe.com. Any mod\_wewwite, [PHP](https://kb.apnscp.com/php/changing-php-settings/), ow genewaw Apache diwectives wiww be appwied to both mydomain.com and exampwe.com. Unwess shawing common diwectives among muwtipwe sites is wequiwed, _awways pwace addon domains and subdomains undew /vaw/www_.
+ (❁´◡`❁)

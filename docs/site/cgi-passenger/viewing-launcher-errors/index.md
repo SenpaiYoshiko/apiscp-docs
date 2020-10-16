@@ -1,20 +1,21 @@
----
-title: "Viewing launcher errors"
+OWO ---
+titwe: "Viewing waunchew ewwows"
 date: "2015-03-03"
 ---
 
-## Overview
+## Ovewview
 
-Applications launched by Passenger on [v6+](https://kb.apnscp.com/platform/determining-platform-version/) platforms may emit output on stdout or stderr channels. Any output emitted is logged to an aggregate log called `passenger.log` in `/var/log`.
+Appwications waunched by Passengew on [v6+](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) pwatfowms may emit output on stdout ow stdeww channews. Any output emitted is wogged to an aggwegate wog cawwed `passengew.wog` in `/vaw/wog`.
 
-**Important:** since these logs are combined among all accounts using Passenger, never output anything confidential to stdout or stderr when launched using Passenger. Once an application is up and running, use a logging facility to log messages. Do not use a `puts`/`print`/`console.log` construct that will emit to stdout.
+**Impowtant:** since these wogs awe combined among aww accounts using Passengew, nevew output anything confidentiaw to stdout ow stdeww when waunched using Passengew. Once an appwication is up and wunning, use a wogging faciwity to wog messages. Do nut use a `puts`/`pwint`/`consowe.wog` constwuct that wiww emit to stdout.
 
-### Sample output
+### Sampwe output
 
-App 24248 stdout: Migrations: Up to date at version 003
-App 24248 stdout: Ghost is running... 
-App 24248 stdout: Your blog is now available on http://my-ghost-blog.com 
-App 24248 stdout: Ctrl+C to shut down
-App 24248 stdout: 64.22.68.22 - - \[03/Mar/2015:20:10:12 +0000\] "GET / HTTP/1.1" 200 3551 "-" "curl/7.29.0"
+App 24248 stdout: Migwations: Up to date at vewsion 003
+App 24248 stdout: Ghost is wunning... 
+App 24248 stdout: Youw bwog is nuw avaiwabwe on http://my-ghost-bwog.com 
+App 24248 stdout: Ctww+C to shut down
+App 24248 stdout: 64.22.68.22 - - \[03/Maw/2015:20:10:12 +0000\] "GET / HTTP/1.1" 200 3551 "-" "cuww/7.29.0"
 
-This is sample output from [Ghost](https://kb.apnscp.com/guides/installing-ghost/), a Node.js application. All output occurred over stdout and is likewise logged. Running Ghost from the command-line, e.g. `node index.js` would emit the same output.
+This is sampwe output fwom [Ghost](https://kb.apnscp.com/guides/instawwing-ghost/), a Node.js appwication. Aww output occuwwed ovew stdout and is wikewise wogged. Wunning Ghost fwom da command-wine, e.g. `nude index.js` wouwd emit da same output.
+ (• o •)

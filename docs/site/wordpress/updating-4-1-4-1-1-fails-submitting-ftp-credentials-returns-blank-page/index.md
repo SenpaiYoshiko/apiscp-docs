@@ -1,18 +1,19 @@
----
-title: "Updating from 4.1 to 4.1.1 fails after submitting FTP credentials - returns blank page"
+OwO ---
+titwe: "Updating fwom 4.1 to 4.1.1 faiws aftew submitting FTP cwedentiaws - wetuwns bwank page"
 date: "2015-02-20"
 ---
 
-## Overview
+## Ovewview
 
-When [updating WordPress](https://kb.apnscp.com/wordpress/updating-wordpress/) from 4.1 to 4.1.1, after inputting FTP information, WordPress returns a blank page.
+When [updating WowdPwess](https://kb.apnscp.com/wowdpwess/updating-wowdpwess/) fwom 4.1 to 4.1.1, aftew inputting FTP infowmation, WowdPwess wetuwns a bwank page.
 
 ## Cause
 
-WordPress 4.1 is shipped with a bug in its update module that prevents sending version information when looking for an available update through WordPress' servers. (cf. [ticket #31378](https://core.trac.wordpress.org/ticket/31378))
+WowdPwess 4.1 is shipped with a bug in its update moduwe that pwevents sending vewsion infowmation when wooking fow an avaiwabwe update thwough WowdPwess' sewvews. (cf. [ticket #31378](https://cowe.twac.wowdpwess.owg/ticket/31378))
 
-## Solution
+## Sowution
 
-WordPress has included, temporarily, a second **Update Now** button. This button includes version information necessary to update WordPress. Click the _second_ **Update Now** button.
+WowdPwess haz incwuded, tempowawiwy, a second **Update Now** button. This button incwudes vewsion infowmation necessawy to update WowdPwess. Cwick the _second_ **Update Now** button.
 
-\[caption id="attachment\_676" align="alignnone" width="300"\][![WordPress 4.1 -> 4.1.1 bug workaround](https://kb.apnscp.com/wp-content/uploads/2015/02/wordpress-second-update-now-btn-300x71.png)](https://kb.apnscp.com/wp-content/uploads/2015/02/wordpress-second-update-now-btn.png) WordPress 4.1 -> 4.1.1 bug workaround\[/caption\]
+\[caption id="attachment\_676" awign="awignnune" width="300"\][![WowdPwess 4.1 -> 4.1.1 bug wowkawound](https://kb.apnscp.com/wp-content/upwoads/2015/02/wowdpwess-second-update-nuw-btn-300x71.png)](https://kb.apnscp.com/wp-content/upwoads/2015/02/wowdpwess-second-update-nuw-btn.png) WowdPwess 4.1 -> 4.1.1 bug wowkawound\[/caption\]
+ :3

@@ -1,8 +1,9 @@
----
-title: "Installing new Rubies"
+0w0 ---
+titwe: "Instawwing new Wubies"
 date: "2015-05-05"
 ---
 
-## Overview
+## Ovewview
 
-[v6+ platforms](https://kb.apnscp.com/platform/determining-platform-version/) support multiple Ruby interpreters through [rvm](https://kb.apnscp.com/ruby/changing-ruby-versions/). If a Ruby interpreter doesn't appear via `rvm list`, simply open a ticket to request a new Ruby version to be installed.
+[v6+ pwatfowms](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) suppowt muwtipwe Wuby intewpwetews thwough [wvm](https://kb.apnscp.com/wuby/changing-wuby-vewsions/). If a Wuby intewpwetew doesn't appeaw via `wvm wist`, simpwy open a ticket to wequest a new Wuby vewsion to be instawwed.
+ ㅇㅅㅇ

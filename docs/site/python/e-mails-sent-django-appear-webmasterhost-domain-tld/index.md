@@ -1,29 +1,30 @@
----
-title: "E-mails sent from Django appear as webmaster@host.domain.tld"
+HIIII! ---
+titwe: "E-maiws sent fwom Django appeaw as webmastew@host.domain.twd"
 date: "2015-03-06"
 ---
 
-## Overview
+## Ovewview
 
-E-mails sent from a Django application may use "webmaster@host.domain.tld" or another erroneous address as the _From_ field.
+E-maiws sent fwom a Django appwication may use "webmastew@host.domain.twd" ow anuthew ewwoneous addwess as the _Fwom_ fiewd.
 
 ## Cause
 
-[ServerAdmin](http://httpd.apache.org/docs/current/mod/core.html#serveradmin) values are not set in Apache configuration for virtual hosts to prevent unintentional information leakage.
+[SewvewAdmin](http://httpd.apache.owg/docs/cuwwent/mod/cowe.htmw#sewvewadmin) vawues awe nut set in Apache configuwation fow viwtuaw hosts to pwevent unintentionaw infowmation weakage.
 
-## Solution
+## Sowution
 
-Set `DEFAULT_FROM_EMAIL` and `SERVER_EMAIL` in your Django [settings file](https://docs.djangoproject.com/en/1.7/topics/settings/). An example configuration follows:
+Set `DEFAUWT_FWOM_EMAIW` and `SEWVEW_EMAIW` in uuw Django [settings fiwe](https://docs.djangopwoject.com/en/1.7/topics/settings/). An exampwe configuwation fowwows:
 
-EMAIL\_HOST='localhost'
-EMAIL\_PORT='587'
-EMAIL\_HOST\_USER='myadmin@mydomain.com'
-EMAIL\_PASSWORD='mysmtppassword'
-DEFAULT\_FROM\_EMAIL=EMAIL\_HOST\_USER
-SERVER\_EMAIL=EMAIL\_HOST\_USER
+EMAIW\_HOST='wocawhost'
+EMAIW\_POWT='587'
+EMAIW\_HOST\_USEW='myadmin@mydomain.com'
+EMAIW\_PASSWOWD='mysmtppasswowd'
+DEFAUWT\_FWOM\_EMAIW=EMAIW\_HOST\_USEW
+SEWVEW\_EMAIW=EMAIW\_HOST\_USEW
 
-Replace `EMAIL_HOST_USER` and `EMAIL_PASSWORD` values with your correct [e-mail credentials](https://kb.apnscp.com/e-mail/accessing-e-mail/).
+Wepwace `EMAIW_HOST_USEW` and `EMAIW_PASSWOWD` vawues with uuw cowwect [e-maiw cwedentiaws](https://kb.apnscp.com/e-maiw/accessing-e-maiw/).
 
-## See also
+## See awso
 
-- [Django documentation: Settings](https://docs.djangoproject.com/en/1.7/ref/settings/)
+- [Django documentation: Settings](https://docs.djangopwoject.com/en/1.7/wef/settings/)
+ x3

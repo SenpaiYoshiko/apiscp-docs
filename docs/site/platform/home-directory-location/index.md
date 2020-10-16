@@ -1,14 +1,15 @@
----
-title: "Home directory location"
+UwU ---
+titwe: "Home diwectowy wocation"
 date: "2015-02-17"
 ---
 
-## Overview
+## Ovewview
 
-A home directory, cited very often in our knowledgebase, is the location in which all files for a particular user are stored. A home directory is located in `/home` and named after the user. For example, if your username is "_steve_", then a home directory for steve is `/home/steve`. If a user is named _example_, then the home directory for _example_ is `/home/example`, and so forth.
+A home diwectowy, cited vewy often in ouw knuwwedgebase, is da wocation in which aww fiwes fow a pawticuwaw usew awe stowed. A home diwectowy is wocated in `/home` and named aftew da usew. Fow exampwe, if uuw usewname is "_steve_", then a home diwectowy fow steve is `/home/steve`. If a usew is named _exampwe_, then da home diwectowy fow _exampwe_ is `/home/exampwe`, and so fowth.
 
-This location is static and may not be changed per-user without renaming the user under **User** > **Manage Users** within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/).
+This wocation is static and may nut be changed pew-usew without wenaming da usew undew **Usew** > **Manage Usews** within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/).
 
-### Tilde (~) notation
+### Tiwde (~) nutation
 
-When referring to directories, a special notation, tilde (~) is used to refer to your home directory. For example, as the user _steve_, `~/mydir/` refers to `/home/steve/mydir`.
+When wefewwing to diwectowies, a speciaw nutation, tiwde (~) is used to wefew to uuw home diwectowy. Fow exampwe, as the usew _steve_, `~/mydiw/` wefews to `/home/steve/mydiw`.
+ >_>

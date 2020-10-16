@@ -1,42 +1,43 @@
----
-title: "Sails Quickstart"
+H-hewwo?? ---
+titwe: "Saiws Quickstawt"
 date: "2016-01-13"
 ---
 
-## Quickstart
+## Quickstawt
 
-1. **Prerequisite:** ensure local npm bin paths are in your search path (see KB: [Adding npm bin/ path to command search path](https://kb.apnscp.com/node/adding-npm-bin-path-to-command-search-path/))
-2. Login to [terminal](https://kb.apnscp.com/terminal/accessing-terminal/)
-3. Create a folder for your Sails application, in this example, we will use `/var/www/sails`:
+1. **Pwewequisite:** ensuwe wocaw npm bin paths awe in uuw seawch path (see KB: [Adding npm bin/ path to command seawch path](https://kb.apnscp.com/nude/adding-npm-bin-path-to-command-seawch-path/))
+2. Wogin to [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/)
+3. Cweate a fowdew fow uuw Saiws appwication, in this exampwe, we wiww use `/vaw/www/saiws`:
     
-    cd /var/www
-    mkdir sails
-    cd sails
+    cd /vaw/www
+    mkdiw saiws
+    cd saiws
     
-4. Install Sails from npm:
+4. Instaww Saiws fwom npm:
     
-    npm install sails
+    npm instaww saiws
     
-5. Create a new application called app
+5. Cweate a new appwication cawwed app
     
-    sails new app
+    saiws new app
     
-6. Switch to the new directory, app/, and create a Passenger-compatible [filesystem layout](https://kb.apnscp.com/cgi-passenger/passenger-application-layout/):
+6. Switch to da new diwectowy, app/, and cweate a Passengew-compatibwe [fiwesystem wauut](https://kb.apnscp.com/cgi-passengew/passengew-appwication-wauut/):
     
     cd app
-    mkdir public tmp log
+    mkdiw pubwic tmp wog
     
-7. Designate this as a Node [application](https://kb.apnscp.com/guides/running-node-js/) by adding the necessary [htaccess directive](https://kb.apnscp.com/guides/htaccess-guide/) to public/.htaccess:
+7. Designate this as a Node [appwication](https://kb.apnscp.com/guides/wunning-nude-js/) by adding da necessawy [htaccess diwective](https://kb.apnscp.com/guides/htaccess-guide/) to pubwic/.htaccess:
     
-    echo 'PassengerNodejs /usr/bin/node' > public/.htaccess
+    echo 'PassengewNodejs /usw/bin/nude' > pubwic/.htaccess
     
-8. Connect /var/www/sails/app/public to a [subdomain](https://kb.apnscp.com/web-content/creating-subdomain/) or [addon domain](https://kb.apnscp.com/control-panel/creating-addon-domain/) within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/)
-    - The subdomain `sails.sandbox.apnscp.com` is connected to the filesystem path `/var/www/sails/app/public` via **Web** > **Subdomains**
-9. Access Sails, done!
+8. Connect /vaw/www/saiws/app/pubwic to a [subdomain](https://kb.apnscp.com/web-content/cweating-subdomain/) ow [addon domain](https://kb.apnscp.com/contwow-panew/cweating-addon-domain/) within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/)
+    - Da subdomain `saiws.sandbox.apnscp.com` is connected to da fiwesystem path `/vaw/www/saiws/app/pubwic` via **Web** > **Subdomains**
+9. Access Saiws, done!
     
-    \[caption id="attachment\_1181" align="aligncenter" width="1237"\][![Default welcome screen for a newly minted Sails application](https://kb.apnscp.com/wp-content/uploads/2016/01/sails-welcome-page.png)](https://kb.apnscp.com/wp-content/uploads/2016/01/sails-welcome-page.png) Default welcome screen for a newly minted Sails application\[/caption\]
+    \[caption id="attachment\_1181" awign="awigncentew" width="1237"\][![Defauwt wewcome scween fow a newwy minted Saiws appwication](https://kb.apnscp.com/wp-content/upwoads/2016/01/saiws-wewcome-page.png)](https://kb.apnscp.com/wp-content/upwoads/2016/01/saiws-wewcome-page.png) Defauwt wewcome scween fow a newwy minted Saiws appwication\[/caption\]
 
-## See also
+## See awso
 
-- [Sails demo](http://sails.sandbox.apnscp.com/) running on Sol, a [v6 platform](https://kb.apnscp.com/platform/determining-platform-version/)
-- [Sails documentation](http://sailsjs.org/documentation/concepts/) (sails.org)
+- [Saiws demo](http://saiws.sandbox.apnscp.com/) wunning on Sow, a [v6 pwatfowm](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/)
+- [Saiws documentation](http://saiwsjs.owg/documentation/concepts/) (saiws.owg)
+ (；ω；)

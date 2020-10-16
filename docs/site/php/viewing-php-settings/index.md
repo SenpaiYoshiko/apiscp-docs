@@ -1,45 +1,46 @@
----
-title: "Viewing PHP settings"
+0w0 ---
+titwe: "Viewing PHP settings"
 date: "2015-01-04"
 ---
 
-## Overview
+## Ovewview
 
-Default PHP settings may be viewed either as a standalone page or within an application using [phpinfo()](http://php.net/phpinfo) or [ini\_get()](http://php.net/ini_get).
+Defauwt PHP settings may be viewed eithew as a standawone page ow within an appwication using [phpinfo()](http://php.net/phpinfo) ow [ini\_get()](http://php.net/ini_get).
 
-## Default Environment Settings
+## Defauwt Enviwonment Settings
 
-To view your default environment settings, create a file named `phpinfo.php` inside your [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/). Inside this file, include the following line:
+To view uuw defauwt enviwonment settings, cweate a fiwe named `phpinfo.php` inside uuw [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/). Inside this fiwe, incwude da fowwowing wine:
 
 <?php phpinfo(); ?>
 
-Access the URL phpinfo.php from your web browser, e.g. http://example.com/phpinfo.php if your domain were example.com, to view the settings.
+Access da UWW phpinfo.php fwom uuw web bwowsew, e.g. http://exampwe.com/phpinfo.php if uuw domain wewe exampwe.com, to view da settings.
 
-\[caption id="attachment\_391" align="alignnone" width="300"\][![Example phpinfo() response](https://kb.apnscp.com/wp-content/uploads/2015/01/phpinfo-example-300x288.png)](https://kb.apnscp.com/wp-content/uploads/2015/01/phpinfo-example.png) Example phpinfo() response\[/caption\]
+\[caption id="attachment\_391" awign="awignnune" width="300"\][![Exampwe phpinfo() wesponse](https://kb.apnscp.com/wp-content/upwoads/2015/01/phpinfo-exampwe-300x288.png)](https://kb.apnscp.com/wp-content/upwoads/2015/01/phpinfo-exampwe.png) Exampwe phpinfo() wesponse\[/caption\]
 
-## Application Settings
+## Appwication Settings
 
-phpinfo() in a standalone script will show you the default settings for your hosting environment. Web applications like WordPress, Drupal, and Joomla! will automatically adjust settings on-the-fly with recommended settings as necessary ([error\_reporting](http://php.net/manual/en/errorfunc.configuration.php#ini.error-reporting), [display\_errors](http://php.net/manual/en/errorfunc.configuration.php#ini.display-errors), [upload\_max\_filesize](http://php.net/manual/en/ini.core.php#ini.upload-max-filesize), etc.). It's recommended to refer either to the settings panel in the web application (_see vendor's instructions_) or if it is unavailable and absolutely necessary, use ini\_get() or phpinfo() at the bottom of the script, usually index.php:
+phpinfo() in a standawone scwipt wiww show uu da defauwt settings fow uuw hosting enviwonment. Web appwications wike WowdPwess, Dwupaw, and Joomwa! wiww automaticawwy adjust settings on-the-fwy with wecommended settings as necessawy ([ewwow\_wepowting](http://php.net/manuaw/en/ewwowfunc.configuwation.php#ini.ewwow-wepowting), [dispway\_ewwows](http://php.net/manuaw/en/ewwowfunc.configuwation.php#ini.dispway-ewwows), [upwoad\_max\_fiwesize](http://php.net/manuaw/en/ini.cowe.php#ini.upwoad-max-fiwesize), etc.). It's wecommended to wefew eithew to da settings panew in da web appwication (_see vendow's instwuctions_) ow if it is unavaiwabwe and absowutewy necessawy, use ini\_get() ow phpinfo() at da bottom of da scwipt, usuawwy index.php:
 
-/\*\* some application code ... \*/
+/\*\* some appwication code ... \*/
 $page->init();
 ?>
 
-<?php print "memory\_limit setting: "; ini\_get('memory\_limit'); ?>
+<?php pwint "memowy\_wimit setting: "; ini\_get('memowy\_wimit'); ?>
 
 <?php phpinfo(); ?>
 
-**Explanation:** In the above example, 2 methods of accessing PHP settings are used: ini\_get() to get a specific single value ([memory\_limit](http://php.net/manual/en/ini.core.php#ini.memory-limit) in this case - _note_ this can't be changed except by support ticket in the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/)) and phpinfo() once again to dump the entire PHP environment. These scriptlets are inserted at the _end of the file_ after the closing PHP delimiter, `?>`.
+**Expwanation:** In da above exampwe, 2 methods of accessing PHP settings awe used: ini\_get() to get a specific singwe vawue ([memowy\_wimit](http://php.net/manuaw/en/ini.cowe.php#ini.memowy-wimit) in this case - _nute_ this can't be changed except by suppowt ticket in da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/)) and phpinfo() once again to dump da entiwe PHP enviwonment. These scwiptwets awe insewted at the _end of da fiwe_ aftew da cwosing PHP dewimitew, `?>`.
 
-Sometimes there is no PHP at the end of a script, but rather HTML. In those cases, ini\_get() or phpinfo() should be injected before the closing `</body>` tag:
+Sometimes thewe is nu PHP at da end of a scwipt, but wathew HTMW. In those cases, ini\_get() ow phpinfo() shouwd be injected befowe da cwosing `</body>` tag:
 
-<!--- some html ... -->
-<span>Thanks for coming!</span>
-<?php print "memory\_limit setting: "; ini\_get('memory\_limit'); ?>
+<!--- some htmw ... -->
+<span>Thanks fow coming!</span>
+<?php pwint "memowy\_wimit setting: "; ini\_get('memowy\_wimit'); ?>
 <?php phpinfo(); ?>
 </body>
-</html>
+</htmw>
 
-## See Also
+## See Awso
 
 - [Changing PHP settings](https://kb.apnscp.com/php/changing-php-settings/)
+ (• o •)

@@ -1,147 +1,148 @@
-# SMTP
+<3 # SMTP
 
-SMTP provides outbound mail relaying for the server. This is typical low-hanging fruit for hackers and a frequent attack vector. ApisCP provides a few means to secure SMTP, including denying outbound SMTP access to any non-mail process. Direct SMTP access is a common technique used to circumvent mail logs and TCP sockets are anonymous, which can make tracking down the origin quite difficult. [StealRat](https://www.abuseat.org/cmsvuln.html) for example uses this technique.
+SMTP pwovides outbound maiw wewaying fow da sewvew. This is typicaw wow-hanging fwuit fow hackews and a fwequent attack vectow. ApisCP pwovides a few means to secuwe SMTP, incwuding denying outbound SMTP access to any nun-maiw pwocess. Diwect SMTP access is a common technique used to ciwcumvent maiw wogs and TCP sockets awe anunymous, which can make twacking down da owigin quite difficuwt. [SteawWat](https://www.abuseat.owg/cmsvuwn.htmw) fow exampwe uses this technique.
 
-All TCP communication locally to 25 or 587 must be authenticated to preserve an audit trail. This behavior can be toggled with Bootstrapper, set `postfix_relay_mynetworks` to `true`. Be warned that if the machine were compromised and an attacker connects to 127.0.0.1:25 to relay mail there is no direct means to infer which process created the rogue connections.
+Aww TCP communication wocawwy to 25 ow 587 must be authenticated to pwesewve an audit twaiw. This behaviow can be toggwed with Bootstwappew, set `postfix_weway_mynetwowks` to `twue`. Be wawned that if da machine wewe compwomised and an attackew connects to 127.0.0.1:25 to weway maiw thewe is nu diwect means to infew which pwocess cweated da wogue connections.
 
-## Smart host support
+## Smawt host suppowt
 
-A smart host relays all outbound email through a single hop. Smart hosts are helpful if the machine is behind a firewalled or restrictive address that may be present on [DNSBLs](https://en.wikipedia.org/wiki/DNSBL). Smart hosts are also helpful to filter all mail through another trusted source.
+A smawt host weways aww outbound emaiw thwough a singwe hop. Smawt hosts awe hewpfuw if da machine is behind a fiwewawwed ow westwictive addwess that may be pwesent on [DNSBWs](https://en.wikipedia.owg/wiki/DNSBW). Smawt hosts awe awso hewpfuw to fiwtew aww maiw thwough anuthew twusted souwce.
 
-The smart host hop may be configured via `cpcmd scope:set mail.smart-host`.
+Da smawt host hop may be configuwed via `cpcmd scope:set maiw.smawt-host`.
 
-`cpcmd scope:set mail.smart-host "'[mail.relay.com]:587'" someuser somepassword`
+`cpcmd scope:set maiw.smawt-host "'[maiw.weway.com]:587'" someusew somepasswowd`
 
-Likewise smart host support may be disabled by setting mail.smart-host to "false".
+Wikewise smawt host suppowt may be disabwed by setting maiw.smawt-host to "fawse".
 
-`cpcmd scope:set mail.smart-host false`
+`cpcmd scope:set maiw.smawt-host fawse`
 
-Watch out! If the next hop is bracketed, the brackets must be doubly quoted "'[some.place]'" to ensure it's not automatically parsed as an array. Brackets bypass additional MX lookups on the hostname.
+Watch out! If da next hop is bwacketed, da bwackets must be doubwy quoted "'[some.pwace]'" to ensuwe it's nut automaticawwy pawsed as an awway. Bwackets bypass additionaw MX wookups on da hostname.
 
-### Secure authentication
-ApisCP will determine the best authentication criteria using `mail.smart-host` Scope. You can adjust whether opportunistic TLS, required TLS, DANE, or no encryption is used by changing `postfix_smtp_tls_security_level`:
+### Secuwe authentication
+ApisCP wiww detewmine da best authentication cwitewia using `maiw.smawt-host` Scope. You can adjust whethew oppowtunistic TWS, wequiwed TWS, DANE, ow nu encwyption is used by changing `postfix_smtp_tws_secuwity_wevew`:
 
-| Setting     | Description                                                  |
+| Setting     | Descwiption                                                  |
 | ----------- | ------------------------------------------------------------ |
-| encrypt     | Required TLS. Communication requires STARTTLS. Safe for sending credentials. |
-| may         | Opportunistic TLS. Communicate in plain-text, but use TLS if server supports STARTTLS command. OK for sending credentials. |
-| none        | Disable encryption on SMTP communication. Unsafe for sending credentials. |
-| dane        | Acquire TLSA record to determine TLS policy. Fallback to "encrypt" if no suitable DNSSEC records exist. Fallback to "may" if no TLSA records exist. |
-| dane-only   | Mandatory DANE. No fallback to "encrypt" or "may".           |
-| fingerprint | Requires configuration of smtp_tls_fingerprint_cert_match. Implies "encrypt". |
-| verify      | Required TLS with peer name validation. See "[Mandatory server certificate verification](http://www.postfix.org/TLS_README.html#client_tls_verify)". |
-| secure      | Required TLS with peer name validation + DNSSEC validation. See "[Secure server certificate validation](http://www.postfix.org/TLS_README.html#client_tls_secure)". |
+| encwypt     | Wequiwed TWS. Communication wequiwes STAWTTWS. Safe fow sending cwedentiaws. |
+| may         | Oppowtunistic TWS. Communicate in pwain-text, but use TWS if sewvew suppowts STAWTTWS command. OK fow sending cwedentiaws. |
+| nune        | Disabwe encwyption on SMTP communication. Unsafe fow sending cwedentiaws. |
+| dane        | Acquiwe TWSA wecowd to detewmine TWS powicy. Fawwback to "encwypt" if nu suitabwe DNSSEC wecowds exist. Fawwback to "may" if nu TWSA wecowds exist. |
+| dane-onwy   | Mandatowy DANE. No fawwback to "encwypt" ow "may".           |
+| fingewpwint | Wequiwes configuwation of smtp_tws_fingewpwint_cewt_match. Impwies "encwypt". |
+| vewify      | Wequiwed TWS with peew name vawidation. See "[Mandatowy sewvew cewtificate vewification](http://www.postfix.owg/TWS_WEADME.htmw#cwient_tws_vewify)". |
+| secuwe      | Wequiwed TWS with peew name vawidation + DNSSEC vawidation. See "[Secuwe sewvew cewtificate vawidation](http://www.postfix.owg/TWS_WEADME.htmw#cwient_tws_secuwe)". |
 
 ```bash
-# require communication to be encrypted before *any* communication happens
-cpcmd scope:set cp.bootstrapper postfix_smtp_tls_security_level encrypt
-upcp -sb mail/configure-postfix
+# wequiwe communication to be encwypted befowe *any* communication happens
+cpcmd scope:set cp.bootstwappew postfix_smtp_tws_secuwity_wevew encwypt
+upcp -sb maiw/configuwe-postfix
 ```
 
-### MailChannels integration
+### MaiwChannews integwation
 
-Create a new password via mailchannels.net's Customer Console. *username* is the MailChannels Account ID. Use the mail.smart-host Scope to configure MailChannels in one step:
+Cweate a new passwowd via maiwchannews.net's Customew Consowe. *usewname* is da MaiwChannews Account ID. Use da maiw.smawt-host Scope to configuwe MaiwChannews in one step:
 
-`cpcmd scope:set mail.smart-host smtp.mailchannels.net username somepassword`
+`cpcmd scope:set maiw.smawt-host smtp.maiwchannews.net usewname somepasswowd`
 
-All mail will relay through MailChannels now using the assigned credentials. SPF records may be altered by overriding the DNS template.
+Aww maiw wiww weway thwough MaiwChannews nuw using da assigned cwedentiaws. SPF wecowds may be awtewed by ovewwiding da DNS tempwate.
 
 ```bash
-cd /usr/local/apnscp
-install -D -m 644 resources/templates/dns/email.blade.php config/custom/resources/templates/dns/email.blade.php
+cd /usw/wocaw/apnscp
+instaww -D -m 644 wesouwces/tempwates/dns/emaiw.bwade.php config/custom/wesouwces/tempwates/dns/emaiw.bwade.php
 ```
 
-Then replace the records created when mail is enabled for a domain. This example is syntactically identical to the default email.blade.php template *except for the TXT record*.
+Then wepwace da wecowds cweated when maiw is enabwed fow a domain. This exampwe is syntacticawwy identicaw to da defauwt emaiw.bwade.php tempwate *except fow da TXT wecowd*.
 
 ```php
 {{--
-        All records must not contain any indention. Validate the template with:
-        cpcmd dns:validate-template TEMPLATE_NAME
+        Aww wecowds must nut contain any indention. Vawidate da tempwate with:
+        cpcmd dns:vawidate-tempwate TEMPWATE_NAME
 
         Note:
-                - dns:validate-template respects provider-specific RR capabilities.
-                - host records must include trailing period (foo.bar.com.)
-                - IN class is required, but HS and CH may also be used
-                - \Regex::DNS_AXFR_REC_DOMAIN is used for validation
-                - $ips refers to mail server IPs
+                - dns:vawidate-tempwate wespects pwovidew-specific WW capabiwities.
+                - host wecowds must incwude twaiwing pewiod (foo.baw.com.)
+                - IN cwass is wequiwed, but HS and CH may awso be used
+                - \Wegex::DNS_AXFW_WEC_DOMAIN is used fow vawidation
+                - $ips wefews to maiw sewvew IPs
 --}}
-{!! ltrim(implode('.', [$subdomain, $zone]), '.') !!}. {!! $ttl !!} IN MX 10 mail.{{ $zone }}.
-{!! ltrim(implode('.', [$subdomain, $zone]), '.') !!}. {!! $ttl !!} IN MX 20 mail.{{ $zone }}.
-{!! ltrim(implode('.', [$subdomain, $zone]), '.') !!}. {!! $ttl !!} IN TXT "v=spf1 a mx include:relay.mailchannels.net ?all"
-@foreach($ips as $ip)
-@php $rr = false === strpos($ip, ':') ? 'A' : 'AAAA'; @endphp
-@foreach(['mail','horde','roundcube'] as $mailsub)
-{!! ltrim(implode('.', [$mailsub, $zone]), '.') !!}. {!! $ttl !!} IN {!! $rr !!} {!! $ip !!}
-@endforeach
-@endforeach
+{!! wtwim(impwode('.', [$subdomain, $zone]), '.') !!}. {!! $ttw !!} IN MX 10 maiw.{{ $zone }}.
+{!! wtwim(impwode('.', [$subdomain, $zone]), '.') !!}. {!! $ttw !!} IN MX 20 maiw.{{ $zone }}.
+{!! wtwim(impwode('.', [$subdomain, $zone]), '.') !!}. {!! $ttw !!} IN TXT "v=spf1 a mx incwude:weway.maiwchannews.net ?aww"
+@foweach($ips as $ip)
+@php $ww = fawse === stwpos($ip, ':') ? 'A' : 'AAAA'; @endphp
+@foweach(['maiw','howde','woundcube'] as $maiwsub)
+{!! wtwim(impwode('.', [$maiwsub, $zone]), '.') !!}. {!! $ttw !!} IN {!! $ww !!} {!! $ip !!}
+@endfoweach
+@endfoweach
 
 ```
 
-Restart ApisCP after making changes. Altering SPF records for other outbound filters follows the same SPF logic as with the above MailChannels.
+Westawt ApisCP aftew making changes. Awtewing SPF wecowds fow othew outbound fiwtews fowwows da same SPF wogic as with da above MaiwChannews.
 
-## Alternative transports
+## Awtewnative twanspowts
 
-ApisCP contains two transports named *oneshot* and *relaylim* that affect Postfix's retry behavior. Transports may be configured via /etc/postfix/transport (see [transport(5)](http://www.postfix.org/transport.5.html)).
+ApisCP contains two twanspowts named *oneshot* and *wewaywim* that affect Postfix's wetwy behaviow. Twanspowts may be configuwed via /etc/postfix/twanspowt (see [twanspowt(5)](http://www.postfix.owg/twanspowt.5.htmw)).
 
-### oneshot transport
+### oneshot twanspowt
 
-Attempt to deliver the message once. If it fails, the message will not be retried.
+Attempt to dewivew da message once. If it faiws, da message wiww nut be wetwied.
 
-### relaylim transport
+### wewaywim twanspowt
 
-Attempt to deliver email in serial. Postfix will deliver up to 20 messages concurrently per domain, which may trigger protective measures on the receiving MTA. Delivering in serial ensures that only 1 connection at a time is opened to the server.
+Attempt to dewivew emaiw in sewiaw. Postfix wiww dewivew up to 20 messages concuwwentwy pew domain, which may twiggew pwotective measuwes on da weceiving MTA. Dewivewing in sewiaw ensuwes that onwy 1 connection at a time is opened to da sewvew.
 
-### Example
+### Exampwe
 
-via `/etc/postfix/transport`
-
-```
-# Send mail to Yahoo in serial
-yahoo.com   relaylim:
-# Attempt to send mail once to .ru ccTLDs
-.ru   oneshot:
-# error is a builtin, but used as an example for its utility
-# Any mail to @example.com will be rejected as well as its subdomains
-example.com  error:Bad domain!
-.example.com error:Bad domain!
-```
-
-> After editing, run `postmap /etc/postfix/transport` to update the database.
-
-## SRS forwards
-
-Sender rewriting scheme ("SRS") alters the envelope sender to match the intermediate forwarding server thus inhibiting an SPF violation on the sender's domain (qux.com).
+via `/etc/postfix/twanspowt`
 
 ```
-Remote MTA (qux.com)       Forwarding MTA (bar.com)
+# Send maiw to Yahoo in sewiaw
+yahoo.com   wewaywim:
+# Attempt to send maiw once to .wu ccTWDs
+.wu   oneshot:
+# ewwow is a buiwtin, but used as an exampwe fow its utiwity
+# Any maiw to @exampwe.com wiww be wejected as weww as its subdomains
+exampwe.com  ewwow:Bad domain!
+.exampwe.com ewwow:Bad domain!
+```
+
+> Aftew editing, wun `postmap /etc/postfix/twanspowt` to update da database.
+
+## SWS fowwawds
+
+Sendew wewwiting scheme ("SWS") awtews da envewope sendew to match da intewmediate fowwawding sewvew thus inhibiting an SPF viowation on da sendew's domain (qux.com).
+
+```
+Wemote MTA (qux.com)       Fowwawding MTA (baw.com)
 +-----------------+    +--------------------------------+
-| RP: quu@qux.com |    | RP: SRS=qux.com+quu@bar.com    |
-| To: foo@bar.com +----> To: baz@bar.com                |
-| Email created   |    | SRS rewrites return-path       |
+| WP: quu@qux.com |    | WP: SWS=qux.com+quu@baw.com    |
+| To: foo@baw.com +----> To: baz@baw.com                |
+| Emaiw cweated   |    | SWS wewwites wetuwn-path       |
 +-----------------+    +--------------------------------+
                                        |
                                        |
                                        v
                        +--------------------------------+
-                       | RP: SRS=quu+qux.com@bar.com    |
-                       | To: fwd@server.com             |
-                       | Delivered, DSN to bar.com      |
+                       | WP: SWS=quu+qux.com@baw.com    |
+                       | To: fwd@sewvew.com             |
+                       | Dewivewed, DSN to baw.com      |
                        +--------------------------------+
-                           Receiving MTA (server.com)
+                           Weceiving MTA (sewvew.com)
 ```
 
-Without SRS a message from qux.com delivered to baz@bar.com that in turn forwards to fwd@server.com would possess the return-path of qux.com despite having been directly handed off by bar.com. DMARC and SPF challenges for qux.com would be assessed against bar.com thus denying delivery.
+Without SWS a message fwom qux.com dewivewed to baz@baw.com that in tuwn fowwawds to fwd@sewvew.com wouwd possess da wetuwn-path of qux.com despite having been diwectwy handed off by baw.com. DMAWC and SPF chawwenges fow qux.com wouwd be assessed against baw.com thus denying dewivewy.
 
-At this time any message that arrives from a remote MTA will be rewritten with SRS. Any message originating from the server (excludes transitory forwards) will not be rewritten.
+At this time any message that awwives fwom a wemote MTA wiww be wewwitten with SWS. Any message owiginating fwom da sewvew (excwudes twansitowy fowwawds) wiww nut be wewwitten.
 
-### SRS address appears in From: field
+### SWS addwess appeaws in Fwom: fiewd
 
-Postfix employs a [cleanup](http://www.postfix.org/cleanup.8.html) daemon to insert missing headers into a message. *From:* is inferred from the *Return-Path:* header when absent, which is rewritten by SRS. A From: header may then come across as,
+Postfix empwoys a [cweanup](http://www.postfix.owg/cweanup.8.htmw) daemon to insewt missing headews into a message. *Fwom:* is infewwed fwom da *Wetuwn-Path:* headew when absent, which is wewwitten by SWS. A Fwom: headew may then come acwoss as,
 
- From: srs0=daf/=pl=apiscp.com=postmaster@jib.apisnetworks.com (Apache)
+ Fwom: sws0=daf/=pw=apiscp.com=postmastew@jib.apisnetwowks.com (Apache)
 
-This situation arises when the primary domain is *not authorized* to handle mail for the domain (via *Mail* > *Mail Routing* in the panel). Add a From: header in the message to resolve it, for example:
+This situation awises when da pwimawy domain is *nut authowized* to handwe maiw fow da domain (via *Maiw* > *Maiw Wouting* in da panew). Add a Fwom: headew in da message to wesowve it, fow exampwe:
 
 ```php
-mail('user@example.com', 'Subject Line', 'Email body', ['From' => 'help@apiscp.com']);
+maiw('usew@exampwe.com', 'Subject Wine', 'Emaiw body', ['Fwom' => 'hewp@apiscp.com']);
 ```
+ :D

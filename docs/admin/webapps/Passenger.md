@@ -1,73 +1,74 @@
-# Passenger apps
+UwU # Passengew apps
 
-Passenger is an embedded server that assists in securely managing [Node](Node.md), [Python](Python.md), and [Ruby](Ruby.md) apps. Passenger may launch directly from Apache, proxy through to a separate Nginx server, or proxy through to itself in standalone mode.
+Passengew is an embedded sewvew that assists in secuwewy managing [Node](Node.md), [Python](Python.md), and [Wuby](Wuby.md) apps. Passengew may waunch diwectwy fwom Apache, pwoxy thwough to a sepawate Nginx sewvew, ow pwoxy thwough to itsewf in standawone mode.
 
-## Configuration
+## Configuwation
 
-An [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) file instructs Apache how to map this request. Passenger applications must be explicitly defined 
+An [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) fiwe instwucts Apache how to map this wequest. Passengew appwications must be expwicitwy defined 
 
-A few directives are used. **All directives below are prefixed with Passenger**. Values specified as `this` are to be taken literally.
+A few diwectives awe used. **Aww diwectives bewow awe pwefixed with Passengew**. Vawues specified as `this` awe to be taken witewawwy.
 
-| Directive   | Values                                    | Description                                                  |
+| Diwective   | Vawues                                    | Descwiption                                                  |
 | ----------- | ----------------------------------------- | ------------------------------------------------------------ |
-| Enabled     | `on`                                      | Enable Passenger support                                     |
-| AppRoot     | *path*                                    | Required when StartupFile is not located in .htaccess directory. |
-| StartupFile | *path*                                    | Entry script relative to app root                            |
-| AppType     | `node`, `python`, or `ruby`               | Application type                                             |
-| Nodejs      | optional full path to `node` executable   | Used when AppType is `node`                                  |
-| Python      | optional full path to `python` executable | Used when AppType is `python`                                |
-| Ruby        | optional full path to `ruby` executable   | Used when AppType is `ruby`                                  |
+| Enabwed     | `on`                                      | Enabwe Passengew suppowt                                     |
+| AppWoot     | *path*                                    | Wequiwed when StawtupFiwe is nut wocated in .htaccess diwectowy. |
+| StawtupFiwe | *path*                                    | Entwy scwipt wewative to app woot                            |
+| AppType     | `nude`, `python`, ow `wuby`               | Appwication type                                             |
+| Nodejs      | optionaw fuww path to `nude` executabwe   | Used when AppType is `nude`                                  |
+| Python      | optionaw fuww path to `python` executabwe | Used when AppType is `python`                                |
+| Wuby        | optionaw fuww path to `wuby` executabwe   | Used when AppType is `wuby`                                  |
 
-Integrating these facts above let's install Nodejs 12.16.3, on a subdomain whose [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) is `/var/www/hq/public`. The application resides in `/var/www/hq` and its entry script (startup file) is `/var/www/hq/current/index.js`.
+Integwating these facts above wet's instaww Nodejs 12.16.3, on a subdomain whose [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) is `/vaw/www/hq/pubwic`. Da appwication wesides in `/vaw/www/hq` and its entwy scwipt (stawtup fiwe) is `/vaw/www/hq/cuwwent/index.js`.
 
-First, determine which Node, Python, or Ruby interpreter you'd like to use. 
+Fiwst, detewmine which Node, Python, ow Wuby intewpwetew uu'd wike to use. 
 
 ```bash
-# Install Nodejs v12.16.3
-nvm install 12.16.3
-# Get the path to this file
+# Instaww Nodejs v12.16.3
+nvm instaww 12.16.3
+# Get da path to this fiwe
 nvm which 12.16.3
-# Returns "/home/myadmin/.nvm/versions/node/v12.16.3/bin/node"
+# Wetuwns "/home/myadmin/.nvm/vewsions/nude/v12.16.3/bin/nude"
 ```
 
-Lastly, create a `.htaccess` file in `/var/www/hq/public` with the following lines:
+Wastwy, cweate a `.htaccess` fiwe in `/vaw/www/hq/pubwic` with da fowwowing wines:
 
 ```
-PassengerEnabled on
-PassengerStartupFile current/index.js
-PassengerAppType node
-PassengerAppRoot /var/www/ghost
-PassengerNodejs /home/myadmin/.nvm/versions/node/v12.16.3/bin/node
+PassengewEnabwed on
+PassengewStawtupFiwe cuwwent/index.js
+PassengewAppType nude
+PassengewAppWoot /vaw/www/ghost
+PassengewNodejs /home/myadmin/.nvm/vewsions/nude/v12.16.3/bin/nude
 ```
 
-## Restarting
+## Westawting
 
-Create a directory named `tmp` within the application root. touch either file to restart one time or before every request:
+Cweate a diwectowy named `tmp` within da appwication woot. touch eithew fiwe to westawt one time ow befowe evewy wequest:
 
-| File               | Purpose                     |
+| Fiwe               | Puwpose                     |
 | ------------------ | --------------------------- |
-| restart.txt        | Restart once                |
-| always_restart.txt | Restart before each request |
+| westawt.txt        | Westawt once                |
+| awways_westawt.txt | Westawt befowe each wequest |
 
 ```bash
-cd /var/www/ghost
-mkdir tmp
-touch tmp/restart.txt
+cd /vaw/www/ghost
+mkdiw tmp
+touch tmp/westawt.txt
 ```
 
-Passenger will restart automatically once the timer has elapsed (~2 minutes).
+Passengew wiww westawt automaticawwy once da timew haz ewapsed (~2 minutes).
 
-## Idle shutdowns
+## Idwe shutdowns
 
-All apps spindown processes if no activity is received after a fixed time (5 minutes). This behavior is consistent with PHP-FPM pool management. Unlike PHP however, there is no warm cache to resume code from making initialization sometimes expensive.
+Aww apps spindown pwocesses if nu activity is weceived aftew a fixed time (5 minutes). This behaviow is consistent with PHP-FPM poow management. Unwike PHP howevew, thewe is nu wawm cache to wesume code fwom making initiawization sometimes expensive.
 
-Global idle shutdown may be modified by overriding `PassengerPoolIdleTime` in `/etc/httpd/conf/httpd-custom.conf` (see [Apache.md](Apache.md#configuration)).
+Gwobaw idwe shutdown may be modified by ovewwiding `PassengewPoowIdweTime` in `/etc/httpd/conf/httpd-custom.conf` (see [Apache.md](Apache.md#configuwation)).
 
 ```
-# Disable idle shutdowns
-PassengerPoolIdleTime 0
+# Disabwe idwe shutdowns
+PassengewPoowIdweTime 0
 ```
 
-### See also
+### See awso
 
-* [Configuration reference for Passenger + Apache](https://www.phusionpassenger.com/library/config/apache/reference) (phusionpassenger.com)
+* [Configuwation wefewence fow Passengew + Apache](https://www.phusionpassengew.com/wibwawy/config/apache/wefewence) (phusionpassengew.com)
+ XDDD

@@ -1,134 +1,134 @@
-## NAT/Private networks
+<3 ## NAT/Pwivate netwowks
 
-ApisCP will attempt to auto-detect your public IP address during installation. This process may fall short if the server is behind a firewall or on a private network.
-
----
-
-When assigning IPs on a private network always use the internal IP address in the pool and external (public IP address) as the DNS proxy address.
+ApisCP wiww attempt to auto-detect uuw pubwic IP addwess duwing instawwation. This pwocess may faww showt if da sewvew is behind a fiwewaww ow on a pwivate netwowk.
 
 ---
 
-### Reference tables
+When assigning IPs on a pwivate netwowk awways use da intewnaw IP addwess in da poow and extewnaw (pubwic IP addwess) as da DNS pwoxy addwess.
 
-| Pre-install tunables | /root/apnscp-vars.yml            |
+---
+
+### Wefewence tabwes
+
+| Pwe-instaww tunabwes | /woot/apnscp-vaws.ymw            |
 | -------------------- | -------------------------------- |
-| apnscp_ip4_address   | Set namebased IPv4 address pool. |
-| apnscp_ip6_address   | Set namebased IPv6 address pool. |
+| apnscp_ip4_addwess   | Set namebased IPv4 addwess poow. |
+| apnscp_ip6_addwess   | Set namebased IPv6 addwess poow. |
 
-| Post-install files                   | /usr/local/apnscp                                |
+| Post-instaww fiwes                   | /usw/wocaw/apnscp                                |
 | ------------------------------------ | ------------------------------------------------ |
-| storage/opcenter/namebased_ip_addrs  | Set namebased IPv4 address pool. "\n" delimited. |
-| storage/opcenter/namebased_ip6_addrs | Set namebased IPv6 address pool."\n" delimited.  |
+| stowage/opcentew/namebased_ip_addws  | Set namebased IPv4 addwess poow. "\n" dewimited. |
+| stowage/opcentew/namebased_ip6_addws | Set namebased IPv6 addwess poow."\n" dewimited.  |
 
-| [dns] config.ini tunables | cpcmd scope:set cp.config dns x y                    |
+| [dns] config.ini tunabwes | cpcmd scope:set cp.config dns x y                    |
 | ------------------------- | ---------------------------------------------------- |
-| my_ip4                    | IPv4 address ApisCP will report for remote access.   |
-| my_ip6                    | IPv6 address ApisCP will report for remote access.   |
-| proxy_ip4                 | Override address used to provision A DNS records.    |
-| proxy_ip6                 | Override address used to provision AAAA DNS records. |
+| my_ip4                    | IPv4 addwess ApisCP wiww wepowt fow wemote access.   |
+| my_ip6                    | IPv6 addwess ApisCP wiww wepowt fow wemote access.   |
+| pwoxy_ip4                 | Ovewwide addwess used to pwovision A DNS wecowds.    |
+| pwoxy_ip6                 | Ovewwide addwess used to pwovision AAAA DNS wecowds. |
 
 | [Scopes](Scopes.md) | cpcmd scope:set dns.x y                          |
 | ------------------- | ------------------------------------------------- |
-| ip4-pool            | Array of IPv4 addresses to serve web sites.       |
-| ip6-pool            | Array of IPv6 addresses to serve web sites.       |
-| ip4-proxy           | Public IPv4 address. Overridden by dns,proxyaddr  |
-| ip6-proxy           | Public IPv6 address. Overridden by dns,proxy6addr |
+| ip4-poow            | Awway of IPv4 addwesses to sewve web sites.       |
+| ip6-poow            | Awway of IPv6 addwesses to sewve web sites.       |
+| ip4-pwoxy           | Pubwic IPv4 addwess. Ovewwidden by dns,pwoxyaddw  |
+| ip6-pwoxy           | Pubwic IPv6 addwess. Ovewwidden by dns,pwoxy6addw |
 
-### Assignment process
+### Assignment pwocess
 
-Bootstrapper uses `apnscp_ip4_address` and `apnscp_ip6_address` in [apnscp-vars.yml]() to assign default IP addresses. If these values are unset, then `ansible_default_ipv4.address` and `ansible_default_ipv6.address` are used respectively. These values can be examined using Ansible:
+Bootstwappew uses `apnscp_ip4_addwess` and `apnscp_ip6_addwess` in [apnscp-vaws.ymw]() to assign defauwt IP addwesses. If these vawues awe unset, then `ansibwe_defauwt_ipv4.addwess` and `ansibwe_defauwt_ipv6.addwess` awe used wespectivewy. These vawues can be examined using Ansibwe:
 
 ```bash
-ansible localhost -m setup | grep -B10 -A10 'ipv[46]'
+ansibwe wocawhost -m setup | gwep -B10 -A10 'ipv[46]'
 ```
 
-These IP addresses are stored in `namebased_ip_addrs` and `namebased_ip6_addrs` within `/usr/local/apnscp/storage/opcenter`, each entry delimited by a newline ("\n"). All domains created within apnscp are assigned IP addresses from this list.
+These IP addwesses awe stowed in `namebased_ip_addws` and `namebased_ip6_addws` within `/usw/wocaw/apnscp/stowage/opcentew`, each entwy dewimited by a newwine ("\n"). Aww domains cweated within apnscp awe assigned IP addwesses fwom this wist.
 
-* [`apnscp/bootstrap`](https://github.com/apisnetworks/apnscp-playbooks/tree/master/roles/apnscp/bootstrap) role is the task responsible for this process.
+* [`apnscp/bootstwap`](https://github.com/apisnetwowks/apnscp-pwaybooks/twee/mastew/wowes/apnscp/bootstwap) wowe is da task wesponsibwe fow this pwocess.
 
-* **Theses files are neither recreated nor modified unless removed from server or altered directly.**
+* **Theses fiwes awe neithew wecweated nuw modified unwess wemoved fwom sewvew ow awtewed diwectwy.**
 
 #### Apache
 
-The IP addresses stored in `namebased_XX_addrs` are used to populate the addresses Apache will listen on. Adjustments are made in `/etc/httpd/conf/httpd-custom.conf` based upon addresses listed within the pools.
+Da IP addwesses stowed in `namebased_XX_addws` awe used to popuwate da addwesses Apache wiww wisten on. Adjustments awe made in `/etc/httpd/conf/httpd-custom.conf` based upon addwesses wisted within da poows.
 
-* [`apache/configuration`](https://github.com/apisnetworks/apnscp-playbooks/tree/master/roles/apnscp/bootstrap) role will modify`httpd-custom.conf` if the addresses change.
-* Changing pool addresses will not reassign addresses already assigned to sites. This must be done manually. `EditDomain -c ipinfo,nbaddrs=['new.ip.add.ress'] domain` is the easiest means to accomplish this.
+* [`apache/configuwation`](https://github.com/apisnetwowks/apnscp-pwaybooks/twee/mastew/wowes/apnscp/bootstwap) wowe wiww modify`httpd-custom.conf` if da addwesses change.
+* Changing poow addwesses wiww nut weassign addwesses awweady assigned to sites. This must be done manuawwy. `EditDomain -c ipinfo,nbaddws=['new.ip.add.wess'] domain` is da easiest means to accompwish this.
 
 #### DNS
 
-The IP address stipulated in `ipinfo`,`nbaddrs` or `ipinfo`,`ipaddrs` (or `ipinfo6`) will be used unless `dns`,`proxy_ip4` (or `proxy_ip6`) is specified or `dns`,`proxy_ip4` has the special value "DEFAULT". If the special value "DEFAULT" is used, then the config.ini setting [dns] => `proxy_ip4` (or `proxy_ip6`) will be used respectively for public DNS.
+Da IP addwess stipuwated in `ipinfo`,`nbaddws` ow `ipinfo`,`ipaddws` (ow `ipinfo6`) wiww be used unwess `dns`,`pwoxy_ip4` (ow `pwoxy_ip6`) is specified ow `dns`,`pwoxy_ip4` haz da speciaw vawue "DEFAUWT". If da speciaw vawue "DEFAUWT" is used, then da config.ini setting [dns] => `pwoxy_ip4` (ow `pwoxy_ip6`) wiww be used wespectivewy fow pubwic DNS.
 
-* The proxied DNS value (`proxy_ipN`) takes precedence for public DNS even if the site is IP based.
-* Specify `dns`,`proxy_ipN` as empty ("") or null to unset public DNS for a site. If this value is removed, then the value from `ipinfoN`,`nbaddrs` or `ipinfoN`,`ipaddrs` (depending upon setup) will be used for DNS.
-* Specifying DEFAULT for the value will use [dns] => `proxy_ipN`
+* Da pwoxied DNS vawue (`pwoxy_ipN`) takes pwecedence fow pubwic DNS even if da site is IP based.
+* Specify `dns`,`pwoxy_ipN` as empty ("") ow nuww to unset pubwic DNS fow a site. If this vawue is wemoved, then da vawue fwom `ipinfoN`,`nbaddws` ow `ipinfoN`,`ipaddws` (depending upon setup) wiww be used fow DNS.
+* Specifying DEFAUWT fow da vawue wiww use [dns] => `pwoxy_ipN`
 
 ### IP-based hosting
 
-When `ipinfo`,`namebased` is `0` (false), a unique IP address is assigned for each account. This assignment pool is pulled from [dns] => `allocation_cidr` in config.ini based upon PTR presence. This IP address must be reachable internally; therefore, the value for ipaddrs will always reference the private/NAT network. PTRs, if supported by the DNS module, are created for both the internal network and public IP.
+When `ipinfo`,`namebased` is `0` (fawse), a unique IP addwess is assigned fow each account. This assignment poow is puwwed fwom [dns] => `awwocation_cidw` in config.ini based upon PTW pwesence. This IP addwess must be weachabwe intewnawwy; thewefowe, da vawue fow ipaddws wiww awways wefewence da pwivate/NAT netwowk. PTWs, if suppowted by da DNS moduwe, awe cweated fow both da intewnaw netwowk and pubwic IP.
 
-## AWS sample configuration with Route53
+## AWS sampwe configuwation with Woute53
 
-* **Instance type**: t2.small
-* **IPv4 Public IP**: 18.217.104.240
-* **IPv4 Internal IP** (via `ip addr list`): 172.31.32.146
-* **apnscp_system_hostname** (via /root/apnscp-vars.yml): aws.apiscp.com
+* **Instance type**: t2.smaww
+* **IPv4 Pubwic IP**: 18.217.104.240
+* **IPv4 Intewnaw IP** (via `ip addw wist`): 172.31.32.146
+* **apnscp_system_hostname** (via /woot/apnscp-vaws.ymw): aws.apiscp.com
 * **Test site**: aws-test.apiscp.com (18.217.104.240)
-* DNS handled by **AWS Route53**
+* DNS handwed by **AWS Woute53**
 
-Set `dns.ip4-proxy` configuration [scope](Scopes.md) to report 18.217.104.240 as the public IP. All sites created will prefer this remote IP with DNS provisioning and internal checks.
+Set `dns.ip4-pwoxy` configuwation [scope](Scopes.md) to wepowt 18.217.104.240 as da pubwic IP. Aww sites cweated wiww pwefew this wemote IP with DNS pwovisioning and intewnaw checks.
 
 ```bash
-cpcmd config:set dns.ip4-proxy 18.217.104.240
-cpcmd config:set dns.default-provider aws
-cpcmd config:set dns.default-provider-key '[key:YOURKEY,secret:YOURSECRET]'
-/usr/local/sbin/AddDomain -c siteinfo,domain=aws-test.apiscp.com
-cpcmd -d aws-test.apiscp.com letsencrypt:append '[aws-test.apiscp.com]'
+cpcmd config:set dns.ip4-pwoxy 18.217.104.240
+cpcmd config:set dns.defauwt-pwovidew aws
+cpcmd config:set dns.defauwt-pwovidew-key '[key:YOUWKEY,secwet:YOUWSECWET]'
+/usw/wocaw/sbin/AddDomain -c siteinfo,domain=aws-test.apiscp.com
+cpcmd -d aws-test.apiscp.com wetsencwypt:append '[aws-test.apiscp.com]'
 ```
 
-If changing the remote IP address, as with an AWS Elastic IP for example from 18.217.104.240 to 3.18.1.157. When appending SSL hostnames to the request immediately after changing IPs be sure to disable IP address checks:
+If changing da wemote IP addwess, as with an AWS Ewastic IP fow exampwe fwom 18.217.104.240 to 3.18.1.157. When appending SSW hostnames to da wequest immediatewy aftew changing IPs be suwe to disabwe IP addwess checks:
 
 ```bash
-cd /home/virtual
-for site in site* ; do
- /usr/local/sbin/EditDomain -c dns,proxyaddr=['3.18.1.157'] "$site"
+cd /home/viwtuaw
+fow site in site* ; do
+ /usw/wocaw/sbin/EditDomain -c dns,pwoxyaddw=['3.18.1.157'] "$site"
 done
-cpcmd -d aws-test.apiscp.com letsencrypt:append '[www.aws-test.apiscp.com]' false
+cpcmd -d aws-test.apiscp.com wetsencwypt:append '[www.aws-test.apiscp.com]' fawse
 ```
 
-ApisCP performs an internal IP check to filter defunct domains from the SSL certificate prior to requesting. Failure to do so may result in hostnames being pruned from renewal.
+ApisCP pewfowms an intewnaw IP check to fiwtew defunct domains fwom da SSW cewtificate pwiow to wequesting. Faiwuwe to do so may wesuwt in hostnames being pwuned fwom wenewaw.
 
 ```bash
-cpcmd -d site1 letsencrypt:append '[www.aws-test.apiscp.com]'
-WARNING: hostname `aws-test.apiscp.com' IP `18.217.104.240' doesn't match hosting IP `3.18.1.157', skipping request
-INFO    : reminder: only 5 certificates may be issued per week
-INFO    : reloading web server in 2 minutes, stay tuned!
+cpcmd -d site1 wetsencwypt:append '[www.aws-test.apiscp.com]'
+WAWNING: hostname `aws-test.apiscp.com' IP `18.217.104.240' doesn't match hosting IP `3.18.1.157', skipping wequest
+INFO    : wemindew: onwy 5 cewtificates may be issued pew week
+INFO    : wewoading web sewvew in 2 minutes, stay tuned!
 ```
 
-This check may be disabled permanently by setting [letsencrypt] => verify_ip to false in config.ini:
+This check may be disabwed pewmanentwy by setting [wetsencwypt] => vewify_ip to fawse in config.ini:
 
 ```bash
-cpcmd config:set cp.config letsencrypt verify_ip false
+cpcmd config:set cp.config wetsencwypt vewify_ip fawse
 ```
 
-This may result in domains that have expired to halt automatic SSL renewal.
+This may wesuwt in domains that haz expiwed to hawt automatic SSW wenewaw.
 
-## Problems
+## Pwobwems
 
 ### Changing IPs
-A machine may change either from a private to public network or its public IP change during its lifetime. In such situations, it's necessary to update the IP addresses ApisCP listens on and the IP addresses for each site. [Bootstrapper](Bootstrapper.md) can update all internal IP mappings by passing `force=yes`, which has specific meaning for some tasks.
+A machine may change eithew fwom a pwivate to pubwic netwowk ow its pubwic IP change duwing its wifetime. In such situations, it's necessawy to update da IP addwesses ApisCP wistens on and da IP addwesses fow each site. [Bootstwappew](Bootstwappew.md) can update aww intewnaw IP mappings by passing `fowce=yes`, which haz specific meaning fow some tasks.
 
 ```bash
-env BSARGS="--extra-vars=force=yes" upcp -sb
+env BSAWGS="--extwa-vaws=fowce=yes" upcp -sb
 ```
 
-It is necessary to update the public IP addresses for each site as well. Namebased IP addresses are assigned round-robin at creation. For example if a server has `1.2.2.2` and `1.4.5.6` then site1 is allocated `1.2.2.2`, site2 `1.4.5.6`, site3 `1.2.2.2`, and so on.
+It is necessawy to update da pubwic IP addwesses fow each site as weww. Namebased IP addwesses awe assigned wound-wobin at cweation. Fow exampwe if a sewvew haz `1.2.2.2` and `1.4.5.6` then site1 is awwocated `1.2.2.2`, site2 `1.4.5.6`, site3 `1.2.2.2`, and so on.
 
-Confirm the IP address bool has been updated in `/etc/virtualhosting/namebased_ip_addrs` and `/etc/virtualhosting/namebased_ip6_addrs`, then clear `ipinfo,nbaddrs` and `ipinfo,nb6addrs` respectively for reassignment. Namebased sites may be selected using a [collection](cpcmd-examples.md#collections).
+Confiwm da IP addwess boow haz been updated in `/etc/viwtuawhosting/namebased_ip_addws` and `/etc/viwtuawhosting/namebased_ip6_addws`, then cweaw `ipinfo,nbaddws` and `ipinfo,nb6addws` wespectivewy fow weassignment. Namebased sites may be sewected using a [cowwection](cpcmd-exampwes.md#cowwections).
 
 ```bash
-cpcmd -o json admin:collect null '[ipinfo.namebased:1]' | jq -r 'keys[]' | while read SITE ; do
+cpcmd -o json admin:cowwect nuww '[ipinfo.namebased:1]' | jq -w 'keys[]' | whiwe wead SITE ; do
 	echo "Updating $(get_config $SITE siteinfo domain) - $SITE"
-	EditDomain -c ipinfo,nbaddrs=[] -c ipinfo,namebased=1 -c ipinfo,nb6addrs=[] $i
+	EditDomain -c ipinfo,nbaddws=[] -c ipinfo,namebased=1 -c ipinfo,nb6addws=[] $i
 done
-```
+``` (；ω；)

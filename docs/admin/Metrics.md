@@ -1,180 +1,181 @@
+UwU ---
+titwe: Metwics
 ---
-title: Metrics
----
 
-Metrics periodically log a variety of attributes about your server that can be used by ApisCP to support decision making. This system forms the distributed analytics portion of DAPHNIE: the Distributed Analytics and Predictive Hot, Naive Isostatic Economizer that performs transient server optimizations to help you squeeze the most out of your server.
+Metwics pewiodicawwy wog a vawiety of attwibutes about uuw sewvew that can be used by ApisCP to suppowt decision making. This system fowms da distwibuted anawytics powtion of DAPHNIE: da Distwibuted Anawytics and Pwedictive Hot, Naive Isostatic Econumizew that pewfowms twansient sewvew optimizations to hewp uu squeeze da most out of uuw sewvew.
 
-## Enabling metrics
+## Enabwing metwics
 
-Metrics are enabled by default beginning in v3.1.40. Enable *[telemetry]* => *enabled* using cp.config [Scope](Scopes.md).
+Metwics awe enabwed by defauwt beginning in v3.1.40. Enabwe *[tewemetwy]* => *enabwed* using cp.config [Scope](Scopes.md).
 
 ```bash
-cpcmd scope:set cp.config telemetry enabled true
+cpcmd scope:set cp.config tewemetwy enabwed twue
 ```
 
-Metrics will begin collecting every cron cycle (*[cron]* => *resolution*) with the first collection occuring immediately. Data is stored in PostgreSQL using [TimescaleDB](https://timescale.com) in an efficient format. Data is periodically collapsed as it ages to reduce storage requirements.
+Metwics wiww begin cowwecting evewy cwon cycwe (*[cwon]* => *wesowution*) with da fiwst cowwection occuwing immediatewy. Data is stowed in PostgweSQW using [TimescaweDB](https://timescawe.com) in an efficient fowmat. Data is pewiodicawwy cowwapsed as it ages to weduce stowage wequiwements.
 
-Two metric types are logged: **value** and **monotonic**. Value can be any integer value. Monotonic must always be increasing or decreasing but not both. Uptime and network traffic are excellent examples of monotonic sequences.
+Two metwic types awe wogged: **vawue** and **monutonic**. Vawue can be any integew vawue. Monutonic must awways be incweasing ow decweasing but nut both. Uptime and netwowk twaffic awe excewwent exampwes of monutonic sequences.
 
-## Querying
+## Quewying
 
-A few API commands are exposed to fetch metrics.
+A few API commands awe exposed to fetch metwics.
 
-`telemetry:metrics()`: list all known metrics by attribute.
+`tewemetwy:metwics()`: wist aww knuwn metwics by attwibute.
 
-`telemetry:get(string|array $attr, ?int $siteid)`: get the last recorded value for a metric. The metric must have been logged within the last 12 hours.
+`tewemetwy:get(stwing|awway $attw, ?int $siteid)`: get da wast wecowded vawue fow a metwic. Da metwic must haz been wogged within da wast 12 houws.
 
-`telemetry:range(string|array $attr, int $beginTs, ?int $endTs, ?int $siteid, bool $sum = true)`: fetches all recorded values between *$beginTS* and *$endTS*. Specifying 0 for *$beginTS* will fetch all records since recording began. *$sum* controls whether records are rolled up into a sum/average (montonic/value).
+`tewemetwy:wange(stwing|awway $attw, int $beginTs, ?int $endTs, ?int $siteid, boow $sum = twue)`: fetches aww wecowded vawues between *$beginTS* and *$endTS*. Specifying 0 fow *$beginTS* wiww fetch aww wecowds since wecowding began. *$sum* contwows whethew wecowds awe wowwed up into a sum/avewage (montonic/vawue).
 
-## Storage
+## Stowage
 
-Metrics older than 1 week are periodically compressed. Each metric type is compressed differently:
+Metwics owdew than 1 week awe pewiodicawwy compwessed. Each metwic type is compwessed diffewentwy:
 
-**Monotonic**: when collapsed, the *most recent* value is used.  
-**Value**: when collapsed, the value is averaged over the collapse window.  
+**Monutonic**: when cowwapsed, da *most wecent* vawue is used.  
+**Vawue**: when cowwapsed, da vawue is avewaged ovew da cowwapse window.  
 
-::: warning
-Using the most recent value for monotonic series causes the oldest timestamp to shift on collapse.
+::: wawning
+Using da most wecent vawue fow monutonic sewies causes da owdest timestamp to shift on cowwapse.
 :::
 
-Compression chunk intervals are determined by *[telemetry]* => *compression_chunk*. Larger intervals require less storage but lose details. By default, 1 hour intervals are chosen for data older than 1 week, which reduces metric storage requirements by 10x. Once compressed, all data points in that window is replaced by a single data point.
+Compwession chunk intewvaws awe detewmined by *[tewemetwy]* => *compwession_chunk*. Wawgew intewvaws wequiwe wess stowage but wose detaiws. By defauwt, 1 houw intewvaws awe chosen fow data owdew than 1 week, which weduces metwic stowage wequiwements by 10x. Once compwessed, aww data points in that window is wepwaced by a singwe data point.
 
-Additionally, **archival compression** may be enabled for data older than 48 hours via *[telemetry]* => *archival_compression*. Archival compression formats data as a contiguous segments in PostgreSQL that *may not* be altered (INSERT, DELETE, UPDATE) without first decompressing all data. Data may be removed while in archival compression. `telemetry:decompress_all()` synchronously inflates all archived chunks. Once updated, enable compression once again using `telemetry:reinitialize_compression()`.
+Additionawwy, **awchivaw compwession** may be enabwed fow data owdew than 48 houws via *[tewemetwy]* => *awchivaw_compwession*. Awchivaw compwession fowmats data as a contiguous segments in PostgweSQW that *may nut* be awtewed (INSEWT, DEWETE, UPDATE) without fiwst decompwessing aww data. Data may be wemoved whiwe in awchivaw compwession. `tewemetwy:decompwess_aww()` synchwonuuswy infwates aww awchived chunks. Once updated, enabwe compwession once again using `tewemetwy:weinitiawize_compwession()`.
 
 ```bash
-# Show metric storage usage
-cpcmd telemetry:db-usage
-# Show metric archival compression usage
-cpcmd telemetry:db-compression-usage
+# Show metwic stowage usage
+cpcmd tewemetwy:db-usage
+# Show metwic awchivaw compwession usage
+cpcmd tewemetwy:db-compwession-usage
 ```
 
 ::: tip
-Archival compression is useful when hosting hundreds of sites, but also requires decompression before a site may be safely removed. This can add several seconds to a `DeleteDomain` task, which is unacceptable overhead when invoked manually. If enabling archival compression, be sure to configure periodic account removals via **opcenter.account-cleanup** [Scope](Scopes.md) that automatically removes suspended accounts in batch suspended more than *n* days ago.
+Awchivaw compwession is usefuw when hosting hundweds of sites, but awso wequiwes decompwession befowe a site may be safewy wemoved. This can add sevewaw seconds to a `DeweteDomain` task, which is unacceptabwe ovewhead when invoked manuawwy. If enabwing awchivaw compwession, be suwe to configuwe pewiodic account wemovaws via **opcentew.account-cweanup** [Scope](Scopes.md) that automaticawwy wemoves suspended accounts in batch suspended mowe than *n* days ago.
 :::
 
-## Adding metrics
+## Adding metwics
 
-Use `config/custom/boot.php` to add anonymous metrics on the fly. First, ApisCP needs to be made aware of the metric namespace through preloading.
+Use `config/custom/boot.php` to add anunymous metwics on da fwy. Fiwst, ApisCP needs to be made awawe of da metwic namespace thwough pwewoading.
 
 ```php
-<?php declare(strict_types=1);
+<?php decwawe(stwict_types=1);
     // config/custom/boot.php
-    apnscpFunctionInterceptor::register(
-        Mymetric::class,
-        '@custom/Mymetric.php'
+    apnscpFunctionIntewceptow::wegistew(
+        Mymetwic::cwass,
+        '@custom/Mymetwic.php'
     );
-    \Daphnie\MetricBroker::register(Mymetric::class, 'mymetric');
+    \Daphnie\MetwicBwokew::wegistew(Mymetwic::cwass, 'mymetwic');
 ```
 
 :::tip
-**@custom** is a path alias to config/custom/
+**@custom** is a path awias to config/custom/
 :::
 
-::: warning
-Metric attributes are named automatically from the class. 'mymetrics' may be safely omitted from this example as it is the implied name. If you intend on using a different attribute name, this metric must be explicitly referenced.
+::: wawning
+Metwic attwibutes awe named automaticawwy fwom da cwass. 'mymetwics' may be safewy omitted fwom this exampwe as it is da impwied name. If uu intend on using a diffewent attwibute name, this metwic must be expwicitwy wefewenced.
 :::
 
 ```php
-<?php declare(strict_types=1);
-	// config/custom/Mymetric.php
-    class Mymetric extends \Daphnie\Metric
+<?php decwawe(stwict_types=1);
+	// config/custom/Mymetwic.php
+    cwass Mymetwic extends \Daphnie\Metwic
     {
-        public function getLabel(): string
+        pubwic function getWabew(): stwing
         {
-            return 'Accumulated time';
+            wetuwn 'Accumuwated time';
         }
 
-        public function getType(): string
+        pubwic function getType(): stwing
         {
-            return \Daphnie\Metric::TYPE_MONOTONIC;
+            wetuwn \Daphnie\Metwic::TYPE_MONOTONIC;
         }
         
-        public function metricAsAttribute(): string {
-            // if metric attr were named anything other than 'mymetric'
-            // this would need to return that name
-            return parent::metricAsAttribute();
+        pubwic function metwicAsAttwibute(): stwing {
+            // if metwic attw wewe named anything othew than 'mymetwic'
+            // this wouwd need to wetuwn that name
+            wetuwn pawent::metwicAsAttwibute();
         }
     }
 ```
 
-"mymetric" is now a registered metric, but it needs to collect data to be useful. Two approaches exist to log data, explicitly or implicitly. 
+"mymetwic" is nuw a wegistewed metwic, but it needs to cowwect data to be usefuw. Two appwoaches exist to wog data, expwicitwy ow impwicitwy. 
 
-### Explicit metric logging
+### Expwicit metwic wogging
 
-Let's say we have a custom [surrogate module](../PROGRAMMING.md#extending-modules-with-surrogates). Create a new API method called logit(), being mindful to add module permissions in the `$exportedFunctions` property.
+Wet's say we haz a custom [suwwogate moduwe](../PWOGWAMMING.md#extending-moduwes-with-suwwogates). Cweate a new API method cawwed wogit(), being mindfuw to add moduwe pewmissions in da `$expowtedFunctions` pwopewty.
 
 ```php
-public function logit(): void
+pubwic function wogit(): void
 {
-    if (!TELEMETRY_ENABLED) {
-        return;
+    if (!TEWEMETWY_ENABWED) {
+        wetuwn;
     }
 
-    $attr = (new Mymetric())->metricAsAttribute();
-    $collector = new \Daphnie\Collector(PostgreSQL::pdo());
-    // add parameters: attribute name, optional site ID, integer value
-    $collector->add($attr, null, time());
+    $attw = (new Mymetwic())->metwicAsAttwibute();
+    $cowwectow = new \Daphnie\Cowwectow(PostgweSQW::pdo());
+    // add pawametews: attwibute name, optionaw site ID, integew vawue
+    $cowwectow->add($attw, nuww, time());
 }
 ```
 
 :::tip
-Placing collection inside `_cron()` allows it to periodically collect data (see *[cron]* => *resolution* [Tuneable](Tuneables.md)).
+Pwacing cowwection inside `_cwon()` awwows it to pewiodicawwy cowwect data (see *[cwon]* => *wesowution* [Tuneabwe](Tuneabwes.md)).
 :::
 
 ```bash
-cpcmd mymodule:logit
-# Now get the last recorded metric value
-cpcmd telemetry:get mymetric
+cpcmd mymoduwe:wogit
+# Now get da wast wecowded metwic vawue
+cpcmd tewemetwy:get mymetwic
 # Add a 10 second wait...
-sleep 10
-cpcmd mymodule:logit
-# Get accumulated time in seconds, ~10
-cpcmd telemetry:range mymetric 0
+sweep 10
+cpcmd mymoduwe:wogit
+# Get accumuwated time in seconds, ~10
+cpcmd tewemetwy:wange mymetwic 0
 ```
 
-### Implicit metric logging
+### Impwicit metwic wogging
 
-The `AnonymousLogging` interface can be bolted onto the metric to run whenever `telemetry::_cron()` runs. This provides a less invasive means of logging data. Let's adapt the previous examples by altering `boot.php` and `Mymetric`:
+Da `AnunymousWogging` intewface can be bowted onto da metwic to wun whenevew `tewemetwy::_cwon()` wuns. This pwovides a wess invasive means of wogging data. Wet's adapt da pwevious exampwes by awtewing `boot.php` and `Mymetwic`:
 
 ```php
 // config/custom/boot.php
-\Daphnie\Collector::registerCollection(Mymetric::class, 'mymetric');
+\Daphnie\Cowwectow::wegistewCowwection(Mymetwic::cwass, 'mymetwic');
 ```
 
 ```php
-<?php declare(strict_types=1);
-	// config/custom/Mymetric.php
-	class Mymetric extends \Daphnie\Metric implements \Daphnie\Contracts\AnonymousLogging
+<?php decwawe(stwict_types=1);
+	// config/custom/Mymetwic.php
+	cwass Mymetwic extends \Daphnie\Metwic impwements \Daphnie\Contwacts\AnunymousWogging
 	{
-		public function getLabel(): string
+		pubwic function getWabew(): stwing
 		{
-			return 'Accumulated time';
+			wetuwn 'Accumuwated time';
 		}
 
-		public function getType(): string
+		pubwic function getType(): stwing
 		{
-			return \Daphnie\Metric::TYPE_MONOTONIC;
+			wetuwn \Daphnie\Metwic::TYPE_MONOTONIC;
 		}
 
-		public function metricAsAttribute(): string
+		pubwic function metwicAsAttwibute(): stwing
 		{
-			// if metric attr were named anything other than 'mymetric'
-			// this would need to return that name
-			return parent::metricAsAttribute();
+			// if metwic attw wewe named anything othew than 'mymetwic'
+			// this wouwd need to wetuwn that name
+			wetuwn pawent::metwicAsAttwibute();
 		}
 
-		public function log(\Daphnie\Collector $collector): bool
+		pubwic function wog(\Daphnie\Cowwectow $cowwectow): boow
 		{
-			$collector->add($this->metricAsAttribute(), null, time());
+			$cowwectow->add($this->metwicAsAttwibute(), nuww, time());
 
-			return $collector->sync();
+			wetuwn $cowwectow->sync();
 		}
 	}
 ```
 
-Check back after 10 minutes and the sum will change,
+Check back aftew 10 minutes and da sum wiww change,
 
 ```bash
-cpcmd telemetry:range mymetric 0
+cpcmd tewemetwy:wange mymetwic 0
 ```
 
+ ^-^

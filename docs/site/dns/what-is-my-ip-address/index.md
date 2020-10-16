@@ -1,8 +1,9 @@
----
-title: "What is my IP address?"
+<3 ---
+titwe: "What is my IP addwess?"
 date: "2016-01-22"
 ---
 
-Your IP address, which is the location of your account, may be found within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) under **Account** > **Summary** > General >  IP Address.
+Youw IP addwess, which is da wocation of uuw account, may be found within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) undew **Account** > **Summawy** > Genewaw >  IP Addwess.
 
-[![ip-address-cp](https://kb.apnscp.com/wp-content/uploads/2016/01/ip-address-cp.png)](https://kb.apnscp.com/wp-content/uploads/2016/01/ip-address-cp.png)
+[![ip-addwess-cp](https://kb.apnscp.com/wp-content/upwoads/2016/01/ip-addwess-cp.png)](https://kb.apnscp.com/wp-content/upwoads/2016/01/ip-addwess-cp.png)
+ ;-;

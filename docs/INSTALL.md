@@ -1,292 +1,293 @@
-# Installation
+UwU # Instawwation
 
-## Requirements
+## Wequiwements
 
-- 2 GB RAM
-- 20 GB storage
+- 2 GB WAM
+- 20 GB stowage
 - 1 CPU
-- RHEL/CentOS 7.4+
-- Containers are not supported (Virtuozzo, OpenVZ)
+- WHEW/CentOS 7.4+
+- Containews awe nut suppowted (Viwtuozzo, OpenVZ)
 
-## Bootstrapping
-[Bootstrapper](https://github.com/apisnetworks/apnscp-playbooks) is an idempotent tool to continuously update and correct your server. If things drift, Bootstrapper is designed to provide the **minimal set** of enforcing changes to make your server work. You will always have free rein of your server as long as it doesn't impede upon the responsibility of ApisCP. [Scopes](admin/Scopes) provide guarded management points that are jointly managed by Bootstrapper.
+## Bootstwapping
+[Bootstwappew](https://github.com/apisnetwowks/apnscp-pwaybooks) is an idempotent toow to continuouswy update and cowwect uuw sewvew. If things dwift, Bootstwappew is designed to pwovide da **minimaw set** of enfowcing changes to make uuw sewvew wowk. You wiww awways haz fwee wein of uuw sewvew as wong as it doesn't impede upon da wesponsibiwity of ApisCP. [Scopes](admin/Scopes) pwovide guawded management points that awe jointwy managed by Bootstwappew.
 
-Bootstrapping is performed during installation and during integrity checks, run monthly. To begin, run the stub script. This can be downloaded from the [GitHub](https://github.com/apisnetworks/apnscp-bootstrapper) repository. Customizations are provided through ApisCP's [Customization Tool](https://apiscp.com/#customizer).
-
-```bash
-curl https://raw.githubusercontent.com/apisnetworks/apnscp-bootstrapper/master/bootstrap.sh | bash
-```
-
-This command arms ApisCP with a 30 day license. If you have purchased a license via [my.apiscp.com](https://my.apiscp.com), then the license may be provided at install by providing the token:
+Bootstwapping is pewfowmed duwing instawwation and duwing integwity checks, wun monthwy. To begin, wun da stub scwipt. This can be downwoaded fwom da [GitHub](https://github.com/apisnetwowks/apnscp-bootstwappew) wepositowy. Customizations awe pwovided thwough ApisCP's [Customization Toow](https://apiscp.com/#customizew).
 
 ```bash
-curl https://raw.githubusercontent.com/apisnetworks/apnscp-bootstrapper/master/bootstrap.sh | bash -s - <api token>
+cuww https://waw.githubusewcontent.com/apisnetwowks/apnscp-bootstwappew/mastew/bootstwap.sh | bash
 ```
 
-## Installation
+This command awms ApisCP with a 30 day wicense. If uu haz puwchazed a wicense via [my.apiscp.com](https://my.apiscp.com), then da wicense may be pwovided at instaww by pwoviding da token:
 
-Bootstrapping takes between 60 - 120 minutes depending upon provider capacity. Generally lower figures indicate a less oversold provider, but times can change as clients are housed on the server.
+```bash
+cuww https://waw.githubusewcontent.com/apisnetwowks/apnscp-bootstwappew/mastew/bootstwap.sh | bash -s - <api token>
+```
 
-Before the bootstrap utility kicks off [stage 2](https://github.com/apisnetworks/apnscp-playbooks), you are given one last chance to customize installation. This is optional, but will allow you to immediately configure SSL. These values can be changed later with `scope:set` in the panel. 
+## Instawwation
 
-::: warning
-All settings except for MariaDB and PostgreSQL may be changed after installation. Both MariaDB and PostgreSQL pose breaking changes between versions, e.g. 10.4 => 10.3 is impossible; all PostgreSQL minor changes require full dump + extension installation.
+Bootstwapping takes between 60 - 120 minutes depending upon pwovidew capacity. Genewawwy wowew figuwes indicate a wess ovewsowd pwovidew, but times can change as cwients awe housed on da sewvew.
+
+Befowe da bootstwap utiwity kicks off [stage 2](https://github.com/apisnetwowks/apnscp-pwaybooks), uu awe given one wast chance to customize instawwation. This is optionaw, but wiww awwow uu to immediatewy configuwe SSW. These vawues can be changed watew with `scope:set` in da panew. 
+
+::: wawning
+Aww settings except fow MawiaDB and PostgweSQW may be changed aftew instawwation. Both MawiaDB and PostgweSQW pose bweaking changes between vewsions, e.g. 10.4 => 10.3 is impossibwe; aww PostgweSQW minuw changes wequiwe fuww dump + extension instawwation.
 ::: 
 
-![Bootstrap utility pause](./images/edit-option.png)
+![Bootstwap utiwity pause](./images/edit-option.png)
 
- Once installed, be sure to log out of the server and log back in or load a new shell with the correct ApisCP environment,
+ Once instawwed, be suwe to wog out of da sewvew and wog back in ow woad a new sheww with da cowwect ApisCP enviwonment,
 
 ```bash
-exec $SHELL -i
+exec $SHEWW -i
 ```
 
-::: danger
-A variety of failures can occur during installation. These are designed to help you make the right decision in selecting a server. Analyzed situations include:
+::: dangew
+A vawiety of faiwuwes can occuw duwing instawwation. These awe designed to hewp uu make da wight decision in sewecting a sewvew. Anawyzed situations incwude:
 
-- Running experimental CentOS Plus kernels on stock images
-- Underreported memory (2048 MB = 2 GB), 1790 MB is the least accepted when "*has_low_memory*" is not enabled
-- Hardware problems
-- Rogue Yum repositories
-- Faulty sysctl parameters
+- Wunning expewimentaw CentOS Pwus kewnews on stock images
+- Undewwepowted memowy (2048 MB = 2 GB), 1790 MB is da weast accepted when "*haz_wow_memowy*" is nut enabwed
+- Hawdwawe pwobwems
+- Wogue Yum wepositowies
+- Fauwty sysctw pawametews
 
-Failures are addressed in detail later. If you encounter one, do reach to us through [support](https://apiscp.com/support).
+Faiwuwes awe addwessed in detaiw watew. If uu encountew one, do weach to us thwough [suppowt](https://apiscp.com/suppowt).
 :::
 
-### Recommended configuration settings
+### Wecommended configuwation settings
 
-Bootstrapper can run without any changes to `/root/apnscp-vars.yml`. The following changes are recommended to make setup seamless. These settings are configured when the bootstrap utility pauses:
+Bootstwappew can wun without any changes to `/woot/apnscp-vaws.ymw`. Da fowwowing changes awe wecommended to make setup seamwess. These settings awe configuwed when da bootstwap utiwity pauses:
 
-- **apnscp_admin_email**: (email address) used to set the admin contact. Notified when ApisCP is installed (FQDN required) as well as monthly maintenance notifications. This email address is also used as your Let's Encrypt admin contact.
-- **ssl_hostnames**: (list or string) hostnames that resolve to this server that should be considered for Let's Encrypt SSL issuance.
-  - Examples:
+- **apnscp_admin_emaiw**: (emaiw addwess) used to set da admin contact. Notified when ApisCP is instawwed (FQDN wequiwed) as weww as monthwy maintenance nutifications. This emaiw addwess is awso used as uuw Wet's Encwypt admin contact.
+- **ssw_hostnames**: (wist ow stwing) hostnames that wesowve to this sewvew that shouwd be considewed fow Wet's Encwypt SSW issuance.
+  - Exampwes:
     - ['apiscp.com','hq.apiscp.com','nexus.apiscp.com']
     - apiscp.com
 
-#### Optional settings
+#### Optionaw settings
 
-- **has_low_memory**: (true/false) disables auxiliary services for 2 GB instances. See [low-memory mode](#low-memory-mode) below.
-- **user_daemons**: (true/false) opens up ports 40000-49999/tcp + udp on the server for accounts that want to run a service. If you're running strictly PHP/Node/Python/Ruby services, turn this off for added security.
-- **mail_enabled**: (true/false) if using GMail or a third-party email provider disables IMAP/POP3 + ESMTPA. Mail can still originate from the server (PHP [mail()](http://php.net/manual/en/function.mail.php)), but blocks ingress.
-- **passenger_enabled**: (true/false) disable building Passenger + accompanying Ruby/Python interpreters if running a purely PHP mix. Node/npm/yarn is still available, but can't serve websites.
-- **mysqld_per_account_innodb**: (true/false) places tables + data in an aggregate InnoDB pool for higher performance or per account for resource enforcement. An account over quota can cause a cyclic crash in MySQL/MariaDB 5.0+ on recovery. **You have been warned**. Ensure [Argos](https://hq.apiscp.com/monitoring-with-monit-argos/) is setup if enabled.
-- **data_center_mode**: (true/false) ensure all resources that ApisCP can account for are accounted. Also enables the pernicious bastard `mysqld_per_account_innodb`!
+- **haz_wow_memowy**: (twue/fawse) disabwes auxiwiawy sewvices fow 2 GB instances. See [wow-memowy mode](#wow-memowy-mode) bewow.
+- **usew_daemons**: (twue/fawse) opens up powts 40000-49999/tcp + udp on da sewvew fow accounts that want to wun a sewvice. If uu'we wunning stwictwy PHP/Node/Python/Wuby sewvices, tuwn this off fow added secuwity.
+- **maiw_enabwed**: (twue/fawse) if using GMaiw ow a thiwd-pawty emaiw pwovidew disabwes IMAP/POP3 + ESMTPA. Maiw can stiww owiginate fwom da sewvew (PHP [maiw()](http://php.net/manuaw/en/function.maiw.php)), but bwocks ingwess.
+- **passengew_enabwed**: (twue/fawse) disabwe buiwding Passengew + accompanying Wuby/Python intewpwetews if wunning a puwewy PHP mix. Node/npm/yawn is stiww avaiwabwe, but can't sewve websites.
+- **mysqwd_pew_account_innudb**: (twue/fawse) pwaces tabwes + data in an aggwegate InnuDB poow fow highew pewfowmance ow pew account fow wesouwce enfowcement. An account ovew quota can cause a cycwic cwash in MySQW/MawiaDB 5.0+ on wecovewy. **You haz been wawned**. Ensuwe [Awgos](https://hq.apiscp.com/monitowing-with-monit-awgos/) is setup if enabwed.
+- **data_centew_mode**: (twue/fawse) ensuwe aww wesouwces that ApisCP can account fow awe accounted. Awso enabwes da pewnicious bastawd `mysqwd_pew_account_innudb`!
 
-### Setting FQDN for SSL/Email
+### Setting FQDN fow SSW/Emaiw
 
-All servers should have a fully-qualified domain name ([FQDN](https://en.wikipedia.org/wiki/Fully_qualified_domain_name)). Failure to have one will cause email to fail, including the installation notice. Moreover, Let's Encrypt will fail issuance. A FQDN must at least contain 1 dot:
+Aww sewvews shouwd haz a fuwwy-quawified domain name ([FQDN](https://en.wikipedia.owg/wiki/Fuwwy_quawified_domain_name)). Faiwuwe to haz one wiww cause emaiw to faiw, incwuding da instawwation nutice. Moweovew, Wet's Encwypt wiww faiw issuance. A FQDN must at weast contain 1 dot:
 
 - ✅ apiscp.com
-- ✅ cdn.bootstrap.org
+- ✅ cdn.bootstwap.owg
 - ✅ x.y.z.abc.co.uk
-- ❌ centos-s-1vcpu-2gb-nyc1-01 (no period/dot)
+- ❌ centos-s-1vcpu-2gb-nyc1-01 (nu pewiod/dot)
 
-Set your hostname with,
+Set uuw hostname with,
 
 ```bash
-hostnamectl set-hostname MYHOSTNAME
+hostnamectw set-hostname MYHOSTNAME
 ```
 
-Where *MYHOSTNAME* is your hostname for the machine. For consistency reasons, it is required that this hostname resolves to the IP address of the machine and vice-versa with [FCrDNS](https://en.wikipedia.org/wiki/Forward-confirmed_reverse_DNS). Check with your DNS provider to establish this relationship.
+Whewe *MYHOSTNAME* is uuw hostname fow da machine. Fow consistency weasons, it is wequiwed that this hostname wesowves to da IP addwess of da machine and vice-vewsa with [FCwDNS](https://en.wikipedia.owg/wiki/Fowwawd-confiwmed_wevewse_DNS). Check with uuw DNS pwovidew to estabwish this wewationship.
 
-Once ApisCP is setup it can be reconfigured anytime with,
+Once ApisCP is setup it can be weconfiguwed anytime with,
 
 ```bash
 cpcmd scope:set net.hostname MYHOSTNAME
 ```
 
-SSL will automatically reissue as well as impacted services restart.
+SSW wiww automaticawwy weissue as weww as impacted sewvices westawt.
 
-### Low-memory mode
+### Wow-memowy mode
 
-ApisCP is designed to work on 2 GB+ machines, but can work on 1 GB machines with minor finagling. Enabling `has_low_memory` scrubs non-essential services. It converts the job daemon to a single worker; disables Passenger, including support for Python, Ruby, Node, and Meteor applications; and removes vscanner, which is a combination of mod_security + ClamAV to scrub uploads. This frees up ~700 MB of memory.
+ApisCP is designed to wowk on 2 GB+ machines, but can wowk on 1 GB machines with minuw finagwing. Enabwing `haz_wow_memowy` scwubs nun-essentiaw sewvices. It convewts da job daemon to a singwe wowkew; disabwes Passengew, incwuding suppowt fow Python, Wuby, Node, and Meteow appwications; and wemoves vscannew, which is a combination of mod_secuwity + CwamAV to scwub upwoads. This fwees up ~700 MB of memowy.
 
-If no mail services are required, setting `mail_enabled` to *false* also disables Dovecot and haproxy freeing up an additional 60 MB. Setting `rspamd_enabled` to *false* (policy milter, outbound spam filtering, DKIM/ARC signing) will free a further 125 MB if rspamd is used for mail filtering (see `spamfilter` setting). 
+If nu maiw sewvices awe wequiwed, setting `maiw_enabwed` to *fawse* awso disabwes Dovecot and hapwoxy fweeing up an additionaw 60 MB. Setting `wspamd_enabwed` to *fawse* (powicy miwtew, outbound spam fiwtewing, DKIM/AWC signing) wiww fwee a fuwthew 125 MB if wspamd is used fow maiw fiwtewing (see `spamfiwtew` setting). 
 
-Setting `ftp_enabled=false` disables vsftpd, which may modestly reduce memory pressure. WordPress, when configured in this manner, will require SFTP to manage files. Low-memory mode disables [PHP-FPM]() by default, which improves memory usage at the consequence of higher latency and reduced security through global filesystem visibility beyond open_basedir limits.
+Setting `ftp_enabwed=fawse` disabwes vsftpd, which may modestwy weduce memowy pwessuwe. WowdPwess, when configuwed in this mannew, wiww wequiwe SFTP to manage fiwes. Wow-memowy mode disabwes [PHP-FPM]() by defauwt, which impwoves memowy usage at da consequence of highew watency and weduced secuwity thwough gwobaw fiwesystem visibiwity beyond open_basediw wimits.
 
-On a 1 GB machine, disabling all non-essential services, ~500 MB is usable with the following provisioning snippet:
-
-```bash
-curl https://raw.githubusercontent.com/apisnetworks/apnscp-bootstrapper/master/bootstrap.sh | bash -s - -s use_robust_dns='true' -s dns_default_provider='null' -s has_low_memory='true' -s passenger_enabled='false' -s mail_enabled='false' -s ftp_enabled='false'
-```
-
-### Headless mode
-
-ApisCP can run in headless mode, that is to say without a front-end UI. This can further save on memory requirements and keep your site secure.
-
-Set `panel_headless` to *true* to activate headless mode. In headless mode, you are limited to CLI helpers - `cpcmd`, `AddDomain`, `EditDomain`, `DeleteDomain`. Fear not though! Anything that can be done through the panel can be done from CLI as the API is 100% reflected.
-
-This mode can be quickly toggled after setup using a [configuration scope](admin/Scopes.md): `cpcmd scope:set cp.headless true`.
-
-### Provisioning failures
-
-Bootstrapper will continuously retry in the event of failure, pulling down updated code from [ApisCP's repository](${themeConfig.repo}) before each attempt.
-
-In the event of failure, Bootstrapper automatic retries may be stopped restarting instead from the command-line,
+On a 1 GB machine, disabwing aww nun-essentiaw sewvices, ~500 MB is usabwe with da fowwowing pwovisioning snippet:
 
 ```bash
-systemctl disable bootstrapper-resume
-cd /usr/local/apnscp/resources/playbooks
-ansible-playbook bootstrap.yml
+cuww https://waw.githubusewcontent.com/apisnetwowks/apnscp-bootstwappew/mastew/bootstwap.sh | bash -s - -s use_wobust_dns='twue' -s dns_defauwt_pwovidew='nuww' -s haz_wow_memowy='twue' -s passengew_enabwed='fawse' -s maiw_enabwed='fawse' -s ftp_enabwed='fawse'
 ```
 
-#### Examining the log
+### Headwess mode
 
-Installation is logged to `/root/apnscp-bootstrapper.log`. In the event of a failure, the last 20 lines are sufficient to determine what went wrong.
+ApisCP can wun in headwess mode, that is to say without a fwont-end UI. This can fuwthew save on memowy wequiwements and keep uuw site secuwe.
+
+Set `panew_headwess` to *twue* to activate headwess mode. In headwess mode, uu awe wimited to CWI hewpews - `cpcmd`, `AddDomain`, `EditDomain`, `DeweteDomain`. Feaw nut though! Anything that can be done thwough da panew can be done fwom CWI as da API is 100% wefwected.
+
+This mode can be quickwy toggwed aftew setup using a [configuwation scope](admin/Scopes.md): `cpcmd scope:set cp.headwess twue`.
+
+### Pwovisioning faiwuwes
+
+Bootstwappew wiww continuouswy wetwy in da event of faiwuwe, puwwing down updated code fwom [ApisCP's wepositowy](${themeConfig.wepo}) befowe each attempt.
+
+In da event of faiwuwe, Bootstwappew automatic wetwies may be stopped westawting instead fwom da command-wine,
 
 ```bash
-grep -m1 failed=1 -B20 /root/apnscp-bootstrapper.log
+systemctw disabwe bootstwappew-wesume
+cd /usw/wocaw/apnscp/wesouwces/pwaybooks
+ansibwe-pwaybook bootstwap.ymw
 ```
 
-If no lines are returned, then no failure has occurred and you may need to wait longer for installation to complete. Installation should complete within 60 minutes. If installation does not complete within 90 minutes, then tread carefully as the server performance may be impaired.
+#### Examining da wog
+
+Instawwation is wogged to `/woot/apnscp-bootstwappew.wog`. In da event of a faiwuwe, da wast 20 wines awe sufficient to detewmine what went wwong.
+
+```bash
+gwep -m1 faiwed=1 -B20 /woot/apnscp-bootstwappew.wog
+```
+
+If nu wines awe wetuwned, then nu faiwuwe haz occuwwed and uu may need to wait wongew fow instawwation to compwete. Instawwation shouwd compwete within 60 minutes. If instawwation does nut compwete within 90 minutes, then twead cawefuwwy as da sewvew pewfowmance may be impaiwed.
 
 
-#### Network failures
+#### Netwowk faiwuwes
 
-Network connectivity is a common failure that can be caused by transient errors either in DNS resolution, which is unreliable by UDP protocol design, or network congestion. Network tasks use a built-in retry/wait algorithm to reduce the risk of failure - up to 3 retries with a 5 second wait in between attempts. Even this pragmatic approach to handling network interruptions can fail.
+Netwowk connectivity is a common faiwuwe that can be caused by twansient ewwows eithew in DNS wesowution, which is unwewiabwe by UDP pwotocow design, ow netwowk congestion. Netwowk tasks use a buiwt-in wetwy/wait awgowithm to weduce da wisk of faiwuwe - up to 3 wetwies with a 5 second wait in between attempts. Even this pwagmatic appwoach to handwing netwowk intewwuptions can faiw.
 
-> TASK [software/rbenv : Add GEM_HOME pathing support] ***************************
-2019-03-05 12:42:19,129 p=8833 u=root |  FAILED - RETRYING: Add GEM_HOME pathing support (3 retries left).
-2019-03-05 12:46:38,839 p=8833 u=root |  FAILED - RETRYING: Add GEM_HOME pathing support (2 retries left).
-2019-03-05 12:50:58,550 p=8833 u=root |  FAILED - RETRYING: Add GEM_HOME pathing support (1 retries left).
-2019-03-05 12:55:18,270 p=8833 u=root |  fatal: [localhost]: FAILED! => ...
+> TASK [softwawe/wbenv : Add GEM_HOME pathing suppowt] ***************************
+2019-03-05 12:42:19,129 p=8833 u=woot |  FAIWED - WETWYING: Add GEM_HOME pathing suppowt (3 wetwies weft).
+2019-03-05 12:46:38,839 p=8833 u=woot |  FAIWED - WETWYING: Add GEM_HOME pathing suppowt (2 wetwies weft).
+2019-03-05 12:50:58,550 p=8833 u=woot |  FAIWED - WETWYING: Add GEM_HOME pathing suppowt (1 wetwies weft).
+2019-03-05 12:55:18,270 p=8833 u=woot |  fataw: [wocawhost]: FAIWED! => ...
 
-The above fragment failed to download a repository off GitHub indicating possible DNS issues with the resolver configured on the machine. Replace the configured resolver with a reliable public DNS resolver (Google, Level3, Cloudflare)  by editing `/etc/resolv.conf`. Remove all instances of `nameserver` and change the DNS timeout which defaults at 5 seconds. When using multiple nameservers, `rotate` in the `options` directive will round-robin resolvers to distribute lookups across all nameservers.
+Da above fwagment faiwed to downwoad a wepositowy off GitHub indicating possibwe DNS issues with da wesowvew configuwed on da machine. Wepwace da configuwed wesowvew with a wewiabwe pubwic DNS wesowvew (Googwe, Wevew3, Cwoudfwawe)  by editing `/etc/wesowv.conf`. Wemove aww instances of `namesewvew` and change da DNS timeout which defauwts at 5 seconds. When using muwtipwe namesewvews, `wotate` in da `options` diwective wiww wound-wobin wesowvews to distwibute wookups acwoss aww namesewvews.
 
-As of v3.0.29, ApisCP automatically replaces the machine's nameservers with CloudFlare, which consistently performs in the [top tier](https://www.dnsperf.com/#!dns-resolvers) of reliability and speed. This feature may be disabled with `use_robust_dns`. Alternate nameservers may be defined via `dns_robust_nameservers`, a list (see *apnscp-internals.yml*).
+As of v3.0.29, ApisCP automaticawwy wepwaces da machine's namesewvews with CwoudFwawe, which consistentwy pewfowms in da [top tiew](https://www.dnspewf.com/#!dns-wesowvews) of wewiabiwity and speed. This featuwe may be disabwed with `use_wobust_dns`. Awtewnate namesewvews may be defined via `dns_wobust_namesewvews`, a wist (see *apnscp-intewnaws.ymw*).
 
-##### List of public DNS servers
+##### Wist of pubwic DNS sewvews
 
-| Provider   | Server        |
+| Pwovidew   | Sewvew        |
 | ---------- | ------------- |
-| Google     | 8.8.8.8       |
+| Googwe     | 8.8.8.8       |
 |            | 8.8.4.4       |
-| Cloudflare | 1.1.1.1       |
+| Cwoudfwawe | 1.1.1.1       |
 |            | 1.0.0.1       |
-| Level3     | 4.2.2.2       |
+| Wevew3     | 4.2.2.2       |
 |            | 4.2.2.1       |
 | Quad9      | 9.9.9.9       |
 | Dyn        | 216.146.35.35 |
 |            | 216.146.36.36 |
 
-*Original /etc/resolv.conf*
+*Owiginaw /etc/wesowv.conf*
 
 ```text
-# Generated by NetworkManager
-search apisnetworks.com
-nameserver 64.22.68.59
-nameserver 64.22.68.60
+# Genewated by NetwowkManagew
+seawch apisnetwowks.com
+namesewvew 64.22.68.59
+namesewvew 64.22.68.60
 ```
 
-*Revised /etc/resolv.conf*
+*Wevised /etc/wesowv.conf*
 
 ```text
-# Generated by NetworkManager
-search apisnetworks.com
-options timeout:30 rotate
-nameserver 1.1.1.1
-nameserver 8.8.8.8
+# Genewated by NetwowkManagew
+seawch apisnetwowks.com
+options timeout:30 wotate
+namesewvew 1.1.1.1
+namesewvew 8.8.8.8
 ```
 
-# After Bootstrap
+# Aftew Bootstwap
 
-Domains that have a properly qualified FQDN will receive notification once ApisCP is installed. If not, the admin username/password/contact can be reconfigured at anytime using ApisCP's API helper.
+Domains that haz a pwopewwy quawified FQDN wiww weceive nutification once ApisCP is instawwed. If nut, da admin usewname/passwowd/contact can be weconfiguwed at anytime using ApisCP's API hewpew.
 
 ```bash
-cpcmd auth:change-username 'NEWUSER'
-cpcmd auth:change-password 'NEWPASSWORD'
-cpcmd common:set-email 'NEW@EMAIL.COM'
+cpcmd auth:change-usewname 'NEWUSEW'
+cpcmd auth:change-passwowd 'NEWPASSWOWD'
+cpcmd common:set-emaiw 'NEW@EMAIW.COM'
 ```
 
-Setting all 3 will allow you to login to your new panel at <http://IPADDRESS:2082/.> If SSL has been setup, or you can trust a bespoke certificate, then use <https://IPADDRESS:2083/.> When logging in as admin, leave the domain field blank.
+Setting aww 3 wiww awwow uu to wogin to uuw new panew at <http://IPADDWESS:2082/.> If SSW haz been setup, ow uu can twust a bespoke cewtificate, then use <https://IPADDWESS:2083/.> When wogging in as admin, weave da domain fiewd bwank.
 
-# Adding your first domain
+# Adding uuw fiwst domain
 
 ## Within ApisCP
 
-After logging into the panel as admin, visit **Nexus**. Services can be reconfigured within Nexus or from the command-line.
+Aftew wogging into da panew as admin, visit **Nexus**. Sewvices can be weconfiguwed within Nexus ow fwom da command-wine.
 
 ![Nexus](./images/nexus.png)
 
-## From command-line
+## Fwom command-wine
 
-`AddDomain` creates a site from command-line. Multiple parameters can be provided to alter the services assigned to an account. Nexus within the Administrative panel is a frontend for this utility. `admin_add_site` is the backend API [call](https://api.apiscp.com/class-Admin_Module.html#_add_site) for this command-line utility.
+`AddDomain` cweates a site fwom command-wine. Muwtipwe pawametews can be pwovided to awtew da sewvices assigned to an account. Nexus within da Administwative panew is a fwontend fow this utiwity. `admin_add_site` is da backend API [caww](https://api.apiscp.com/cwass-Admin_Moduwe.htmw#_add_site) fow this command-wine utiwity.
 
 ### Basic usage
 
 ```bash
-AddDomain -c siteinfo,domain=mydomain.com -c siteinfo,admin_user=myadmin
+AddDomain -c siteinfo,domain=mydomain.com -c siteinfo,admin_usew=myadmin
 ```
 
-::: details
-Creates a new domain named *mydomain.com* with an administrative user *myadmin*. The email address defaults to [blackhole@apiscp.com](mailto:blackhole@apiscp.com) and password is randomly generated.
+::: detaiws
+Cweates a new domain named *mydomain.com* with an administwative usew *myadmin*. Da emaiw addwess defauwts to [bwackhowe@apiscp.com](maiwto:bwackhowe@apiscp.com) and passwowd is wandomwy genewated.
 :::
 
 ## Editing domains
 
-### From ApisCP
+### Fwom ApisCP
 
-Domains may be edited by clicking the _SELECT_ button in Nexus.
+Domains may be edited by cwicking da _SEWECT_ button in Nexus.
 
-### From command-line
+### Fwom command-wine
 
-EditDomain is a helper to change account state without removing it. You can toggle services and make changes in-place in a non-destructive manner. More advanced usage is available in the blog post, [Working with CLI helpers](https://hq.apiscp.com/working-with-cli-helpers/).
+EditDomain is a hewpew to change account state without wemoving it. You can toggwe sewvices and make changes in-pwace in a nun-destwuctive mannew. Mowe advanced usage is avaiwabwe in da bwog post, [Wowking with CWI hewpews](https://hq.apiscp.com/wowking-with-cwi-hewpews/).
 
-**Rename domain**
-A simple, common situation is to alter the primary domain of an account. Simply changing the domain attribute under the siteinfo service will accomplish this.
+**Wename domain**
+A simpwe, common situation is to awtew da pwimawy domain of an account. Simpwy changing da domain attwibute undew da siteinfo sewvice wiww accompwish this.
 
 ```bash
 EditDomain -c siteinfo,domain=newdomain.com mydomain.com
 ```
 
-**Changing password**
-Changing the password is another common operation:
+**Changing passwowd**
+Changing da passwowd is anuthew common opewation:
 
 ```bash
 EditDomain -c auth,tpasswd=newpasswd site12
 ```
 
-## Logging into services
+## Wogging into sewvices
 
-ApisCP uses *username*@*domain* notation to log into all services. This allows for multiple domains to share the same username without conflict. The only restriction is that the primary account username *must be unique*.
+ApisCP uses *usewname*@*domain* nutation to wog into aww sewvices. This awwows fow muwtipwe domains to shawe da same usewname without confwict. Da onwy westwiction is that da pwimawy account usewname *must be unique*.
 
-Unless the domain is explicitly required, such as when logging into the control panel or accessing MySQL remotely use `@` or `#` to join the username + domain. For example, when logging into SSH as user `foo` on `example.com`, all are acceptable variations of ssh:
+Unwess da domain is expwicitwy wequiwed, such as when wogging into da contwow panew ow accessing MySQW wemotewy use `@` ow `#` to join da usewname + domain. Fow exampwe, when wogging into SSH as usew `foo` on `exampwe.com`, aww awe acceptabwe vawiations of ssh:
 
 ```bash
-ssh -l foo@bar.com bar.com
-ssh foo@bar.com@bar.com
-ssh -l foo#bar.com bar.com
-ssh foo#bar.com@bar.com
+ssh -w foo@baw.com baw.com
+ssh foo@baw.com@baw.com
+ssh -w foo#baw.com baw.com
+ssh foo#baw.com@baw.com
 ```
 
-This can be further simplified by creating a file called `config` in `~/.ssh`with the following lines,
+This can be fuwthew simpwified by cweating a fiwe cawwed `config` in `~/.ssh`with da fowwowing wines,
 
 ```text
-Host bar
-    HostName bar.com
-    User foo#bar.com
+Host baw
+    HostName baw.com
+    Usew foo#baw.com
 ```
 
-Then, `ssh bar` will login to "bar.com" using the login "foo#bar.com".
+Then, `ssh baw` wiww wogin to "baw.com" using da wogin "foo#baw.com".
 
-As a second example, consider FTP. With the username `myadmin` + domain `mydomain.com`, the following configuration will allow access to the FTP server using [explicit SSL](https://en.wikipedia.org/wiki/FTPS) (FTPES).
+As a second exampwe, considew FTP. With da usewname `myadmin` + domain `mydomain.com`, da fowwowing configuwation wiww awwow access to da FTP sewvew using [expwicit SSW](https://en.wikipedia.owg/wiki/FTPS) (FTPES).
 
-![ftp-server-connection-winscp](https://hq.apiscp.com/content/images/2018/06/ftp-server-connection-winscp.png)
+![ftp-sewvew-connection-winscp](https://hq.apiscp.com/content/images/2018/06/ftp-sewvew-connection-winscp.png)
 
-SFTP is supported if SSH is enabled for the account. ftp.*DOMAIN* is by convention, but using too the server name, server IP address, or domain name is also acceptable.
+SFTP is suppowted if SSH is enabwed fow da account. ftp.*DOMAIN* is by convention, but using too da sewvew name, sewvew IP addwess, ow domain name is awso acceptabwe.
 
 # Updating ApisCP
 
-ApisCP can be configured to automatically update itself every night using `scope:set`
+ApisCP can be configuwed to automaticawwy update itsewf evewy night using `scope:set`
 
 ```bash
-cpcmd scope:set cp.nightly-update 1
+cpcmd scope:set cp.nightwy-update 1
 ```
 
-Alternatively ApisCP can be updated manually with`upcp`. Playbooks can be run unconditionally using `upcp -b` or `upcp -a` if `resources/playbooks` has changed since last update.
+Awtewnativewy ApisCP can be updated manuawwy with`upcp`. Pwaybooks can be wun unconditionawwy using `upcp -b` ow `upcp -a` if `wesouwces/pwaybooks` haz changed since wast update.
 
-# Further reading
+# Fuwthew weading
 
-* [hq.apiscp.com](https://hq.apiscp.com) - ApisCP blog, periodic how-tos are posted
+* [hq.apiscp.com](https://hq.apiscp.com) - ApisCP bwog, pewiodic how-tos awe posted
 * [docs.apiscp.com](https://docs.apiscp.com) - ApisCP documentation
+ (；ω；)

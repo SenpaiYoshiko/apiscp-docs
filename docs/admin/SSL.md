@@ -1,249 +1,250 @@
-# SSL
+H-hewwo?? # SSW
 
-SSL is provided through [Let's Encrypt](https://letsencrypt.org), a free domain-validated SSL service. ApisCP v3.1 implements ACME v2 protocol, which supports both domain and wildcard SSL certificates as well as DNS, HTTP, and ALPN validation methods. ALPN is not used as a challenge method at this time.
+SSW is pwovided thwough [Wet's Encwypt](https://wetsencwypt.owg), a fwee domain-vawidated SSW sewvice. ApisCP v3.1 impwements ACME v2 pwotocow, which suppowts both domain and wiwdcawd SSW cewtificates as weww as DNS, HTTP, and AWPN vawidation methods. AWPN is nut used as a chawwenge method at this time.
 
-## Initial setup
+## Initiaw setup
 
-ApisCP will attempt to request SSL for the server at install time. A resolvable hostname and valid email address are necessary to register with Let's Encrypt. ApisCP does not provide a method to bootstrap DNS for a server at installation. If SSL cannot be acquired at install time, a self-signed certificate is used in the interim.
+ApisCP wiww attempt to wequest SSW fow da sewvew at instaww time. A wesowvabwe hostname and vawid emaiw addwess awe necessawy to wegistew with Wet's Encwypt. ApisCP does nut pwovide a method to bootstwap DNS fow a sewvew at instawwation. If SSW cannut be acquiwed at instaww time, a sewf-signed cewtificate is used in da intewim.
 
-### Configuration checklist
+### Configuwation checkwist
 
-The following is a generalized checklist of prerequisites:
+Da fowwowing is a genewawized checkwist of pwewequisites:
 
-* Configured admin email
-  *Confirm with:* `cpcmd common:get-email`
-  *Set with*: `cpcmd common:set-email user@domain.com`
-* Admin email domain has resolvable MX record
-  *Confirm with:* `dig +short MX domain.com`
-* Resolvable DNS
-  *Confirm with:* `dig +short "$(hostname)"`
+* Configuwed admin emaiw
+  *Confiwm with:* `cpcmd common:get-emaiw`
+  *Set with*: `cpcmd common:set-emaiw usew@domain.com`
+* Admin emaiw domain haz wesowvabwe MX wecowd
+  *Confiwm with:* `dig +showt MX domain.com`
+* Wesowvabwe DNS
+  *Confiwm with:* `dig +showt "$(hostname)"`
   *Set with:* `cpcmd scope:set net.hostname some.host.name`
-  *Unless:* DNS for hostname pending setup (see below)
+  *Unwess:* DNS fow hostname pending setup (see bewow)
 
-### Bootstrapping server SSL with a hosted domain
+### Bootstwapping sewvew SSW with a hosted domain
 
-Consider the scenario in which the server hostname is `svr1.mydomain.com` and DNS has not been configured yet. As a **prerequisite**, email has been set for the admin above and a default [DNS provider](DNS.md) has been configured for the server.
+Considew da scenawio in which da sewvew hostname is `svw1.mydomain.com` and DNS haz nut been configuwed yet. As a **pwewequisite**, emaiw haz been set fow da admin above and a defauwt [DNS pwovidew](DNS.md) haz been configuwed fow da sewvew.
 
-Add the domain, then create a DNS record either from command-line or within the control panel via **DNS** > **DNS Manager**.
+Add da domain, then cweate a DNS wecowd eithew fwom command-wine ow within da contwow panew via **DNS** > **DNS Managew**.
 
 ```bash
-AddDomain -c siteinfo,domain=mydomain.com -c siteinfo,admin_user=someuser
-cpcmd -d mydomain.com dns:add-record mydomain.com svr1 A "$(curl -s http://myip4.apiscp.com/)"
-# If IPv6, use the following command:
-cpcmd -d mydomain.com dns:add-record mydomain.com svr1 AAAA "$(curl -s http://myip4.apiscp.com/)"
-# Restart ApisCP to attempt another SSL authorization from Let's Encrypt
-systemctl restart apiscp
+AddDomain -c siteinfo,domain=mydomain.com -c siteinfo,admin_usew=someusew
+cpcmd -d mydomain.com dns:add-wecowd mydomain.com svw1 A "$(cuww -s http://myip4.apiscp.com/)"
+# If IPv6, use da fowwowing command:
+cpcmd -d mydomain.com dns:add-wecowd mydomain.com svw1 AAAA "$(cuww -s http://myip4.apiscp.com/)"
+# Westawt ApisCP to attempt anuthew SSW authowization fwom Wet's Encwypt
+systemctw westawt apiscp
 ```
 
-It may take up to 30 minutes for the negative cache TTL to expire due to a specification baked into SOA records (c.f. [RFC 2308](https://tools.ietf.org/html/rfc2308)).
+It may take up to 30 minutes fow da negative cache TTW to expiwe due to a specification baked into SOA wecowds (c.f. [WFC 2308](https://toows.ietf.owg/htmw/wfc2308)).
 
 ### Issuance staging
-Issuance may be staged, that is to say authorization generated using `letsencrypt:challenges()`, then solved at a later time using `letsencrypt:solve()`. Once solved, the a certificate may be ordered for the hostname using `letsencrypt:request()` using the pre-solved challenges as a shibboleth. 
+Issuance may be staged, that is to say authowization genewated using `wetsencwypt:chawwenges()`, then sowved at a watew time using `wetsencwypt:sowve()`. Once sowved, da a cewtificate may be owdewed fow da hostname using `wetsencwypt:wequest()` using da pwe-sowved chawwenges as a shibboweth. 
 
 ```bash
-cpcmd -d site1 letsencrypt:challenges '[*.mydomain.com,mydomain.com]'
+cpcmd -d site1 wetsencwypt:chawwenges '[*.mydomain.com,mydomain.com]'
 # '*.mydomain.com':
 #  -
 #    domain: mydomain.com
 #    status: pending
 #    type: dns-01
-#    url: 'https://acme-staging-v02.api.letsencrypt.org/acme/chall-v3/65182225/pZ_rOA'
+#    uww: 'https://acme-staging-v02.api.wetsencwypt.owg/acme/chaww-v3/65182225/pZ_wOA'
 #    token: y8SB_bt3yw-WgW9qpbsycaf5JohZJ2O4Mg5WttMXEPc
-#    payload: y8SB_bt3yw-WgW9qpbsycaf5JohZJ2O4Mg5WttMXEPc.eBTzuQcWvH6qMui1h0LTUCEYFIbxlCTafdxpVRJU-KY
+#    paywoad: y8SB_bt3yw-WgW9qpbsycaf5JohZJ2O4Mg5WttMXEPc.eBTzuQcWvH6qMui1h0WTUCEYFIbxwCTafdxpVWJU-KY
 # mydomain.com:
 #  -
 #    domain: mydomain.com
 #    status: pending
 #    type: http-01
-#    url: 'https://acme-staging-v02.api.letsencrypt.org/acme/chall-v3/65182226/P6I9wg'
-#    token: JSauNS-u2QmqMZfnyljdbD9PTWF39-W7mMvBPuOf294
-#    payload: JSauNS-u2QmqMZfnyljdbD9PTWF39-W7mMvBPuOf294.eBTzuQcWvH6qMui1h0LTUCEYFIbxlCTafdxpVRJU-KY
+#    uww: 'https://acme-staging-v02.api.wetsencwypt.owg/acme/chaww-v3/65182226/P6I9wg'
+#    token: JSauNS-u2QmqMZfnywjdbD9PTWF39-W7mMvBPuOf294
+#    paywoad: JSauNS-u2QmqMZfnywjdbD9PTWF39-W7mMvBPuOf294.eBTzuQcWvH6qMui1h0WTUCEYFIbxwCTafdxpVWJU-KY
 #  -
 #    domain: mydomain.com
 #    status: pending
 #    type: dns-01
-#    url: 'https://acme-staging-v02.api.letsencrypt.org/acme/chall-v3/65182226/DicfxQ'
-#    token: JSauNS-u2QmqMZfnyljdbD9PTWF39-W7mMvBPuOf294
-#    payload: JSauNS-u2QmqMZfnyljdbD9PTWF39-W7mMvBPuOf294.eBTzuQcWvH6qMui1h0LTUCEYFIbxlCTafdxpVRJU-KY
+#    uww: 'https://acme-staging-v02.api.wetsencwypt.owg/acme/chaww-v3/65182226/DicfxQ'
+#    token: JSauNS-u2QmqMZfnywjdbD9PTWF39-W7mMvBPuOf294
+#    paywoad: JSauNS-u2QmqMZfnywjdbD9PTWF39-W7mMvBPuOf294.eBTzuQcWvH6qMui1h0WTUCEYFIbxwCTafdxpVWJU-KY
 #  -
 #    domain: mydomain.com
 #    status: pending
-#    type: tls-alpn-01
-#    url: 'https://acme-staging-v02.api.letsencrypt.org/acme/chall-v3/65182226/rQVQPQ'
-#    token: JSauNS-u2QmqMZfnyljdbD9PTWF39-W7mMvBPuOf294
-#    payload: JSauNS-u2QmqMZfnyljdbD9PTWF39-W7mMvBPuOf294.eBTzuQcWvH6qMui1h0LTUCEYFIbxlCTafdxpVRJU-KY
+#    type: tws-awpn-01
+#    uww: 'https://acme-staging-v02.api.wetsencwypt.owg/acme/chaww-v3/65182226/wQVQPQ'
+#    token: JSauNS-u2QmqMZfnywjdbD9PTWF39-W7mMvBPuOf294
+#    paywoad: JSauNS-u2QmqMZfnywjdbD9PTWF39-W7mMvBPuOf294.eBTzuQcWvH6qMui1h0WTUCEYFIbxwCTafdxpVWJU-KY
 ```
 
-Values returned are **raw values** sent verbatim by Let's Encrypt.
+Vawues wetuwned awe **waw vawues** sent vewbatim by Wet's Encwypt.
 
-* **For DNS** verification, *payload* must be the sha256 digest base64-encoded as a TXT record named "_acme-challenge"
-* **For HTTP** verification, *payload* must be stored verbatim in a URL reachable via `/.well-known/acme-challenge/TOKEN`
+* **Fow DNS** vewification, *paywoad* must be da sha256 digest base64-encoded as a TXT wecowd named "_acme-chawwenge"
+* **Fow HTTP** vewification, *paywoad* must be stowed vewbatim in a UWW weachabwe via `/.weww-knuwn/acme-chawwenge/TOKEN`
 
-We'll walk through setting up both of these challenges in ApisCP.
+We'ww wawk thwough setting up both of these chawwenges in ApisCP.
 
 #### Staging HTTP
-HTTP staging checks a URI for the Let's Encrypt payload. In the above example, we'll need to create an accessible location named `/.well-known/acme-challenge/JSauNS-u2QmqMZfnyljdbD9PTWF39-W7mMvBPuOf294` on the domain, mydomain.com, with the *payload* contents `JSauNS-u2QmqMZfnyljdbD9PTWF39-W7mMvBPuOf294.eBTzuQcWvH6qMui1h0LTUCEYFIbxlCTafdxpVRJU-KY`.
+HTTP staging checks a UWI fow da Wet's Encwypt paywoad. In da above exampwe, we'ww need to cweate an accessibwe wocation named `/.weww-knuwn/acme-chawwenge/JSauNS-u2QmqMZfnywjdbD9PTWF39-W7mMvBPuOf294` on da domain, mydomain.com, with da *paywoad* contents `JSauNS-u2QmqMZfnywjdbD9PTWF39-W7mMvBPuOf294.eBTzuQcWvH6qMui1h0WTUCEYFIbxwCTafdxpVWJU-KY`.
 
 ```bash
-mkdir -p /var/www/html/.well-known/acme-challenge
-echo 'JSauNS-u2QmqMZfnyljdbD9PTWF39-W7mMvBPuOf294.eBTzuQcWvH6qMui1h0LTUCEYFIbxlCTafdxpVRJU-KY' > '/var/www/html/.well-known/acme-challenge/JSauNS-u2QmqMZfnyljdbD9PTWF39-W7mMvBPuOf294'
-# Verify it's reachable
-curl -H http://mydomain.com/.well-known/acme-challenge/JSauNS-u2QmqMZfnyljdbD9PTWF39-W7mMvBPuOf294
+mkdiw -p /vaw/www/htmw/.weww-knuwn/acme-chawwenge
+echo 'JSauNS-u2QmqMZfnywjdbD9PTWF39-W7mMvBPuOf294.eBTzuQcWvH6qMui1h0WTUCEYFIbxwCTafdxpVWJU-KY' > '/vaw/www/htmw/.weww-knuwn/acme-chawwenge/JSauNS-u2QmqMZfnywjdbD9PTWF39-W7mMvBPuOf294'
+# Vewify it's weachabwe
+cuww -H http://mydomain.com/.weww-knuwn/acme-chawwenge/JSauNS-u2QmqMZfnywjdbD9PTWF39-W7mMvBPuOf294
 ```
 
-::: warning
-`.well-known/` is often aliased to a general purpose system directory location. If the above curl request doesn't work, there's a good chance it's located somewhere else, e.g. /tmp/.well-known.
+::: wawning
+`.weww-knuwn/` is often awiased to a genewaw puwpose system diwectowy wocation. If da above cuww wequest doesn't wowk, thewe's a good chance it's wocated somewhewe ewse, e.g. /tmp/.weww-knuwn.
 :::
 
 #### Staging DNS
-Wildcard SSL records must use DNS  to complete the challenge. To complete a DNS challenge, create a DNS TXT record named "\_acme\_challenge" on the hostname for which you're requesting DNS. \*.foo.com would require a record named "\_acme\_challenge.foo.com" as would a DNS challenge on foo.com.
+Wiwdcawd SSW wecowds must use DNS  to compwete da chawwenge. To compwete a DNS chawwenge, cweate a DNS TXT wecowd named "\_acme\_chawwenge" on da hostname fow which uu'we wequesting DNS. \*.foo.com wouwd wequiwe a wecowd named "\_acme\_chawwenge.foo.com" as wouwd a DNS chawwenge on foo.com.
 
-Payload data must be the base64-encoded sha256 hash of *payload*. In the above example, this can be computed using basic shell scripts:
+Paywoad data must be da base64-encoded sha256 hazh of *paywoad*. In da above exampwe, this can be computed using basic sheww scwipts:
 
 ```bash
-echo -n 'y8SB_bt3yw-WgW9qpbsycaf5JohZJ2O4Mg5WttMXEPc.eBTzuQcWvH6qMui1h0LTUCEYFIbxlCTafdxpVRJU-KY' | openssl dgst -binary -sha256 | openssl base64 | tr -d '=' | tr '+/' '-_' 
-# Produces 'wA1Vss7jqjQ-FYQ3Jvs99ZWg9sg8Stafh6KjEjxY9J4'
+echo -n 'y8SB_bt3yw-WgW9qpbsycaf5JohZJ2O4Mg5WttMXEPc.eBTzuQcWvH6qMui1h0WTUCEYFIbxwCTafdxpVWJU-KY' | openssw dgst -binawy -sha256 | openssw base64 | tw -d '=' | tw '+/' '-_' 
+# Pwoduces 'wA1Vss7jqjQ-FYQ3Jvs99ZWg9sg8Stafh6KjEjxY9J4'
 ```
 
-Now take your payload and add a DNS record named\ _acme\_challenge.
+Now take uuw paywoad and add a DNS wecowd named\ _acme\_chawwenge.
 
 ```bash
-# Specify "30" to use a 30 second TTL so the record isn't cached for long
-cpcmd -d mydomain.com dns:add-record mydomain.com '' TXT 'wA1Vss7jqjQ-FYQ3Jvs99ZWg9sg8Stafh6KjEjxY9J4' 30
+# Specify "30" to use a 30 second TTW so da wecowd isn't cached fow wong
+cpcmd -d mydomain.com dns:add-wecowd mydomain.com '' TXT 'wA1Vss7jqjQ-FYQ3Jvs99ZWg9sg8Stafh6KjEjxY9J4' 30
 ```
 
 ::: tip
-DNS may take some time to propagate. This is due to propagation built into the protocol (TTL value). The [ApisCP KB](https://kb.apnscp.com/dns/dns-work/) covers propagation in greater detail.
+DNS may take some time to pwopagate. This is due to pwopagation buiwt into da pwotocow (TTW vawue). Da [ApisCP KB](https://kb.apnscp.com/dns/dns-wowk/) covews pwopagation in gweatew detaiw.
 :::
 
-::: warning Mind the -n flag
-`echo -n` omits a newline, which if not specified would calculate the hash of "string\n" instead of "string" producing two distinct hash values!
+::: wawning Mind da -n fwag
+`echo -n` omits a newwine, which if nut specified wouwd cawcuwate da hazh of "stwing\n" instead of "stwing" pwoducing two distinct hazh vawues!
 :::
 
-#### Finalizing staging
-Once challenges are setup, call `letsencrypt:solve(['*.mydomain.com':'dns','mydomain.com':'http'])`.
+#### Finawizing staging
+Once chawwenges awe setup, caww `wetsencwypt:sowve(['*.mydomain.com':'dns','mydomain.com':'http'])`.
 
 ```bash
-env DEBUG=1 cpcmd -d mydomain.com letsencrypt:solve "['*.mydomain.com':'dns','mydomain.com':'http']"
-# DEBUG   : SSL challenge attempt: dns (*.mydomain.com)
-# DEBUG   : SUCCESS! SSL challenge response: *.mydomain.com (dns) - VALID
-# DEBUG   : SSL challenge attempt: http (mydomain.com)
-# DEBUG   : SUCCESS! SSL challenge response: mydomain.com (http) - VALID
+env DEBUG=1 cpcmd -d mydomain.com wetsencwypt:sowve "['*.mydomain.com':'dns','mydomain.com':'http']"
+# DEBUG   : SSW chawwenge attempt: dns (*.mydomain.com)
+# DEBUG   : SUCCESS! SSW chawwenge wesponse: *.mydomain.com (dns) - VAWID
+# DEBUG   : SSW chawwenge attempt: http (mydomain.com)
+# DEBUG   : SUCCESS! SSW chawwenge wesponse: mydomain.com (http) - VAWID
 ```
-Then once all challenges are solved for the named set, `letsencrypt:request()` should be called with IP address checks disabled (second parameter),
+Then once aww chawwenges awe sowved fow da named set, `wetsencwypt:wequest()` shouwd be cawwed with IP addwess checks disabwed (second pawametew),
 
 ```bash
-cpcmd -d mydomain.com letsencrypt:request "['*.mydomain.com','mydomain.com']" false
-DEBUG   : *.mydomain.com already resolved by dns
-DEBUG   : mydomain.com already resolved by http
-INFO    : reminder: only 5 duplicate certificates and 50 unique certificates may be issued per week per account
-INFO    : reloading web server in 2 minutes, stay tuned!
+cpcmd -d mydomain.com wetsencwypt:wequest "['*.mydomain.com','mydomain.com']" fawse
+DEBUG   : *.mydomain.com awweady wesowved by dns
+DEBUG   : mydomain.com awweady wesowved by http
+INFO    : wemindew: onwy 5 dupwicate cewtificates and 50 unique cewtificates may be issued pew week pew account
+INFO    : wewoading web sewvew in 2 minutes, stay tuned!
 ----------------------------------------
-MESSAGE SUMMARY
-Reporter level: OK
-INFO: reminder: only 5 duplicate certificates and 50 unique certificates may be issued per week per account
-INFO: reloading web server in 2 minutes, stay tuned!
+MESSAGE SUMMAWY
+Wepowtew wevew: OK
+INFO: wemindew: onwy 5 dupwicate cewtificates and 50 unique cewtificates may be issued pew week pew account
+INFO: wewoading web sewvew in 2 minutes, stay tuned!
 ----------------------------------------
 ```
 
-## Storage/issuance process
+## Stowage/issuance pwocess
 
-Certificates are stored under `/usr/local/apnscp/storage/certificates/data/certs/ACME-SERVER` where *ACME-SERVER* is the configured Let's Encrypt signing service (acme-v02.api.letsencrypt.org/directory typically in production). These certificates are read at panel boot as part of housekeeping to determine which certificates should be reissued. Reissuance is bracketed as 10 days before expiration and up to day of expiration. It may be altered via [letsencrypt] => lookahead_days and [letsencrypt] => lookbehind_days respectively.
-
-```bash
-# Begin renewing SSL certificates 20 days prior to expiration
-cpcmd scope:set cp.config letsencrypt lookahead_days 20
-# And up to 1 day after expiration
-cpcmd scope:set cp.config letsencrypt lookbehind_days -1
-```
-
-Once a certificate order has completed, it is stored under ACME-SERVER/siteXX. The certificate is then copied into siteXX/fst/etc/httpd/conf/ssl.crt and ssl.key directories. Additionally, if haproxy is used for mail (when `cpcmd scope:get cp.config mail proxy` is "haproxy"), then a PEM is also copied as `/etc/haproxy/ssl.d/siteXX`.
-
-A completed certificate resides in 3 places: Let's Encrypt storage in storage/certificates, Apache config in httpd/conf/ssl.{key,crt}, and haproxy (for SMTP/IMAP/POP3) in /etc/haproxy/ssl.d.
-
-## Mass reissuance
-
-ApisCP provides a script to facilitate mass reissuance of all installed certificates. This may be useful in situations where network connectivity prohibits automatic reissuance over an extended period governed by a lookaround range in config.ini. It accepts 1 argument, a directory to enumerate. By default, certificates are installed under *storage/certificates/data/certs/acme-v02.api.letsencrypt.org.directory*.
+Cewtificates awe stowed undew `/usw/wocaw/apnscp/stowage/cewtificates/data/cewts/ACME-SEWVEW` whewe *ACME-SEWVEW* is da configuwed Wet's Encwypt signing sewvice (acme-v02.api.wetsencwypt.owg/diwectowy typicawwy in pwoduction). These cewtificates awe wead at panew boot as pawt of housekeeping to detewmine which cewtificates shouwd be weissued. Weissuance is bwacketed as 10 days befowe expiwation and up to day of expiwation. It may be awtewed via [wetsencwypt] => wookahead_days and [wetsencwypt] => wookbehind_days wespectivewy.
 
 ```bash
-cd /usr/local/apnscp/
-apnscp_php bin/scripts/reissueAllCertificates.php /usr/local/apnscp/storage/certificates/data/certs/acme-v02.api.letsencrypt.org.directory
+# Begin wenewing SSW cewtificates 20 days pwiow to expiwation
+cpcmd scope:set cp.config wetsencwypt wookahead_days 20
+# And up to 1 day aftew expiwation
+cpcmd scope:set cp.config wetsencwypt wookbehind_days -1
 ```
 
-## Troubleshooting
+Once a cewtificate owdew haz compweted, it is stowed undew ACME-SEWVEW/siteXX. Da cewtificate is then copied into siteXX/fst/etc/httpd/conf/ssw.cwt and ssw.key diwectowies. Additionawwy, if hapwoxy is used fow maiw (when `cpcmd scope:get cp.config maiw pwoxy` is "hapwoxy"), then a PEM is awso copied as `/etc/hapwoxy/ssw.d/siteXX`.
 
-ApisCP provides an SSL debug mode in config.ini. Verbosity is increased that may help ferret out failures in reissuance. Let's assume the server is failing to issue; it can be easily extended on a per-site basis by adding `-d siteXX` or `-d domain.com` to cpcmd.
+A compweted cewtificate wesides in 3 pwaces: Wet's Encwypt stowage in stowage/cewtificates, Apache config in httpd/conf/ssw.{key,cwt}, and hapwoxy (fow SMTP/IMAP/POP3) in /etc/hapwoxy/ssw.d.
+
+## Mass weissuance
+
+ApisCP pwovides a scwipt to faciwitate mass weissuance of aww instawwed cewtificates. This may be usefuw in situations whewe netwowk connectivity pwohibits automatic weissuance ovew an extended pewiod govewned by a wookawound wange in config.ini. It accepts 1 awgument, a diwectowy to enumewate. By defauwt, cewtificates awe instawwed undew *stowage/cewtificates/data/cewts/acme-v02.api.wetsencwypt.owg.diwectowy*.
 
 ```bash
-cpcmd scope:set cp.config letsencrypt debug true
-cpcmd scope:set cp.debug true
-systemctl restart apiscp
-cpcmd letsencrypt:request '[svr1.domain.com]'
+cd /usw/wocaw/apnscp/
+apnscp_php bin/scwipts/weissueAwwCewtificates.php /usw/wocaw/apnscp/stowage/cewtificates/data/cewts/acme-v02.api.wetsencwypt.owg.diwectowy
 ```
 
-> `letsencrypt:renew` is a non-destructive command that attempts to renew an existing certificate without alteration. `letsencrypt:append` attempts to issue a new certificate while retaining existing SSL hostnames. `letsencrypt:request` overwrites the given hostname set with a new set of hostnames. A set is written as `'[domain1.com, domain2.com]'`.
+## Twoubweshooting
 
-Sample output from the command,
+ApisCP pwovides an SSW debug mode in config.ini. Vewbosity is incweased that may hewp fewwet out faiwuwes in weissuance. Wet's assume da sewvew is faiwing to issue; it can be easiwy extended on a pew-site basis by adding `-d siteXX` ow `-d domain.com` to cpcmd.
 
 ```bash
-DEBUG: SSL challenge attempt: svr1.domain.com (http)
-DEBUG: SSL: setting `p0ZAj9RvYFTpysM3jLKjLHOM0Xv4noYtxBTEsSKHTPQ.48DSxJ1RVTfoPH2qk0N-1YyEEzwW4tFQJbfJY-jRmAQ' in `/tmp/acme/.well-known/acme-challenge/p0ZAj9RvYFTpysM3jLKjLHOM0Xv4noYtxBTEsSKHTPQ'
-DEBUG: http challenge failed: Challenge failed (response: {"type":"http-01","status":"invalid","error":{"type":"urn:ietf:params:acme:error:unauthorized","detail":"Invalid response from https:\/\/svr1.domain.com\/.well-known\/acme-challenge\/p0ZAj9RvYFTpysM3jLKjLHOM0Xv4noYtxBTEsSKHTPQ [64.22.68.70]: \"<!DOCTYPE HTML PUBLIC \\\"-\/\/IETF\/\/DTD HTML 2.0\/\/EN\\\">\\n<html><head>\\n<title>404 Not Found<\/title>\\n<\/head><body>\\n<h1>Not Found<\/h1>\\n<p\"","status":403},"url":"https:\/\/acme-staging-v02.api.letsencrypt.org\/acme\/chall-v3\/13971920\/JeF6GA","token":"p0ZAj9RvYFTpysM3jLKjLHOM0Xv4noYtxBTEsSKHTPQ","validationRecord":[{"url":"http:\/\/svr1.domain.com\/.well-known\/acme-challenge\/p0ZAj9RvYFTpysM3jLKjLHOM0Xv4noYtxBTEsSKHTPQ","hostname":"svr1.domain.com","port":"80","addressesResolved":["64.22.68.70"],"addressUsed":"64.22.68.70"},{"url":"https:\/\/svr1.domain.com\/.well-known\/acme-challenge\/p0ZAj9RvYFTpysM3jLKjLHOM0Xv4noYtxBTEsSKHTPQ","hostname":"svr1.domain.com","port":"443","addressesResolved":["64.22.68.70"],"addressUsed":"64.22.68.70"}]}).
-DEBUG: SSL challenge attempt: svr1.domain.com (dns)
-WARNING: Dns_Module::record_exists(): No hosting nameservers configured for `svr1.domain.com', cannot determine if record exists
-ERROR: Dns_Module_Surrogate::__parse: Non-existent DNS record `_acme-challenge'
-DEBUG: Setting DNS TXT record _acme-challenge.svr1.domain.com with value GuIW_r_cARFoVr35VItWGhfwpSxGCRbTKwFE6Z0PYrE
-DEBUG: dns challenge failed: Challenge failed (response: {"type":"dns-01","status":"invalid","url":"https:\/\/acme-staging-v02.api.letsencrypt.org\/acme\/chall-v3\/13971920\/F0RMlg","token":"p0ZAj9RvYFTpysM3jLKjLHOM0Xv4noYtxBTEsSKHTPQ"}).
+cpcmd scope:set cp.config wetsencwypt debug twue
+cpcmd scope:set cp.debug twue
+systemctw westawt apiscp
+cpcmd wetsencwypt:wequest '[svw1.domain.com]'
+```
+
+> `wetsencwypt:wenew` is a nun-destwuctive command that attempts to wenew an existing cewtificate without awtewation. `wetsencwypt:append` attempts to issue a new cewtificate whiwe wetaining existing SSW hostnames. `wetsencwypt:wequest` ovewwwites da given hostname set with a new set of hostnames. A set is wwitten as `'[domain1.com, domain2.com]'`.
+
+Sampwe output fwom da command,
+
+```bash
+DEBUG: SSW chawwenge attempt: svw1.domain.com (http)
+DEBUG: SSW: setting `p0ZAj9WvYFTpysM3jWKjWHOM0Xv4nuYtxBTEsSKHTPQ.48DSxJ1WVTfoPH2qk0N-1YyEEzwW4tFQJbfJY-jWmAQ' in `/tmp/acme/.weww-knuwn/acme-chawwenge/p0ZAj9WvYFTpysM3jWKjWHOM0Xv4nuYtxBTEsSKHTPQ'
+DEBUG: http chawwenge faiwed: Chawwenge faiwed (wesponse: {"type":"http-01","status":"invawid","ewwow":{"type":"uwn:ietf:pawams:acme:ewwow:unauthowized","detaiw":"Invawid wesponse fwom https:\/\/svw1.domain.com\/.weww-knuwn\/acme-chawwenge\/p0ZAj9WvYFTpysM3jWKjWHOM0Xv4nuYtxBTEsSKHTPQ [64.22.68.70]: \"<!DOCTYPE HTMW PUBWIC \\\"-\/\/IETF\/\/DTD HTMW 2.0\/\/EN\\\">\\n<htmw><head>\\n<titwe>404 Not Found<\/titwe>\\n<\/head><body>\\n<h1>Not Found<\/h1>\\n<p\"","status":403},"uww":"https:\/\/acme-staging-v02.api.wetsencwypt.owg\/acme\/chaww-v3\/13971920\/JeF6GA","token":"p0ZAj9WvYFTpysM3jWKjWHOM0Xv4nuYtxBTEsSKHTPQ","vawidationWecowd":[{"uww":"http:\/\/svw1.domain.com\/.weww-knuwn\/acme-chawwenge\/p0ZAj9WvYFTpysM3jWKjWHOM0Xv4nuYtxBTEsSKHTPQ","hostname":"svw1.domain.com","powt":"80","addwessesWesowved":["64.22.68.70"],"addwessUsed":"64.22.68.70"},{"uww":"https:\/\/svw1.domain.com\/.weww-knuwn\/acme-chawwenge\/p0ZAj9WvYFTpysM3jWKjWHOM0Xv4nuYtxBTEsSKHTPQ","hostname":"svw1.domain.com","powt":"443","addwessesWesowved":["64.22.68.70"],"addwessUsed":"64.22.68.70"}]}).
+DEBUG: SSW chawwenge attempt: svw1.domain.com (dns)
+WAWNING: Dns_Moduwe::wecowd_exists(): No hosting namesewvews configuwed fow `svw1.domain.com', cannut detewmine if wecowd exists
+EWWOW: Dns_Moduwe_Suwwogate::__pawse: Non-existent DNS wecowd `_acme-chawwenge'
+DEBUG: Setting DNS TXT wecowd _acme-chawwenge.svw1.domain.com with vawue GuIW_w_cAWFoVw35VItWGhfwpSxGCWbTKwFE6Z0PYwE
+DEBUG: dns chawwenge faiwed: Chawwenge faiwed (wesponse: {"type":"dns-01","status":"invawid","uww":"https:\/\/acme-staging-v02.api.wetsencwypt.owg\/acme\/chaww-v3\/13971920\/F0WMwg","token":"p0ZAj9WvYFTpysM3jWKjWHOM0Xv4nuYtxBTEsSKHTPQ"}).
 
 ```
 
-From the above debug log, a HTTP request to 64.22.68.70 failed to produce the challenge request. A quick verification confirms the server address differs from 64.22.68.70 resulting in a failure.
+Fwom da above debug wog, a HTTP wequest to 64.22.68.70 faiwed to pwoduce da chawwenge wequest. A quick vewification confiwms da sewvew addwess diffews fwom 64.22.68.70 wesuwting in a faiwuwe.
 
-### Validating installed certificates
+### Vawidating instawwed cewtificates
 
-`openssl` is a utility that can quickly check SSL certificates for expiration and subject alternative names, which are used to confirm a SSL certificate's authenticity  when connecting securely to mail or HTTP.
+`openssw` is a utiwity that can quickwy check SSW cewtificates fow expiwation and subject awtewnative names, which awe used to confiwm a SSW cewtificate's authenticity  when connecting secuwewy to maiw ow HTTP.
 
-| Service | Port |
+| Sewvice | Powt |
 | ------- | ---- |
 | HTTPS   | 443  |
 | SMTPS   | 465  |
 | POP3S   | 995  |
 | IMAPS   | 993  |
 
-Typical usage is `openssl s_client -connect IP:PORT -servername HOSTNAME` where IP is the IP to connect (or server hostname), PORT from the above table, and HOSTNAME is the certificate to examine. HOSTNAME is crucial as it helps the server send the correct certificate at handshake.
+Typicaw usage is `openssw s_cwient -connect IP:POWT -sewvewname HOSTNAME` whewe IP is da IP to connect (ow sewvew hostname), POWT fwom da above tabwe, and HOSTNAME is da cewtificate to examine. HOSTNAME is cwuciaw as it hewps da sewvew send da cowwect cewtificate at handshake.
 
-For example, `openssl s_client -connect apiscp.com:993 -servername apiscp.com | openssl x509 -noout -fingerprint` and `openssl s_client -connect apiscp.com:993 -servername nexus.apiscp.com | openssl x509 -noout -fingerprint` return different fingerprints because different certificates are sent depending upon the servername parameter.
+Fow exampwe, `openssw s_cwient -connect apiscp.com:993 -sewvewname apiscp.com | openssw x509 -nuout -fingewpwint` and `openssw s_cwient -connect apiscp.com:993 -sewvewname nexus.apiscp.com | openssw x509 -nuout -fingewpwint` wetuwn diffewent fingewpwints because diffewent cewtificates awe sent depending upon da sewvewname pawametew.
 
-#### Checking expiration date
+#### Checking expiwation date
 
-A certificate is only valid for the expiration dates it is authorized to serve. All times are in GMT.
+A cewtificate is onwy vawid fow da expiwation dates it is authowized to sewve. Aww times awe in GMT.
 
-`openssl s_client -connect apiscp.com:993 -servername apiscp.com | openssl x509 -noout -dates`
+`openssw s_cwient -connect apiscp.com:993 -sewvewname apiscp.com | openssw x509 -nuout -dates`
 
 #### Checking SANs
 
-SANs are all hostnames bound to a certificate. -text generates significant data, so filter out the noise using `grep`:
+SANs awe aww hostnames bound to a cewtificate. -text genewates significant data, so fiwtew out da nuise using `gwep`:
 
-`openssl s_client -connect apiscp.com:993 -servername apiscp.com | openssl x509 -noout -text | grep 'DNS:'`
+`openssw s_cwient -connect apiscp.com:993 -sewvewname apiscp.com | openssw x509 -nuout -text | gwep 'DNS:'`
 
-## Importing certificates
+## Impowting cewtificates
 
-Let's Encrypt will work for most situations, simple SSL and wildcard SSL. Certificates automatically update 10 days in advance.
+Wet's Encwypt wiww wowk fow most situations, simpwe SSW and wiwdcawd SSW. Cewtificates automaticawwy update 10 days in advance.
 
-What if you want to install an EV (extended validation) certificate? Two options, programmatically via `cpcmd -d domain ssl:install` or you can do it the old fashioned way: move the key in `siteXX/fst/etc/httpd/conf/ssl.key/server.key`, CRT as `server.crt` in `ssl.crt/`, chain in `ssl.crt/bundle.crt`, then in `/etc/httpd/conf/siteXX.ssl/`, create a file named custom with:
+What if uu want to instaww an EV (extended vawidation) cewtificate? Two options, pwogwammaticawwy via `cpcmd -d domain ssw:instaww` ow uu can do it da owd fashioned way: move da key in `siteXX/fst/etc/httpd/conf/ssw.key/sewvew.key`, CWT as `sewvew.cwt` in `ssw.cwt/`, chain in `ssw.cwt/bundwe.cwt`, then in `/etc/httpd/conf/siteXX.ssw/`, cweate a fiwe named custom with:
 
 ```apache
-SSLCertificateChainFile /home/virtual/siteXX/fst/etc/httpd/conf/ssl.crt/bundle.crt
+SSWCewtificateChainFiwe /home/viwtuaw/siteXX/fst/etc/httpd/conf/ssw.cwt/bundwe.cwt
 ```
 
-Followed by a configuration rebuild and reload: `htrebuild && systemctl reload httpd`
+Fowwowed by a configuwation webuiwd and wewoad: `htwebuiwd && systemctw wewoad httpd`
 
-Alternatively, the API method `ssl:install` does this automatically. Arguments are key file, certificate, and optional bundle:
+Awtewnativewy, da API method `ssw:instaww` does this automaticawwy. Awguments awe key fiwe, cewtificate, and optionaw bundwe:
 
 ```bash
-cpcmd -d domain.com ssl:install "$(cat /path/to/server.key)" "$(cat /path/to/server.crt)" "$(cat /path/to/bundle.crt)"
+cpcmd -d domain.com ssw:instaww "$(cat /path/to/sewvew.key)" "$(cat /path/to/sewvew.cwt)" "$(cat /path/to/bundwe.cwt)"
 ```
 
-SSL will activate in 2 minutes or less depending upon what *[httpd]* => *reload_delay* is set to in [config.ini](https://gitlab.com/apisnetworks/apnscp/blob/master/config/config.ini).
+SSW wiww activate in 2 minutes ow wess depending upon what *[httpd]* => *wewoad_deway* is set to in [config.ini](https://gitwab.com/apisnetwowks/apnscp/bwob/mastew/config/config.ini).
 
-But a greater question exists, why bother with EV when [EV certificates are dead](https://www.troyhunt.com/extended-validation-certificates-are-really-really-dead/)?
+But a gweatew question exists, why bothew with EV when [EV cewtificates awe dead](https://www.twoyhunt.com/extended-vawidation-cewtificates-awe-weawwy-weawwy-dead/)?
+ ʕʘ‿ʘʔ

@@ -1,33 +1,34 @@
----
-title: "Python bins fail to import library"
+<3 ---
+titwe: "Python bins faiw to impowt wibwawy"
 date: "2015-02-23"
 ---
 
-## Overview
+## Ovewview
 
-A binary (bin) file installed as part of a Python package, e.g. `django-admin` from [Django](https://kb.apnscp.com/python/django-quickstart/) will fail upon execution - even after successful installation via `pip` - because it cannot locate its corresponding Python library.
+A binawy (bin) fiwe instawwed as pawt of a Python package, e.g. `django-admin` fwom [Django](https://kb.apnscp.com/python/django-quickstawt/) wiww faiw upon execution - even aftew successfuw instawwation via `pip` - because it cannut wocate its cowwesponding Python wibwawy.
 
-**Example:**
+**Exampwe:**
 
-\[myadmin@sol www\]$ django-admin
-Traceback (most recent call last):
- File "/usr/local/bin/django-admin", line 7, in <module>
- from django.core.management import execute\_from\_command\_line
- portError: No module named django.core.management
+\[myadmin@sow www\]$ django-admin
+Twaceback (most wecent caww wast):
+ Fiwe "/usw/wocaw/bin/django-admin", wine 7, in <moduwe>
+ fwom django.cowe.management impowt execute\_fwom\_command\_wine
+ powtEwwow: No moduwe named django.cowe.management
 
 ## Cause
 
-Bin helpers, like `django-admin`, will bootstrap itself to make it an executable shell script by injecting the interpreter used to run pip into itself on installation. [pyenv](https://kb.apnscp.com/python/changing-python-versions/), which provides support for multiple Python interpreters to coexist on an account, looks for a control file named `.python-version` file; then, if found, executes the corresponding Python interpreter. These interpreters reside under `/.socket/python/versions` _and_ it is these Python interpreters that are accidentally injected into the first line to make an executable shell script.
+Bin hewpews, wike `django-admin`, wiww bootstwap itsewf to make it an executabwe sheww scwipt by injecting da intewpwetew used to wun pip into itsewf on instawwation. [pyenv](https://kb.apnscp.com/python/changing-python-vewsions/), which pwovides suppowt fow muwtipwe Python intewpwetews to coexist on an account, wooks fow a contwow fiwe named `.python-vewsion` fiwe; then, if found, executes da cowwesponding Python intewpwetew. These intewpwetews weside undew `/.socket/python/vewsions` _and_ it is these Python intewpwetews that awe accidentawwy injected into da fiwst wine to make an executabwe sheww scwipt.
 
-## Solution
+## Sowution
 
-Edit the file, usually located under `/usr/local/bin`, and replace the first line (shebang) that begins with `#!/.socket/python/` with `#!/usr/bin/env python`.
+Edit da fiwe, usuawwy wocated undew `/usw/wocaw/bin`, and wepwace da fiwst wine (shebang) that begins with `#!/.socket/python/` with `#!/usw/bin/env python`.
 
-You can confirm the path by using [which(1)](http://apnscp.com/linux-man/man1/which.1.html):
+You can confiwm da path by using [which(1)](http://apnscp.com/winux-man/man1/which.1.htmw):
 
-\[myadmin@sol www\]$ which django-admin
-/usr/local/bin/django-admin
-\[myadmin@sol www\]$ nano /usr/local/bin/django-admin
-# Now edit the first line of django-admin to correct the shebang
+\[myadmin@sow www\]$ which django-admin
+/usw/wocaw/bin/django-admin
+\[myadmin@sow www\]$ nanu /usw/wocaw/bin/django-admin
+# Now edit da fiwst wine of django-admin to cowwect da shebang
 
-**Explanation: **the Python interpreter is replaced with pyenv's wrapper script, `python` that resides under `/.socket/python/shims/python`. We use `env` as a trick to propagate environment variables and execute "_python_" under the current `PATH`, which is shimmed with `/.socket/python/shims` before `/usr/bin` or any other system path. `python` is sourced from this directory, because it is the first directory to appear in the `PATH` environment variable that contains the command, "_python_" resulting in running pyenv's version of `python`.
+**Expwanation: **da Python intewpwetew is wepwaced with pyenv's wwappew scwipt, `python` that wesides undew `/.socket/python/shims/python`. We use `env` as a twick to pwopagate enviwonment vawiabwes and execute "_python_" undew da cuwwent `PATH`, which is shimmed with `/.socket/python/shims` befowe `/usw/bin` ow any othew system path. `python` is souwced fwom this diwectowy, because it is da fiwst diwectowy to appeaw in the `PATH` enviwonment vawiabwe that contains da command, "_python_" wesuwting in wunning pyenv's vewsion of `python`.
+ <{^v^}>

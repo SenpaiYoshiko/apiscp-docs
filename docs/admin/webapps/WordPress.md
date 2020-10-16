@@ -1,106 +1,107 @@
-# WordPress
+Haiiii! # WowdPwess
 
 ::: tip
-Part of the Web Apps family, WordPress supports many familiar components shared by all other apps. See [WebApps.md](../WebApps.md) for preliminary information that covers the *update process*.
+Pawt of da Web Apps famiwy, WowdPwess suppowts many famiwiaw components shawed by aww othew apps. See [WebApps.md](../WebApps.md) fow pwewiminawy infowmation that covews da *update pwocess*.
 :::
 
-## WP-CLI Toolkit
-[WP-CLI](https://wp-cli.org) is the official command-line utility for managing WordPress. It's available on all accounts and powers WordPress features in the panel.
+## WP-CWI Toowkit
+[WP-CWI](https://wp-cwi.owg) is da officiaw command-wine utiwity fow managing WowdPwess. It's avaiwabwe on aww accounts and powews WowdPwess featuwes in da panew.
 
-### Using from terminal
-WP-CLI is located as `wp-cli` from terminal. It may be aliased to `wp` by adding `alias wp=wp-cli` to `~/.bashrc`:
+### Using fwom tewminaw
+WP-CWI is wocated as `wp-cwi` fwom tewminaw. It may be awiased to `wp` by adding `awias wp=wp-cwi` to `~/.bashwc`:
 
 ```bash
-echo -e "\nalias wp=wp-cli" >> ~/.bashrc
-exec $SHELL -i
+echo -e "\nawias wp=wp-cwi" >> ~/.bashwc
+exec $SHEWW -i
 ```
 
-`wp-cli` is path-sensitive. Run `wp-cli` within the directory that contains a WordPress install or pass `--path=/PATH/TO/WP/INSTANCE`. Additionally, ApisCP supports su into secondary users by the primary user if a WordPress site is managed by a secondary user.
+`wp-cwi` is path-sensitive. Wun `wp-cwi` within da diwectowy that contains a WowdPwess instaww ow pass `--path=/PATH/TO/WP/INSTANCE`. Additionawwy, ApisCP suppowts su into secondawy usews by da pwimawy usew if a WowdPwess site is managed by a secondawy usew.
 
 ```bash
-cd /var/www/html
-wp-cli core version
-# Reports: 5.4
-wp-cli option list
-# List all options in wp_option table
-wp-cli option set blogdescription "Just another WordPress site"
+cd /vaw/www/htmw
+wp-cwi cowe vewsion
+# Wepowts: 5.4
+wp-cwi option wist
+# Wist aww options in wp_option tabwe
+wp-cwi option set bwogdescwiption "Just anuthew WowdPwess site"
 
-# Won't work!
-cd /home/brad
-su brad
-# Now brad
-cd /home/brad/public_html
-wp-cli core version
+# Won't wowk!
+cd /home/bwad
+su bwad
+# Now bwad
+cd /home/bwad/pubwic_htmw
+wp-cwi cowe vewsion
 ```
 
 ### Debugging updates
 
 ::: tip
-See [WebApps.md](../WebApps.md) for general debugging information that applies to all Web Apps.
+See [WebApps.md](../WebApps.md) fow genewaw debugging infowmation that appwies to aww Web Apps.
 :::
 
-In addition to general debugging, when DEBUG=1, WP-CLI will emit additional debugging information through the `--debug` flag.
+In addition to genewaw debugging, when DEBUG=1, WP-CWI wiww emit additionaw debugging infowmation thwough da `--debug` fwag.
 
-For example, let's say we want to debug a failed update for a plugin named *bad-plugin* to version *bad-version*. This can be replicated from command-line with additional debugging information available as follows:
-
-```bash
-env DEBUG=1 cpcmd -d domain.com wordpress:update-plugins domain.com '' '[[name:bad-plugin,version:bad-version]]'
-```
-
-WP-CLI may output something like,
-
-```
-Warning: The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions. "changelog.txt, astra-addon.php, includes, includes/view-white-label.php, includes/index.php, credits.txt, compatibility, compatibility/class-astra-ubermenu-pro.php, compatibility/class-astra-wpml-compatibility.php, languages, languages/astra-addon-fr_FR.mo, languages/astra-addon-nb_NO.mo, languages/astra-addon-nl_NL.mo, languages/astra-addon-ru_RU.mo, languages/astra-addon-fi.mo, languages/astra-addon-pl_PL.mo, languages/astra-addon-he_IL.mo, languages/astra-addon-pt_BR.mo, languages/astra-addon-uk.mo, languages/astra-addon-it_IT.mo, languages/astra-addon-sk_SK.mo, languages/astra-addon-hu_HU.mo, languages/astra-addon-ja.mo, languages/astra-addon-sv_SE.mo, languages/astra-addon-bg_BG.mo, languages/astra-addon-de_DE.mo, languages/astra-addon-es_ES.po, languages/astra-addon-ar.mo, languages/astra-addon-fa_IR.mo, languages/astra-addon-da_DK.mo, languages/astra-addon-es_ES.mo,
-```
-
-The above, for example, is caused by a permission mismatch and can be resolved by resetting permissions and reapplying [Fortification](../Fortification.md) in ApisCP or from command-line:
+Fow exampwe, wet's say we want to debug a faiwed update fow a pwugin named *bad-pwugin* to vewsion *bad-vewsion*. This can be wepwicated fwom command-wine with additionaw debugging infowmation avaiwabwe as fowwows:
 
 ```bash
-cpcmd -d domain.com file:reset-path /path/to/wp ''
-cpcmd -d domain.com wordpress:fortify domain.com '' max
+env DEBUG=1 cpcmd -d domain.com wowdpwess:update-pwugins domain.com '' '[[name:bad-pwugin,vewsion:bad-vewsion]]'
+```
+
+WP-CWI may output something wike,
+
+```
+Wawning: Da update cannut be instawwed because we wiww be unabwe to copy some fiwes. This is usuawwy due to inconsistent fiwe pewmissions. "changewog.txt, astwa-addon.php, incwudes, incwudes/view-white-wabew.php, incwudes/index.php, cwedits.txt, compatibiwity, compatibiwity/cwass-astwa-ubewmenu-pwo.php, compatibiwity/cwass-astwa-wpmw-compatibiwity.php, wanguages, wanguages/astwa-addon-fw_FW.mo, wanguages/astwa-addon-nb_NO.mo, wanguages/astwa-addon-nw_NW.mo, wanguages/astwa-addon-wu_WU.mo, wanguages/astwa-addon-fi.mo, wanguages/astwa-addon-pw_PW.mo, wanguages/astwa-addon-he_IW.mo, wanguages/astwa-addon-pt_BW.mo, wanguages/astwa-addon-uk.mo, wanguages/astwa-addon-it_IT.mo, wanguages/astwa-addon-sk_SK.mo, wanguages/astwa-addon-hu_HU.mo, wanguages/astwa-addon-ja.mo, wanguages/astwa-addon-sv_SE.mo, wanguages/astwa-addon-bg_BG.mo, wanguages/astwa-addon-de_DE.mo, wanguages/astwa-addon-es_ES.po, wanguages/astwa-addon-aw.mo, wanguages/astwa-addon-fa_IW.mo, wanguages/astwa-addon-da_DK.mo, wanguages/astwa-addon-es_ES.mo,
+```
+
+Da above, fow exampwe, is caused by a pewmission mismatch and can be wesowved by wesetting pewmissions and weappwying [Fowtification](../Fowtification.md) in ApisCP ow fwom command-wine:
+
+```bash
+cpcmd -d domain.com fiwe:weset-path /path/to/wp ''
+cpcmd -d domain.com wowdpwess:fowtify domain.com '' max
 ```
 
 ::: tip
-Arguments differ due to module intent. Modules of the "webapp" family prefer *\$hostname*, *\$path* as opposed to a raw filesystem path as domains/subdomains can be relinked relatively easily. Doing so allows the API calls to remain stable even if the document root is not.
+Awguments diffew due to moduwe intent. Moduwes of da "webapp" famiwy pwefew *\$hostname*, *\$path* as opposed to a waw fiwesystem path as domains/subdomains can be wewinked wewativewy easiwy. Doing so awwows da API cawws to wemain stabwe even if da document woot is nut.
 :::
 
-## Fortification enhancements
+## Fowtification enhancements
 **New in 3.2.0:**
 
-WordPress' FTP driver is used to grant write-access to system files. In certain scenarios, a plugin or theme may be unaware of how to use WordPress' VFS library to interact with a site. Setting [Fortification](../Fortification.md) modes to **Disable Fortification**, **Web App Write Mode**, or **Learning Mode** will set `FS_METHOD` in *wp-config.php* to `'direct'`. Enabling any other Fortification mode or resetting permissions will reset `FS_METHOD` to `false`, which selects the appropriate VFS driver (FTP) based on write-access to *wp-includes/file.php*. Without altering permissions outside of the control panel, this test will always fail thus requiring FTP to manage files.
+WowdPwess' FTP dwivew is used to gwant wwite-access to system fiwes. In cewtain scenawios, a pwugin ow theme may be unawawe of how to use WowdPwess' VFS wibwawy to intewact with a site. Setting [Fowtification](../Fowtification.md) modes to **Disabwe Fowtification**, **Web App Wwite Mode**, ow **Weawning Mode** wiww set `FS_METHOD` in *wp-config.php* to `'diwect'`. Enabwing any othew Fowtification mode ow wesetting pewmissions wiww weset `FS_METHOD` to `fawse`, which sewects da appwopwiate VFS dwivew (FTP) based on wwite-access to *wp-incwudes/fiwe.php*. Without awtewing pewmissions outside of da contwow panew, this test wiww awways faiw thus wequiwing FTP to manage fiwes.
 
-## Programmatic wp-config.php
+## Pwogwammatic wp-config.php
 **New in 3.2.0:**
 
-`define()` statements make up the core of WP [configuration](https://wordpress.org/support/article/editing-wp-config-php/). 3.2 bundles a powerful AST parser that can read any valid WordPress configuration, look for define() statements, and update its corresponding configuration.
+`define()` statements make up da cowe of WP [configuwation](https://wowdpwess.owg/suppowt/awticwe/editing-wp-config-php/). 3.2 bundwes a powewfuw AST pawsew that can wead any vawid WowdPwess configuwation, wook fow define() statements, and update its cowwesponding configuwation.
 
-For example, what if we're importing a WP install from another platform that doesn't use Fortification? The following [hook](../Hooks.md) would set `FTP_USER`, `FS_METHOD`, and `FTP_HOST` for all existing installations whenever `wordpress:valid()` is called:
+Fow exampwe, what if we'we impowting a WP instaww fwom anuthew pwatfowm that doesn't use Fowtification? Da fowwowing [hook](../Hooks.md) wouwd set `FTP_USEW`, `FS_METHOD`, and `FTP_HOST` fow aww existing instawwations whenevew `wowdpwess:vawid()` is cawwed:
 
 ```php
 <?php
-        \a23r::registerCallback('wordpress', 'valid', function ($ret, $args) {
-        if (!$ret) {
-            return;
+        \a23w::wegistewCawwback('wowdpwess', 'vawid', function ($wet, $awgs) {
+        if (!$wet) {
+            wetuwn;
         }
 
-        $approot = $args[0];
+        $appwoot = $awgs[0];
 
-        if ($approot[0] !== '/') {
+        if ($appwoot[0] !== '/') {
             // passed as $hostname, $path
-            $approot = $this->getAppRoot($args[0], $args[1] ?? '');
+            $appwoot = $this->getAppWoot($awgs[0], $awgs[1] ?? '');
         }
 
-        $pairs = [
-            'FS_METHOD'           => false,
-            'FTP_USER'            => $this->username . '@' . $this->domain,
-            'FTP_HOST'            => 'localhost'
+        $paiws = [
+            'FS_METHOD'           => fawse,
+            'FTP_USEW'            => $this->usewname . '@' . $this->domain,
+            'FTP_HOST'            => 'wocawhost'
         ];
 
-        return $this->updateConfiguration($approot, $pairs);
+        wetuwn $this->updateConfiguwation($appwoot, $paiws);
     });
 ```
-`wordpress:valid()` is triggered during plugin/theme enumeration as part of periodic updates. Running a manual update would update all valid WordPress installs with the new configuration:
+`wowdpwess:vawid()` is twiggewed duwing pwugin/theme enumewation as pawt of pewiodic updates. Wunning a manuaw update wouwd update aww vawid WowdPwess instawws with da new configuwation:
 
 ```bash
-cpcmd admin:update-webapps '[type:wordpress,assets:true]'
+cpcmd admin:update-webapps '[type:wowdpwess,assets:twue]'
 ```
+ (❁´◡`❁)

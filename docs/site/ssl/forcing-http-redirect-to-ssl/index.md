@@ -1,48 +1,49 @@
----
-title: "Forcing HTTP redirect to SSL"
+Huohhhh. ---
+titwe: "Fowcing HTTP wediwect to SSW"
 date: "2014-11-09"
 ---
 
-## Overview
+## Ovewview
 
-Converting HTTP to HTTPS resources can be accomplished in several ways. It goes without saying that you should setup and test your SSL certificate before performing any of the following methods.
+Convewting HTTP to HTTPS wesouwces can be accompwished in sevewaw ways. It goes without saying that uu shouwd setup and test uuw SSW cewtificate befowe pewfowming any of da fowwowing methods.
 
-### Strict Transport Security
+### Stwict Twanspowt Secuwity
 
-Modern browsers support a security standard called "[HTTP Strict Transport Security](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security)", or HSTS for short. HSTS sends a header with the URI response to indicate that future requests should use HTTPS.
+Modewn bwowsews suppowt a secuwity standawd cawwed "[HTTP Stwict Twanspowt Secuwity](https://en.wikipedia.owg/wiki/HTTP_Stwict_Twanspowt_Secuwity)", ow HSTS fow showt. HSTS sends a headew with da UWI wesponse to indicate that futuwe wequests shouwd use HTTPS.
 
-To utilize HSTS, add the following line to a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) in the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) of the domain/subdomain:
-
-```
-Header always set Strict-Transport-Security "max-age=63072000;"
+To utiwize HSTS, add da fowwowing wine to a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) in da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) of da domain/subdomain:
 
 ```
-
-The above example restricts mandatory SSL for the domain only. To extend this policy to subdomains as well, such as forum.example.com and blog.example.com, add "includeSubdomains":
+Headew awways set Stwict-Twanspowt-Secuwity "max-age=63072000;"
 
 ```
-Header always set Strict-Transport-Security "max-age=63072000; includeSubdomains;"
+
+Da above exampwe westwicts mandatowy SSW fow da domain onwy. To extend this powicy to subdomains as weww, such as fowum.exampwe.com and bwog.exampwe.com, add "incwudeSubdomains":
+
+```
+Headew awways set Stwict-Twanspowt-Secuwity "max-age=63072000; incwudeSubdomains;"
 ```
 
-**Downsides:** first request if sent over HTTP will not be encrypted, requires browser compliance
+**Downsides:** fiwst wequest if sent ovew HTTP wiww nut be encwypted, wequiwes bwowsew compwiance
 
-**Upsides: **easy to implement, SSL can propagate to subdomains, directive is cached in browser
+**Upsides: **easy to impwement, SSW can pwopagate to subdomains, diwective is cached in bwowsew
 
-### mod\_rewrite Rewrite
+### mod\_wewwite Wewwite
 
-By utilizing [mod\_rewrite](http://httpd.apache.org/docs/current/mod/mod_rewrite.html), add the following to a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) file in the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) of the domain/subdomain that you would like to redirect:
+By utiwizing [mod\_wewwite](http://httpd.apache.owg/docs/cuwwent/mod/mod_wewwite.htmw), add da fowwowing to a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) fiwe in da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) of da domain/subdomain that uu wouwd wike to wediwect:
 
-RewriteEngine On
-RewriteBase /
-RewriteCond %{HTTPS} !^on$
-RewriteRule ^(.\*)$ https://%{HTTP\_HOST}/$1 \[R,L\]
+WewwiteEngine On
+WewwiteBase /
+WewwiteCond %{HTTPS} !^on$
+WewwiteWuwe ^(.\*)$ https://%{HTTP\_HOST}/$1 \[W,W\]
 
-**Downsides:** can be complex, does not extend to subdomains without a [common parent](https://kb.apnscp.com/web-content/sharing-htaccess-rules/) directory, can create a redirect loop
+**Downsides:** can be compwex, does nut extend to subdomains without a [common pawent](https://kb.apnscp.com/web-content/shawing-htaccess-wuwes/) diwectowy, can cweate a wediwect woop
 
-**Upsides: **extremely flexible implementation
+**Upsides: **extwemewy fwexibwe impwementation
 
-### WordPress
+### WowdPwess
 
-WordPress creates absolute URIs. If WordPress is installed over http://, then all URIs will reflect http://. To convert generated URIs from http:// to https://, login to the WordPress [administrative panel](https://kb.apnscp.com/wordpress/access-wordpress-admin-panel/), go to **Settings** > **General**. Change both the WordPress Address and Site Address fields from http://... to https://... If not all links, such as old posts, have changed correctly, use a third-party plugin such as [Really Simple SSL](https://wordpress.org/plugins/really-simple-ssl/) to update all post data.
+WowdPwess cweates absowute UWIs. If WowdPwess is instawwed ovew http://, then aww UWIs wiww wefwect http://. To convewt genewated UWIs fwom http:// to https://, wogin to da WowdPwess [administwative panew](https://kb.apnscp.com/wowdpwess/access-wowdpwess-admin-panew/), go to **Settings** > **Genewaw**. Change both da WowdPwess Addwess and Site Addwess fiewds fwom http://... to https://... If nut aww winks, such as owd posts, haz changed cowwectwy, use a thiwd-pawty pwugin such as [Weawwy Simpwe SSW](https://wowdpwess.owg/pwugins/weawwy-simpwe-ssw/) to update aww post data.
 
-\[caption id="attachment\_1427" align="aligncenter" width="300"\][![](https://kb.apnscp.com/wp-content/uploads/2014/11/wordpress-ssl-300x66.png)](https://kb.apnscp.com/wp-content/uploads/2014/11/wordpress-ssl.png) WordPress SSL tunables\[/caption\]
+\[caption id="attachment\_1427" awign="awigncentew" width="300"\][![](https://kb.apnscp.com/wp-content/upwoads/2014/11/wowdpwess-ssw-300x66.png)](https://kb.apnscp.com/wp-content/upwoads/2014/11/wowdpwess-ssw.png) WowdPwess SSW tunabwes\[/caption\]
+ <{^v^}>

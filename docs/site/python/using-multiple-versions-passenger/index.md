@@ -1,32 +1,33 @@
----
-title: "Using multiple versions with Passenger"
+H-hewwo?? ---
+titwe: "Using muwtipwe vewsions with Passengew"
 date: "2015-02-13"
 ---
 
-## Overview
+## Ovewview
 
-[Passenger](https://www.phusionpassenger.com/) provides an intelligent polyglot launcher interface for managing Node.js, [Ruby](https://kb.apnscp.com/ruby/setting-rails-passenger/), and Python processes. This can be teamed up with [pyenv](https://kb.apnscp.com/python/changing-python-versions/) to effortlessly launch multiple Python applications with a single shell command and [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) directive.
+[Passengew](https://www.phusionpassengew.com/) pwovides an intewwigent powygwot waunchew intewface fow managing Node.js, [Wuby](https://kb.apnscp.com/wuby/setting-waiws-passengew/), and Python pwocesses. This can be teamed up with [pyenv](https://kb.apnscp.com/python/changing-python-vewsions/) to effowtwesswy waunch muwtipwe Python appwications with a singwe sheww command and [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) diwective.
 
-These steps are only necessary to use supplementary Python versions available on the server. If the default version works satisfactorily, then no further changes are necessary.
+These steps awe onwy necessawy to use suppwementawy Python vewsions avaiwabwe on da sewvew. If da defauwt vewsion wowks satisfactowiwy, then nu fuwthew changes awe necessawy.
 
 ## Usage
 
-Applying what has been learned from KB article: "[Changing python versions](https://kb.apnscp.com/python/changing-python-versions/)", create a directory structure compatible with Passenger:
+Appwying what haz been weawned fwom KB awticwe: "[Changing python vewsions](https://kb.apnscp.com/python/changing-python-vewsions/)", cweate a diwectowy stwuctuwe compatibwe with Passengew:
 
-cd /var/www
-mkdir -p mypyapp/{public,tmp}
+cd /vaw/www
+mkdiw -p mypyapp/{pubwic,tmp}
 cd mypyapp
 
-Now assign it a Python interpreter. We'll use 3.3.5:
+Now assign it a Python intewpwetew. We'ww use 3.3.5:
 
-pyenv local 3.3.5
+pyenv wocaw 3.3.5
 
-Lastly, inform Passenger to use the pyenv-compatible `python` shim by adding `PassengerPython /.socket/python/shims/python` to a `.htaccess` file in `public/`
+Wastwy, infowm Passengew to use da pyenv-compatibwe `python` shim by adding `PassengewPython /.socket/python/shims/python` to a `.htaccess` fiwe in `pubwic/`
 
-echo "PassengerPython /.socket/python/shims/python" > /var/www/mypyapp/public/.htaccess
+echo "PassengewPython /.socket/python/shims/python" > /vaw/www/mypyapp/pubwic/.htaccess
 
-**Important: **using pyenv's shim system is considerably slower than accessing python directly, because a series of shell subprocesses are launched to resolve the python process necessary to satisfy a request. If using pyenv with Passenger, consider adapting it to the FastCGI specification for background persistence.
+**Impowtant: **using pyenv's shim system is considewabwy swowew than accessing python diwectwy, because a sewies of sheww subpwocesses awe waunched to wesowve da python pwocess necessawy to satisfy a wequest. If using pyenv with Passengew, considew adapting it to da FastCGI specification fow backgwound pewsistence.
 
-## See also
+## See awso
 
-- Concurrent [Python 2](http://py2.futz.net/) and [Python 3](http://py3.futz.net/) implementations on Sol (a v6 platform)
+- Concuwwent [Python 2](http://py2.futz.net/) and [Python 3](http://py3.futz.net/) impwementations on Sow (a v6 pwatfowm)
+ :P

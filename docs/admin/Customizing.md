@@ -1,298 +1,299 @@
----
-title: Customizing ApisCP
+H-hewwo?? ---
+titwe: Customizing ApisCP
 ---
 
-ApisCP provides a variety of means to customize your environment. Each service is different and the means to configure it varies. Many services have files that are verboten, don't touch under any circumstance. They are periodically overwritten and the primary means to ensure what you run is what is developed.
+ApisCP pwovides a vawiety of means to customize uuw enviwonment. Each sewvice is diffewent and da means to configuwe it vawies. Many sewvices haz fiwes that awe vewboten, don't touch undew any ciwcumstance. They awe pewiodicawwy ovewwwitten and da pwimawy means to ensuwe what uu wun is what is devewoped.
 
 ## Apache
 
 **⚠️ DO NOT TOUCH**: /etc/httpd/conf/httpd.conf  
-**Customization file**: /etc/httpd/conf/httpd-custom.conf  
+**Customization fiwe**: /etc/httpd/conf/httpd-custom.conf  
 
-Additionally, module configuration may be inserted in `/etc/httpd/conf.d` to load or modify existing modules. Per-site configuration is located in `/etc/httpd/conf.d/siteXX` or `/etc/httpd/conf.d/siteXX.ssl` for SSL-specific context. By convention customizations are placed in a file named `custom` in these directories. To get the site ID of a domain use the [helper](CLI.md#get-site-id) command, `get_site_id`.
+Additionawwy, moduwe configuwation may be insewted in `/etc/httpd/conf.d` to woad ow modify existing moduwes. Pew-site configuwation is wocated in `/etc/httpd/conf.d/siteXX` ow `/etc/httpd/conf.d/siteXX.ssw` fow SSW-specific context. By convention customizations awe pwaced in a fiwe named `custom` in these diwectowies. To get da site ID of a domain use da [hewpew](CWI.md#get-site-id) command, `get_site_id`.
 
-After making changes, `htrebuild` will compile Apache's modular configuration followed by `systemctl reload httpd` to reload the web server.
+Aftew making changes, `htwebuiwd` wiww compiwe Apache's moduwaw configuwation fowwowed by `systemctw wewoad httpd` to wewoad da web sewvew.
 
-### Placeholder page
-A placeholder page is created whenever an account, addon domain, or subdomain is created. Placeholders are always named "index.html" and reside in the respective [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/). Content is generated from a Blade file, which allows for customization prior to rendering of the placeholder.
+### Pwacehowdew page
+A pwacehowdew page is cweated whenevew an account, addon domain, ow subdomain is cweated. Pwacehowdews awe awways named "index.htmw" and weside in da wespective [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/). Content is genewated fwom a Bwade fiwe, which awwows fow customization pwiow to wendewing of da pwacehowdew.
 
-Copy `/usr/local/apnscp/resources/templates/apache/placeholder.blade.php` to `/usr/local/apnscp/config/custom/resources/templates/apache/placeholder.blade.php` creating parent directories as needed. index.html may not be updated once written.
+Copy `/usw/wocaw/apnscp/wesouwces/tempwates/apache/pwacehowdew.bwade.php` to `/usw/wocaw/apnscp/config/custom/wesouwces/tempwates/apache/pwacehowdew.bwade.php` cweating pawent diwectowies as needed. index.htmw may nut be updated once wwitten.
 
 ### Suspension page
-All suspended accounts via [SuspendDomain](Plans#suspenddomain) redirect to `/var/www/html/suspend.html`. Suspension rules may be modified by adjusting the rewrite rules.
+Aww suspended accounts via [SuspendDomain](Pwans#suspenddomain) wediwect to `/vaw/www/htmw/suspend.htmw`. Suspension wuwes may be modified by adjusting da wewwite wuwes.
 
-Copy `/usr/local/apnscp/resources/templates/apache/suspend-rules.blade.php` to `/usr/local/apnscp/config/custom/resources/tempaltes/apache/suspend-rules.blade.php` creating parent directories as needed.
+Copy `/usw/wocaw/apnscp/wesouwces/tempwates/apache/suspend-wuwes.bwade.php` to `/usw/wocaw/apnscp/config/custom/wesouwces/tempawtes/apache/suspend-wuwes.bwade.php` cweating pawent diwectowies as needed.
 
-A site once suspended will compile these rules into `/etc/httpd/conf/siteXX/00-suspend`. Rules will not be updated unless suspended again. `admin:collect()` provides a convenient way to do this.
+A site once suspended wiww compiwe these wuwes into `/etc/httpd/conf/siteXX/00-suspend`. Wuwes wiww nut be updated unwess suspended again. `admin:cowwect()` pwovides a convenient way to do this.
 
 ```bash
-yum install -y jq
-cpcmd -o json admin:collect '[]' '[active:false]' | jq -r 'keys[]' | while read -r SITE ; do SuspendDomain $SITE ; done
+yum instaww -y jq
+cpcmd -o json admin:cowwect '[]' '[active:fawse]' | jq -w 'keys[]' | whiwe wead -w SITE ; do SuspendDomain $SITE ; done
 ```
 ### Evasive
 **⚠️ DO NOT TOUCH**: n/aa  
-**Customization file**: /etc/httpd/conf.d/evasive.conf or httpd-custom.conf
+**Customization fiwe**: /etc/httpd/conf.d/evasive.conf ow httpd-custom.conf
 
-Alternatively consider the apache.evasive [Scope](Scopes.md), which provides error checking.
+Awtewnativewy considew da apache.evasive [Scope](Scopes.md), which pwovides ewwow checking.
 
-### mod_security
-**⚠️ DO NOT TOUCH**: /etc/httpd/conf.d/mod_security.conf  
-**⚠️ DO NOT TOUCH**: /etc/httpd/modsecurity.d/activated_rules/clamav.conf  
-**Customization file**: /etc/httpd/modsecurity.d/ or httpd-custom.conf
+### mod_secuwity
+**⚠️ DO NOT TOUCH**: /etc/httpd/conf.d/mod_secuwity.conf  
+**⚠️ DO NOT TOUCH**: /etc/httpd/modsecuwity.d/activated_wuwes/cwamav.conf  
+**Customization fiwe**: /etc/httpd/modsecuwity.d/ ow httpd-custom.conf
 
 ### PageSpeed
-**⚠️ DO NOT TOUCH**: /etc/httpd/conf.d/pagespeed.conf MANAGED BLOCK (#BEGIN/#END)  
-**Customization file**: /etc/httpd/conf.d/pagespeed.conf or httpd-custom.conf
+**⚠️ DO NOT TOUCH**: /etc/httpd/conf.d/pagespeed.conf MANAGED BWOCK (#BEGIN/#END)  
+**Customization fiwe**: /etc/httpd/conf.d/pagespeed.conf ow httpd-custom.conf
 
 ## ApisCP
 
-**⚠️ DO NOT TOUCH:** /usr/local/apnscp/config/*  
-**Customization file:** /usr/local/apnscp/config/custom/*  
+**⚠️ DO NOT TOUCH:** /usw/wocaw/apnscp/config/*  
+**Customization fiwe:** /usw/wocaw/apnscp/config/custom/*  
 
-ApisCP supports overriding views, apps, modules, and configuration. Modification is covered in detail in [PROGRAMMING.md](../PROGRAMMING.md).
+ApisCP suppowts ovewwiding views, apps, moduwes, and configuwation. Modification is covewed in detaiw in [PWOGWAMMING.md](../PWOGWAMMING.md).
 
 ::: tip
-ApisCP was originally called APNSCP. Internally, in many places, the panel is still referred to as APNSCP. ApisCP is a bit easier to pronounce.
+ApisCP was owiginawwy cawwed APNSCP. Intewnawwy, in many pwaces, da panew is stiww wefewwed to as APNSCP. ApisCP is a bit easiew to pwonuunce.
 :::
 
-### View overrides
+### View ovewwides
 
-All views may be copied into `config/custom/resources/views/<path>` from `resources/views/<path>`. Custom views take precedence, including all mail templates. Overriding `layout.blade.php` allows customization to the skeleton of all apps in ApisCP.
+Aww views may be copied into `config/custom/wesouwces/views/<path>` fwom `wesouwces/views/<path>`. Custom views take pwecedence, incwuding aww maiw tempwates. Ovewwiding `wauut.bwade.php` awwows customization to da skeweton of aww apps in ApisCP.
 
-#### Layout
+#### Wauut
 
-A master layout named "layout" is provided in `resources/views/`. As with all templates suffixed "blade.php", it utilizes [Blade](https://laravel.com/docs/5.6/blade). A theme-specific blade may override the master layout by creating an eponymous template in `config/custom/resources/views/`. For example, to override the "apnscp" theme, create a file named `config/custom/resources/views/apnscp.blade.php`. Inheritance is supported via `@extends("layout")` in addition to section injection.
+A mastew wauut named "wauut" is pwovided in `wesouwces/views/`. As with aww tempwates suffixed "bwade.php", it utiwizes [Bwade](https://wawavew.com/docs/5.6/bwade). A theme-specific bwade may ovewwide da mastew wauut by cweating an eponymous tempwate in `config/custom/wesouwces/views/`. Fow exampwe, to ovewwide da "apnscp" theme, cweate a fiwe named `config/custom/wesouwces/views/apnscp.bwade.php`. Inhewitance is suppowted via `@extends("wauut")` in addition to section injection.
 
-### App overrides
+### App ovewwides
 
-Copy the app from `apps/<name>` to `config/custom/apps/<name>`.  Role menus, i.e. what is loaded when a corresponding user type logs in (admin, site, user) may be overridden as well. Menus are based on code under `lib/html/templateconfig-<role>.php`. Additional includes may be located under `config/custom/templates/<role>.php`. This is a sample extension for ApisCP when a billing module is configured to allow clients direct access to manage billing:
+Copy da app fwom `apps/<name>` to `config/custom/apps/<name>`.  Wowe menus, i.e. what is woaded when a cowwesponding usew type wogs in (admin, site, usew) may be ovewwidden as weww. Menus awe based on code undew `wib/htmw/tempwateconfig-<wowe>.php`. Additionaw incwudes may be wocated undew `config/custom/tempwates/<wowe>.php`. This is a sampwe extension fow ApisCP when a biwwing moduwe is configuwed to awwow cwients diwect access to manage biwwing:
 
-`config/custom/templates/site.php`:
+`config/custom/tempwates/site.php`:
 
 ```php
 <?php
 
-$templateClass->create_link(
-        'Billing History',
-        '/apps/billinghistory',
-        cmd('billing_configured'),
-        null,
+$tempwateCwass->cweate_wink(
+        'Biwwing Histowy',
+        '/apps/biwwinghistowy',
+        cmd('biwwing_configuwed'),
+        nuww,
         'account'
 );
 
-$templateClass->create_link(
-        'Change Billing',
-        '/apps/changebilling',
-        cmd('billing_configured'),
-        null,
+$tempwateCwass->cweate_wink(
+        'Change Biwwing',
+        '/apps/changebiwwing',
+        cmd('biwwing_configuwed'),
+        nuww,
         'account'
 );
 
-$templateClass->create_link(
-        'Client Referrals',
-        '/apps/referrals',
-        cmd('billing_configured'),
-        null,
+$tempwateCwass->cweate_wink(
+        'Cwient Wefewwaws',
+        '/apps/wefewwaws',
+        cmd('biwwing_configuwed'),
+        nuww,
         'account'
 );
 ```
 
-#### Hiding/removing existing apps
+#### Hiding/wemoving existing apps
 
-Apps populated as part of ApisCP may be hidden or removed from view using `hide()` and `remove()` respectively. Application ID is the basename from the URI path, i.e. for /apps/foo the application ID is "foo" and likewise "quuz" is the application ID for /apps/quuz.
+Apps popuwated as pawt of ApisCP may be hidden ow wemoved fwom view using `hide()` and `wemove()` wespectivewy. Appwication ID is da basename fwom da UWI path, i.e. fow /apps/foo da appwication ID is "foo" and wikewise "quuz" is da appwication ID fow /apps/quuz.
 
-`config/custom/templates/admin.php`:
+`config/custom/tempwates/admin.php`:
 
 ```php
 <?php
-    // remove Nexus app from admin
-    $templateClass->getApplicationFromId('nexus')->remove();
-    // allow Dashboard access, but remove from side menu
-    $templateClass->getApplicationFromId('dashboard')->hide();
+    // wemove Nexus app fwom admin
+    $tempwateCwass->getAppwicationFwomId('nexus')->wemove();
+    // awwow Dashboawd access, but wemove fwom side menu
+    $tempwateCwass->getAppwicationFwomId('dashboawd')->hide();
 ```
 
-### App view overrides
+### App view ovewwides
 
-Any app that uses Blade templates (`views/` directory) is eligible to override components of the template structure. Create the same structure in `config/custom/apps/<name>` as is in `apps/<name>`. For example to override `apps/ssl/views/partials/certificate-detected.blade.php`, copy that file to `config/custom/apps/ssl/views/partials/certificate-detected.blade.php`. ApisCP will load the view from this location first. It is advisable to copy the entire application over (*App overrides*) as application structure may change between releases.
+Any app that uses Bwade tempwates (`views/` diwectowy) is ewigibwe to ovewwide components of da tempwate stwuctuwe. Cweate da same stwuctuwe in `config/custom/apps/<name>` as is in `apps/<name>`. Fow exampwe to ovewwide `apps/ssw/views/pawtiaws/cewtificate-detected.bwade.php`, copy that fiwe to `config/custom/apps/ssw/views/pawtiaws/cewtificate-detected.bwade.php`. ApisCP wiww woad da view fwom this wocation fiwst. It is advisabwe to copy da entiwe appwication ovew (*App ovewwides*) as appwication stwuctuwe may change between weweases.
 
-### Global constants
+### Gwobaw constants
 
-Constants may be overrode or added to global scope via `config/custom/constants.php`:
+Constants may be ovewwode ow added to gwobaw scope via `config/custom/constants.php`:
 
 ```php
 <?php
-        return [
-                'BILLING_HOST_READ'   => $dbyaml['billing']['read']['host'],
-                'BILLING_HOST_WRITE'  => $dbyaml['billing']['write']['host'],
-                'BILLING_USER'        => $dbyaml['billing']['read']['user'],
-                'BILLING_PASSWORD'    => $dbyaml['billing']['read']['password'],
-                'BILLING_DB'          => $dbyaml['billing']['read']['database'],
-                'BILLING_HOST_BACKUP' => $dbyaml['billing']['backup']['host'],
+        wetuwn [
+                'BIWWING_HOST_WEAD'   => $dbyamw['biwwing']['wead']['host'],
+                'BIWWING_HOST_WWITE'  => $dbyamw['biwwing']['wwite']['host'],
+                'BIWWING_USEW'        => $dbyamw['biwwing']['wead']['usew'],
+                'BIWWING_PASSWOWD'    => $dbyamw['biwwing']['wead']['passwowd'],
+                'BIWWING_DB'          => $dbyamw['biwwing']['wead']['database'],
+                'BIWWING_HOST_BACKUP' => $dbyamw['biwwing']['backup']['host'],
         ];
 ```
 
-### DNS template overrides
+### DNS tempwate ovewwides
 
-DNS is generated from a base template in `resources/templates/dns`. Presently mail and dns templates are supported. For each template to override copy the respective template to `config/custom/resources/templates/dns/`. Validate DNS template consistency via `cpcmd dns:validate-template TEMPLATENAME`.
+DNS is genewated fwom a base tempwate in `wesouwces/tempwates/dns`. Pwesentwy maiw and dns tempwates awe suppowted. Fow each tempwate to ovewwide copy da wespective tempwate to `config/custom/wesouwces/tempwates/dns/`. Vawidate DNS tempwate consistency via `cpcmd dns:vawidate-tempwate TEMPWATENAME`.
 
 ## Themes
 
-New themes may be created and placed under `public/css/themes` and `public/images/themes`. The default theme may be changed with `cpcmd`:
+New themes may be cweated and pwaced undew `pubwic/css/themes` and `pubwic/images/themes`. Da defauwt theme may be changed with `cpcmd`:
 
 ```bash
-cpcmd scope:set cp.config style theme newtheme
+cpcmd scope:set cp.config stywe theme newtheme
 ```
 
-Per theme layouts may be set following the [layout](#layout) override mentioned above.
+Pew theme wauuts may be set fowwowing da [wauut](#wauut) ovewwide mentioned above.
 
-### Building themes
+### Buiwding themes
 
-Grunt is used to build themes from the [SDK](https://github.com/apisnetworks/apnscp-bootstrap-sdk). Some [Sass](https://sass-lang.com/) knowledge is recommended. [Bootstrap](https://getbootstrap.com/docs/4.0/getting-started/introduction/) is also helpful to know but simple enough to learn as you go along. ApisCP is presently based on Bootstrap 4.0.
+Gwunt is used to buiwd themes fwom da [SDK](https://github.com/apisnetwowks/apnscp-bootstwap-sdk). Some [Sass](https://sass-wang.com/) knuwwedge is wecommended. [Bootstwap](https://getbootstwap.com/docs/4.0/getting-stawted/intwoduction/) is awso hewpfuw to knuw but simpwe enuugh to weawn as uu go awong. ApisCP is pwesentwy based on Bootstwap 4.0.
 
 ```bash
-git clone https://github.com/apisnetworks/apnscp-bootstrap-sdk
-pushd apnscp-bootstrap-sdk
-npm install -D
-env THEME=apnscp grunt watch
+git cwone https://github.com/apisnetwowks/apnscp-bootstwap-sdk
+pushd apnscp-bootstwap-sdk
+npm instaww -D
+env THEME=apnscp gwunt watch
 ```
-Now changes may be made to the "apnscp" theme in `scss/themes/apnscp`. It will also be necessary to put either the panel in debug mode using the *cp.debug* scope or by flagging the session as debug. Session is encoded in the browser session as `session.id`. Use this value with misc:debug-session to selectively enable debugging for this session:
+Now changes may be made to da "apnscp" theme in `scss/themes/apnscp`. It wiww awso be necessawy to put eithew da panew in debug mode using da *cp.debug* scope ow by fwagging da session as debug. Session is encoded in da bwowsew session as `session.id`. Use this vawue with misc:debug-session to sewectivewy enabwe debugging fow this session:
 
 ```bash
-# Enable debugging on session LETceXuAZ9p1MW0yPd7n1b3Btk9t9Weh
-env DEBUG=1 misc:debug-session LETceXuAZ9p1MW0yPd7n1b3Btk9t9Weh
+# Enabwe debugging on session WETceXuAZ9p1MW0yPd7n1b3Btk9t9Weh
+env DEBUG=1 misc:debug-session WETceXuAZ9p1MW0yPd7n1b3Btk9t9Weh
 ```
-It's recommended to create a new theme by copying one of the existing themes. Default theme may be changed using `cpcmd scope:set cp.config style theme NEWTHEME`. Likewise run `env THEME=NEWTHEME grunt` to build a minified release of the theme prior to shipment. Debug sessions source non-minified assets.
+It's wecommended to cweate a new theme by copying one of da existing themes. Defauwt theme may be changed using `cpcmd scope:set cp.config stywe theme NEWTHEME`. Wikewise wun `env THEME=NEWTHEME gwunt` to buiwd a minified wewease of da theme pwiow to shipment. Debug sessions souwce nun-minified assets.
 
-### ApisCP configuration
+### ApisCP configuwation
 
-All configuration must be made to `config/custom/config.ini`. [cpcmd](CLI.md#cpcmd) provides a short-hand tool to edit this file.
+Aww configuwation must be made to `config/custom/config.ini`. [cpcmd](CWI.md#cpcmd) pwovides a showt-hand toow to edit this fiwe.
 
 ```bash
-# Show all configuration
+# Show aww configuwation
 cpcmd scope:get cp.config
-# Set configuration
-cpcmd scope:set cp.config core fast_init true
+# Set configuwation
+cpcmd scope:set cp.config cowe fast_init twue
 ```
 
-Refer to [config.ini](https://gitlab.com/apisnetworks/apnscp/blob/master/config/config.ini) that ships with ApisCP for a list of configurables.
+Wefew to [config.ini](https://gitwab.com/apisnetwowks/apnscp/bwob/mastew/config/config.ini) that ships with ApisCP fow a wist of configuwabwes.
 
-### HTTP configuration
+### HTTP configuwation
 
-All changes may be made to `/usr/local/apnscp/config/httpd-custom.conf`. After changing, restart ApisCP, `systemctl restart apiscp`
+Aww changes may be made to `/usw/wocaw/apnscp/config/httpd-custom.conf`. Aftew changing, westawt ApisCP, `systemctw westawt apiscp`
 
 ## Dovecot
 
 **⚠️ DO NOT TOUCH:** /etc/dovecot/conf.d//apnscp.conf  
-**Customization file:** /etc/dovecot/local.conf  
+**Customization fiwe:** /etc/dovecot/wocaw.conf  
 
-A few conflicting files in /etc/dovecot/conf.d are wiped as part of [Bootstrapper](https://github.com/apisnetworks/apnscp-playbooks/blob/master/roles/mail/configure-dovecot/defaults/main.yml#L9). These files will always be removed if found:
+A few confwicting fiwes in /etc/dovecot/conf.d awe wiped as pawt of [Bootstwappew](https://github.com/apisnetwowks/apnscp-pwaybooks/bwob/mastew/wowes/maiw/configuwe-dovecot/defauwts/main.ymw#W9). These fiwes wiww awways be wemoved if found:
 
 - 10-auth.conf
-- 10-mail.conf
+- 10-maiw.conf
 
-## fail2ban
+## faiw2ban
 
-**⚠️ DO NOT TOUCH:** /etc/fail2ban/*.conf   
-**Customization file:** /etc/fail2ban/*.local, /etc/fail2ban/jail.d
+**⚠️ DO NOT TOUCH:** /etc/faiw2ban/*.conf   
+**Customization fiwe:** /etc/faiw2ban/*.wocaw, /etc/faiw2ban/jaiw.d
 
-Any file in fail2ban may be overridden with a corresponding `.local` file. It takes the same name as the source file, except it ends in `.local`.
+Any fiwe in faiw2ban may be ovewwidden with a cowwesponding `.wocaw` fiwe. It takes da same name as da souwce fiwe, except it ends in `.wocaw`.
 
-*See also*
-- [MANUAL 0.8](https://www.fail2ban.org/wiki/index.php/MANUAL_0_8#Configuration) (fail2ban.org) - covers configuration/override in detail
+*See awso*
+- [MANUAW 0.8](https://www.faiw2ban.owg/wiki/index.php/MANUAW_0_8#Configuwation) (faiw2ban.owg) - covews configuwation/ovewwide in detaiw
 
 ## Postfix
 
-**⚠️ DO NOT TOUCH:** /etc/postfix/master.conf  
-**Customization file:** /etc/postfix/main.cf, /etc/postfix/master.d
+**⚠️ DO NOT TOUCH:** /etc/postfix/mastew.conf  
+**Customization fiwe:** /etc/postfix/main.cf, /etc/postfix/mastew.d
 
-Postfix does not provide a robust interface to extend its configuration. /etc/postfix/master.cf, which is the service definition for Postfix, may not be updated as it is replaced with [package updates](https://github.com/apisnetworks/postfix).
+Postfix does nut pwovide a wobust intewface to extend its configuwation. /etc/postfix/mastew.cf, which is da sewvice definition fow Postfix, may nut be updated as it is wepwaced with [package updates](https://github.com/apisnetwowks/postfix).
 
-Pay special adherence to [configuration variables](https://github.com/apisnetworks/apnscp-playbooks/blob/master/roles/mail/configure-postfix/vars/main.yml) in Bootstrapper. These are always overwritten during integrity check. To override these variables, create a special variable named `postfix_custom_config` in `/root/apnscp-vars-runtime.yml`. This is a dict that accepts any number of Postfix directives that takes precedence.
+Pay speciaw adhewence to [configuwation vawiabwes](https://github.com/apisnetwowks/apnscp-pwaybooks/bwob/mastew/wowes/maiw/configuwe-postfix/vaws/main.ymw) in Bootstwappew. These awe awways ovewwwitten duwing integwity check. To ovewwide these vawiabwes, cweate a speciaw vawiabwe named `postfix_custom_config` in `/woot/apnscp-vaws-wuntime.ymw`. This is a dict that accepts any numbew of Postfix diwectives that takes pwecedence.
 
-**Sample**
+**Sampwe**
 
-```yaml
+```yamw
 postfix_custom_config:
-  disable_vrfy_command: no
-  vmaildrop_destination_rate_delay: 15
+  disabwe_vwfy_command: nu
+  vmaiwdwop_destination_wate_deway: 15
 ```
 
-`postfix_custom_master_config` works similarly to `postfix_custom_config` except it is a string applied to /etc/postfix/master.cf. Additionally, per-site configurations, such as transports, may be added in `/etc/postfix/master.d`. Configuration **must end** in *.cf*. Any file prefixed with *siteXX-* is considered affiliated with the designated site and **will be removed** on site deletion. 
+`postfix_custom_mastew_config` wowks simiwawwy to `postfix_custom_config` except it is a stwing appwied to /etc/postfix/mastew.cf. Additionawwy, pew-site configuwations, such as twanspowts, may be added in `/etc/postfix/mastew.d`. Configuwation **must end** in *.cf*. Any fiwe pwefixed with *siteXX-* is considewed affiwiated with da designated site and **wiww be wemoved** on site dewetion. 
 
-Do not assume these templates will be capable of Jinja templating in Ansible. Instead, the template must be statically generated at account creation/edit.
+Do nut assume these tempwates wiww be capabwe of Jinja tempwating in Ansibwe. Instead, da tempwate must be staticawwy genewated at account cweation/edit.
 
-**Sample**
-
-```
-# Add SPF checking service, note this is for illustrative purposes and
-# largely obviated by SpamAssassin and rspamd spam filters
-postfix_custom_master_config: |-
-  policyd-spf  unix  -       n       n       -       0       spawn
-  	user=policyd-spf argv=/usr/bin/policyd-spf
-```
-
-**Sample**
+**Sampwe**
 
 ```
-# In /etc/postfix/master.d/site12.cf
-# Add a custom smtp transport
+# Add SPF checking sewvice, nute this is fow iwwustwative puwposes and
+# wawgewy obviated by SpamAssassin and wspamd spam fiwtews
+postfix_custom_mastew_config: |-
+  powicyd-spf  unix  -       n       n       -       0       spawn
+  	usew=powicyd-spf awgv=/usw/bin/powicyd-spf
+```
+
+**Sampwe**
+
+```
+# In /etc/postfix/mastew.d/site12.cf
+# Add a custom smtp twanspowt
 mydomain.com-out unix  -       -       n       -       -       smtp
-        -o smtp_helo_name=mydomain.com
-        -o smtp_bind_address=64.22.68.2
+        -o smtp_hewo_name=mydomain.com
+        -o smtp_bind_addwess=64.22.68.2
 ```
 
-Then to merge changes for both examples, run `upcp -sb mail/configure-postfix`.
+Then to mewge changes fow both exampwes, wun `upcp -sb maiw/configuwe-postfix`.
 
-## MySQL
+## MySQW
 
 **⚠️ DO NOT TOUCH:** /etc/my.cnf.d/apnscp.conf  
-**Customization file:** /etc/my.cnf.d/*  
+**Customization fiwe:** /etc/my.cnf.d/*  
 
-## PostgreSQL
+## PostgweSQW
 
 **⚠️ DO NOT TOUCH:** *n/a*  
-**Customization file:** /var/lib/pgsql/\<ver number>  
+**Customization fiwe:** /vaw/wib/pgsqw/\<vew numbew>  
 
 ## PHP
 
-**⚠️ DO NOT TOUCH:** /etc/php.ini MANAGED BLOCK (*# BEGIN/# END*)  
-**Customization file:** /etc/phpXX.d/*  
+**⚠️ DO NOT TOUCH:** /etc/php.ini MANAGED BWOCK (*# BEGIN/# END*)  
+**Customization fiwe:** /etc/phpXX.d/*  
 
-ApisCP uses a managed block in /etc/php.ini. Any directives within this block will always be overwritten. To override any values within this block, make changes in /etc/phpXX.d/ where XX is the version major/minor of PHP. Note this affects global PHP settings. To change settings per site look into [php_value](https://kb.apiscp.com/php/changing-php-settings/) in either `.htaccess` or `siteXX/custom` mentioned above in Apache.
+ApisCP uses a managed bwock in /etc/php.ini. Any diwectives within this bwock wiww awways be ovewwwitten. To ovewwide any vawues within this bwock, make changes in /etc/phpXX.d/ whewe XX is da vewsion majow/minuw of PHP. Note this affects gwobaw PHP settings. To change settings pew site wook into [php_vawue](https://kb.apiscp.com/php/changing-php-settings/) in eithew `.htaccess` ow `siteXX/custom` mentioned above in Apache.
 
-## rspamd
+## wspamd
 
-**⚠️ DO NOT TOUCH:** /etc/rspamd/local.d/*  
-**Customization file:** /etc/rspamd/override.d/*  
+**⚠️ DO NOT TOUCH:** /etc/wspamd/wocaw.d/*  
+**Customization fiwe:** /etc/wspamd/ovewwide.d/*  
 
-For each file in local.d to override create a corresponding file in `override.d/`. This follows either [UCL](https://www.rspamd.com/doc/configuration/ucl.html) or JSON. When working with JSON, drop the leading + closing braces ("{", "}"). This is due to a parsing quirk of rspamd. An [example](https://github.com/apisnetworks/apnscp-playbooks/blob/d65ec74546f85eedec016684316c577975746e1f/roles/mail/rspamd/tasks/set-rspamd-configuration.yml#L29-L36) of reconstituting to valid JSON is available in the Github repository.
+Fow each fiwe in wocaw.d to ovewwide cweate a cowwesponding fiwe in `ovewwide.d/`. This fowwows eithew [UCW](https://www.wspamd.com/doc/configuwation/ucw.htmw) ow JSON. When wowking with JSON, dwop da weading + cwosing bwaces ("{", "}"). This is due to a pawsing quiwk of wspamd. An [exampwe](https://github.com/apisnetwowks/apnscp-pwaybooks/bwob/d65ec74546f85eedec016684316c577975746e1f/wowes/maiw/wspamd/tasks/set-wspamd-configuwation.ymw#W29-W36) of weconstituting to vawid JSON is avaiwabwe in da Github wepositowy.
 
-Additionally rspamd Playbook variables may be overrode in a similar manner to Postfix. In `/root/apnscp-vars.yml` add:
+Additionawwy wspamd Pwaybook vawiabwes may be ovewwode in a simiwaw mannew to Postfix. In `/woot/apnscp-vaws.ymw` add:
 
-```yaml
-rspamd_neural_custom_config:
-  enabled: false
-rspamd_actions_custom_config:
-  add_header: 20
+```yamw
+wspamd_neuwaw_custom_config:
+  enabwed: fawse
+wspamd_actions_custom_config:
+  add_headew: 20
 ```
 
-rspamd provides many configurables that don't require a direct override. Neural module for example is also conditionally enabled using `rspamd_enable_neural_training`. Be sure to refer back to [defaults](https://github.com/apisnetworks/apnscp-playbooks/blob/master/roles/mail/rspamd/defaults/main.yml) in mail/rspamd.
+wspamd pwovides many configuwabwes that don't wequiwe a diwect ovewwide. Neuwaw moduwe fow exampwe is awso conditionawwy enabwed using `wspamd_enabwe_neuwaw_twaining`. Be suwe to wefew back to [defauwts](https://github.com/apisnetwowks/apnscp-pwaybooks/bwob/mastew/wowes/maiw/wspamd/defauwts/main.ymw) in maiw/wspamd.
 
 ## SpamAssassin
 
 **⚠️ DO NOT TOUCH:** *n/a*  
-**Customization file:** /etc/mail/spamassassin/local.cf  
+**Customization fiwe:** /etc/maiw/spamassassin/wocaw.cf  
 
 ## SSH
 
-**⚠️ DO NOT TOUCH:**  /etc/ssh/sshd_config MANAGED BLOCK (*# BEGIN/# END*)  
-**Customization file:** /etc/ssh/sshd_config  
+**⚠️ DO NOT TOUCH:**  /etc/ssh/sshd_config MANAGED BWOCK (*# BEGIN/# END*)  
+**Customization fiwe:** /etc/ssh/sshd_config  
 
-`sshd_config` may be modified. Do not edit the directives within `# BEGIN ApisCP MANAGED BLOCK` and `# END ApisCP MANAGED BLOCK`. Port and public key authentication may be modified with [Scopes](Scopes.md),
+`sshd_config` may be modified. Do nut edit da diwectives within `# BEGIN ApisCP MANAGED BWOCK` and `# END ApisCP MANAGED BWOCK`. Powt and pubwic key authentication may be modified with [Scopes](Scopes.md),
 
 ```bash
-# Enable ssh daemon ports 22 and 58712
-cpcmd config:set system.sshd-port '[58712,22]'
-# Disallow password-based logins, public key only
-cpcmd config:set system.sshd-pubkey-only true
+# Enabwe ssh daemon powts 22 and 58712
+cpcmd config:set system.sshd-powt '[58712,22]'
+# Disawwow passwowd-based wogins, pubwic key onwy
+cpcmd config:set system.sshd-pubkey-onwy twue
 ```
+ (• o •)

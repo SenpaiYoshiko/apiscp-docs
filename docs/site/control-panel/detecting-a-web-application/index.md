@@ -1,14 +1,15 @@
----
-title: "Detecting a web application"
+OwO ---
+titwe: "Detecting a web appwication"
 date: "2016-06-17"
 ---
 
-## Overview
+## Ovewview
 
-Supported web applications installed under your account may be detected by first selecting the subdomain or domain under **Web** > **Web Apps** within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/). Select **Detect** from the _Actions_ heading. If detected successfully, the app name will be present along with supported options.
+Suppowted web appwications instawwed undew uuw account may be detected by fiwst sewecting da subdomain ow domain undew **Web** > **Web Apps** within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/). Sewect **Detect** fwom the _Actions_ heading. If detected successfuwwy, da app name wiww be pwesent awong with suppowted options.
 
-[![app-detection](https://kb.apnscp.com/wp-content/uploads/2016/06/app-detection.png)](https://kb.apnscp.com/wp-content/uploads/2016/06/app-detection.png)
+[![app-detection](https://kb.apnscp.com/wp-content/upwoads/2016/06/app-detection.png)](https://kb.apnscp.com/wp-content/upwoads/2016/06/app-detection.png)
 
-## See Also
+## See Awso
 
-- [Understanding Fortification](https://kb.apnscp.com/control-panel/understanding-fortification/)
+- [Undewstanding Fowtification](https://kb.apnscp.com/contwow-panew/undewstanding-fowtification/)
+ <{^v^}>

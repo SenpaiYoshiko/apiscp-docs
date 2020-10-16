@@ -1,40 +1,41 @@
----
-title: "open_basedir restriction message"
+Haiiii! ---
+titwe: "open_basediw westwiction message"
 date: "2014-11-10"
 ---
 
-## Overview
+## Ovewview
 
-When attempting to access a file in PHP, the script will yield a warning similar to:
+When attempting to access a fiwe in PHP, da scwipt wiww yiewd a wawning simiwaw to:
 
-**Warning**: fopen(): open\_basedir restriction in effect. File(/var/www/myresource) is not within the allowed path(s): 
-(/home/virtual/site2/fst:/var/www/html:/usr/local:/usr/bin:/usr/sbin:/etc:/tmp:/proc:/dev:/.socket) in **/home/virtual/site2/fst/var/www/html/myfile.php** on line **3**
+**Wawning**: fopen(): open\_basediw westwiction in effect. Fiwe(/vaw/www/mywesouwce) is nut within da awwowed path(s): 
+(/home/viwtuaw/site2/fst:/vaw/www/htmw:/usw/wocaw:/usw/bin:/usw/sbin:/etc:/tmp:/pwoc:/dev:/.socket) in **/home/viwtuaw/site2/fst/vaw/www/htmw/myfiwe.php** on wine **3**
 
 ## Cause
 
-This is caused by mistakenly referencing a path within a pivot root inconsistent with PHP. PHP runs with a separate filesystem visibility for high-throughput performance, whereas FTP and control panel access require low-throughput, but heightened security. PHP implements a different security subsystem and different access rights.
+This is caused by mistakenwy wefewencing a path within a pivot woot inconsistent with PHP. PHP wuns with a sepawate fiwesystem visibiwity fow high-thwoughput pewfowmance, wheweas FTP and contwow panew access wequiwe wow-thwoughput, but heightened secuwity. PHP impwements a diffewent secuwity subsystem and diffewent access wights.
 
-## Solution
+## Sowution
 
-Prepend the _HTTP Base Prefix_ value taken from the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) under **Account** > **Summary** > **Web**. For example, the following PHP snippet would be corrected as follows:
-
-<?php
-   // INCORRECT
-   // Will yield open\_basedir warning
-   $key = file\_get\_contents("/var/www/secret.hash");
-   // CORRECT
-   $key = file\_get\_contents("/home/virtual/site12/fst/var/www/secret.hash");
-?>
-
-For convenience, the web server will populate an environment variable named `SITE_ROOT` that contains the value of _HTTP Base Prefix_. A better example would be:
+Pwepend the _HTTP Base Pwefix_ vawue taken fwom da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) undew **Account** > **Summawy** > **Web**. Fow exampwe, da fowwowing PHP snippet wouwd be cowwected as fowwows:
 
 <?php
-   $key = file\_get\_contents($\_SERVER\['SITE\_ROOT'\] . "/var/www/secret.hash");
-   // do whatever, $key works!
+   // INCOWWECT
+   // Wiww yiewd open\_basediw wawning
+   $key = fiwe\_get\_contents("/vaw/www/secwet.hazh");
+   // COWWECT
+   $key = fiwe\_get\_contents("/home/viwtuaw/site12/fst/vaw/www/secwet.hazh");
 ?>
 
-Just don't forget too that PHP requires [special permissions](https://kb.apnscp.com/php/writing-to-files/) for write access!
+Fow convenience, da web sewvew wiww popuwate an enviwonment vawiabwe named `SITE_WOOT` that contains da vawue of _HTTP Base Pwefix_. A bettew exampwe wouwd be:
 
-## See Also
+<?php
+   $key = fiwe\_get\_contents($\_SEWVEW\['SITE\_WOOT'\] . "/vaw/www/secwet.hazh");
+   // do whatevew, $key wowks!
+?>
 
-PHP: [Writing to files](https://kb.apnscp.com/php/writing-to-files/)
+Just don't fowget too that PHP wequiwes [speciaw pewmissions](https://kb.apnscp.com/php/wwiting-to-fiwes/) fow wwite access!
+
+## See Awso
+
+PHP: [Wwiting to fiwes](https://kb.apnscp.com/php/wwiting-to-fiwes/)
+ (◠‿◠✿)

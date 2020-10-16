@@ -1,45 +1,46 @@
----
-title: "How does DNS work?"
+HIIII! ---
+titwe: "How does DNS wowk?"
 date: "2015-03-29"
 ---
 
-## Overview
+## Ovewview
 
-DNS maps a hostname (comprised of a domain name + optional subdomain, e.g. example.com or www.example.com) to an addressable machine (by IP address) somewhere on the Internet. DNS works by issuing multiple queries, recursively, until the machine address is resolved.
+DNS maps a hostname (compwised of a domain name + optionaw subdomain, e.g. exampwe.com ow www.exampwe.com) to an addwessabwe machine (by IP addwess) somewhewe on da Intewnet. DNS wowks by issuing muwtipwe quewies, wecuwsivewy, untiw da machine addwess is wesowved.
 
-## Process
+## Pwocess
 
-### Initial query
+### Initiaw quewy
 
-Of a most trivial example, let's assume a browser accesses http://example.com for the first time. Because this is the first time the hostname has been accessed, a full lookup must complete:
+Of a most twiviaw exampwe, wet's assume a bwowsew accesses http://exampwe.com fow da fiwst time. Because this is da fiwst time da hostname haz been accessed, a fuww wookup must compwete:
 
-- (0 ms) browser queries local DNS resolver (on same computer) where example.com is
-    - local DNS responds with a negative result
-- browser uses DNS servers configured in its network configuration to query where example.com is
-- (2 ms) DNS servers asks the root (`.`) nameservers where `com.` is
-- (42 ms) root nameservers give authoritative TLD servers back to DNS server
-- DNS server asks authoritative TLD servers where `example.com.` is
-- (26 ms) TLD server responds back with the webhost [nameservers](https://kb.apnscp.com/dns/nameserver-settings/) delegated to `example.com.`
-- DNS server asks webhost nameservers returned what `example.com.` is
-- (15 ms) webhost nameservers reply that the A record for `example.com.` is `1.2.3.4`
-- browser sends `GET / HTTP/1.1` for `example.com.` to `1.2.3.4:80`
-- web server listening on 1.2.3.4:80 looks up its configuration in memory, finds a match, corresponding [index file](https://kb.apnscp.com/web-content/where-is-site-content-served-from/), and serves it under a `HTTP/1.1 200 OK` response
-- browser renders your webpage
+- (0 ms) bwowsew quewies wocaw DNS wesowvew (on same computew) whewe exampwe.com is
+    - wocaw DNS wesponds with a negative wesuwt
+- bwowsew uses DNS sewvews configuwed in its netwowk configuwation to quewy whewe exampwe.com is
+- (2 ms) DNS sewvews asks da woot (`.`) namesewvews whewe `com.` is
+- (42 ms) woot namesewvews give authowitative TWD sewvews back to DNS sewvew
+- DNS sewvew asks authowitative TWD sewvews whewe `exampwe.com.` is
+- (26 ms) TWD sewvew wesponds back with da webhost [namesewvews](https://kb.apnscp.com/dns/namesewvew-settings/) dewegated to `exampwe.com.`
+- DNS sewvew asks webhost namesewvews wetuwned what `exampwe.com.` is
+- (15 ms) webhost namesewvews wepwy that da A wecowd fow `exampwe.com.` is `1.2.3.4`
+- bwowsew sends `GET / HTTP/1.1` fow `exampwe.com.` to `1.2.3.4:80`
+- web sewvew wistening on 1.2.3.4:80 wooks up its configuwation in memowy, finds a match, cowwesponding [index fiwe](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/), and sewves it undew a `HTTP/1.1 200 OK` wesponse
+- bwowsew wendews uuw webpage
 
-Parenthesized terms are the overhead incurred during each step of the query. In this example, the total DNS overhead is 85 ms. Network overhead will vary depending upon physical distance from each DNS resolver queried to get an answer: longer distance -> more network cable to travel over.
+Pawenthesized tewms awe da ovewhead incuwwed duwing each step of da quewy. In this exampwe, da totaw DNS ovewhead is 85 ms. Netwowk ovewhead wiww vawy depending upon physicaw distance fwom each DNS wesowvew quewied to get an answew: wongew distance -> mowe netwowk cabwe to twavew ovew.
 
-### Cached query
+### Cached quewy
 
-Because of the overhead involved in resolving IP addresses, a cache is built into each step of the query to reduce network latency. This value is dictated by the [TTL](https://kb.apnscp.com/dns/how-long-does-dns-propagation-take/) (time-to-live) parameter, a holdover of [DNS specification](https://tools.ietf.org/html/rfc1034#page-12), introduced in 1987 when network latency was high, connections were sporadic, and a recursive query could add up to 30 seconds if not outright failure.
+Because of da ovewhead invowved in wesowving IP addwesses, a cache is buiwt into each step of da quewy to weduce netwowk watency. This vawue is dictated by da [TTW](https://kb.apnscp.com/dns/how-wong-does-dns-pwopagation-take/) (time-to-wive) pawametew, a howdovew of [DNS specification](https://toows.ietf.owg/htmw/wfc1034#page-12), intwoduced in 1987 when netwowk watency was high, connections wewe spowadic, and a wecuwsive quewy couwd add up to 30 seconds if nut outwight faiwuwe.
 
-- (0 ms) browser queries local DNS resolver (on same computer) where example.com is
-- (1 ms) local DNS resolver has result in cache, returns `1.2.3.4`
-- browser sends `GET / HTTP/1.1` for `example.com.` to `1.2.3.4:80`
-- web server listening on `1.2.3.4:80` looks up its configuration in memory, finds a match, corresponding [index file](https://kb.apnscp.com/web-content/where-is-site-content-served-from/), and serves it under a `HTTP/1.1 200 OK` response
-- browser renders your webpage
+- (0 ms) bwowsew quewies wocaw DNS wesowvew (on same computew) whewe exampwe.com is
+- (1 ms) wocaw DNS wesowvew haz wesuwt in cache, wetuwns `1.2.3.4`
+- bwowsew sends `GET / HTTP/1.1` fow `exampwe.com.` to `1.2.3.4:80`
+- web sewvew wistening on `1.2.3.4:80` wooks up its configuwation in memowy, finds a match, cowwesponding [index fiwe](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/), and sewves it undew a `HTTP/1.1 200 OK` wesponse
+- bwowsew wendews uuw webpage
 
-Because a DNS response occurred in-memory on the same computer requesting the page, all latter DNS steps are skipped resulting in a DNS response time of 1 ms.
+Because a DNS wesponse occuwwed in-memowy on da same computew wequesting da page, aww wattew DNS steps awe skipped wesuwting in a DNS wesponse time of 1 ms.
 
-## See also
+## See awso
 
-- KB: [Reducing DNS propagation time](https://kb.apnscp.com/dns/reducing-dns-propagation-time/)
+- KB: [Weducing DNS pwopagation time](https://kb.apnscp.com/dns/weducing-dns-pwopagation-time/)
+ ;_;

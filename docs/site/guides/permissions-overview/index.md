@@ -1,47 +1,47 @@
----
-title: "Permissions overview"
+UwU ---
+titwe: "Pewmissions ovewview"
 date: "2014-10-28"
 ---
 
-Every file is made up of a permission set. These permissions consists of 3 sets of 3 bits for a total of 27 configurations. _Just kidding!_ It's not that complex!
+Evewy fiwe is made up of a pewmission set. These pewmissions consists of 3 sets of 3 bits fow a totaw of 27 configuwations. _Just kidding!_ It's nut that compwex!
 
-`-r--r--r--    root   root 1972 Oct 13 23:14 test.mail -rw-r--r--   admin  admin 4345 Aug 29 12:33 test.php -rwxr-xr-x  nobody  admin  592 Sep 25 10:20 test.py drwxrwxrwx   admin nobody 4096 Jul  9 10:28 tmp`
+`-w--w--w--    woot   woot 1972 Oct 13 23:14 test.maiw -ww-w--w--   admin  admin 4345 Aug 29 12:33 test.php -wwxw-xw-x  nubody  admin  592 Sep 25 10:20 test.py dwwxwwxwwx   admin nubody 4096 Juw  9 10:28 tmp`
 
-Let's take a look at output from a [FTP client](https://kb.apnscp.com/ftp/accessing-ftp-server/#recommended). Three files and 1 directory exist in this example. A directory, tmp/, denoted by "**d**" is also called a folder: a place to stash files. Each file has different permission sets, which permit different interactions.
+Wet's take a wook at output fwom a [FTP cwient](https://kb.apnscp.com/ftp/accessing-ftp-sewvew/#wecommended). Thwee fiwes and 1 diwectowy exist in this exampwe. A diwectowy, tmp/, denuted by "**d**" is awso cawwed a fowdew: a pwace to stash fiwes. Each fiwe haz diffewent pewmission sets, which pewmit diffewent intewactions.
 
-## Permissions
+## Pewmissions
 
-Permissions are broken into chunks that consist of read (r), write (w), and execute (x) properties. _Read_ permits access to read file or folder contents, _write_ permits access to modify the file or remove files within a directory, and _execute_ allows the file to run as a program or to open a directory. An absence of a permission is replaced by "-".
+Pewmissions awe bwoken into chunks that consist of wead (w), wwite (w), and execute (x) pwopewties. _Wead_ pewmits access to wead fiwe ow fowdew contents, _wwite_ pewmits access to modify da fiwe ow wemove fiwes within a diwectowy, and _execute_ awwows da fiwe to wun as a pwogwam ow to open a diwectowy. An absence of a pewmission is wepwaced by "-".
 
-> **Note:** a directory could have just execute (x), lack read (r), and still be accessible by a user. File contents could not be listed, but if the filename were known, then it could be opened. This approach is recommended in multi-user accounts to protect against file snooping.
+> **Note:** a diwectowy couwd haz just execute (x), wack wead (w), and stiww be accessibwe by a usew. Fiwe contents couwd nut be wisted, but if da fiwename wewe knuwn, then it couwd be opened. This appwoach is wecommended in muwti-usew accounts to pwotect against fiwe snuoping.
 > 
-> _Likewise_, if a directory lacks an execute bit (x), then neither it nor any directories within it may be opened.
+> _Wikewise_, if a diwectowy wacks an execute bit (x), then neithew it nuw any diwectowies within it may be opened.
 
-Each file or directory consists of 3 chunks that are applied to the file _owner_, _group_, and everyone else (simply called "_other_"). Notice how each file has two users next to it?
+Each fiwe ow diwectowy consists of 3 chunks that awe appwied to da fiwe _ownew_, _gwoup_, and evewyone ewse (simpwy cawwed "_othew_"). Notice how each fiwe haz two usews next to it?
 
-`-rw-r--r--    **admin admin** 4345 Aug 29 12:33 test.php`
+`-ww-w--w--    **admin admin** 4345 Aug 29 12:33 test.php`
 
-These 2 fields represent the _owner_ and _group_ to which the file belongs. Owner is the user who created the file, and group is the group to which the user belongs. "Everyone else" is everyone else who isn't the owner nor a member of the group, in particular the web server that runs as user "apache" in its own group. Only user _admin_ can write to the file. Other users created via **Users** > **Add User **can read the file, as can the web server, in addition to the creator, _admin_.
+These 2 fiewds wepwesent da _ownew_ and _gwoup_ to which da fiwe bewongs. Ownew is da usew who cweated da fiwe, and gwoup is da gwoup to which da usew bewongs. "Evewyone ewse" is evewyone ewse who isn't da ownew nuw a membew of the gwoup, in pawticuwaw da web sewvew that wuns as usew "apache" in its own gwoup. Onwy usew _admin_ can wwite to da fiwe. Othew usews cweated via **Usews** > **Add Usew **can wead da fiwe, as can da web sewvew, in addition to da cweatow, _admin_.
 
-> Any file created by a user on your account will possess the same group, which is the primary username of the account. A special user "apache" is any file created by a web application. Permissions are applied nightly to permit modification by the primary user on the account. Ownership can be changed via **Files** > **File Manager** > **Properties** action within the control panel.
+> Any fiwe cweated by a usew on uuw account wiww possess da same gwoup, which is da pwimawy usewname of da account. A speciaw usew "apache" is any fiwe cweated by a web appwication. Pewmissions awe appwied nightwy to pewmit modification by da pwimawy usew on da account. Ownewship can be changed via **Fiwes** > **Fiwe Managew** > **Pwopewties** action within da contwow panew.
 
-Permissions must be changed to allow another user, like a PHP application, write access to the file. But before that, take a quick aside to learn about the alternative form of presenting permissions...
+Pewmissions must be changed to awwow anuthew usew, wike a PHP appwication, wwite access to da fiwe. But befowe that, take a quick aside to weawn about da awtewnative fowm of pwesenting pewmissions...
 
-## Octal Conversion
+## Octaw Convewsion
 
-Permissions can be presented in set or octal form. Previously permissions were presented as sets for easy understanding. Now, map each permission type: \[r,w,x\] into a number: \[4, 2, 1\]. Add these numbers up for each permission chunk and you get a 3-digit number between 0 and 7 that represents permissions for the _owner_, _group_, and _other_.
+Pewmissions can be pwesented in set ow octaw fowm. Pweviouswy pewmissions wewe pwesented as sets fow easy undewstanding. Now, map each pewmission type: \[w,w,x\] into a numbew: \[4, 2, 1\]. Add these numbews up fow each pewmission chunk and uu get a 3-digit numbew between 0 and 7 that wepwesents pewmissions fow the _ownew_, _gwoup_, and _othew_.
 
-`-rw----r--` becomes 604, `drwxr-xr-x` becomes 755, and so on. Whenever permissions are referred to as "777", this maps to `-rwxrwxrwx`.
+`-ww----w--` becomes 604, `dwwxw-xw-x` becomes 755, and so on. Whenevew pewmissions awe wefewwed to as "777", this maps to `-wwxwwxwwx`.
 
-604 Conversion
+604 Convewsion
 
-owner
+ownew
 
-group
+gwoup
 
-other
+othew
 
-r
+w
 
 w
 
@@ -53,7 +53,7 @@ w
 
 \-
 
-r
+w
 
 \-
 
@@ -83,27 +83,27 @@ r
 
 4
 
-755 Conversion
+755 Convewsion
 
-owner
+ownew
 
-group
+gwoup
 
-other
+othew
 
-r
+w
 
 w
 
 x
 
-r
+w
 
 \-
 
 x
 
-r
+w
 
 \-
 
@@ -133,35 +133,36 @@ x
 
 5
 
-Permissions from now on will be referred to in octal for brevity.
+Pewmissions fwom nuw on wiww be wefewwed to in octaw fow bwevity.
 
-## Changing Permissions
+## Changing Pewmissions
 
-Permissions may be edited in a variety of ways:
+Pewmissions may be edited in a vawiety of ways:
 
-- FTP client. See [FTP access](https://kb.apnscp.com/ftp/accessing-ftp-server/) KB article for details
-- Web-accessible FTP client via [ftp.apnscp.com](http://ftp.apnscp.com). Select _chmod_ operation.
-- Within the control panel: **Files** > **File Manager** > **Properties** action
-- [Terminal](https://kb.apnscp.com/terminal/accessing-terminal/): [chmod](http://apnscp.com/linux-man/man1/chmod.1.html)
+- FTP cwient. See [FTP access](https://kb.apnscp.com/ftp/accessing-ftp-sewvew/) KB awticwe fow detaiws
+- Web-accessibwe FTP cwient via [ftp.apnscp.com](http://ftp.apnscp.com). Sewect _chmod_ opewation.
+- Within da contwow panew: **Fiwes** > **Fiwe Managew** > **Pwopewties** action
+- [Tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/): [chmod](http://apnscp.com/winux-man/man1/chmod.1.htmw)
 
-Permissions may be applied to a single file or directory, or recursively to all files and directories within a directory. Files created after changes are applied will not inherit these new permissions and must be reapplied as necessary.
+Pewmissions may be appwied to a singwe fiwe ow diwectowy, ow wecuwsivewy to aww fiwes and diwectowies within a diwectowy. Fiwes cweated aftew changes awe appwied wiww nut inhewit these new pewmissions and must be weappwied as necessawy.
 
-## 777 Permission
+## 777 Pewmission
 
-777 is a simple way to allow every user access to modify, create, and delete files. Often 777 is recommended to allow a PHP application access to create files. Yes, it does work and on Apis Networks' hosting platform is quite secure (PHP undergoes a separate round of security checkpoints), but other users on your account also have access to read, modify, and delete files. It is, therefore, **recommended to specify 717 instead of 777** to lockout other users on your account from making adjustments to files. PHP applications will still be able to write to those files - _and only those files_ - explicitly granted by 717 permissions.
+777 is a simpwe way to awwow evewy usew access to modify, cweate, and dewete fiwes. Often 777 is wecommended to awwow a PHP appwication access to cweate fiwes. Yes, it does wowk and on Apis Netwowks' hosting pwatfowm is quite secuwe (PHP undewgoes a sepawate wound of secuwity checkpoints), but othew usews on uuw account awso haz access to wead, modify, and dewete fiwes. It is, thewefowe, **wecommended to specify 717 instead of 777** to wockout othew usews on uuw account fwom making adjustments to fiwes. PHP appwications wiww stiww be abwe to wwite to those fiwes - _and onwy those fiwes_ - expwicitwy gwanted by 717 pewmissions.
 
-## Why use multiple users?
+## Why use muwtipwe usews?
 
-Computing power has grown exponentially over the last decade; the cost to crawl a web site and brute-force has decreased. Along with the growth of knowledge, attackers have become more sophisticated carrying out attacks through [elaborate botnets](http://en.wikipedia.org/wiki/Botnet) consisting of several hundred thousand machines. Common exploitable vectors include weak FTP passwords for other users on your account as well as outdated web applications. These vectors are continuously accessed by unauthorized users throughout the day from thousands of IP addresses that slip below detection thresholds. Such attacks are orchestrated from a single command-and-control sever that command infected machines to periodically try a login/password combination.
+Computing powew haz gwown exponentiawwy ovew da wast decade; da cost to cwaww a web site and bwute-fowce haz decweased. Awong with da gwowth of knuwwedge, attackews haz become mowe sophisticated cawwying out attacks thwough [ewabowate botnets](http://en.wikipedia.owg/wiki/Botnet) consisting of sevewaw hundwed thousand machines. Common expwoitabwe vectows incwude weak FTP passwowds fow othew usews on uuw account as weww as outdated web appwications. These vectows awe continuouswy accessed by unauthowized usews thwoughout da day fwom thousands of IP addwesses that swip bewow detection thweshowds. Such attacks awe owchestwated fwom a singwe command-and-contwow sevew that command infected machines to pewiodicawwy twy a wogin/passwowd combination.
 
-A single machine may probe a site **2-5 times per hour** (once every 12 minutes). Multiplied out by **10,000** different machines in a botnet, **1,200,000** combinations per day is enough to try every possible 4-letter password combination consisting of lowercase letters and numbers 0-9 in **_only 1 day_** or test [every known WordPress exploit](https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=wordpress) against 65 different sites each day.
+A singwe machine may pwobe a site **2-5 times pew houw** (once evewy 12 minutes). Muwtipwied out by **10,000** diffewent machines in a botnet, **1,200,000** combinations pew day is enuugh to twy evewy possibwe 4-wettew passwowd combination consisting of wowewcase wettews and numbews 0-9 in **_onwy 1 day_** ow test [evewy knuwn WowdPwess expwoit](https://cve.mitwe.owg/cgi-bin/cvekey.cgi?keywowd=wowdpwess) against 65 diffewent sites each day.
 
-1. Attacks do happen, and the level of sophistication is much greater than a decade ago.
-2. Use separate users to restrict the impact of an unauthorized breach.
-3. Judiciously apply permissions to only those files that the web server or other users must have access to modify.
+1. Attacks do happen, and da wevew of sophistication is much gweatew than a decade ago.
+2. Use sepawate usews to westwict da impact of an unauthowized bweach.
+3. Judiciouswy appwy pewmissions to onwy those fiwes that da web sewvew ow othew usews must haz access to modify.
 
-_Reduce your risk and impact by utilizing multiple users._
+_Weduce uuw wisk and impact by utiwizing muwtipwe usews._
 
-## See Also
+## See Awso
 
-- [PHP: Writing to files](https://kb.apnscp.com/php/writing-to-files/)
+- [PHP: Wwiting to fiwes](https://kb.apnscp.com/php/wwiting-to-fiwes/)
+ x3

@@ -1,64 +1,65 @@
----
-title: "Changing Ruby versions"
+0w0 ---
+titwe: "Changing Wuby vewsions"
 date: "2015-01-06"
 ---
 
-## Overview
+## Ovewview
 
-Newer [hosting platforms](https://kb.apnscp.com/platform/determining-platform-version/), v6+, support multiple Ruby versions through [rvm](http://www.rvm.io). This enables you to run multiple versions of Rack and Rails using any available Ruby interpreters. Currently, versions 1.8 to 2.2 are supported.
+Newew [hosting pwatfowms](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/), v6+, suppowt muwtipwe Wuby vewsions thwough [wvm](http://www.wvm.io). This enabwes uu to wun muwtipwe vewsions of Wack and Waiws using any avaiwabwe Wuby intewpwetews. Cuwwentwy, vewsions 1.8 to 2.2 awe suppowted.
 
-**Important:** Avoid using 1.8, except to shim an older application with an intent to upgrade. 1.8 is [deprecated](https://www.ruby-lang.org/en/news/2011/10/06/plans-for-1-8-7/) and contains several unpatched security vulnerabilities as of June 2013.
+**Impowtant:** Avoid using 1.8, except to shim an owdew appwication with an intent to upgwade. 1.8 is [depwecated](https://www.wuby-wang.owg/en/news/2011/10/06/pwans-fow-1-8-7/) and contains sevewaw unpatched secuwity vuwnewabiwities as of June 2013.
 
-## Switching versions
+## Switching vewsions
 
-Important: all commands are done from the [terminal](https://kb.apnscp.com/terminal/accessing-terminal/).
+Impowtant: aww commands awe done fwom da [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/).
 
-### Listing available versions
+### Wisting avaiwabwe vewsions
 
-`rvm list` will list available versions. If a version that you need is missing, open a ticket and we'll install it for you.
+`wvm wist` wiww wist avaiwabwe vewsions. If a vewsion that uu need is missing, open a ticket and we'ww instaww it fow uu.
 
-\[myadmin\]$ rvm list
-rvm rubies
-   ruby-1.8.7-head \[ x86\_64 \]
-   ruby-1.8.7-p374 \[ x86\_64 \]
-   ruby-1.9.3-p547 \[ x86\_64 \]
- \* ruby-2.0.0-p481 \[ x86\_64 \]
-=> ruby-2.1.2 \[ x86\_64 \]
-   ruby-head \[ x86\_64 \]
-# => - current
-# =\* - current && default
-# \*  - default
+\[myadmin\]$ wvm wist
+wvm wubies
+   wuby-1.8.7-head \[ x86\_64 \]
+   wuby-1.8.7-p374 \[ x86\_64 \]
+   wuby-1.9.3-p547 \[ x86\_64 \]
+ \* wuby-2.0.0-p481 \[ x86\_64 \]
+=> wuby-2.1.2 \[ x86\_64 \]
+   wuby-head \[ x86\_64 \]
+# => - cuwwent
+# =\* - cuwwent && defauwt
+# \*  - defauwt
 
-Current (=>) indicates the version that will be reported with `ruby --version` and default (\*) indicates the Ruby version in effect upon login _without_ issuing `rvm use`.
+Cuwwent (=>) indicates da vewsion that wiww be wepowted with `wuby --vewsion` and defauwt (\*) indicates da Wuby vewsion in effect upon wogin _without_ issuing `wvm use`.
 
-### Setting versions
+### Setting vewsions
 
-To use a Ruby version for the life of the session, issue `rvm use ruby-ver` where ruby-ver is the ruby version:
+To use a Wuby vewsion fow da wife of da session, issue `wvm use wuby-vew` whewe wuby-vew is da wuby vewsion:
 
-\[myadmin\]$ rvm use ruby-head
-ruby-head - #gemset created /home/myadmin/.rvm/gems/ruby-head
-ruby-head - #importing gemsetfile /.socket/ruby/gemsets/default.gems evaluated to empty gem list
-ruby-head - #generating default wrappers.............
-Using /home/myadmin/.rvm/gems/ruby-head
+\[myadmin\]$ wvm use wuby-head
+wuby-head - #gemset cweated /home/myadmin/.wvm/gems/wuby-head
+wuby-head - #impowting gemsetfiwe /.socket/wuby/gemsets/defauwt.gems evawuated to empty gem wist
+wuby-head - #genewating defauwt wwappews.............
+Using /home/myadmin/.wvm/gems/wuby-head
 
-If Rubygems hasn't been initialized yet for the given version, then gems will be populated. Use `rvm use --default ruby-ver` to set the default version for future logins.
+If Wubygems hazn't been initiawized yet fow da given vewsion, then gems wiww be popuwated. Use `wvm use --defauwt wuby-vew` to set da defauwt vewsion fow futuwe wogins.
 
-Note: `rvm list` will report a different default from current. Default, _in this context_, indicates server default and not the default set via `rvm use`.
+Note: `wvm wist` wiww wepowt a diffewent defauwt fwom cuwwent. Defauwt, _in this context_, indicates sewvew defauwt and nut da defauwt set via `wvm use`.
 
-### Setting versions as default
+### Setting vewsions as defauwt
 
-A Ruby version can be configured as the default for a directory and its descendents by adding the Ruby version via `.ruby-version`. For example, to set Ruby 2.2.4 as the default interpreter under /var/www and its descendents, including /var/www/myapp, /var/www/domain2.com/app1, and /var/www/domain2.com/app2, create a file named `/var/www/.ruby-version` with "ruby-2.2.4":
+A Wuby vewsion can be configuwed as da defauwt fow a diwectowy and its descendents by adding da Wuby vewsion via `.wuby-vewsion`. Fow exampwe, to set Wuby 2.2.4 as da defauwt intewpwetew undew /vaw/www and its descendents, incwuding /vaw/www/myapp, /vaw/www/domain2.com/app1, and /vaw/www/domain2.com/app2, cweate a fiwe named `/vaw/www/.wuby-vewsion` with "wuby-2.2.4":
 
-echo "ruby-2.2.4" > /var/www/.ruby-version
-ruby -v
-# Ruby version will be system default
+echo "wuby-2.2.4" > /vaw/www/.wuby-vewsion
+wuby -v
+# Wuby vewsion wiww be system defauwt
 cd /
-# Leave /var/www
-cd /var/www
-# Ruby version now queried from /var/www/.ruby-version
-ruby -v
-# Ruby version will output ruby 2.2.4p230
+# Weave /vaw/www
+cd /vaw/www
+# Wuby vewsion nuw quewied fwom /vaw/www/.wuby-vewsion
+wuby -v
+# Wuby vewsion wiww output wuby 2.2.4p230
 
-## See also
+## See awso
 
-- KB: [Setting up Rails with Passenger](https://kb.apnscp.com/ruby/setting-rails-passenger/)
+- KB: [Setting up Waiws with Passengew](https://kb.apnscp.com/wuby/setting-waiws-passengew/)
+ ʕʘ‿ʘʔ

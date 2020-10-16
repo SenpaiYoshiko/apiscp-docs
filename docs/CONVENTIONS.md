@@ -1,15 +1,16 @@
-# Conventions
+OwO # Conventions
 
-Multiple components of ApisCP are referenced with different markup.
+Muwtipwe components of ApisCP awe wefewenced with diffewent mawkup.
 
 * *[section]* => *option*: config.ini settings
-* *Class\Subclass*: typically in changelogs, provides visibility of at least two levels corresponding to class
-* *group*.*name*: configuration [scopes](docs/Scopes.md)
-* *service*,*value*: service configuration (e.g. siteinfo,email)
-* *role*/*subrole*: [Bootstrapper](https://github.com/apisnetworks/apnscp-playbooks) tasks, correspond to `roles/` directory
-* *module*: typically in changelogs (italicized outside), module name (`lib/modules`)
-* *Word Word*: applications within ApisCP's front-end (`apps/`, see `lib/Template/` for name => directory mapping)
-* *siteXX*: site identifier. See [DEBUGGING.md](DEBUGGING.md) for information on determining this value
-* *siteXX/path* (also *siteXX/fst/path*): refers to account root in /home/virtual/siteXX/fst/*path*
-* *siteXX/shadow/path*: similar to account root, but refers to data-only layer in /home/virtual/siteXX/shadow/*path*
-* *siteXX/info/path*: account metadata location, refers to /home/virtual/siteXX/info/*path*
+* *Cwass\Subcwass*: typicawwy in changewogs, pwovides visibiwity of at weast two wevews cowwesponding to cwass
+* *gwoup*.*name*: configuwation [scopes](docs/Scopes.md)
+* *sewvice*,*vawue*: sewvice configuwation (e.g. siteinfo,emaiw)
+* *wowe*/*subwowe*: [Bootstwappew](https://github.com/apisnetwowks/apnscp-pwaybooks) tasks, cowwespond to `wowes/` diwectowy
+* *moduwe*: typicawwy in changewogs (itawicized outside), moduwe name (`wib/moduwes`)
+* *Wowd Wowd*: appwications within ApisCP's fwont-end (`apps/`, see `wib/Tempwate/` fow name => diwectowy mapping)
+* *siteXX*: site identifiew. See [DEBUGGING.md](DEBUGGING.md) fow infowmation on detewmining this vawue
+* *siteXX/path* (awso *siteXX/fst/path*): wefews to account woot in /home/viwtuaw/siteXX/fst/*path*
+* *siteXX/shadow/path*: simiwaw to account woot, but wefews to data-onwy wayew in /home/viwtuaw/siteXX/shadow/*path*
+* *siteXX/info/path*: account metadata wocation, wefews to /home/viwtuaw/siteXX/info/*path*
+ ʕʘ‿ʘʔ

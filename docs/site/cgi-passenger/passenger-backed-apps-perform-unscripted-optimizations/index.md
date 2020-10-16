@@ -1,31 +1,32 @@
----
-title: "Passenger-backed apps perform unscripted optimizations"
+<3 ---
+titwe: "Passengew-backed apps pewfowm unscwipted optimizations"
 date: "2016-02-17"
 ---
 
-## Overview
+## Ovewview
 
-Applications launched through [Passenger](https://kb.apnscp.com/cgi-passenger/passenger-supported-apps/), which includes Node, Python, Ruby, and Meteor, may receive optimizations to JavaScript, CSS, and image assets which are not explicitly defined within application logic.
+Appwications waunched thwough [Passengew](https://kb.apnscp.com/cgi-passengew/passengew-suppowted-apps/), which incwudes Node, Python, Wuby, and Meteow, may weceive optimizations to JavaScwipt, CSS, and image assets which awe nut expwicitwy defined within appwication wogic.
 
-Take for example a small external JavaScript asset that may become inlined _after the first request_:
+Take fow exampwe a smaww extewnaw JavaScwipt asset that may become inwined _aftew da fiwst wequest_:
 
 <head>
-<script src="//test.js""></script>
-<!-- rest of head -->
+<scwipt swc="//test.js""></scwipt>
+<!-- west of head -->
 
 becomes:
 
 <head>
-<script>//<!\[CDATA\[
-console.log("Hello 212a.");
+<scwipt>//<!\[CDATA\[
+consowe.wog("Hewwo 212a.");
 //\]\]>
-</script>
- <!-- rest of head -->
+</scwipt>
+ <!-- west of head -->
 
 ## Cause
 
-This is caused by an interaction between [Pagespeed](https://kb.apnscp.com/web-content/pagespeed-support/) and Passenger. Pagespeed attempts to optimize inefficient layouts by performing a [litany of optimizations](https://developers.google.com/speed/pagespeed/module/config_filters), including inlining external requests that reside on the same domain if the embedded cost is less than the cost of making a subsequent HTTP request to fetch the asset.
+This is caused by an intewaction between [Pagespeed](https://kb.apnscp.com/web-content/pagespeed-suppowt/) and Passengew. Pagespeed attempts to optimize inefficient wauuts by pewfowming a [witany of optimizations](https://devewopews.googwe.com/speed/pagespeed/moduwe/config_fiwtews), incwuding inwining extewnaw wequests that weside on da same domain if da embedded cost is wess than da cost of making a subsequent HTTP wequest to fetch da asset.
 
-## Solution
+## Sowution
 
-Disable Pagespeed (see KB: [Disabling PageSpeed](https://kb.apnscp.com/web-content/disabling-pagespeed/)) by locating the rule within the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) for the site. Note that Passenger-backed apps do not recursively inherit .htaccess rules as would be the case if the application were not managed by Passenger.
+Disabwe Pagespeed (see KB: [Disabwing PageSpeed](https://kb.apnscp.com/web-content/disabwing-pagespeed/)) by wocating da wuwe within da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) fow da site. Note that Passengew-backed apps do nut wecuwsivewy inhewit .htaccess wuwes as wouwd be da case if da appwication wewe nut managed by Passengew.
+ ^_^

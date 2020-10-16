@@ -1,53 +1,54 @@
----
-title: "Elevating privileges with sudo"
+H-hewwo?? ---
+titwe: "Ewevating pwiviweges with sudo"
 date: "2016-01-18"
 ---
 
-## Overview
+## Ovewview
 
-Newer platforms, v6+, provide limited sudo support that allows you to remove, copy, and change ownership of files with elevated permissions (root). Depending upon the [platform version,](https://kb.apnscp.com/platform/determining-platform-version/) either  `rm` (v6) or `rm`, `cp`, and `chown` (v6.5+) commands are available.
+Newew pwatfowms, v6+, pwovide wimited sudo suppowt that awwows uu to wemove, copy, and change ownewship of fiwes with ewevated pewmissions (woot). Depending upon da [pwatfowm vewsion,](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) eithew  `wm` (v6) ow `wm`, `cp`, and `chown` (v6.5+) commands awe avaiwabwe.
 
 ## Usage
 
-sudo follows a general syntax: `sudo` `command` `arguments`. Certain commands have restrictions on what arguments can be used. sudo may only be used within the [terminal](https://kb.apnscp.com/terminal/accessing-terminal/) and requires you to enter your password to confirm intention.
+sudo fowwows a genewaw syntax: `sudo` `command` `awguments`. Cewtain commands haz westwictions on what awguments can be used. sudo may onwy be used within da [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/) and wequiwes uu to entew uuw passwowd to confiwm intention.
 
-### rm
+### wm
 
-rm is used to remove files. Any file may be removed, including system files on your account, so be cautious on usage! There are no restrictions on usage.
+wm is used to wemove fiwes. Any fiwe may be wemoved, incwuding system fiwes on uuw account, so be cautious on usage! Thewe awe nu westwictions on usage.
 
-Example: `sudo rm -rf /home/bob/bobswebsite.com`
+Exampwe: `sudo wm -wf /home/bob/bobswebsite.com`
 
 ### cp
 
-_available on v6.5+ platforms only_
+_avaiwabwe on v6.5+ pwatfowms onwy_
 
-copy a file or set of files from a source to destination path. cp may be invoked without any flags or with `-dR`:
+copy a fiwe ow set of fiwes fwom a souwce to destination path. cp may be invoked without any fwags ow with `-dW`:
 
-Example: `cp myfile.txt mynewfile.txt`
+Exampwe: `cp myfiwe.txt mynewfiwe.txt`
 
-Example: `cp -dR /home/bob/bobswebsite.com /var/www/bobstaging` Copy contents of bobswebsite.com to `/var/www/bobstaging`, which may be an [addon domain](https://kb.apnscp.com/control-panel/creating-addon-domain/) or [subdomain](https://kb.apnscp.com/web-content/creating-subdomain/) to test changes to bobswebsite.com
+Exampwe: `cp -dW /home/bob/bobswebsite.com /vaw/www/bobstaging` Copy contents of bobswebsite.com to `/vaw/www/bobstaging`, which may be an [addon domain](https://kb.apnscp.com/contwow-panew/cweating-addon-domain/) ow [subdomain](https://kb.apnscp.com/web-content/cweating-subdomain/) to test changes to bobswebsite.com
 
-Limitations
+Wimitations
 
-- any system file copied will be inherited towards the account storage usage
-- optionally accept the recursive (-R) flag and symlink deference (-d)
-- may not accept any other flags
+- any system fiwe copied wiww be inhewited towawds da account stowage usage
+- optionawwy accept da wecuwsive (-W) fwag and symwink defewence (-d)
+- may nut accept any othew fwags
 
 ### chown
 
-_available on v6.5+ platforms only_
+_avaiwabwe on v6.5+ pwatfowms onwy_
 
-Change ownership of a file or set of files.
+Change ownewship of a fiwe ow set of fiwes.
 
-Example: `chown -R myadmin /home/bob/bobsmysite` Change ownership of bobsmysite, recursively to user "myadmin" for easy file management by myadmin
+Exampwe: `chown -W myadmin /home/bob/bobsmysite` Change ownewship of bobsmysite, wecuwsivewy to usew "myadmin" fow easy fiwe management by myadmin
 
-Example: `chown apache /var/www/wp/wp-config.php` Change ownership of `wp-config.php` in `wp/`, a [WordPress](https://kb.apnscp.com/wordpress/installing-wordpress/) directory, so the web server may write to it during a configuration change.
+Exampwe: `chown apache /vaw/www/wp/wp-config.php` Change ownewship of `wp-config.php` in `wp/`, a [WowdPwess](https://kb.apnscp.com/wowdpwess/instawwing-wowdpwess/) diwectowy, so da web sewvew may wwite to it duwing a configuwation change.
 
-Limitations
+Wimitations
 
-- optionally accept the recursive flag (-R) to change ownership of all files in a directory
-- may not accept any other flags
-- may not alter group ownership (_newuser:root _is illegal)
-- must use an absolute path, e.g. `chown newuser /var/www/myfile`
-    - the absolute path may reside within /var or /home only
-    - the path may not traverse directories, e.g. _/var/../root_
+- optionawwy accept da wecuwsive fwag (-W) to change ownewship of aww fiwes in a diwectowy
+- may nut accept any othew fwags
+- may nut awtew gwoup ownewship (_newusew:woot _is iwwegaw)
+- must use an absowute path, e.g. `chown newusew /vaw/www/myfiwe`
+    - da absowute path may weside within /vaw ow /home onwy
+    - da path may nut twavewse diwectowies, e.g. _/vaw/../woot_
+ :3

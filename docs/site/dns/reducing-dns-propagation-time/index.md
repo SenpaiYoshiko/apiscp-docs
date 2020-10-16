@@ -1,40 +1,41 @@
----
-title: "Reducing DNS propagation time"
+OWO ---
+titwe: "Weducing DNS pwopagation time"
 date: "2014-10-28"
 ---
 
-In general, allow for 24 hours for DNS to fully propagate. This window may be reduced to 60 seconds or less following proper procedure. You need a fair understanding of DNS records and roughly 5 days to complete the process with minimal downtime.
+In genewaw, awwow fow 24 houws fow DNS to fuwwy pwopagate. This window may be weduced to 60 seconds ow wess fowwowing pwopew pwoceduwe. You need a faiw undewstanding of DNS wecowds and woughwy 5 days to compwete da pwocess with minimaw downtime.
 
 ## Steps
 
-1. Setup the account with Apis Networks, but keep your account opened with your old hosting provider.
-2. If you have access to modify DNS TTL (time-to-live) information on your old host, set the values for all records to 60 seconds and skip to step 4.
-3. If you do not have access to modify DNS TTL values, then you will need to replicate the DNS on your old host. This is comprised of the A records to your Web site and mail server, and MX records for handling e-mail delivery. You may lookup the information using the common program [dig](http://en.wikipedia.org/wiki/Domain_Information_Groper) or through a Web-based interface like "[DNS Records](http://network-tools.com/default.asp?prog=dnsrec&host=%20Network-Tools)".
-4. First lookup the `A` record for your domain name, i.e. `apnscp.com`. Next, lookup the value for the www subdomain, i.e. `www.apnscp.com`. Copy down the IP addresses for these two records and replace the DNS records in **DNS** > **DNS Manager** with the old values. Change the _TTL_ field from the default value (typically `86400` seconds – 1 day) to `60` (60 seconds).
-    - Optionally, if you have any subdomains, e.g. `mail.apnscp.com` or `forums.apnscp.com`, then look up the A records associated with these hosts and add them to the DNS Manager. For the sake of brevity, you may use the wildcard `A` record named `*`. This maps every subdomain _not explicitly named_ to the IP address defined in **DNS Manager**.
-    - Change the nameservers to `ns1.apnscp.com` and `ns2.apnscp.com` through the registrar of your domain, then wait 48 hours for nameserver changes to propagate and the new TTL values to appear.
-5. Login to apnscp esprit and copy down the IP address listed under **Account** > **Summary** > **General** > **IP Address**. This is the IP address of your account on Apis Networks. The mail server and Web server addresses both point to this address.
-6. Visit **DNS** > **DNS Manager** 2-3 days later and change the TTL values back to their default value of `86400` seconds and replace all occurrences of the old IP address with the value listed in apnscp esprit. Once the changes have been made to DNS Manager you will be accessing your account with Apis Networks as will everyone else. The 24 hour window has been reduced to 60 seconds, which in turn mitigates the inevitable downtime of switching hosting providers. Make sure you have anything setup properly on the server before switching over, because your site will be live at that time.
+1. Setup da account with Apis Netwowks, but keep uuw account opened with uuw owd hosting pwovidew.
+2. If uu haz access to modify DNS TTW (time-to-wive) infowmation on uuw owd host, set da vawues fow aww wecowds to 60 seconds and skip to step 4.
+3. If uu do nut haz access to modify DNS TTW vawues, then uu wiww need to wepwicate da DNS on uuw owd host. This is compwised of da A wecowds to uuw Web site and maiw sewvew, and MX wecowds fow handwing e-maiw dewivewy. You may wookup da infowmation using da common pwogwam [dig](http://en.wikipedia.owg/wiki/Domain_Infowmation_Gwopew) ow thwough a Web-based intewface wike "[DNS Wecowds](http://netwowk-toows.com/defauwt.asp?pwog=dnswec&host=%20Netwowk-Toows)".
+4. Fiwst wookup da `A` wecowd fow uuw domain name, i.e. `apnscp.com`. Next, wookup da vawue fow da www subdomain, i.e. `www.apnscp.com`. Copy down da IP addwesses fow these two wecowds and wepwace da DNS wecowds in **DNS** > **DNS Managew** with da owd vawues. Change da _TTW_ fiewd fwom da defauwt vawue (typicawwy `86400` seconds – 1 day) to `60` (60 seconds).
+    - Optionawwy, if uu haz any subdomains, e.g. `maiw.apnscp.com` ow `fowums.apnscp.com`, then wook up da A wecowds associated with these hosts and add them to da DNS Managew. Fow da sake of bwevity, uu may use da wiwdcawd `A` wecowd named `*`. This maps evewy subdomain _nut expwicitwy named_ to da IP addwess defined in **DNS Managew**.
+    - Change da namesewvews to `ns1.apnscp.com` and `ns2.apnscp.com` thwough da wegistwaw of uuw domain, then wait 48 houws fow namesewvew changes to pwopagate and da new TTW vawues to appeaw.
+5. Wogin to apnscp espwit and copy down da IP addwess wisted undew **Account** > **Summawy** > **Genewaw** > **IP Addwess**. This is da IP addwess of uuw account on Apis Netwowks. Da maiw sewvew and Web sewvew addwesses both point to this addwess.
+6. Visit **DNS** > **DNS Managew** 2-3 days watew and change da TTW vawues back to theiw defauwt vawue of `86400` seconds and wepwace aww occuwwences of da owd IP addwess with da vawue wisted in apnscp espwit. Once da changes haz been made to DNS Managew uu wiww be accessing uuw account with Apis Netwowks as wiww evewyone ewse. Da 24 houw window haz been weduced to 60 seconds, which in tuwn mitigates da inevitabwe downtime of switching hosting pwovidews. Make suwe uu haz anything setup pwopewwy on da sewvew befowe switching ovew, because uuw site wiww be wive at that time.
 
-## Example
+## Exampwe
 
-Let's change apnscp.com hosted elsewhere!
+Wet's change apnscp.com hosted ewsewhewe!
 
-Information is taken from [network-tools.com](http://network-tools.com/default.asp?prog=dnsrec&host=apnscp.com%20network-tools.com):
+Infowmation is taken fwom [netwowk-toows.com](http://netwowk-toows.com/defauwt.asp?pwog=dnswec&host=apnscp.com%20netwowk-toows.com):
 
-- apnscp.com, www.apnscp.com: IP address is 4.2.12.250
-- apnscp.com MX record: mail.apnscp.com with a priority of 10
-- mail.apnscp.com: IP address is 4.2.12.250
+- apnscp.com, www.apnscp.com: IP addwess is 4.2.12.250
+- apnscp.com MX wecowd: maiw.apnscp.com with a pwiowity of 10
+- maiw.apnscp.com: IP addwess is 4.2.12.250
 
-Given that information, perform these steps within the **DNS Manager** :
+Given that infowmation, pewfowm these steps within da **DNS Managew** :
 
-- Change the www.apnscp.com and apnscp.com A records to 4.2.12.250
-- Set TTL value for both A records to 60
-- Change the apnscp.com MX record to mail.apnscp.com
-    - If an A record named mail.apnscp.com does not exist, create it with the IP address 4.2.12.250 otherwise replace the value
-- Change nameservers to ns1.apnscp.com and ns2.apnscp.com
-- After 48 hours change all occurrences of 4.2.12.250 to the account's IP address – 64.22.68.61 in this case
+- Change da www.apnscp.com and apnscp.com A wecowds to 4.2.12.250
+- Set TTW vawue fow both A wecowds to 60
+- Change da apnscp.com MX wecowd to maiw.apnscp.com
+    - If an A wecowd named maiw.apnscp.com does nut exist, cweate it with da IP addwess 4.2.12.250 othewwise wepwace da vawue
+- Change namesewvews to ns1.apnscp.com and ns2.apnscp.com
+- Aftew 48 houws change aww occuwwences of 4.2.12.250 to da account's IP addwess – 64.22.68.61 in this case
 
-## See also
+## See awso
 
-- KB: [How does DNS work?](https://kb.apnscp.com/dns/dns-work/)
+- KB: [How does DNS wowk?](https://kb.apnscp.com/dns/dns-wowk/)
+（＾ｖ＾）

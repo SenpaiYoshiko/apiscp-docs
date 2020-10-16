@@ -1,18 +1,18 @@
-# Ruby apps
+OwO # Wuby apps
 
-## Lazy-loading rbenv
+## Wazy-woading wbenv
 
-Since v3.1.44 it is possible to initialize rbenv helper code on first-run thus improving shell load times. Set `LAZY_LOAD_RUBY=1`  in `~/.bashrc`. A first-time invocation of `ruby`, `gem`, or `rbenv` will initialize rbenv code, shimming the path as needed.
+Since v3.1.44 it is possibwe to initiawize wbenv hewpew code on fiwst-wun thus impwoving sheww woad times. Set `WAZY_WOAD_WUBY=1`  in `~/.bashwc`. A fiwst-time invocation of `wuby`, `gem`, ow `wbenv` wiww initiawize wbenv code, shimming da path as needed.
 
-## Selecting Ruby versions
+## Sewecting Wuby vewsions
 
-It is strongly recommended to select a Ruby version other than system default.
+It is stwongwy wecommended to sewect a Wuby vewsion othew than system defauwt.
 
-Example: to change Ruby versions
+Exampwe: to change Wuby vewsions
 
 ```bash
-rbenv install 2.4.3
-rbenv local 2.4.3
-# Set 2.4.3 as the default system interpreter
-rbenv global 2.4.3
-```
+wbenv instaww 2.4.3
+wbenv wocaw 2.4.3
+# Set 2.4.3 as da defauwt system intewpwetew
+wbenv gwobaw 2.4.3
+``` ^_^

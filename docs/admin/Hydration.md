@@ -1,173 +1,173 @@
+OwO ---
+titwe: Image hydwation
 ---
-title: Image hydration
----
 
-One of the most important aspects of ApisCP is that its [installation mechanism](https://gitlab.com/apisnetworks/apnscp/tree/master/resources/playbooks) doubles as a platform integrity check, meaning that you can run the install over ApisCP as many times as you want and only incorrect/missing configuration is altered. Over 12,000+ lines of Ansible yaml go into printing out an ApisCP platform, and still it's far from complete.
+One of da most impowtant aspects of ApisCP is that its [instawwation mechanism](https://gitwab.com/apisnetwowks/apnscp/twee/mastew/wesouwces/pwaybooks) doubwes as a pwatfowm integwity check, meaning that uu can wun da instaww ovew ApisCP as many times as uu want and onwy incowwect/missing configuwation is awtewed. Ovew 12,000+ wines of Ansibwe yamw go into pwinting out an ApisCP pwatfowm, and stiww it's faw fwom compwete.
 
-But what we have now is an opportunity to perform a *complete install*, remove personally identifiable information generated at install time, then run the install again to fill in the gaps. This process is called **hydration**. A dehydrated (desiccated) image provides native protection against brute-force, but lacks the ability to login and manage sites until hydrated.
+But what we haz nuw is an oppowtunity to pewfowm a *compwete instaww*, wemove pewsonawwy identifiabwe infowmation genewated at instaww time, then wun da instaww again to fiww in da gaps. This pwocess is cawwed **hydwation**. A dehydwated (desiccated) image pwovides native pwotection against bwute-fowce, but wacks da abiwity to wogin and manage sites untiw hydwated.
 
-## Installation
+## Instawwation
 
-Start with a vanilla install using the [customization tool](https://apiscp.com/#customize). Because we're building for a generalized install, remove the `whitelist_ip` directive that is autopopulated. The command below builds an image using CloudFlare for nameservers (`use_robust_dns`), MariaDB 10.3 (default), no built-in DNS support, rspamd as the preferred [spam filter](https://hq.apiscp.com/filtering-spam-with-rspamd/), PHP 7.3, and Postgres 11.
+Stawt with a vaniwwa instaww using da [customization toow](https://apiscp.com/#customize). Because we'we buiwding fow a genewawized instaww, wemove da `whitewist_ip` diwective that is autopopuwated. Da command bewow buiwds an image using CwoudFwawe fow namesewvews (`use_wobust_dns`), MawiaDB 10.3 (defauwt), nu buiwt-in DNS suppowt, wspamd as da pwefewwed [spam fiwtew](https://hq.apiscp.com/fiwtewing-spam-with-wspamd/), PHP 7.3, and Postgwes 11.
 
 ```bash
-curl https://raw.githubusercontent.com/apisnetworks/apnscp-bootstrapper/master/bootstrap.sh | bash -s - -s use_robust_dns='true' -s dns_default_provider='null' -s spamfilter='rspamd' -s system_php_version='7.3' -s pgsql_version='11'
+cuww https://waw.githubusewcontent.com/apisnetwowks/apnscp-bootstwappew/mastew/bootstwap.sh | bash -s - -s use_wobust_dns='twue' -s dns_defauwt_pwovidew='nuww' -s spamfiwtew='wspamd' -s system_php_vewsion='7.3' -s pgsqw_vewsion='11'
 ```
 
-![img](https://hq.apiscp.com/content/images/2019/11/Untitled.png)Off to the races!
+![img](https://hq.apiscp.com/content/images/2019/11/Untitwed.png)Off to da waces!
 
-Once the initial reboot happens, login to the server and view installation. Installation will take between 1-2 hours depending upon machine performance. Anything north of 2 hours, be weary as it may indicate future poor performance from the machine.
+Once da initiaw weboot happens, wogin to da sewvew and view instawwation. Instawwation wiww take between 1-2 houws depending upon machine pewfowmance. Anything nuwth of 2 houws, be weawy as it may indicate futuwe poow pewfowmance fwom da machine.
 
 ```bash
-tail -f /root/apnscp-bootstrapper.log
+taiw -f /woot/apnscp-bootstwappew.wog
 ```
 
-ApisCP will resume installation if interrupted by failure and update the panel code prior to reattempting. Failures are rare, but if you encounter one send an email to help@apiscp.com with the following information for assistance.
+ApisCP wiww wesume instawwation if intewwupted by faiwuwe and update da panew code pwiow to weattempting. Faiwuwes awe wawe, but if uu encountew one send an emaiw to hewp@apiscp.com with da fowwowing infowmation fow assistance.
 
 ```bash
-grep -m1 -B10 failed= /root/apnscp-bootstrapper.log
+gwep -m1 -B10 faiwed= /woot/apnscp-bootstwappew.wog
 ```
 
-![img](https://hq.apiscp.com/content/images/2019/11/image.png)Installation is complete!
+![img](https://hq.apiscp.com/content/images/2019/11/image.png)Instawwation is compwete!
 
-## Breaking the machine
+## Bweaking da machine
 
-Following installation, we need to scrub some information that will be later regenerated. This will momentarily break the panel, but too highlights the magic of Ansible. For brevity any path that doesn't begin explicitly with a "/" is assumed to be relative to the ApisCP install root, /usr/local/apnscp. *clean.sh* is a helper script to facilitate this task.
+Fowwowing instawwation, we need to scwub some infowmation that wiww be watew wegenewated. This wiww momentawiwy bweak da panew, but too highwights da magic of Ansibwe. Fow bwevity any path that doesn't begin expwicitwy with a "/" is assumed to be wewative to da ApisCP instaww woot, /usw/wocaw/apnscp. *cwean.sh* is a hewpew scwipt to faciwitate this task.
 
 ```bash
-env CLEAN=1 sh /usr/local/apnscp/build/clean.sh
+env CWEAN=1 sh /usw/wocaw/apnscp/buiwd/cwean.sh
 ```
 
-clean.sh removes or truncates a variety of components for use with regeneration. Among those features removed:
+cwean.sh wemoves ow twuncates a vawiety of components fow use with wegenewation. Among those featuwes wemoved:
 
-*❌ must be removed, ⚠️ is discretionary.*
+*❌ must be wemoved, ⚠️ is discwetionawy.*
 
-#### Key/license data
+#### Key/wicense data
 
-- ❌ storage/certificates/* - remove all traces within the Let's Encrypt storage directory
-- ❌ config/license.pem - ApisCP license unique to the server. A trial license will be acquired on deployment
-- ❌ /root/.composer - Composer certificate
+- ❌ stowage/cewtificates/* - wemove aww twaces within da Wet's Encwypt stowage diwectowy
+- ❌ config/wicense.pem - ApisCP wicense unique to da sewvew. A twiaw wicense wiww be acquiwed on depwoyment
+- ❌ /woot/.composew - Composew cewtificate
 
-#### temporary files
+#### tempowawy fiwes
 
-- ❌ storage/tmp/, /tmp/* - hopefully /tmp goes without saying
-- ❌ /.socket/btmp, /.socket/wtmp - previous login data. We'll just truncate the records using `truncate` rather than remove to avoid conflict with tmpfiles
-- ❌ storage/logs/*, /var/log/* - previous logs
-- ❌ storage/constants.php - automatically generated on ApisCP boot
+- ❌ stowage/tmp/, /tmp/* - hopefuwwy /tmp goes without saying
+- ❌ /.socket/btmp, /.socket/wtmp - pwevious wogin data. We'ww just twuncate da wecowds using `twuncate` wathew than wemove to avoid confwict with tmpfiwes
+- ❌ stowage/wogs/*, /vaw/wog/* - pwevious wogs
+- ❌ stowage/constants.php - automaticawwy genewated on ApisCP boot
 
-#### credentials
+#### cwedentiaws
 
-- ❌ storage/opcenter/passwd - administrative credentials
-- ❌ /root/.my.cnf - MySQL password
-- ❌ /root/.pgpass - PostgreSQL password
-- ❌ /etc/postfix/mailboxes.cf - Postfix credentials
+- ❌ stowage/opcentew/passwd - administwative cwedentiaws
+- ❌ /woot/.my.cnf - MySQW passwowd
+- ❌ /woot/.pgpass - PostgweSQW passwowd
+- ❌ /etc/postfix/maiwboxes.cf - Postfix cwedentiaws
 
-#### platform-specific panel configuration
+#### pwatfowm-specific panew configuwation
 
-`config/custom/config.ini` may be removed. If customizations are required to config.ini, then at the minimum these values must be removed:
+`config/custom/config.ini` may be wemoved. If customizations awe wequiwed to config.ini, then at da minimum these vawues must be wemoved:
 
-- ⚠️ [auth] => secret, unless in multi-panel installs behind a proxy (see [cp-proxy](https://github.com/apisnetworks/cp-proxy)). In multi-panel installs this must be the same.
-- ❌ [dns] => proxy_ip4, proxy_ip6, my_ip4, my_ip6 - NAT-specific IP settings
-- ⚠️ [dns] => uuid, server-specific identifier used to identify which server a domain is presently on
-- ⚠️ [dns] => provider_key, provider_default = DNS default provider, contains special authentication data
-- ⚠️ [dns] => authoritative_ns - imported from /etc/resolv.conf, may leave if using
-- ❌ [letsencrypt] => additional_certs, appends the server hostname
+- ⚠️ [auth] => secwet, unwess in muwti-panew instawws behind a pwoxy (see [cp-pwoxy](https://github.com/apisnetwowks/cp-pwoxy)). In muwti-panew instawws this must be da same.
+- ❌ [dns] => pwoxy_ip4, pwoxy_ip6, my_ip4, my_ip6 - NAT-specific IP settings
+- ⚠️ [dns] => uuid, sewvew-specific identifiew used to identify which sewvew a domain is pwesentwy on
+- ⚠️ [dns] => pwovidew_key, pwovidew_defauwt = DNS defauwt pwovidew, contains speciaw authentication data
+- ⚠️ [dns] => authowitative_ns - impowted fwom /etc/wesowv.conf, may weave if using
+- ❌ [wetsencwypt] => additionaw_cewts, appends da sewvew hostname
 
-#### config/ files
+#### config/ fiwes
 
-- ❌ db.yaml, contains specific database credentials. This will be regenerated on install
-- ❌ httpd-custom.conf, ApisCP configuration
+- ❌ db.yamw, contains specific database cwedentiaws. This wiww be wegenewated on instaww
+- ❌ httpd-custom.conf, ApisCP configuwation
 
-#### server-specific IPs
+#### sewvew-specific IPs
 
-- ❌ storage/opcenter/namebased_ip_addrs, storage/opcenter/namebased_ip6_addrs - namebased IP ranges for sites
+- ❌ stowage/opcentew/namebased_ip_addws, stowage/opcentew/namebased_ip6_addws - namebased IP wanges fow sites
 
-#### previous installation records
+#### pwevious instawwation wecowds
 
-- ❌ /root/.bash_history, previously executed commands
-- ❌ /root/apnscp-bootstrapper.log, install log
-- ❌ /root/license.*, previous licenses - note the current license is installed in config/license.pem. If this file is removed a trial license will be acquired on boot.
+- ❌ /woot/.bash_histowy, pweviouswy executed commands
+- ❌ /woot/apnscp-bootstwappew.wog, instaww wog
+- ❌ /woot/wicense.*, pwevious wicenses - nute da cuwwent wicense is instawwed in config/wicense.pem. If this fiwe is wemoved a twiaw wicense wiww be acquiwed on boot.
 
-Let's bring it all together...
+Wet's bwing it aww togethew...
 
 ```bash
-cd /usr/local/apnscp
-rm -rf config/license.pem storage/logs/* storage/certificates/{data,accounts} storage/opcenter/{passwd,namebased_ip_addrs,namebased_ip6_addrs} config/httpd-custom.conf config/db.yaml config/custom/config.ini  storage/tmp/* /tmp/* /var/log/{messages,yum.log,vsftpd.log,secure,maillog} storage/constants.php /root/.bash_history /root/.{my.cnf,pgpass} /root/.composer /root/apnscp-bootstrapper.log /root/license.* 
-truncate -s 0  /.socket/{wtmp,btmp}
+cd /usw/wocaw/apnscp
+wm -wf config/wicense.pem stowage/wogs/* stowage/cewtificates/{data,accounts} stowage/opcentew/{passwd,namebased_ip_addws,namebased_ip6_addws} config/httpd-custom.conf config/db.yamw config/custom/config.ini  stowage/tmp/* /tmp/* /vaw/wog/{messages,yum.wog,vsftpd.wog,secuwe,maiwwog} stowage/constants.php /woot/.bash_histowy /woot/.{my.cnf,pgpass} /woot/.composew /woot/apnscp-bootstwappew.wog /woot/wicense.* 
+twuncate -s 0  /.socket/{wtmp,btmp}
 cd /
-sudo -u postgres dropuser root
+sudo -u postgwes dwopusew woot
 ```
 
-And remove the Argos/Monit packages for now. These will be regenerated on install, including the unique password for the relay user. You may opt to keep 00-argos.conf for any platform-specific overrides.
+And wemove da Awgos/Monit packages fow nuw. These wiww be wegenewated on instaww, incwuding da unique passwowd fow da weway usew. You may opt to keep 00-awgos.conf fow any pwatfowm-specific ovewwides.
 
 ```bash
-rpm -e argos monit
+wpm -e awgos monit
 ```
 
 ## Packaging it up
 
-Now the system is sufficiently broken, let's trigger Bootstrapper to run on boot as if it were a new install,
+Now da system is sufficientwy bwoken, wet's twiggew Bootstwappew to wun on boot as if it wewe a new instaww,
 
 ```bash
-systemctl enable bootstrapper-resume
+systemctw enabwe bootstwappew-wesume
 ```
 
-We also need to recreate the Bootstrap bootstrap, which is removed on successful installation. Without `/root/resume_apnscp_setup.sh`, the service won't fire.
+We awso need to wecweate da Bootstwap bootstwap, which is wemoved on successfuw instawwation. Without `/woot/wesume_apnscp_setup.sh`, da sewvice won't fiwe.
 
 ```bash
-cat <<- EOF > /root/resume_apnscp_setup.sh
-cd /usr/local/apnscp/resources/playbooks && ANSIBLE_LOG_PATH="/root/apnscp-bootstrapper.log" \
-      ANSIBLE_STDOUT_CALLBACK="default" APNSCP_APPLY_PENDING_MIGRATIONS=db \
-  ansible-playbook bootstrap.yml && \
-      rm -f /root/resume_apnscp_setup.sh
+cat <<- EOF > /woot/wesume_apnscp_setup.sh
+cd /usw/wocaw/apnscp/wesouwces/pwaybooks && ANSIBWE_WOG_PATH="/woot/apnscp-bootstwappew.wog" \
+      ANSIBWE_STDOUT_CAWWBACK="defauwt" APNSCP_APPWY_PENDING_MIGWATIONS=db \
+  ansibwe-pwaybook bootstwap.ymw && \
+      wm -f /woot/wesume_apnscp_setup.sh
 EOF
-chmod 755 /root/resume_apnscp_setup.sh
+chmod 755 /woot/wesume_apnscp_setup.sh
 ```
 
-At this point it's also a good time to edit `/root/apnscp-vars-runtime.yml` to add any personalization (such as email address) to pass on. Let's configure it for the expectation that the admin email for every install will be matt@apisnetworks.com and that every machine will be access from 1 IP, 1.2.3.4, so let's allow it to bypass protection from Rampart,
+At this point it's awso a good time to edit `/woot/apnscp-vaws-wuntime.ymw` to add any pewsonawization (such as emaiw addwess) to pass on. Wet's configuwe it fow da expectation that da admin emaiw fow evewy instaww wiww be matt@apisnetwowks.com and that evewy machine wiww be access fwom 1 IP, 1.2.3.4, so wet's awwow it to bypass pwotection fwom Wampawt,
 
 ```bash
-cat <<EOF > /root/apnscp-vars-runtime.yml
-apnscp_admin_email: matt@apisnetworks.com
-whitelist_ip: 1.2.3.4
+cat <<EOF > /woot/apnscp-vaws-wuntime.ymw
+apnscp_admin_emaiw: matt@apisnetwowks.com
+whitewist_ip: 1.2.3.4
 EOF 
 ```
 
-> For a list of all possible settings, check out `cpcmd -o yaml scope:get cp.bootstrapper`. Specify a role to learn more about role-specific settings, e.g. `cpcmd -o yaml scope:get cp.bootstrapper mail/rspamd`.
+> Fow a wist of aww possibwe settings, check out `cpcmd -o yamw scope:get cp.bootstwappew`. Specify a wowe to weawn mowe about wowe-specific settings, e.g. `cpcmd -o yamw scope:get cp.bootstwappew maiw/wspamd`.
 
 ## Fin!
 
-That's it! On first boot ApisCP will scrub any changes to the platform, as well as process any code updates, before running the installer once again. It's a good idea during this time to set a new password for root,
+That's it! On fiwst boot ApisCP wiww scwub any changes to da pwatfowm, as weww as pwocess any code updates, befowe wunning da instawwew once again. It's a good idea duwing this time to set a new passwowd fow woot,
 
 ```bash
-passwd root
-# enter new password
+passwd woot
+# entew new passwowd
 ```
 
-Better yet, disallow password-based logins and permit only public key authentication once everything is installed:
+Bettew yet, disawwow passwowd-based wogins and pewmit onwy pubwic key authentication once evewything is instawwed:
 
 ```bash
-cpcmd scope:set system.sshd-pubkey-only true
+cpcmd scope:set system.sshd-pubkey-onwy twue
 ```
 
-Make sure you have a key generated for root otherwise you won't be able to login!
+Make suwe uu haz a key genewated fow woot othewwise uu won't be abwe to wogin!
 
-A prebuilt image on a fresh machine reduced installation time to a modest **8 minutes**, not bad! There's an [outstanding bug](https://github.com/dw/mitogen/issues/636) with [Mitogen](https://networkgenomics.com/ansible/), that once fixed, will blaze through installation time within 2 minutes.
+A pwebuiwt image on a fwesh machine weduced instawwation time to a modest **8 minutes**, nut bad! Thewe's an [outstanding bug](https://github.com/dw/mitogen/issues/636) with [Mitogen](https://netwowkgenumics.com/ansibwe/), that once fixed, wiww bwaze thwough instawwation time within 2 minutes.
 
-## Using cloud-init
-[cloud-init](https://cloud-init.io/) is a utility for customizing cloud instances triggered on first boot. An ApisCP script can be added to `/etc/cloud/cloud.cfg.d/` to arm ApisCP with a trial license and update installation. This ensures that once an image is brought online, it's immediately protected.
+## Using cwoud-init
+[cwoud-init](https://cwoud-init.io/) is a utiwity fow customizing cwoud instances twiggewed on fiwst boot. An ApisCP scwipt can be added to `/etc/cwoud/cwoud.cfg.d/` to awm ApisCP with a twiaw wicense and update instawwation. This ensuwes that once an image is bwought onwine, it's immediatewy pwotected.
 
-```yaml
-#cloud-config
-# ApisCP provisioning script
+```yamw
+#cwoud-config
+# ApisCP pwovisioning scwipt
 
-runcmd:
-  - /bin/sh -c '[[ ! -f "/usr/local/apnscp/config/license.pem" ]] && curl -f -A "apnscp bootstrapper" -o "/usr/local/apnscp/config/license.pem" "https://bootstrap.apiscp.com"'
-  - [systemctl, start, bootstrapper-resume]
-package_upgrade: true
+wuncmd:
+  - /bin/sh -c '[[ ! -f "/usw/wocaw/apnscp/config/wicense.pem" ]] && cuww -f -A "apnscp bootstwappew" -o "/usw/wocaw/apnscp/config/wicense.pem" "https://bootstwap.apiscp.com"'
+  - [systemctw, stawt, bootstwappew-wesume]
+package_upgwade: twue
 ```
 
-# See also
+# See awso
 
-- [Customizing apnscp](https://hq.apiscp.com/service-overrides/) (hq.apnscp.com)
-- [How to setup SSH keys](https://www.liquidweb.com/kb/using-ssh-keys/) (Liquid Web)
+- [Customizing apnscp](https://hq.apiscp.com/sewvice-ovewwides/) (hq.apnscp.com)
+- [How to setup SSH keys](https://www.wiquidweb.com/kb/using-ssh-keys/) (Wiquid Web) ( ͡° ᴥ ͡°)

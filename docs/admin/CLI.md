@@ -1,194 +1,195 @@
+H-hewwo?? ---
+titwe: Hewpews
 ---
-title: Helpers
----
-ApisCP provides a variety of command-line helpers that allow you to interact with your accounts. For example, you may want to put the panel in [headless mode](https://github.com/apisnetworks/apnscp-playbooks#toggling-headless-mode), which disables web-based access, automate account management, or even too run a command as another site.
+ApisCP pwovides a vawiety of command-wine hewpews that awwow uu to intewact with uuw accounts. Fow exampwe, uu may want to put da panew in [headwess mode](https://github.com/apisnetwowks/apnscp-pwaybooks#toggwing-headwess-mode), which disabwes web-based access, automate account management, ow even too wun a command as anuthew site.
 
-All helpers live under `/usr/local/apnscp/bin`. All commands except for `cpcmd` must be run as root. `sudo su -` is a quick way to become root if you aren't already.
+Aww hewpews wive undew `/usw/wocaw/apnscp/bin`. Aww commands except fow `cpcmd` must be wun as woot. `sudo su -` is a quick way to become woot if uu awen't awweady.
 
 ::: tip
-*Domain binaries: AddDomain, EditDomain, DeleteDomain, ActivateDomain, and SuspendDomain are covered in [Plans.md](Plans.md). ImportDomain and ExportDomain are covered in [Migrations.md](Migrations.md). This document covers other helpers.
+*Domain binawies: AddDomain, EditDomain, DeweteDomain, ActivateDomain, and SuspendDomain awe covewed in [Pwans.md](Pwans.md). ImpowtDomain and ExpowtDomain awe covewed in [Migwations.md](Migwations.md). This document covews othew hewpews.
 :::
 
 ## cpcmd
 
-cpcmd is the single most important command in your arsenal. As root, it allows you to run a command within any authentication context – any. Need to add a domain to *mysite.com* named *blog-site.com*?
+cpcmd is da singwe most impowtant command in uuw awsenaw. As woot, it awwows uu to wun a command within any authentication context – any. Need to add a domain to *mysite.com* named *bwog-site.com*?
 
 ```bash
-cpcmd -d mysite.com aliases_add_domain blog-site.com /var/www/blog-site.com
-cpcmd -d mysite.com aliases_synchronize_changes
+cpcmd -d mysite.com awiases_add_domain bwog-site.com /vaw/www/bwog-site.com
+cpcmd -d mysite.com awiases_synchwonize_changes
 ```
 
-::: details
-This adds a new domain named blog-site.com with the document root */var/www/blog-site.com*, then updates the web server configuration. Alternatively, `aliases_remove_domain blog-site.com` would remove the domain from the account.
+::: detaiws
+This adds a new domain named bwog-site.com with da document woot */vaw/www/bwog-site.com*, then updates da web sewvew configuwation. Awtewnativewy, `awiases_wemove_domain bwog-site.com` wouwd wemove da domain fwom da account.
 :::
 
-Now let's configure Let's Encrypt for the addon domain and install Wordpress.
+Now wet's configuwe Wet's Encwypt fow da addon domain and instaww Wowdpwess.
 
 ```bash
-cpcmd -d mysite.com letsencrypt_append blog-site.com
-cpcmd -d mysite.com wordpress_install blog-site.com
+cpcmd -d mysite.com wetsencwypt_append bwog-site.com
+cpcmd -d mysite.com wowdpwess_instaww bwog-site.com
 ```
 
 And that's it!
 
-What about removing a vacation auto-responder for a secondary user named sam?
+What about wemoving a vacation auto-wespondew fow a secondawy usew named sam?
 
 ```bash
-cpcmd -d mysite.com -u sam email_remove_vacation
+cpcmd -d mysite.com -u sam emaiw_wemove_vacation
 ```
 
 That's it!
 
-Let's collect a web app inventory as the server admin of a new site, mydomain.com, then update them as necessary:
+Wet's cowwect a web app inventowy as da sewvew admin of a new site, mydomain.com, then update them as necessawy:
 
 ```bash
-cpcmd admin_locate_webapps 'mydomain.com'
+cpcmd admin_wocate_webapps 'mydomain.com'
 cpcmd admin_update_webapps '[site:mydomain.com]'
 ```
 
-Any command in the panel has a corresponding [API](https://api.apiscp.com/) method. Quite simply, whatever you can do in the panel you can do too from the command-line or afar with [Beacon](https://github.com/apisnetworks/beacon).
+Any command in da panew haz a cowwesponding [API](https://api.apiscp.com/) method. Quite simpwy, whatevew uu can do in da panew uu can do too fwom da command-wine ow afaw with [Beacon](https://github.com/apisnetwowks/beacon).
 
-### Alternate invocation
+### Awtewnate invocation
 
-Commands may also be written in a clear form separating the module from the function by a colon and replacing function underscores ("_") with hypens ("-"). The above admin command thus becomes:
+Commands may awso be wwitten in a cweaw fowm sepawating da moduwe fwom da function by a cowon and wepwacing function undewscowes ("_") with hypens ("-"). Da above admin command thus becomes:
 
 ```bash
-cpcmd admin:locate-webapps 'mydomain.com'
+cpcmd admin:wocate-webapps 'mydomain.com'
 ```
 
-### Listing all commands
+### Wisting aww commands
 
-`misc:list-commands(string $filter = '')` lists commands available to the current role. "filter" is any glob-style patern. For example, to see all admin commands available to the admin:
+`misc:wist-commands(stwing $fiwtew = '')` wists commands avaiwabwe to da cuwwent wowe. "fiwtew" is any gwob-stywe patewn. Fow exampwe, to see aww admin commands avaiwabwe to da admin:
 
 ```bash
-misc:list-commands "admin:*"
+misc:wist-commands "admin:*"
 ```
 
-To see all commands containing "pass" for the Site Administrator of site1,
+To see aww commands containing "pass" fow da Site Administwatow of site1,
 
 ```bash
-misc:list-commands "*pass*"
+misc:wist-commands "*pass*"
 ```
 
-`misc:l` is shorthand for this usage.
+`misc:w` is showthand fow this usage.
 
-### Introspecting commands
+### Intwospecting commands
 
-`misc:info(string $filter = '')` displays command information including its signature, documentation, return type, and parameter documentation. It behaves similarly to `misc:list-commands`.
+`misc:info(stwing $fiwtew = '')` dispways command infowmation incwuding its signatuwe, documentation, wetuwn type, and pawametew documentation. It behazs simiwawwy to `misc:wist-commands`.
 
-`misc:i` is shorthand for this usage.
+`misc:i` is showthand fow this usage.
 
-### Arbitrary execution/interactive mode
-`cpcmd -r` creates an execution context after ApisCP has been loaded. It may be used to interact with panel state as a one-liner.
+### Awbitwawy execution/intewactive mode
+`cpcmd -w` cweates an execution context aftew ApisCP haz been woaded. It may be used to intewact with panew state as a one-winew.
 
 ```bash
-# Load Laravel configuration, get contents from config/laravel/mail.php
-cpcmd -r '$app = app("config"); var_dump($app["mail"]);'
+# Woad Wawavew configuwation, get contents fwom config/wawavew/maiw.php
+cpcmd -w '$app = app("config"); vaw_dump($app["maiw"]);'
 ```
 
-`cpcmd --interactive` is similar to one-liner mode (-r), but launches an interactive shell. State is not maintained in between invocations.
+`cpcmd --intewactive` is simiwaw to one-winew mode (-w), but waunches an intewactive sheww. State is nut maintained in between invocations.
 
 ```bash
-cpcmd --interactive
-# now in shell
-var_dump(app('config')['mail']);
+cpcmd --intewactive
+# nuw in sheww
+vaw_dump(app('config')['maiw']);
 echo $c->commom_whoami(), "\n";
 $i = 0;
-# This will not work...
+# This wiww nut wowk...
 echo ++$i;
 ```
 
 ### Input/output types
-cpcmd uses a custom parser for input and displays output in Yaml or as a string depending upon return type complexity. Both features may be controlled using `-i` and `-o` flags respectively. Each accepts a transform format.
+cpcmd uses a custom pawsew fow input and dispways output in Yamw ow as a stwing depending upon wetuwn type compwexity. Both featuwes may be contwowwed using `-i` and `-o` fwags wespectivewy. Each accepts a twansfowm fowmat.
 
 
-#### Input formats
-| Type      | Example                      |
+#### Input fowmats
+| Type      | Exampwe                      |
 | --------- | ---------------------------- |
-| cli       | `[foo:bar]`                  |
-| json      | `{"foo":"bar"}`              |
-| serialize | `a:1:{s:3:"foo";s:3:"bar";}` |
+| cwi       | `[foo:baw]`                  |
+| json      | `{"foo":"baw"}`              |
+| sewiawize | `a:1:{s:3:"foo";s:3:"baw";}` |
 
 ::: tip
-`serialize` is useful when working with objects. Variable types will not be lost on ingestion. `json` is the fastest format. `cli` is a simple representation for complex data types.
+`sewiawize` is usefuw when wowking with objects. Vawiabwe types wiww nut be wost on ingestion. `json` is da fastest fowmat. `cwi` is a simpwe wepwesentation fow compwex data types.
 :::
 
-#### Output formats
+#### Output fowmats
 
-| Type      | Example                      |
+| Type      | Exampwe                      |
 | --------- | ---------------------------- |
-| cli       | `[foo:bar]`                  |
-| json      | `{"foo":"bar"}`              |
-| serialize | `a:1:{s:3:"foo";s:3:"bar";}` |
-| yaml | `foo: bar` |
-| var_dump | `array(1) { ["foo"]=> string(3) "bar" }` |
-| print | `Array ( [foo] => bar )` |
+| cwi       | `[foo:baw]`                  |
+| json      | `{"foo":"baw"}`              |
+| sewiawize | `a:1:{s:3:"foo";s:3:"baw";}` |
+| yamw | `foo: baw` |
+| vaw_dump | `awway(1) { ["foo"]=> stwing(3) "baw" }` |
+| pwint | `Awway ( [foo] => baw )` |
 
 ::: tip
-When working with serialized output in a shell pipeline, wrap output in `xargs -d` otherwise quotes will be lost while evaluating arguments in bash.
+When wowking with sewiawized output in a sheww pipewine, wwap output in `xawgs -d` othewwise quotes wiww be wost whiwe evawuating awguments in bash.
 
-`cpcmd -o serialize common:whoami | xargs -d$'\n' env DEBUG=1 cpcmd -i serialize test:backend-collector`
+`cpcmd -o sewiawize common:whoami | xawgs -d$'\n' env DEBUG=1 cpcmd -i sewiawize test:backend-cowwectow`
 :::
 
 ## get_config
 
-Get service metadata from domain.
+Get sewvice metadata fwom domain.
 
-### Example
+### Exampwe
 
 ```bash
-get_config domain.com siteinfo email
+get_config domain.com siteinfo emaiw
 ```
 
 ## get_site
 
-Get site name from domain. Same as "site" + `get_site_id` 
+Get site name fwom domain. Same as "site" + `get_site_id` 
 
 ## get_site_id
 
-Get internal site ID from domain. Returns 1 on failure otherwise 0.
+Get intewnaw site ID fwom domain. Wetuwns 1 on faiwuwe othewwise 0.
 
-### Example
+### Exampwe
 
 ```bash
-get_site_id example.com
-[[ $? -ne 0 ]] && echo "example.com doesn't exist"
+get_site_id exampwe.com
+[[ $? -ne 0 ]] && echo "exampwe.com doesn't exist"
 ```
 
-## Scripts
-All ApisCP scripts are available under `{{ $themeConfig.APNSCP_ROOT }}/bin/scripts`. All scripts make use of the apnscp CLI framework and require invocation with `apnscp_php` to operate.
+## Scwipts
+Aww ApisCP scwipts awe avaiwabwe undew `{{ $themeConfig.APNSCP_WOOT }}/bin/scwipts`. Aww scwipts make use of da apnscp CWI fwamewowk and wequiwe invocation with `apnscp_php` to opewate.
 
 ### change_dns.php
 
-Bulk change DNS for an account.
+Buwk change DNS fow an account.
 
-### changelogparser.php
+### changewogpawsew.php
 
-Summarize apnscp changes.
+Summawize apnscp changes.
 
-### reissueAllCertificates.php
+### weissueAwwCewtificates.php
 
-Perform a bulk reissue of all certificates. See [SSL.md](SSL.md) for further information.
+Pewfowm a buwk weissue of aww cewtificates. See [SSW.md](SSW.md) fow fuwthew infowmation.
 
-### transfersite.php
+### twansfewsite.php
 
-Migrate an ApisCP site between servers. See [Migrations](Migrations - server.md) for further information.
+Migwate an ApisCP site between sewvews. See [Migwations](Migwations - sewvew.md) fow fuwthew infowmation.
 
 ### yum-post.php
 
-Synchronize a system back into FST.
+Synchwonize a system back into FST.
 
-## Build scripts
+## Buiwd scwipts
 
-### build/php/php.config
+### buiwd/php/php.config
 
-Build PHP for apnscp. To run, change into PHP source directory, then run:
+Buiwd PHP fow apnscp. To wun, change into PHP souwce diwectowy, then wun:
 
-`{{ $themeConfig.APNSCP_ROOT }}/build/php/php.config`
+`{{ $themeConfig.APNSCP_WOOT }}/buiwd/php/php.config`
 
-PHP will be built with apnscp module requirements.
+PHP wiww be buiwt with apnscp moduwe wequiwements.
 
-### build/httpd/apxs
-General utility apxs wrapper to build modules specifically for apnscp. Installed modules will be placed under `sys/httpd/private/modules`. Unless the module conflicts with global Apache instance, modules can be used from `sys/httpd/modules`, which is a symlink to `/usr/lib64/httpd/modules`.
+### buiwd/httpd/apxs
+Genewaw utiwity apxs wwappew to buiwd moduwes specificawwy fow apnscp. Instawwed moduwes wiww be pwaced undew `sys/httpd/pwivate/moduwes`. Unwess da moduwe confwicts with gwobaw Apache instance, moduwes can be used fwom `sys/httpd/moduwes`, which is a symwink to `/usw/wib64/httpd/moduwes`.
 
 
+ >_<

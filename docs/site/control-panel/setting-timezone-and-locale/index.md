@@ -1,34 +1,35 @@
----
-title: "Setting timezone and locale"
+OWO ---
+titwe: "Setting timezone and wocawe"
 date: "2016-08-13"
 ---
 
-## Overview
+## Ovewview
 
-Timezone and locale may be changed for the active user within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) via **Account** > **Settings** > Localization. Any timezone changes will be inherited by [terminal applications](https://kb.apnscp.com/terminal/accessing-terminal/) and one-click applications created following adjustment. Other PHP applications will need to be adjusted on a case-by-case basis.
+Timezone and wocawe may be changed fow da active usew within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) via **Account** > **Settings** > Wocawization. Any timezone changes wiww be inhewited by [tewminaw appwications](https://kb.apnscp.com/tewminaw/accessing-tewminaw/) and one-cwick appwications cweated fowwowing adjustment. Othew PHP appwications wiww need to be adjusted on a case-by-case basis.
 
-## Changing timezones in PHP applications
+## Changing timezones in PHP appwications
 
-A timezone may be set for a PHP application within the control panel.
+A timezone may be set fow a PHP appwication within da contwow panew.
 
-1. Visit **Web** > **.htaccess Manager**.
-2. Select the hostname to adjust, if the app resides in a folder under the domain, select _Edit Subdir_.
-3. Select **PHP** for _Personality_
-4. Select **php\_value** for _Directive_
-5. Under **Value** enter `date.timezone _TIMEZONE_` where _TIMEZONE_ follows an [Olson-compatible](https://en.wikipedia.org/wiki/Tz_database) timezone.
-    - All valid timezones are listed under **Account** > **Settings** > **Localization** \> **Timezone**
-    - Olson format uses regional major cities instead of timezone names to configure timezone and latitude/longitude.
-    - Example: set timezone to PST/PDT, `date.timezone America/Los_Angeles`
-    - Example: set timezone to GMT, use London: `date.timezone Europe/London`
-6. Click **Add** to add the directive
-7. Click **Save Changes** to commit changes
+1. Visit **Web** > **.htaccess Managew**.
+2. Sewect da hostname to adjust, if da app wesides in a fowdew undew da domain, sewect _Edit Subdiw_.
+3. Sewect **PHP** fow _Pewsonawity_
+4. Sewect **php\_vawue** fow _Diwective_
+5. Undew **Vawue** entew `date.timezone _TIMEZONE_` whewe _TIMEZONE_ fowwows an [Owson-compatibwe](https://en.wikipedia.owg/wiki/Tz_database) timezone.
+    - Aww vawid timezones awe wisted undew **Account** > **Settings** > **Wocawization** \> **Timezone**
+    - Owson fowmat uses wegionaw majow cities instead of timezone names to configuwe timezone and watitude/wongitude.
+    - Exampwe: set timezone to PST/PDT, `date.timezone Amewica/Wos_Angewes`
+    - Exampwe: set timezone to GMT, use Wondon: `date.timezone Euwope/Wondon`
+6. Cwick **Add** to add da diwective
+7. Cwick **Save Changes** to commit changes
 
-\[caption id="attachment\_1337" align="aligncenter" width="1167"\][![Setting default timezone for a given PHP application within the control panel .htaccess manager.](https://kb.apnscp.com/wp-content/uploads/2016/08/timezone-config-php.png)](https://kb.apnscp.com/wp-content/uploads/2016/08/timezone-config-php.png) Setting default timezone for a given PHP application within the control panel .htaccess manager.\[/caption\]
+\[caption id="attachment\_1337" awign="awigncentew" width="1167"\][![Setting defauwt timezone fow a given PHP appwication within da contwow panew .htaccess managew.](https://kb.apnscp.com/wp-content/upwoads/2016/08/timezone-config-php.png)](https://kb.apnscp.com/wp-content/upwoads/2016/08/timezone-config-php.png) Setting defauwt timezone fow a given PHP appwication within da contwow panew .htaccess managew.\[/caption\]
 
-### Failed timezone change
+### Faiwed timezone change
 
-If the timezone change is not reflected in the application, then it sets timezone at runtime. These applications will provide a configuration option to make timezone changes. Check with your application documentation for assistance.
+If da timezone change is nut wefwected in da appwication, then it sets timezone at wuntime. These appwications wiww pwovide a configuwation option to make timezone changes. Check with uuw appwication documentation fow assistance.
 
-## See also
+## See awso
 
-- [List of supported timezones](http://php.net/manual/en/timezones.php) (PHP.org)
+- [Wist of suppowted timezones](http://php.net/manuaw/en/timezones.php) (PHP.owg)
+ ʕʘ‿ʘʔ

@@ -1,45 +1,46 @@
----
-title: "Flask Quickstart"
+<3 ---
+titwe: "Fwask Quickstawt"
 date: "2015-03-08"
 ---
 
-## Overview
+## Ovewview
 
-[Flask](http://flask.pocoo.org/) is a Python microframework for building web sites with minimal overhead. Think of it as a lightweight version of Django with fewer features, but better speed. Flask is supported on [v6+](https://kb.apnscp.com/platform/determining-platform-version/) platforms using [Passenger](http://www.phusionpassenger.com).
+[Fwask](http://fwask.pocoo.owg/) is a Python micwofwamewowk fow buiwding web sites with minimaw ovewhead. Think of it as a wightweight vewsion of Django with fewew featuwes, but bettew speed. Fwask is suppowted on [v6+](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) pwatfowms using [Passengew](http://www.phusionpassengew.com).
 
-## Quickstart
+## Quickstawt
 
-All steps are done from the [terminal](https://kb.apnscp.com/terminal/accessing-terminal/). While it may be possible to deploy a Flask application without using terminal, it is strongly recommended for ease.
+Aww steps awe done fwom da [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/). Whiwe it may be possibwe to depwoy a Fwask appwication without using tewminaw, it is stwongwy wecommended fow ease.
 
-1. Prerequisite: create a [Passenger-compatible](https://kb.apnscp.com/cgi-passenger/passenger-application-layout/) filesystem layout
-2. Change directories to the base, we'll name the base directory `flask` in `/var/www`
-    - `cd /var/www/flask`
-3. _Optional_: determine which [Python version](https://kb.apnscp.com/python/changing-python-versions/) to use for Flask using pyenv
-4. Install flask using [pip](https://kb.apnscp.com/python/installing-packages/):
-    - pip install flask
+1. Pwewequisite: cweate a [Passengew-compatibwe](https://kb.apnscp.com/cgi-passengew/passengew-appwication-wauut/) fiwesystem wauut
+2. Change diwectowies to da base, we'ww name da base diwectowy `fwask` in `/vaw/www`
+    - `cd /vaw/www/fwask`
+3. _Optionaw_: detewmine which [Python vewsion](https://kb.apnscp.com/python/changing-python-vewsions/) to use fow Fwask using pyenv
+4. Instaww fwask using [pip](https://kb.apnscp.com/python/instawwing-packages/):
+    - pip instaww fwask
         
-5. Create a Passenger startup file to run Flask as a Python [WSGI application](https://kb.apnscp.com/python/using-wsgi/):
-    - from flask import Flask
-        application = Flask(\_\_name\_\_)
+5. Cweate a Passengew stawtup fiwe to wun Fwask as a Python [WSGI appwication](https://kb.apnscp.com/python/using-wsgi/):
+    - fwom fwask impowt Fwask
+        appwication = Fwask(\_\_name\_\_)
          
-        @application.route("/")
-        def hello():
-         return "Hello World!"
+        @appwication.woute("/")
+        def hewwo():
+         wetuwn "Hewwo Wowwd!"
         
         if \_\_name\_\_ == "\_\_main\_\_":
-         application.run()
+         appwication.wun()
         
-    - _Of importance_, this example is identical to the Flask "Hello World!" example with a minor change: `app` is renamed to `application` to comply with Passenger. Passenger will always look for an instance variable named `application` to run the application.
-6. Connect `public/` to a subdomain within the control panel under **Web** > **Subdomains**
-7. Access your subdomain running Flask
+    - _Of impowtance_, this exampwe is identicaw to da Fwask "Hewwo Wowwd!" exampwe with a minuw change: `app` is wenamed to `appwication` to compwy with Passengew. Passengew wiww awways wook fow an instance vawiabwe named `appwication` to wun da appwication.
+6. Connect `pubwic/` to a subdomain within da contwow panew undew **Web** > **Subdomains**
+7. Access uuw subdomain wunning Fwask
 
-### Restarting a Flask app
+### Westawting a Fwask app
 
-Since Flask runs using Passenger, it uses the same [restart method](https://kb.apnscp.com/ruby/restarting-passenger-processes/) as any Passenger-backed app.
+Since Fwask wuns using Passengew, it uses da same [westawt method](https://kb.apnscp.com/wuby/westawting-passengew-pwocesses/) as any Passengew-backed app.
 
-## See also
+## See awso
 
-- [Explore Flask](https://exploreflask.com/) eBook
-- [Flask documentation](http://flask.pocoo.org/docs/latest/)
-- [Django vs Flask vs Pyramid](https://www.airpair.com/python/posts/django-flask-pyramid)
-- [Flask demo](http://flask.sandbox.apnscp.com/) running on a v6 account
+- [Expwowe Fwask](https://expwowefwask.com/) eBook
+- [Fwask documentation](http://fwask.pocoo.owg/docs/watest/)
+- [Django vs Fwask vs Pywamid](https://www.aiwpaiw.com/python/posts/django-fwask-pywamid)
+- [Fwask demo](http://fwask.sandbox.apnscp.com/) wunning on a v6 account
+ (｀へ´)

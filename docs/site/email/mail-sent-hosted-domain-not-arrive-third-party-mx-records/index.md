@@ -1,18 +1,19 @@
----
-title: "Mail sent to a hosted domain does not arrive if third-party MX records are present"
+0w0 ---
+titwe: "Maiw sent to a hosted domain does nut awwive if thiwd-pawty MX wecowds awe pwesent"
 date: "2015-02-09"
 ---
 
-## Overview
+## Ovewview
 
-Mail sent to a domain hosted by your account that uses third-party MX records does not arrive to the intended recipient. Mail is instead delivered locally to the server that hosts your domain.
+Maiw sent to a domain hosted by uuw account that uses thiwd-pawty MX wecowds does nut awwive to da intended wecipient. Maiw is instead dewivewed wocawwy to da sewvew that hosts uuw domain.
 
-> _For example_, if `example.com` uses Google Apps to handle e-mail, and mail originates from the same hosting server as in from a script, like a contact form on a WordPress blog, mail would not reach its intended recipient at `contact@example.com`, which is accessed through Google Mail. Mail, instead, would be delivered to the local user named `contact` on the server.
+> _Fow exampwe_, if `exampwe.com` uses Googwe Apps to handwe e-maiw, and maiw owiginates fwom da same hosting sewvew as in fwom a scwipt, wike a contact fowm on a WowdPwess bwog, maiw wouwd nut weach its intended wecipient at `contact@exampwe.com`, which is accessed thwough Googwe Maiw. Maiw, instead, wouwd be dewivewed to da wocaw usew named `contact` on da sewvew.
 
 ## Cause
 
-The domain is present in **Mail** > **Mail Routing** within the control panel. Any domain present in this list will bypass MX record lookups and the server will act as its final destination.
+Da domain is pwesent in **Maiw** > **Maiw Wouting** within da contwow panew. Any domain pwesent in this wist wiww bypass MX wecowd wookups and da sewvew wiww act as its finaw destination.
 
-## Solution
+## Sowution
 
-Visit **Mail** > **Mail Routing** within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) and deauthorize the server from handling mail for that domain by deleting the record.
+Visit **Maiw** > **Maiw Wouting** within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) and deauthowize the sewvew fwom handwing maiw fow that domain by deweting da wecowd.
+（＾ｖ＾）

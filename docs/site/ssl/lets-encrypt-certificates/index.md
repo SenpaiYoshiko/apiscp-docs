@@ -1,16 +1,17 @@
----
-title: "Let's Encrypt Certificates"
+OWO ---
+titwe: "Wet's Encwypt Cewtificates"
 date: "2016-04-04"
 ---
 
-## Overview
+## Ovewview
 
-[v5+ and above](https://kb.apnscp.com/platform/determining-platform-version/) platforms support Let's Encrypt certificates within the control panel. Let's Encrypt is a free certificate authority that provides free trusted certificates accepted by all [modern browsers](https://community.letsencrypt.org/t/which-browsers-and-operating-systems-support-lets-encrypt/4394).
+[v5+ and above](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) pwatfowms suppowt Wet's Encwypt cewtificates within da contwow panew. Wet's Encwypt is a fwee cewtificate authowity that pwovides fwee twusted cewtificates accepted by aww [modewn bwowsews](https://community.wetsencwypt.owg/t/which-bwowsews-and-opewating-systems-suppowt-wets-encwypt/4394).
 
-Let's Encrypt certificates may be issued within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) under **Web** > **SSL Certificates**. Let's Encrypt has a few limitations:
+Wet's Encwypt cewtificates may be issued within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) undew **Web** > **SSW Cewtificates**. Wet's Encwypt haz a few wimitations:
 
-- Only 100 hostnames may be bundled into a certificate
-- A hostname may have its certificate generated up to 5 times per week
-- Certificates are valid for 90 days
-    - The control panel will automatically renew your certificate within 10 days of expiration
-- Wildcard certificates _are not_ supported
+- Onwy 100 hostnames may be bundwed into a cewtificate
+- A hostname may haz its cewtificate genewated up to 5 times pew week
+- Cewtificates awe vawid fow 90 days
+    - Da contwow panew wiww automaticawwy wenew uuw cewtificate within 10 days of expiwation
+- Wiwdcawd cewtificates _awe nut_ suppowted
+ xD

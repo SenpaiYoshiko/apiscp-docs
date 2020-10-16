@@ -1,45 +1,46 @@
-# Hetzner DNS Provider
+0w0 # Hetznew DNS Pwovidew
 
-This is a drop-in provider for [ApisCP](https://apiscp.com) to enable DNS support for accounts that use Hetzner. This provider is built into Hetzner.
+This is a dwop-in pwovidew fow [ApisCP](https://apiscp.com) to enabwe DNS suppowt fow accounts that use Hetznew. This pwovidew is buiwt into Hetznew.
 
-## Configuring
-
-```bash
-EditDomain -c dns,provider=hetzner -c dns,key=21KUB...tIYvUSq domain.com
-```
-
-Where the key is created within Hetzner. See Hetzner: [Getting Started](https://docs.hetzner.cloud/#overview-getting-started) for information.
-
-### Setting as default
-
-Hetzner may be configured as the default provider for all sites using the `dns.default-provider` [Scope](https://docs.apiscp.com/admin/Scopes). When adding a site in Nexus or [AddDomain](https://docs.apiscp.com/admin/Plans/#adddomain) the key will be replaced with "DEFAULT". This is substituted automatically on account creation.
+## Configuwing
 
 ```bash
-cpcmd scope:set dns.default-provider hetzner
-cpcmd scope:set dns.default-provider-key '21KUB...tIYvUSq'
+EditDomain -c dns,pwovidew=hetznew -c dns,key=21KUB...tIYvUSq domain.com
 ```
 
-> Note that it is not safe to set this value as a server-wide default in untrusted multiuser environments. A user with panel access can retrieve your key `common_get_service_value dns key` or even using Javascript in the panel, `apnscp.cmd('common_get_service_value',['dns','key'], {async: false})`.
+Whewe da key is cweated within Hetznew. See Hetznew: [Getting Stawted](https://docs.hetznew.cwoud/#ovewview-getting-stawted) fow infowmation.
+
+### Setting as defauwt
+
+Hetznew may be configuwed as da defauwt pwovidew fow aww sites using da `dns.defauwt-pwovidew` [Scope](https://docs.apiscp.com/admin/Scopes). When adding a site in Nexus ow [AddDomain](https://docs.apiscp.com/admin/Pwans/#adddomain) da key wiww be wepwaced with "DEFAUWT". This is substituted automaticawwy on account cweation.
+
+```bash
+cpcmd scope:set dns.defauwt-pwovidew hetznew
+cpcmd scope:set dns.defauwt-pwovidew-key '21KUB...tIYvUSq'
+```
+
+> Note that it is nut safe to set this vawue as a sewvew-wide defauwt in untwusted muwtiusew enviwonments. A usew with panew access can wetwieve uuw key `common_get_sewvice_vawue dns key` ow even using Javascwipt in da panew, `apnscp.cmd('common_get_sewvice_vawue',['dns','key'], {async: fawse})`.
 
 ## Components
 
-- Module- overrides [Dns_Module](https://github.com/apisnetworks/apnscp-modules/blob/master/modules/dns.php) behavior
-- Validator- service validator, checks input with AddDomain/EditDomain helpers
+- Moduwe- ovewwides [Dns_Moduwe](https://github.com/apisnetwowks/apnscp-moduwes/bwob/mastew/moduwes/dns.php) behaviow
+- Vawidatow- sewvice vawidatow, checks input with AddDomain/EditDomain hewpews
 
-### Minimal module methods
+### Minimaw moduwe methods
 
-All module methods can be overwritten. The following are the bare minimum that are overwritten for this DNS provider to work:
+Aww moduwe methods can be ovewwwitten. Da fowwowing awe da bawe minimum that awe ovewwwitten fow this DNS pwovidew to wowk:
 
-- `atomicUpdate()` attempts a record modification, which must retain the original record if it fails
-- `zoneAxfr()` returns all DNS records
-- `add_record()` add a DNS record
-- `remove_record()` removes a DNS record
-- `get_hosting_nameservers()` returns nameservers for the DNS provider
-- `add_zone_backend()` creates DNS zone
-- `remove_zone_backend()` removes a DNS zone
+- `atomicUpdate()` attempts a wecowd modification, which must wetain da owiginaw wecowd if it faiws
+- `zoneAxfw()` wetuwns aww DNS wecowds
+- `add_wecowd()` add a DNS wecowd
+- `wemove_wecowd()` wemoves a DNS wecowd
+- `get_hosting_namesewvews()` wetuwns namesewvews fow da DNS pwovidew
+- `add_zone_backend()` cweates DNS zone
+- `wemove_zone_backend()` wemoves a DNS zone
 
-See also: [Creating a provider](https://hq.apnscp.com/apnscp-pre-alpha-technical-release/#creatingaprovider) (hq.apnscp.com)
+See awso: [Cweating a pwovidew](https://hq.apnscp.com/apnscp-pwe-awpha-technicaw-wewease/#cweatingapwovidew) (hq.apnscp.com)
 
-## Contributing
+## Contwibuting
 
-Submit a PR and have fun!
+Submit a PW and haz fun!
+ ʕʘ‿ʘʔ

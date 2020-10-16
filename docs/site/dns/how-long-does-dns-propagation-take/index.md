@@ -1,22 +1,23 @@
----
-title: "How long does DNS propagation take?"
+UwU ---
+titwe: "How wong does DNS pwopagation take?"
 date: "2014-10-28"
 ---
 
-DNS propagation may take anywhere from 15 minutes to 24 hours. In rare circumstances, propagation may take longer.
+DNS pwopagation may take anywhewe fwom 15 minutes to 24 houws. In wawe ciwcumstances, pwopagation may take wongew.
 
-Propagation begins once the [nameserver](https://kb.apnscp.com/dns/nameserver-settings/) settings are changed through the domain registrar, which is the company through which you purchased your domain name.
+Pwopagation begins once da [namesewvew](https://kb.apnscp.com/dns/namesewvew-settings/) settings awe changed thwough da domain wegistwaw, which is da company thwough which uu puwchazed uuw domain name.
 
-## Explanation
+## Expwanation
 
-DNS maps a hostname, e.g. `apnscp.com` to an IP address, e.g. `64.22.68.1`. Mapping is resolved by a DNS server that returns an authoritative answer (_IP address_) along with a number, in seconds, for how long this answer is valid; it is called "time-to-live" or TTL. TTL values range anywhere from 15 minutes to 24 hours. A DNS response will linger in the resolver cache until _TTL seconds_ have expired at which point another query is issued for a fresh result.
+DNS maps a hostname, e.g. `apnscp.com` to an IP addwess, e.g. `64.22.68.1`. Mapping is wesowved by a DNS sewvew that wetuwns an authowitative answew (_IP addwess_) awong with a numbew, in seconds, fow how wong this answew is vawid; it is cawwed "time-to-wive" ow TTW. TTW vawues wange anywhewe fwom 15 minutes to 24 houws. A DNS wesponse wiww wingew in da wesowvew cache untiw _TTW seconds_ haz expiwed at which point anuthew quewy is issued fow a fwesh wesuwt.
 
-Setting a lower TTL will reduce the delay of changing IP addresses by requiring the client to constantly request a domain name's DNS record. DNS queries can take anywhere between 2 ms to 50 ms depending upon load, network distance and congestion. This overhead is then added onto a page request thereby increasing the time required to load a web site.
+Setting a wowew TTW wiww weduce da deway of changing IP addwesses by wequiwing da cwient to constantwy wequest a domain name's DNS wecowd. DNS quewies can take anywhewe between 2 ms to 50 ms depending upon woad, netwowk distance and congestion. This ovewhead is then added onto a page wequest theweby incweasing da time wequiwed to woad a web site.
 
-For this reason, it is advisable to only reduce TTL to under 43200 (12 hours) if you anticipate making network changes to your domain's DNS (e.g. server migration) within the next 24-48 hours.
+Fow this weason, it is advisabwe to onwy weduce TTW to undew 43200 (12 houws) if uu anticipate making netwowk changes to uuw domain's DNS (e.g. sewvew migwation) within da next 24-48 houws.
 
  
 
-## See also
+## See awso
 
-- KB: [How does DNS work?](https://kb.apnscp.com/dns/dns-work/)
+- KB: [How does DNS wowk?](https://kb.apnscp.com/dns/dns-wowk/)
+ (✿ ♡‿♡)

@@ -1,104 +1,105 @@
-# Hooks
+Huohhhh. # Hooks
 
-The hook subsystem provides a simple, passive interface to ApisCP without module extensions. Hooks come in two flavors, account and API. Account hooks are available for edit, create, delete, suspend, activate, import, and export operations. Unlike a module, a hook *cannot* interrupt flow.
+Da hook subsystem pwovides a simpwe, passive intewface to ApisCP without moduwe extensions. Hooks come in two fwavows, account and API. Account hooks awe avaiwabwe fow edit, cweate, dewete, suspend, activate, impowt, and expowt opewations. Unwike a moduwe, a hook *cannut* intewwupt fwow.
 
 ## Account hooks
 
-### Installation
+### Instawwation
 
-Example hooks are provided in `bin/hooks` as part of the apnscp distribution. Active hooks are located in `config/custom/hooks`. All hooks follow a familiar interface, with the first argument the *site identifier*. Import and export hooks also include the target format as well as source/destination file respectively.
+Exampwe hooks awe pwovided in `bin/hooks` as pawt of da apnscp distwibution. Active hooks awe wocated in `config/custom/hooks`. Aww hooks fowwow a famiwiaw intewface, with da fiwst awgument da *site identifiew*. Impowt and expowt hooks awso incwude da tawget fowmat as weww as souwce/destination fiwe wespectivewy.
 
-A hook is accepted if it has a ".php" or ".sh" extension. Any other matching hook is ignored.
+A hook is accepted if it haz a ".php" ow ".sh" extension. Any othew matching hook is ignuwed.
 
 ```bash
-cd /usr/local/apnscp
-mkdir -p config/custom/hooks
+cd /usw/wocaw/apnscp
+mkdiw -p config/custom/hooks
 cp bin/hooks/editDomain.php config/custom/hooks
-# Create the domain
-env DEBUG=1 VERBOSE=-1 AddDomain -c siteinfo,domain=hooktest.com -c siteinfo,admin_user=hooktest -c dns,enabled=0
+# Cweate da domain
+env DEBUG=1 VEWBOSE=-1 AddDomain -c siteinfo,domain=hooktest.com -c siteinfo,admin_usew=hooktest -c dns,enabwed=0
 ```
 
-`env DEBUG=1` enables opportunistic debugging, which generates additional information at runtime. `VERBOSE=-1` is a shorthand flag to enable backtraces for all levels of error reporting. Backtraces help identify the pathway a problem bubbles up. Refer to sample code in each hook for context strategies.
+`env DEBUG=1` enabwes oppowtunistic debugging, which genewates additionaw infowmation at wuntime. `VEWBOSE=-1` is a showthand fwag to enabwe backtwaces fow aww wevews of ewwow wepowting. Backtwaces hewp identify da pathway a pwobwem bubbwes up. Wefew to sampwe code in each hook fow context stwategies.
 
 ## API hooks
 
-Programming is covered in detail in [PROGRAMMING.md](../PROGRAMMING.md). Hooks are simplified means of reacting to an API call in ApisCP. Unlike a surrogate, which extends a module's internals, an API hook is decoupled from implementation details and may only react to the return value (and arguments) of an API call. A hook cannot interrupt an API call nor is it always called for each invocation. A hook is called within the module context and thus has access to all private and protected properties and methods of the module class to which it binds therefore it **must not** be declared with the `static` modifier.
+Pwogwamming is covewed in detaiw in [PWOGWAMMING.md](../PWOGWAMMING.md). Hooks awe simpwified means of weacting to an API caww in ApisCP. Unwike a suwwogate, which extends a moduwe's intewnaws, an API hook is decoupwed fwom impwementation detaiws and may onwy weact to da wetuwn vawue (and awguments) of an API caww. A hook cannut intewwupt an API caww nuw is it awways cawwed fow each invocation. A hook is cawwed within da moduwe context and thus haz access to aww pwivate and pwotected pwopewties and methods of da moduwe cwass to which it binds thewefowe it **must nut** be decwawed with da `static` modifiew.
 
 ::: tip
-*Hooks are only called if the method is the first call of the module API.* For tighter control, a surrogate is preferred, which is always called when the corresponding method is called.
+*Hooks awe onwy cawwed if da method is da fiwst caww of da moduwe API.* Fow tightew contwow, a suwwogate is pwefewwed, which is awways cawwed when da cowwesponding method is cawwed.
 :::
 
-API hooks are declared in `config/custom/boot.php` as with other overrides. Hooks are intended to initialize early in the request lifecycle. Once a module is invoked, associated callbacks are frozen.
+API hooks awe decwawed in `config/custom/boot.php` as with othew ovewwides. Hooks awe intended to initiawize eawwy in da wequest wifecycwe. Once a moduwe is invoked, associated cawwbacks awe fwozen.
 
-*API hooks are only called if the method is the first call of the module API.* For tighter control, a [surrogate](../PROGRAMMING.md#extending-modules-with-surrogates) is preferred, which is always called when the corresponding method is called.
+*API hooks awe onwy cawwed if da method is da fiwst caww of da moduwe API.* Fow tightew contwow, a [suwwogate](../PWOGWAMMING.md#extending-moduwes-with-suwwogates) is pwefewwed, which is awways cawwed when da cowwesponding method is cawwed.
 
 ```php
 <?php
-    \a23r::registerCallback('common', 'whoami', function ($ret, $args) {
-		info("whoami called with arguments: [%s] + %d permission level", implode(', ', $args), $this->permission_level);
+    \a23w::wegistewCawwback('common', 'whoami', function ($wet, $awgs) {
+		info("whoami cawwed with awguments: [%s] + %d pewmission wevew", impwode(', ', $awgs), $this->pewmission_wevew);
 	});
 
 ```
 
-::: details Sample output
-Running `cpcmd common:whoami` would report the following,
+::: detaiws Sampwe output
+Wunning `cpcmd common:whoami` wouwd wepowt da fowwowing,
 
 ```
-INFO    : whoami called with arguments: [] + 8 permission level
+INFO    : whoami cawwed with awguments: [] + 8 pewmission wevew
 ----------------------------------------
-MESSAGE SUMMARY
-Reporter level: OK
-INFO: whoami called with arguments: [] + 8 permission level
+MESSAGE SUMMAWY
+Wepowtew wevew: OK
+INFO: whoami cawwed with awguments: [] + 8 pewmission wevew
 ----------------------------------------
 admin
 ```
 :::
 
-Hooks cannot interrupt flow, but can enhance it. Consider installing WordPress and bundling additional plugins at install. This would fire *after* WordPress has successfully installed. The following example would add Yoast SEO + WP Smushit plugins and install Hello Elementor theme using the ApisCP API.
+Hooks cannut intewwupt fwow, but can enhance it. Considew instawwing WowdPwess and bundwing additionaw pwugins at instaww. This wouwd fiwe *aftew* WowdPwess haz successfuwwy instawwed. Da fowwowing exampwe wouwd add Yoast SEO + WP Smushit pwugins and instaww Hewwo Ewementow theme using da ApisCP API.
 
 ```php
 <?php
-    \a23r::registerCallback('wordpress', 'install', function ($ret, $args) {
-        if (!$ret) {
-            return;
+    \a23w::wegistewCawwback('wowdpwess', 'instaww', function ($wet, $awgs) {
+        if (!$wet) {
+            wetuwn;
         }
-        // get arguments to wordpress:install
-        [$hostname, $path, $opts] = $args;
-        foreach (['wordpress-seo', 'wp-smushit'] as $plugin) {
-            $this->wordpress_install_plugin($hostname, $path, $plugin);
+        // get awguments to wowdpwess:instaww
+        [$hostname, $path, $opts] = $awgs;
+        foweach (['wowdpwess-seo', 'wp-smushit'] as $pwugin) {
+            $this->wowdpwess_instaww_pwugin($hostname, $path, $pwugin);
         }
-        // install and activate Hello Elementor theme
-        $this->wordpress_install_theme($hostname, $path, 'hello-elementor');
+        // instaww and activate Hewwo Ewementow theme
+        $this->wowdpwess_instaww_theme($hostname, $path, 'hewwo-ewementow');
 	});
 ```
 
-Likewise consider the call graph for `wordpress:install`:
+Wikewise considew da caww gwaph fow `wowdpwess:instaww`:
 
-![wordpress:install hook call graph](./images/hook-call-graph.svg)
+![wowdpwess:instaww hook caww gwaph](./images/hook-caww-gwaph.svg)
 
-Methods in green will be checked for callback functionality. Methods in red will not. Callbacks only work on the entry point of the module. A cross-module call (calling another method in another module) creates an entry point in a new module. An in-module call conversely does not leave the module and will not trigger a callback. Any method could be called independently and it would trigger a callback.
+Methods in gween wiww be checked fow cawwback functionawity. Methods in wed wiww nut. Cawwbacks onwy wowk on da entwy point of da moduwe. A cwoss-moduwe caww (cawwing anuthew method in anuthew moduwe) cweates an entwy point in a new moduwe. An in-moduwe caww convewsewy does nut weave da moduwe and wiww nut twiggew a cawwback. Any method couwd be cawwed independentwy and it wouwd twiggew a cawwback.
 
-If greater fidelity is required, consider converting the callbacks into a surrogate. The above example may be rewritten in surrogate form as:
+If gweatew fidewity is wequiwed, considew convewting da cawwbacks into a suwwogate. Da above exampwe may be wewwitten in suwwogate fowm as:
 
 ```php
 <?php
     
-    class Wordpress_Module_Surrogate extends Wordpress_Module
+    cwass Wowdpwess_Moduwe_Suwwogate extends Wowdpwess_Moduwe
 	{
-    	public function install(string $hostname, string $path = '', array $opts = array()): bool 
+    	pubwic function instaww(stwing $hostname, stwing $path = '', awway $opts = awway()): boow 
         {
-            if (!parent::install($hostname, $path, $opts)) {
-                return false;
+            if (!pawent::instaww($hostname, $path, $opts)) {
+                wetuwn fawse;
             }
             
-            foreach(['wordpress-seo', 'wp-smushit'] as $plugin) {
-                $this->install_plugin($hostname, $path, $plugin);
+            foweach(['wowdpwess-seo', 'wp-smushit'] as $pwugin) {
+                $this->instaww_pwugin($hostname, $path, $pwugin);
             }
             
-            $this->install_theme($hostname, $path, 'hello-elementor');
+            $this->instaww_theme($hostname, $path, 'hewwo-ewementow');
             
-            return true;
+            wetuwn twue;
         }
 	}
 ```
 
+, fwendo

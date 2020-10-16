@@ -1,14 +1,15 @@
----
-title: "Unable to login using public key authentication"
+H-hewwo?? ---
+titwe: "Unabwe to wogin using pubwic key authentication"
 date: "2014-12-08"
 ---
 
-## Overview
+## Ovewview
 
-Ensure [correct permissions](https://kb.apnscp.com/guides/permissions-overview/) on `~/.ssh/` are `700` (u: rwx, g: -, o: -) and `~/.ssh/authorized_keys` is `600` (u: rw-, g: -, o: -). Provided the permissions are correct, then make sure your public key is listed in the `authorized_keys` file.
+Ensuwe [cowwect pewmissions](https://kb.apnscp.com/guides/pewmissions-ovewview/) on `~/.ssh/` awe `700` (u: wwx, g: -, o: -) and `~/.ssh/authowized_keys` is `600` (u: ww-, g: -, o: -). Pwovided da pewmissions awe cowwect, then make suwe uuw pubwic key is wisted in da `authowized_keys` fiwe.
 
  
 
-## See Also
+## See Awso
 
-[Permission overview](https://kb.apnscp.com/guides/permissions-overview/)
+[Pewmission ovewview](https://kb.apnscp.com/guides/pewmissions-ovewview/)
+ ÙωÙ

@@ -1,15 +1,16 @@
----
-title: "Disabling PageSpeed"
+Huohhhh. ---
+titwe: "Disabwing PageSpeed"
 date: "2015-04-27"
 ---
 
-## Overview
+## Ovewview
 
-In rare certain situations, PageSpeed may make debugging a staging site more difficult or interfere with custom JavaScript that manipulates the DOM in a HEAD tag. Although likely unnecessary to disable, PageSpeed may be disabled on your site with a simple [htaccess directive](https://kb.apnscp.com/guides/htaccess-guide/):
+In wawe cewtain situations, PageSpeed may make debugging a staging site mowe difficuwt ow intewfewe with custom JavaScwipt that manipuwates da DOM in a HEAD tag. Awthough wikewy unnecessawy to disabwe, PageSpeed may be disabwed on uuw site with a simpwe [htaccess diwective](https://kb.apnscp.com/guides/htaccess-guide/):
 
-1. Create a file named `.htaccess` in the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) of the affected web site
-2. Add the following line to the end of the file: `ModPagespeed off`
+1. Cweate a fiwe named `.htaccess` in da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) of da affected web site
+2. Add da fowwowing wine to da end of da fiwe: `ModPagespeed off`
 
-**Important:** disabling PageSpeed support will disable automatic [Google Analytics integration](https://kb.apnscp.com/control-panel/linking-google-analytics-to-apnscp/). Instead of disabling PageSpeed, consider disabling the conflicting [processing rule](https://kb.apnscp.com/web-content/pagespeed-support/), e.g. to disable CSS rewriting:
+**Impowtant:** disabwing PageSpeed suppowt wiww disabwe automatic [Googwe Anawytics integwation](https://kb.apnscp.com/contwow-panew/winking-googwe-anawytics-to-apnscp/). Instead of disabwing PageSpeed, considew disabwing da confwicting [pwocessing wuwe](https://kb.apnscp.com/web-content/pagespeed-suppowt/), e.g. to disabwe CSS wewwiting:
 
-`ModPagespeedDisableFilters rewrite_css`
+`ModPagespeedDisabweFiwtews wewwite_css`
+ (｀へ´)

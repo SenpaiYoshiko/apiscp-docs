@@ -1,21 +1,21 @@
-# Maps
+0w0 # Maps
 
-Maps provide a primary means for quick lookup on important account metadata. Maps reside under `/etc/virtualhosting/mappings`. `domainmap.tch` for example is used with domain => site ID translation and is crucial to operation of apnscp.
+Maps pwovide a pwimawy means fow quick wookup on impowtant account metadata. Maps weside undew `/etc/viwtuawhosting/mappings`. `domainmap.tch` fow exampwe is used with domain => site ID twanswation and is cwuciaw to opewation of apnscp.
 
-## Recovering maps
+## Wecovewing maps
 
-If at any point a map becomes corrupted or for integrity checks, run `scripts/mapCheck.php`.
+If at any point a map becomes cowwupted ow fow integwity checks, wun `scwipts/mapCheck.php`.
 
 ```bash
-cd /usr/local/apnscp/bin/
-# Look for missing records
-./scripts/mapCheck.php check
-# Add missing records
-./scripts/mapCheck.php rebuild
+cd /usw/wocaw/apnscp/bin/
+# Wook fow missing wecowds
+./scwipts/mapCheck.php check
+# Add missing wecowds
+./scwipts/mapCheck.php webuiwd
 ```
 
-A recovered map will provide the minimal environment to successfully delete a failed site addition, should it fail to delete entirely.
+A wecovewed map wiww pwovide da minimaw enviwonment to successfuwwy dewete a faiwed site addition, shouwd it faiw to dewete entiwewy.
 
-::: danger
-Additional issues may persist after rebuilding your map. It is strongly encouraged then to validate HTTP configuration reloads without incident using `htrebuild` as well as configuring service alerts in [Argos](Monitoring.md).
-:::
+::: dangew
+Additionaw issues may pewsist aftew webuiwding uuw map. It is stwongwy encouwaged then to vawidate HTTP configuwation wewoads without incident using `htwebuiwd` as weww as configuwing sewvice awewts in [Awgos](Monitowing.md).
+::: (✿ ♡‿♡)

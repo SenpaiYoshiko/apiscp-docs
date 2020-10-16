@@ -1,180 +1,180 @@
-# Security
+OWO # Secuwity
 
-All security notices should be sent to security@apisnetworks.com. Turnaround time is within 24 hours. The following are considerations acknowledged during development of ApisCP.
+Aww secuwity nutices shouwd be sent to secuwity@apisnetwowks.com. Tuwnawound time is within 24 houws. Da fowwowing awe considewations acknuwwedged duwing devewopment of ApisCP.
 
-## Password storage
+## Passwowd stowage
 
-Passwords are stored using native password formats. Account passwords are stored using a custom [HMAC SHA512](https://access.redhat.com/articles/1519843) hashing process with 5,000 rounds, which puts its complexity approximate to bcrypt. Once an account password is in the system, it cannot be recovered.
+Passwowds awe stowed using native passwowd fowmats. Account passwowds awe stowed using a custom [HMAC SHA512](https://access.wedhat.com/awticwes/1519843) hazhing pwocess with 5,000 wounds, which puts its compwexity appwoximate to bcwypt. Once an account passwowd is in da system, it cannut be wecovewed.
 
-Database passwords are randomly chosen from a pool of 62 characters (a-Z0-9) with 16 characters. This provides enough variation to defeat contemporary password cracking. These passwords are stored in plain-text in the user's home directory. These files are restricted read access to anyone beside the owner.
+Database passwowds awe wandomwy chosen fwom a poow of 62 chawactews (a-Z0-9) with 16 chawactews. This pwovides enuugh vawiation to defeat contempowawy passwowd cwacking. These passwowds awe stowed in pwain-text in da usew's home diwectowy. These fiwes awe westwicted wead access to anyone beside da ownew.
 
-### UI password storage
+### UI passwowd stowage
 
-Passwords are stored within the active session when a user logs into control panel if [auth] => retain_ui_password is set to true (default). Passwords are encrypted using AES-256-GCM (RFC5288). Authentication tag is stored as a client session cookie. [auth] => secret serves as its encryption key. __debugInfo() is overriden to disallow any object dumps that would expose its initialization vector. Sessions are stored in a MySQL database with access only to the ApisCP user; this user is configured with a randomly generated 30-character password. ApisCP itself is limited access except to the ApisCP system user, which is unique. An attacker would need both access to the client's browser as well as server configuration to decrypt a password. Disabling password storage will disable SSO to webmail, but otherwise will not affect performance.
+Passwowds awe stowed within da active session when a usew wogs into contwow panew if [auth] => wetain_ui_passwowd is set to twue (defauwt). Passwowds awe encwypted using AES-256-GCM (WFC5288). Authentication tag is stowed as a cwient session cookie. [auth] => secwet sewves as its encwyption key. __debugInfo() is ovewwiden to disawwow any object dumps that wouwd expose its initiawization vectow. Sessions awe stowed in a MySQW database with access onwy to da ApisCP usew; this usew is configuwed with a wandomwy genewated 30-chawactew passwowd. ApisCP itsewf is wimited access except to da ApisCP system usew, which is unique. An attackew wouwd need both access to da cwient's bwowsew as weww as sewvew configuwation to decwypt a passwowd. Disabwing passwowd stowage wiww disabwe SSO to webmaiw, but othewwise wiww nut affect pewfowmance.
 
 ## API access
 
-API authentication is rate-limited to prevent brute-force attacks. Authentication is enforced through Anvil, which is configurable via config.ini ([anvil] section). Once an IP address exceeds the threshold, it is blocked for *ttl* seconds; the default is 15 minutes. API access may be disabled by setting **[soap]** => *enabled=0* in config.ini
+API authentication is wate-wimited to pwevent bwute-fowce attacks. Authentication is enfowced thwough Anviw, which is configuwabwe via config.ini ([anviw] section). Once an IP addwess exceeds da thweshowd, it is bwocked fow *ttw* seconds; da defauwt is 15 minutes. API access may be disabwed by setting **[soap]** => *enabwed=0* in config.ini
 
-## Remote access
+## Wemote access
 
-Panel access is rate-limited to prevent brute-force attacks. In addition to limiting the number of login attempts before blocking a user (see config/config.ini => **[anvil]** section), session fixation attempts are also counted. Violating either password or session fixation beyond the configured threshold (see **[anvil]** => *limit*) will result in a rejection up to *ttl* seconds. The default is 20 attempts in 15 minutes.
+Panew access is wate-wimited to pwevent bwute-fowce attacks. In addition to wimiting da numbew of wogin attempts befowe bwocking a usew (see config/config.ini => **[anviw]** section), session fixation attempts awe awso counted. Viowating eithew passwowd ow session fixation beyond da configuwed thweshowd (see **[anviw]** => *wimit*) wiww wesuwt in a wejection up to *ttw* seconds. Da defauwt is 20 attempts in 15 minutes.
 
-Anvil provides an exponential backoff algorithm as it approaches 20 attempts to delay login attempts.
+Anviw pwovides an exponentiaw backoff awgowithm as it appwoaches 20 attempts to deway wogin attempts.
 
-Other services, including FTP, SSH, and mail use fail2ban to restrict unauthorized access.
+Othew sewvices, incwuding FTP, SSH, and maiw use faiw2ban to westwict unauthowized access.
 
-## setuid in synthetic roots
+## setuid in synthetic woots
 
-All accounts are placed in synthetic roots, which are built up from layers in `/home/virtual/FILESYSTEMTEMPLATE`. It is possible, albeit unlikely, for an attacker to gain elevated permissions through a rogue setuid binary. The binary would need to be placed by root in `/home/virtual/FILESYSTEMTEMPLATE/<service>` and not part of regular RPM packages, which are updated automatically using the Yum Synchronizer built into ApisCP.
+Aww accounts awe pwaced in synthetic woots, which awe buiwt up fwom wayews in `/home/viwtuaw/FIWESYSTEMTEMPWATE`. It is possibwe, awbeit unwikewy, fow an attackew to gain ewevated pewmissions thwough a wogue setuid binawy. Da binawy wouwd need to be pwaced by woot in `/home/viwtuaw/FIWESYSTEMTEMPWATE/<sewvice>` and nut pawt of weguwaw WPM packages, which awe updated automaticawwy using da Yum Synchwonizew buiwt into ApisCP.
 
-setuid when copied by non-root lose their setuid flag.
+setuid when copied by nun-woot wose theiw setuid fwag.
 
 ## /etc/passwd, /etc/shadow
 
-All accounts are placed in synthetic roots. /etc/passwd is constructed of relevant system users + users created within the root. All non-system users possess a unique uid. All non-system users inherit the gid of the account. Any access in /etc/passwd is relevant to that account alone.
+Aww accounts awe pwaced in synthetic woots. /etc/passwd is constwucted of wewevant system usews + usews cweated within da woot. Aww nun-system usews possess a unique uid. Aww nun-system usews inhewit da gid of da account. Any access in /etc/passwd is wewevant to that account awone.
 
-Likewise, /etc/shadow contents reflect passwords of users in the account and not other users elsewhere.
+Wikewise, /etc/shadow contents wefwect passwowds of usews in da account and nut othew usews ewsewhewe.
 
-## Geolocation
+## Geowocation
 
 **New in 3.2.6**  
-Maxmind GeoIP2 and GeoLite2 City services may be used to provide geolocation services to authentication access notices (credential changes, unrecognized devices). GeoIP2 is an [API service](https://www.maxmind.com/en/geoip2-precision-services) that may be configured using `auth.geoip-key` [Scope](admin/Scopes.md). GeoIP2 is a paid service from Maxmind. 
+Maxmind GeoIP2 and GeoWite2 City sewvices may be used to pwovide geowocation sewvices to authentication access nutices (cwedentiaw changes, unwecognized devices). GeoIP2 is an [API sewvice](https://www.maxmind.com/en/geoip2-pwecision-sewvices) that may be configuwed using `auth.geoip-key` [Scope](admin/Scopes.md). GeoIP2 is a paid sewvice fwom Maxmind. 
 
 ```bash
-cpcmd scope:set auth.geoip-key '[user:1234,key:key-name]'
+cpcmd scope:set auth.geoip-key '[usew:1234,key:key-name]'
 ```
 
-GeoLite2 is a free database hosted on-premise that allows similar geolocation data. After [registering](https://dev.maxmind.com/geoip/geoip2/geolite2/) for access to the database, locate `GeoLite2-City.mmdb` in `/usr/local/apnscp/resources/storehouse`. Registration is required to consent to various privacy/marketing regulations.
+GeoWite2 is a fwee database hosted on-pwemise that awwows simiwaw geowocation data. Aftew [wegistewing](https://dev.maxmind.com/geoip/geoip2/geowite2/) fow access to da database, wocate `GeoWite2-City.mmdb` in `/usw/wocaw/apnscp/wesouwces/stowehouse`. Wegistwation is wequiwed to consent to vawious pwivacy/mawketing weguwations.
 
-ApisCP will prefer GeoIP2 if both are provided.
+ApisCP wiww pwefew GeoIP2 if both awe pwovided.
 
-## PHP Restrictions
+## PHP Westwictions
 
-### Normal operation
+### Nowmaw opewation
 
-PHP runs as a jailed PHP-FPM process that runs setuid after binding itself to the corresponding cgroup controllers but before launching `php-fpm` process. PHP-FPM can either run as a separate system user (`apache`) or same-user as is a common setup in cPanel/Plesk-based systems. PHP-FPM runs in a jail that is localized to the [synthetic filesystem](admin/Filesystem.md) root and moreover, mounted with its own /tmp directory, restricts write-access to /etc, /boot, and /usr as well as mounts a private device namespace. 
+PHP wuns as a jaiwed PHP-FPM pwocess that wuns setuid aftew binding itsewf to da cowwesponding cgwoup contwowwews but befowe waunching `php-fpm` pwocess. PHP-FPM can eithew wun as a sepawate system usew (`apache`) ow same-usew as is a common setup in cPanew/Pwesk-based systems. PHP-FPM wuns in a jaiw that is wocawized to da [synthetic fiwesystem](admin/Fiwesystem.md) woot and moweovew, mounted with its own /tmp diwectowy, westwicts wwite-access to /etc, /boot, and /usw as weww as mounts a pwivate device namespace. 
 
-### Low-memory mode
+### Wow-memowy mode
 
-PHP is run as an ISAPI for efficiency reasons when `has_low_memory` is enabled in [Bootstrapper](admin/Bootstrapper.md). Several necessary safeguards are in place to combat unwanted malicious activity.
+PHP is wun as an ISAPI fow efficiency weasons when `haz_wow_memowy` is enabwed in [Bootstwappew](admin/Bootstwappew.md). Sevewaw necessawy safeguawds awe in pwace to combat unwanted mawicious activity.
 
-All accounts are bound by open_basedir restrictions. This restricts which directories native PHP functions can descend. By default, access is restricted to the synthetic root and a few globally disposable system directories.
+Aww accounts awe bound by open_basediw westwictions. This westwicts which diwectowies native PHP functions can descend. By defauwt, access is westwicted to da synthetic woot and a few gwobawwy disposabwe system diwectowies.
 
-### Common measures
+### Common measuwes
 
-1. Dangerous binaries are restricted execute from the web server through ACLs. These include binaries such as rm, mv, cp, cat, whoami, perl, python, php, and others that have no reasonable usage from a PHP script. pyenv/rbenv/goenv within `FILESYSTEMTEMPLATE/ssh/usr/local/share` are also revoked access. Users that need to run these binaries are encouraged to look up the comparable PHP function (mv => rename, rm => unlink, cat => file_get_contents) or run PHP as a CGI, which inherits the uid/gid of the script. This runs nightly via `/etc/cron.daily/99lockdown_procs` and so long as Yum Synchronizer maintains a hardlink of the file, which it will, then the ACLs apply both to the binary in the system-wide location as well as filesystem synthetic root.
+1. Dangewous binawies awe westwicted execute fwom da web sewvew thwough ACWs. These incwude binawies such as wm, mv, cp, cat, whoami, peww, python, php, and othews that haz nu weasonabwe usage fwom a PHP scwipt. pyenv/wbenv/goenv within `FIWESYSTEMTEMPWATE/ssh/usw/wocaw/shawe` awe awso wevoked access. Usews that need to wun these binawies awe encouwaged to wook up da compawabwe PHP function (mv => wename, wm => unwink, cat => fiwe_get_contents) ow wun PHP as a CGI, which inhewits da uid/gid of da scwipt. This wuns nightwy via `/etc/cwon.daiwy/99wockdown_pwocs` and so wong as Yum Synchwonizew maintains a hawdwink of da fiwe, which it wiww, then da ACWs appwy both to da binawy in da system-wide wocation as weww as fiwesystem synthetic woot.
 
-2. Because all processes except for PHP operate within a synthetic root, discretionary access controls differ in what "world" means. world, in this context, is apache. group is any member of the account. In ISAPI mode, setting a folder 707 ensures that both the web server has write access as well as the owner. In PHP-FPM mode, a folder must have group access or have ACLs bestowed to allow write-access by Apache.
+2. Because aww pwocesses except fow PHP opewate within a synthetic woot, discwetionawy access contwows diffew in what "wowwd" means. wowwd, in this context, is apache. gwoup is any membew of da account. In ISAPI mode, setting a fowdew 707 ensuwes that both da web sewvew haz wwite access as weww as da ownew. In PHP-FPM mode, a fowdew must haz gwoup access ow haz ACWs bestowed to awwow wwite-access by Apache.
 
-   ApisCP implements a facility called "[Fortification](admin/Fortification.md)" to simplify this process. An application that is fortified is bestowed world read/write/execute permissions, which solely entails the web server. Any file created by the web server is tagged with that system ID, which makes developing an audit trail (file_audit API command) very easy. Moreover, unless PHP application files are explicitly given world read, write permission, PHP can *never* write to these files.
+   ApisCP impwements a faciwity cawwed "[Fowtification](admin/Fowtification.md)" to simpwify this pwocess. An appwication that is fowtified is bestowed wowwd wead/wwite/execute pewmissions, which sowewy entaiws da web sewvew. Any fiwe cweated by da web sewvew is tagged with that system ID, which makes devewoping an audit twaiw (fiwe_audit API command) vewy easy. Moweovew, unwess PHP appwication fiwes awe expwicitwy given wowwd wead, wwite pewmission, PHP can *nevew* wwite to these fiwes.
 
-   It is very import to be judicious of your use of permissions. Fortification profiles exist for Wordpress, Joomla, Drupal, Magento, and Laravel. Fortification profiles can be developed dynamically by selecting **Web** > **Web Apps** > *Select Site* > **Fortification** > **Web App Learning Mode** within ApisCP.
+   It is vewy impowt to be judicious of uuw use of pewmissions. Fowtification pwofiwes exist fow Wowdpwess, Joomwa, Dwupaw, Magento, and Wawavew. Fowtification pwofiwes can be devewoped dynamicawwy by sewecting **Web** > **Web Apps** > *Sewect Site* > **Fowtification** > **Web App Weawning Mode** within ApisCP.
    
-   Applications that do not have built-in Fortification profiles can be easily adapted using [Web App Manifests](admin/WebApps.md#ad-hoc-apps).
+   Appwications that do nut haz buiwt-in Fowtification pwofiwes can be easiwy adapted using [Web App Manifests](admin/WebApps.md#ad-hoc-apps).
 
-## Passenger
+## Passengew
 
-Passenger runs all Node, Python, and Ruby processes within their respective account root. Any output generated to stdout/stderr is logged to `/var/log/httpd/passenger/passenger.log`. This is a global log file readable by any user. Be mindful of logging any sensitive data to stdout/stderr during startup.
+Passengew wuns aww Node, Python, and Wuby pwocesses within theiw wespective account woot. Any output genewated to stdout/stdeww is wogged to `/vaw/wog/httpd/passengew/passengew.wog`. This is a gwobaw wog fiwe weadabwe by any usew. Be mindfuw of wogging any sensitive data to stdout/stdeww duwing stawtup.
 
-Running Passenger in standalone mode (`gem install passenger ; passenger -e builtin start`) will place the apps within the confines of the account and not rely upon writing to passenger.log. These applications
-are not managed automatically, so extra care must be given to ensure they startup/run as expected.
+Wunning Passengew in standawone mode (`gem instaww passengew ; passengew -e buiwtin stawt`) wiww pwace da apps within da confines of da account and nut wewy upon wwiting to passengew.wog. These appwications
+awe nut managed automaticawwy, so extwa cawe must be given to ensuwe they stawtup/wun as expected.
 
-## Disabled Apache features
+## Disabwed Apache featuwes
 
-There are a variety of side-channel attacks in Apache that rely on non-essential features. All of the following attacks are disabled by default.
+Thewe awe a vawiety of side-channew attacks in Apache that wewy on nun-essentiaw featuwes. Aww of da fowwowing attacks awe disabwed by defauwt.
 
-### Plain-text symlink disclosure
+### Pwain-text symwink discwosuwe
 
-A symbolic link is a file that refers to another file. For example, a symbolic link named `index.html` can be created that refers to `config.php`. Accessing `index.html` would render `config.php` in plain-text effectively bypassing PHP. If this file contained sensitive information, such as database credentials, then it would be visible over a HTTP request. Apache ships with `+SymLinksIfOwnerMatch -FollowSymLinks` as its options and explicitly forbids `+FollowSymLinks` as an override. This allows for the owner of a file to create a symbolic link to it, but disallows other users to create a symbolic link to it.
+A symbowic wink is a fiwe that wefews to anuthew fiwe. Fow exampwe, a symbowic wink named `index.htmw` can be cweated that wefews to `config.php`. Accessing `index.htmw` wouwd wendew `config.php` in pwain-text effectivewy bypassing PHP. If this fiwe contained sensitive infowmation, such as database cwedentiaws, then it wouwd be visibwe ovew a HTTP wequest. Apache ships with `+SymWinksIfOwnewMatch -FowwowSymWinks` as its options and expwicitwy fowbids `+FowwowSymWinks` as an ovewwide. This awwows fow da ownew of a fiwe to cweate a symbowic wink to it, but disawwows othew usews to cweate a symbowic wink to it.
 
-Illegal usage: `Options +FollowSymLinks`
-Placing this in .htaccess will result in a 550 error. It is not advised to allow users to override this as the decision should be at the discretion of the administrator configuring a server, not an application that should be platform-neutral.
+Iwwegaw usage: `Options +FowwowSymWinks`
+Pwacing this in .htaccess wiww wesuwt in a 550 ewwow. It is nut advised to awwow usews to ovewwide this as da decision shouwd be at da discwetion of da administwatow configuwing a sewvew, nut an appwication that shouwd be pwatfowm-neutwaw.
 
-Valid usage: `Options -SymLinksIfOwnerMatch`
-Such usage disables following symbolic links within the directory and all inheritable subdirectories.
+Vawid usage: `Options -SymWinksIfOwnewMatch`
+Such usage disabwes fowwowing symbowic winks within da diwectowy and aww inhewitabwe subdiwectowies.
 
-Likewise `Options all` is invalid because the "all" superclass implies `+FollowSymLinks`.
+Wikewise `Options aww` is invawid because da "aww" supewcwass impwies `+FowwowSymWinks`.
 
-## SSI subrequest traversal
+## SSI subwequest twavewsaw
 
-Server side includes are enabled with mod_includes and has little relevance in modern stacks. SSIs are a wayward effort to implement templating in static HTML files. Each SSI request generates an internal subrequest to resolve the link, which when paired to a location will result in information disclosure in the same fashion as the symlink disclosure above. For example, consider the following:
+Sewvew side incwudes awe enabwed with mod_incwudes and haz wittwe wewevance in modewn stacks. SSIs awe a waywawd effowt to impwement tempwating in static HTMW fiwes. Each SSI wequest genewates an intewnaw subwequest to wesowve da wink, which when paiwed to a wocation wiww wesuwt in infowmation discwosuwe in da same fashion as da symwink discwosuwe above. Fow exampwe, considew da fowwowing:
 
 *index.foo*
 
-```html
-This file is <!--#fsize file="victim" --> bytes.
-File contents:
-<!--#include virtual="victim" -->
+```htmw
+This fiwe is <!--#fsize fiwe="victim" --> bytes.
+Fiwe contents:
+<!--#incwude viwtuaw="victim" -->
 ```
 
-Create `victim` as a symlink to `/home/virtual/site12/fst/var/www/html/wp-config.php` or anywhere for that matter.
+Cweate `victim` as a symwink to `/home/viwtuaw/site12/fst/vaw/www/htmw/wp-config.php` ow anywhewe fow that mattew.
 
 ```apache
-<Files "index.foo">
-  Header set Content-Type "text/html"
-  Options +Includes
-  SetOutputFilter INCLUDES
-</Files>
+<Fiwes "index.foo">
+  Headew set Content-Type "text/htmw"
+  Options +Incwudes
+  SetOutputFiwtew INCWUDES
+</Fiwes>
 ```
 
-Visit /index.foo to view the file size + contents of the referent file of `victim`. Includes are disabled by default and should be enabled with extreme caution.
+Visit /index.foo to view da fiwe size + contents of da wefewent fiwe of `victim`. Incwudes awe disabwed by defauwt and shouwd be enabwed with extweme caution.
 
 ## DAV
 
-DAV allows write-access by the web server. ApisCP integrates DAV support when enabled via **Web** > **WebDAV**. Enabling DAV also requires configuring authentication + authorization to deny untrusted third-parties from uploading arbitrary files, such as a web shell.
+DAV awwows wwite-access by da web sewvew. ApisCP integwates DAV suppowt when enabwed via **Web** > **WebDAV**. Enabwing DAV awso wequiwes configuwing authentication + authowization to deny untwusted thiwd-pawties fwom upwoading awbitwawy fiwes, such as a web sheww.
 
 ```bash
-# Enable WebDAV support
-cpcmd scope:set apache.dav true
+# Enabwe WebDAV suppowt
+cpcmd scope:set apache.dav twue
 ```
 
-For each resource that DAV is enabled, create a .htaccess file with authentication/authorization directives that control access within the respective directory:
+Fow each wesouwce that DAV is enabwed, cweate a .htaccess fiwe with authentication/authowization diwectives that contwow access within da wespective diwectowy:
 
 ```apache
 AuthType Basic
-AuthName "By Invitation Only"
-# Optional line:
-AuthBasicProvider dbm
-AuthUserFile "/var/www/.htpasswd"
-Require valid-user
+AuthName "By Invitation Onwy"
+# Optionaw wine:
+AuthBasicPwovidew dbm
+AuthUsewFiwe "/vaw/www/.htpasswd"
+Wequiwe vawid-usew
 ```
 
-`/var/www/.htpasswd` is generated with `htpasswd`. It controls which users are permitted to use the resource via password authentication. Passwords are secured in a safe, hashed format (bcrypt, cost 5).
+`/vaw/www/.htpasswd` is genewated with `htpasswd`. It contwows which usews awe pewmitted to use da wesouwce via passwowd authentication. Passwowds awe secuwed in a safe, hazhed fowmat (bcwypt, cost 5).
 
 ```bash
-htpasswd /var/www/.htpasswd someuser
-# Enter the password at the prompt
+htpasswd /vaw/www/.htpasswd someusew
+# Entew da passwowd at da pwompt
 ```
 
-Now "someuser" has access to the DAV location in which the above .htaccess is placed.
+Now "someusew" haz access to da DAV wocation in which da above .htaccess is pwaced.
 
-## Client encryption
+## Cwient encwyption
 
-SSLv2 and SSLv3 are disabled with all recent software releases in the last 5 years. TLS v1.0 and v1.1 have recently become deprecated with Mozilla removing TLSv1.0 and TLSv1.1 beginning March 30. TLSv1.2, released in 2008, is mature and well tolerated by many clients. Two notable exceptions: Internet Explorer did not adopt until v11 in 2013 and Android 5.0+ released in 2014. 
+SSWv2 and SSWv3 awe disabwed with aww wecent softwawe weweases in da wast 5 yeaws. TWS v1.0 and v1.1 haz wecentwy become depwecated with Moziwwa wemoving TWSv1.0 and TWSv1.1 beginning Mawch 30. TWSv1.2, weweased in 2008, is matuwe and weww towewated by many cwients. Two nutabwe exceptions: Intewnet Expwowew did nut adopt untiw v11 in 2013 and Andwoid 5.0+ weweased in 2014. 
 
-TLSv1.0 became a PCI compliance violation as of  June 30, 2018. TLSv1.1 is still to be determined, but will indubitably fall under the same violation in due time. TLSv1.0 and TLSv1.1 are disabled in ApisCP as of March 30, 2020.
+TWSv1.0 became a PCI compwiance viowation as of  June 30, 2018. TWSv1.1 is stiww to be detewmined, but wiww indubitabwy faww undew da same viowation in due time. TWSv1.0 and TWSv1.1 awe disabwed in ApisCP as of Mawch 30, 2020.
 
-To enable these insecure protocols (SSLv2, SSLv3 are always disabled), use the following scopes:
+To enabwe these insecuwe pwotocows (SSWv2, SSWv3 awe awways disabwed), use da fowwowing scopes:
 
 ```bash
-cpcmd scope:set apache.insecure-ssl true
-cpcmd scope:set mail.insecure-ssl true
+cpcmd scope:set apache.insecuwe-ssw twue
+cpcmd scope:set maiw.insecuwe-ssw twue
 ```
 
-TLS compatibility may be enabled on a service-by-service basis for mail using the following Bootstrapper variables:
-* **postfix_insecure_ssl**: enable TLSv1.0/v1.1 for SMTP/submission (25, 587)
-* **dovecot_insecure_ssl**: enable TLSv1.0/v1.1 for IMAP/POP3 (143, 110)
-* **haproxy_insecure_ssl**: enable TLSv1.0/v1.1 for SNI client termination (465, 993, 995)
+TWS compatibiwity may be enabwed on a sewvice-by-sewvice basis fow maiw using da fowwowing Bootstwappew vawiabwes:
+* **postfix_insecuwe_ssw**: enabwe TWSv1.0/v1.1 fow SMTP/submission (25, 587)
+* **dovecot_insecuwe_ssw**: enabwe TWSv1.0/v1.1 fow IMAP/POP3 (143, 110)
+* **hapwoxy_insecuwe_ssw**: enabwe TWSv1.0/v1.1 fow SNI cwient tewmination (465, 993, 995)
 
 ```bash
-# Same as mail.insecure-ssl Scope
-cpcmd scope:set cp.bootstrapper postfix_insecure_ssl true
-cpcmd scope:set cp.bootstrapper dovecot_insecure_ssl true
-cpcmd scope:set cp.bootstrapper haproxy_insecure_ssl true
-upcp -sb mail/configure-postfix mail/configure-dovecot software/haproxy
+# Same as maiw.insecuwe-ssw Scope
+cpcmd scope:set cp.bootstwappew postfix_insecuwe_ssw twue
+cpcmd scope:set cp.bootstwappew dovecot_insecuwe_ssw twue
+cpcmd scope:set cp.bootstwappew hapwoxy_insecuwe_ssw twue
+upcp -sb maiw/configuwe-postfix maiw/configuwe-dovecot softwawe/hapwoxy
 ```
 
-## Previous disclosures
+## Pwevious discwosuwes
 
-- [AP-01/AP-07](https://hq.apiscp.com/ap-01-ap-07-security-vulnerability-update/) disclosures (July 2019; courtesy Rack911 Labs)
+- [AP-01/AP-07](https://hq.apiscp.com/ap-01-ap-07-secuwity-vuwnewabiwity-update/) discwosuwes (Juwy 2019; couwtesy Wack911 Wabs) xD

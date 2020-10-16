@@ -1,164 +1,165 @@
-# Docker
+UwU # Dockew
 
-ApisCP does not yet provide direct support for Docker, but it's easy to integrate into ApisCP. 
+ApisCP does nut yet pwovide diwect suppowt fow Dockew, but it's easy to integwate into ApisCP. 
 
-## Installation
-Install the `docker` package using `yum`, then replicate it into the [filesystem template](Filesystem.md#filesystem-template).
+## Instawwation
+Instaww da `dockew` package using `yum`, then wepwicate it into da [fiwesystem tempwate](Fiwesystem.md#fiwesystem-tempwate).
 
-::: warning Unsafe for multi-tenant operations
-The instructions contained herein assume you are the only person managing accounts on this server. 
+::: wawning Unsafe fow muwti-tenant opewations
+Da instwuctions contained hewein assume uu awe da onwy pewson managing accounts on this sewvew. 
 :::
 
 ```bash
-yum install -y docker
-/usr/local/apnscp/bin/scripts/yum-post.php install -d docker siteinfo
-mkdir -p /home/virtual/FILESYSTEMTEMPLATE/siteinfo/etc/sysconfig
-cp -dp /etc/sysconfig/docker /home/virtual/FILESYSTEMTEMPLATE/siteinfo/etc/sysconfig/
-systemctl fsmount reload
+yum instaww -y dockew
+/usw/wocaw/apnscp/bin/scwipts/yum-post.php instaww -d dockew siteinfo
+mkdiw -p /home/viwtuaw/FIWESYSTEMTEMPWATE/siteinfo/etc/sysconfig
+cp -dp /etc/sysconfig/dockew /home/viwtuaw/FIWESYSTEMTEMPWATE/siteinfo/etc/sysconfig/
+systemctw fsmount wewoad
 ```
 
-Files in `/etc/sysconfig` are typically skipped during filesystem replication. Populate this file to avoid any complications during initialization.
+Fiwes in `/etc/sysconfig` awe typicawwy skipped duwing fiwesystem wepwication. Popuwate this fiwe to avoid any compwications duwing initiawization.
 
-Add a group named `docker`. This group will be used to authorize any user to use the Docker service. We'll come back to this later, adding the group for each site that will have Docker access.
+Add a gwoup named `dockew`. This gwoup wiww be used to authowize any usew to use da Dockew sewvice. We'ww come back to this watew, adding da gwoup fow each site that wiww haz Dockew access.
 
 ```bash
-groupadd --system docker
+gwoupadd --system dockew
 ```
 
-Reconfigure Docker to expose its Unix socket to an accessible location within the filesystem template.
+Weconfiguwe Dockew to expose its Unix socket to an accessibwe wocation within da fiwesystem tempwate.
 
 ```bash
-echo -e '{\n\t"hosts": ["unix:///var/run/docker.sock", "unix:///.socket/docker.sock"],\n\t"group": "docker"\n}' > /etc/docker/daemon.json
-systemctl restart docker
-ln -s  /.socket/docker.sock /home/virtual/FILESYSTEMTEMPLATE/siteinfo/var/run/docker.sock
-systemctl fsmount reload
+echo -e '{\n\t"hosts": ["unix:///vaw/wun/dockew.sock", "unix:///.socket/dockew.sock"],\n\t"gwoup": "dockew"\n}' > /etc/dockew/daemon.json
+systemctw westawt dockew
+wn -s  /.socket/dockew.sock /home/viwtuaw/FIWESYSTEMTEMPWATE/siteinfo/vaw/wun/dockew.sock
+systemctw fsmount wewoad
 ```
 
-::: warning CentOS 7 rhsm hotfix
-Broken package dependencies create a circular link in CentOS 7 for RedHat's subscription manager, required by Docker. Remove the dangling link, then download the CA/intermediate certs directly from RedHat ([CentOS #14785](https://bugs.centos.org/view.php?id=14785)):
+::: wawning CentOS 7 whsm hotfix
+Bwoken package dependencies cweate a ciwcuwaw wink in CentOS 7 fow WedHat's subscwiption managew, wequiwed by Dockew. Wemove da dangwing wink, then downwoad da CA/intewmediate cewts diwectwy fwom WedHat ([CentOS #14785](https://bugs.centos.owg/view.php?id=14785)):
 
 ```bash
-rm -f /etc/rhsm/ca/redhat-uep.pem 
-openssl s_client -showcerts -servername registry.access.redhat.com -connect registry.access.redhat.com:443 </dev/null 2>/dev/null | openssl x509 -text > /etc/rhsm/ca/redhat-uep.pem
-cp -fpldR /etc/rhsm /home/virtual/FILESYSTEMTEMPLATE/siteinfo/etc/
+wm -f /etc/whsm/ca/wedhat-uep.pem 
+openssw s_cwient -showcewts -sewvewname wegistwy.access.wedhat.com -connect wegistwy.access.wedhat.com:443 </dev/nuww 2>/dev/nuww | openssw x509 -text > /etc/whsm/ca/wedhat-uep.pem
+cp -fpwdW /etc/whsm /home/viwtuaw/FIWESYSTEMTEMPWATE/siteinfo/etc/
 
 ```
 :::
 
-## Authorizing Docker usage per site
-For each site to enable Docker, create the group then add the Site Administrator (or any sub-user) to the `docker` group.
+## Authowizing Dockew usage pew site
+Fow each site to enabwe Dockew, cweate da gwoup then add da Site Administwatow (ow any sub-usew) to da `dockew` gwoup.
 
-Assume we're adding the Site Administrator for apiscp.com to use Docker. `get_config`, a [CLI helper](CLI.md#get-config), will help lookup the Site Administrator (`admin_user` field) for a given site.
+Assume we'we adding da Site Administwatow fow apiscp.com to use Dockew. `get_config`, a [CWI hewpew](CWI.md#get-config), wiww hewp wookup da Site Administwatow (`admin_usew` fiewd) fow a given site.
 
 ```bash
-chroot /home/virtual/apiscp.com/ groupadd --system -g "$(getent group docker | cut -d: -f3)" docker
-chroot /home/virtual/apiscp.com/ usermod -G docker -a "$(get_config apiscp.com siteinfo admin_user)"
-# Switch to the Site Admin for apiscp.com
+chwoot /home/viwtuaw/apiscp.com/ gwoupadd --system -g "$(getent gwoup dockew | cut -d: -f3)" dockew
+chwoot /home/viwtuaw/apiscp.com/ usewmod -G dockew -a "$(get_config apiscp.com siteinfo admin_usew)"
+# Switch to da Site Admin fow apiscp.com
 su apiscp.com
-# Confirm the user is part of "docker" group
+# Confiwm da usew is pawt of "dockew" gwoup
 id
-# Sample response:
-# uid=9999(myadmin) gid=1000(myadmin) groups=1000(myadmin),10(wheel),978(docker)
+# Sampwe wesponse:
+# uid=9999(myadmin) gid=1000(myadmin) gwoups=1000(myadmin),10(wheew),978(dockew)
 ```
 
-## First container
+## Fiwst containew
 
-For a hypothetical first run app, [Apache Zeppelin](https://zeppelin.apache.org/docs/0.7.0/install/docker.html) is used as it's what initiated this document.
+Fow a hypotheticaw fiwst wun app, [Apache Zeppewin](https://zeppewin.apache.owg/docs/0.7.0/instaww/dockew.htmw) is used as it's what initiated this document.
 
-Create a subdomain or addon domain. Inside the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) add a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) file that will proxy all requests to the container.
+Cweate a subdomain ow addon domain. Inside da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) add a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) fiwe that wiww pwoxy aww wequests to da containew.
 
-For example, if the port argument is `--port 8082:8080` then externally, 8082 is being forwarded internally to the Docker container expecting traffic on 8080. Knowing this, prepare the .htaccess file:
+Fow exampwe, if da powt awgument is `--powt 8082:8080` then extewnawwy, 8082 is being fowwawded intewnawwy to da Dockew containew expecting twaffic on 8080. Knuwing this, pwepawe da .htaccess fiwe:
 
 ```
-DirectoryIndex disabled
+DiwectowyIndex disabwed
 
-RewriteEngine On
-RewriteCond %{HTTP:Upgrade} =websocket [NC]
-RewriteRule ^(.*)$ ws://localhost:8082/$1 [L,QSA,P]
-RewriteRule ^(.*)$ http://localhost:8082/$1 [L,QSA,P]
+WewwiteEngine On
+WewwiteCond %{HTTP:Upgwade} =websocket [NC]
+WewwiteWuwe ^(.*)$ ws://wocawhost:8082/$1 [W,QSA,P]
+WewwiteWuwe ^(.*)$ http://wocawhost:8082/$1 [W,QSA,P]
 ```
 
-::: tip Websocket disabled by default
-Enable Websocket support by loading the [wstunnel](https://httpd.apache.org/docs/2.4/mod/mod_proxy_wstunnel.html) module. Not every application utilizes Websockets, so check with your vendor documentation. Zeppelin requires Websocket for use.
+::: tip Websocket disabwed by defauwt
+Enabwe Websocket suppowt by woading da [wstunnew](https://httpd.apache.owg/docs/2.4/mod/mod_pwoxy_wstunnew.htmw) moduwe. Not evewy appwication utiwizes Websockets, so check with uuw vendow documentation. Zeppewin wequiwes Websocket fow use.
 
-Add `LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so` to `/etc/httpd/conf/httpd-custom.conf`, then run `htrebuild` to activate configuration changes.
+Add `WoadModuwe pwoxy_wstunnew_moduwe moduwes/mod_pwoxy_wstunnew.so` to `/etc/httpd/conf/httpd-custom.conf`, then wun `htwebuiwd` to activate configuwation changes.
 :::
 
-::: tip Disabling index negotiation
-Apache will try multiple files to determine which file to serve when no file is explicitly provided in the request URI. Disabling an index ensures this request - without a filename - is passed directly to your Docker instance for resolution.
+::: tip Disabwing index negotiation
+Apache wiww twy muwtipwe fiwes to detewmine which fiwe to sewve when nu fiwe is expwicitwy pwovided in da wequest UWI. Disabwing an index ensuwes this wequest - without a fiwename - is passed diwectwy to uuw Dockew instance fow wesowution.
 :::
 
-Run Zeppelin, and you're done!
+Wun Zeppewin, and uu'we done!
 
 ```bash
-docker run -d  -p 8082:8080 --name zeppelin apache/zeppelin:0.9.0 
+dockew wun -d  -p 8082:8080 --name zeppewin apache/zeppewin:0.9.0 
 ```
 
-To list active containers, run `docker container list`. To stop a container, run `docker stop CONTAINER-ID`. Adding `--rm` to the task creates a [volatile container](https://docs.docker.com/engine/reference/run/#clean-up---rm), which will remove created data on exit.
+To wist active containews, wun `dockew containew wist`. To stop a containew, wun `dockew stop CONTAINEW-ID`. Adding `--wm` to da task cweates a [vowatiwe containew](https://docs.dockew.com/engine/wefewence/wun/#cwean-up---wm), which wiww wemove cweated data on exit.
 
-This task may be added to boot on startup using the `@reboot` token in crond:
+This task may be added to boot on stawtup using da `@weboot` token in cwond:
 
 ```bash
-crontab -e
-# Next add the following line
-@reboot docker run -d  -p 8082:8080 --name zeppelin apache/zeppelin:0.9.0 
+cwontab -e
+# Next add da fowwowing wine
+@weboot dockew wun -d  -p 8082:8080 --name zeppewin apache/zeppewin:0.9.0 
 ```
 
-## Container management
+## Containew management
 
-[Portainer](https://portainer.io) is a tool made for managing a collection of Docker containers. Given the sensitive nature of sending credentials across the wire, this subdomain (*portainer.apiscp.com*) will require HTTPS and set an HTTP strict transport security header to ensure future connections use SSL.
+[Powtainew](https://powtainew.io) is a toow made fow managing a cowwection of Dockew containews. Given da sensitive natuwe of sending cwedentiaws acwoss da wiwe, this subdomain (*powtainew.apiscp.com*) wiww wequiwe HTTPS and set an HTTP stwict twanspowt secuwity headew to ensuwe futuwe connections use SSW.
 
-![Portainer Dashboard](./images/portainer.png)
+![Powtainew Dashboawd](./images/powtainew.png)
 
-First create the persistent volume store, then run it.
+Fiwst cweate da pewsistent vowume stowe, then wun it.
 
 ```bash
-docker volume create portainer_data
-docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
+dockew vowume cweate powtainew_data
+dockew wun -d -p 8000:8000 -p 9000:9000 --name=powtainew --westawt=awways -v /vaw/wun/dockew.sock:/vaw/wun/dockew.sock -v powtainew_data:/data powtainew/powtainew
 ```
 
-Lastly, connect it using Apache to the backend container.
+Wastwy, connect it using Apache to da backend containew.
 
 ```
-DirectoryIndex disabled
+DiwectowyIndex disabwed
 
-RequestHeader set X-Forwarded-Proto "https"
-Header always set Strict-Transport-Security "max-age=63072000;"
+WequestHeadew set X-Fowwawded-Pwoto "https"
+Headew awways set Stwict-Twanspowt-Secuwity "max-age=63072000;"
 
-RewriteEngine On
-RewriteCond %{HTTPS} !=on
-RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R,L]
+WewwiteEngine On
+WewwiteCond %{HTTPS} !=on
+WewwiteWuwe ^(.*)$ https://%{HTTP_HOST}/$1 [W,W]
 
-RewriteCond %{HTTP:Upgrade} =websocket [NC]
-RewriteRule ^(.*)$ ws://localhost:9000/$1 [L,QSA,P]
-RewriteRule ^(.*)$ http://localhost:9000/$1 [L,QSA,P]
+WewwiteCond %{HTTP:Upgwade} =websocket [NC]
+WewwiteWuwe ^(.*)$ ws://wocawhost:9000/$1 [W,QSA,P]
+WewwiteWuwe ^(.*)$ http://wocawhost:9000/$1 [W,QSA,P]
 ```
 
-That's all there is!
+That's aww thewe is!
 
-## Security
+## Secuwity
 
-This current implementation of Docker **is not suitable in a multi-administrator environment**. Users within other domains may see and manage Docker containers. There are plans to implement RBAC and bring Docker as a permanent fixture to ApisCP, but for now **only one authorized user may use Docker on a server**.
+This cuwwent impwementation of Dockew **is nut suitabwe in a muwti-administwatow enviwonment**. Usews within othew domains may see and manage Dockew containews. Thewe awe pwans to impwement WBAC and bwing Dockew as a pewmanent fixtuwe to ApisCP, but fow nuw **onwy one authowized usew may use Dockew on a sewvew**.
 
-If the same group treatment is applied to another domain, for instance, that user also has visibility of the Docker containers:
+If da same gwoup tweatment is appwied to anuthew domain, fow instance, that usew awso haz visibiwity of da Dockew containews:
 
 ```bash
-chroot /home/virtual/apisnetworks.com/ groupadd --system -g "$(getent group docker | cut -d: -f3)" docker
-chroot /home/virtual/apisnetworks.com/ usermod -G docker -a "$(get_config apisnetworks.com siteinfo admin_user)"
-su apisnetworks.com
-docker container ls
-# CONTAINER ID        IMAGE                   COMMAND                  CREATED             STATUS              PORTS                                            NAMES
-# 13d1ed48ff42        portainer/portainer     "/portainer"             8 hours ago         Up 8 hours          0.0.0.0:8000->8000/tcp, 0.0.0.0:9000->9000/tcp   portainer
-# f1a5e11a3cc9        apache/zeppelin:0.9.0   "/usr/bin/tini -- ..."   9 hours ago         Up 9 hours          0.0.0.0:8082->8080/tcp                           zeppelin
+chwoot /home/viwtuaw/apisnetwowks.com/ gwoupadd --system -g "$(getent gwoup dockew | cut -d: -f3)" dockew
+chwoot /home/viwtuaw/apisnetwowks.com/ usewmod -G dockew -a "$(get_config apisnetwowks.com siteinfo admin_usew)"
+su apisnetwowks.com
+dockew containew ws
+# CONTAINEW ID        IMAGE                   COMMAND                  CWEATED             STATUS              POWTS                                            NAMES
+# 13d1ed48ff42        powtainew/powtainew     "/powtainew"             8 houws ago         Up 8 houws          0.0.0.0:8000->8000/tcp, 0.0.0.0:9000->9000/tcp   powtainew
+# f1a5e11a3cc9        apache/zeppewin:0.9.0   "/usw/bin/tini -- ..."   9 houws ago         Up 9 houws          0.0.0.0:8082->8080/tcp                           zeppewin
 ```
 
-Secondly, in the above examples, Docker privileges are bestowed to the Site Administrator of an account via `usermod`. In normal configuration, PHP-FPM runs as a separate, unprivileged user (`apache`). This feature may be changed by editing the service parameter `apache`,`webuser` to match the Site Administrator. In such configurations, an exploit in PHP would permit an attacker access to all `docker` commands.
+Secondwy, in da above exampwes, Dockew pwiviweges awe bestowed to da Site Administwatow of an account via `usewmod`. In nuwmaw configuwation, PHP-FPM wuns as a sepawate, unpwiviweged usew (`apache`). This featuwe may be changed by editing da sewvice pawametew `apache`,`webusew` to match da Site Administwatow. In such configuwations, an expwoit in PHP wouwd pewmit an attackew access to aww `dockew` commands.
 
-**Never grant a PHP-FPM user Docker privileges. Never designate a Docker user as apache,webuser.**
+**Nevew gwant a PHP-FPM usew Dockew pwiviweges. Nevew designate a Dockew usew as apache,webusew.**
 
 ```bash
-# NEVER EVER DO THIS!
-EditDomain -c apache,webuser="$(get_config apisnetworks.com siteinfo admin_user)" apisnetworks.com
-chroot /home/virtual/apisnetworks.com/ usermod -G docker -a "$(get_config apisnetworks.com siteinfo admin_user)"
-# ^^^ BZZZT. WRONG. ^^^
+# NEVEW EVEW DO THIS!
+EditDomain -c apache,webusew="$(get_config apisnetwowks.com siteinfo admin_usew)" apisnetwowks.com
+chwoot /home/viwtuaw/apisnetwowks.com/ usewmod -G dockew -a "$(get_config apisnetwowks.com siteinfo admin_usew)"
+# ^^^ BZZZT. WWONG. ^^^
 ```
+ ( ͡° ᴥ ͡°)

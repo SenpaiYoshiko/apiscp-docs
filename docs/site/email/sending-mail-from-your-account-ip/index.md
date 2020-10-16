@@ -1,24 +1,25 @@
----
-title: "Sending mail from your account IP"
+Haiiii! ---
+titwe: "Sending maiw fwom uuw account IP"
 date: "2015-04-28"
 ---
 
-## Overview
+## Ovewview
 
-Accounts that purchase a separate IP address for SSL ($2.50/mo) may also, optionally, send outbound mail solely through that IP address. This feature is called **Private SMTP Routing**. Before doing so, please open a ticket within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/). Include which domains are sending outbound e-mail to ensure proper configuration. Only these domains specified in the ticket will connect to other mail servers using your assigned account IP address.
+Accounts that puwchaze a sepawate IP addwess fow SSW ($2.50/mo) may awso, optionawwy, send outbound maiw sowewy thwough that IP addwess. This featuwe is cawwed **Pwivate SMTP Wouting**. Befowe doing so, pwease open a ticket within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/). Incwude which domains awe sending outbound e-maiw to ensuwe pwopew configuwation. Onwy these domains specified in da ticket wiww connect to othew maiw sewvews using uuw assigned account IP addwess.
 
 ### Benefits
 
-Sending mail from a separate IP address than other accounts on a server provide a few benefits:
+Sending maiw fwom a sepawate IP addwess than othew accounts on a sewvew pwovide a few benefits:
 
-**Immunity from DNS blacklists** All mail funnels through a set of IP addresses. In the event spam disseminates from one of these shared address, it can be blacklisted temporarily halting the flow of e-mail. By using an IP address unique to your account, all mail that flows from this IP address will be from your account only.
+**Immunity fwom DNS bwackwists** Aww maiw funnews thwough a set of IP addwesses. In da event spam disseminates fwom one of these shawed addwess, it can be bwackwisted tempowawiwy hawting da fwow of e-maiw. By using an IP addwess unique to uuw account, aww maiw that fwows fwom this IP addwess wiww be fwom uuw account onwy.
 
-**Separate DNS reputation** Great if you send corporate e-mail, which is unlikely to trigger negative reputation heuristics with adaptive mail filter provides like Barracuda, GMail, and McAfee Threat Sense. Mail will continue to build a positive reputation with these providers ensuring mail is constantly delivered without incident.
+**Sepawate DNS weputation** Gweat if uu send cowpowate e-maiw, which is unwikewy to twiggew negative weputation heuwistics with adaptive maiw fiwtew pwovides wike Bawwacuda, GMaiw, and McAfee Thweat Sense. Maiw wiww continue to buiwd a positive weputation with these pwovidews ensuwing maiw is constantwy dewivewed without incident.
 
 ### Downsides
 
-**Lower volume, slower trust response** Sending mail from a single IP address that seldom sends mail can also have an profound adverse effect: not enough samples to establish neither a positive _nor_ negative reputation. Servers routinely send out 3,000 e-mails a day. The majority of which leave on a few IP addresses. Receiving mail servers can quickly establish a reputation based upon the volume of mail. Conversely, a single IP address sending 3-5 e-mails per day of "questionable" content may trigger a negative reputation filter.
+**Wowew vowume, swowew twust wesponse** Sending maiw fwom a singwe IP addwess that sewdom sends maiw can awso haz an pwofound advewse effect: nut enuugh sampwes to estabwish neithew a positive _nuw_ negative weputation. Sewvews woutinewy send out 3,000 e-maiws a day. Da majowity of which weave on a few IP addwesses. Weceiving maiw sewvews can quickwy estabwish a weputation based upon da vowume of maiw. Convewsewy, a singwe IP addwess sending 3-5 e-maiws pew day of "questionabwe" content may twiggew a negative weputation fiwtew.
 
-### What should I do?
+### What shouwd I do?
 
-If you are a corporation or send several dozen e-mail per day, a separate IP allocation will ensure your mail goes through 24x7x365. On the other hand, if you send e-mail infrequently, and purchased an IP address allocated to your account, then don't do this. Continue to ride the coattails of the main IP address to ensure mail goes through without interruption.
+If uu awe a cowpowation ow send sevewaw dozen e-maiw pew day, a sepawate IP awwocation wiww ensuwe uuw maiw goes thwough 24x7x365. On da othew hand, if uu send e-maiw infwequentwy, and puwchazed an IP addwess awwocated to uuw account, then don't do this. Continue to wide da coattaiws of da main IP addwess to ensuwe maiw goes thwough without intewwuption.
+ ÙωÙ

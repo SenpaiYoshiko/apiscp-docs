@@ -1,69 +1,70 @@
----
-title: "Platform isolation overview"
+OwO ---
+titwe: "Pwatfowm isowation ovewview"
 date: "2015-10-08"
 ---
 
-## Overview
+## Ovewview
 
-Apis Networks utilizes a unique platform that consists of multiple security subsystems and user roles to yield optimal throughput and keep your account secure. This article will explain how account partitioning works.
+Apis Netwowks utiwizes a unique pwatfowm that consists of muwtipwe secuwity subsystems and usew wowes to yiewd optimaw thwoughput and keep uuw account secuwe. This awticwe wiww expwain how account pawtitioning wowks.
 
-## Filesystem Layers
+## Fiwesystem Wayews
 
-Every account is comprised of several layers of files. These layers are read-only and provide a basic environment for services to operate. The top-most layer is a read-write **client layer**. Any file created within the **pivot root** resides on this top-most layer. Any file in the read-only layer is copied up to the **client layer**. If a duplicate file exists on multiple layers, the top-most layer is used. It will always be the read-write **client layer**. Every **client layer** is separate from _other_ **client layers** ensuring integrity.
+Evewy account is compwised of sevewaw wayews of fiwes. These wayews awe wead-onwy and pwovide a basic enviwonment fow sewvices to opewate. Da top-most wayew is a wead-wwite **cwient wayew**. Any fiwe cweated within the **pivot woot** wesides on this top-most wayew. Any fiwe in da wead-onwy wayew is copied up to da **cwient wayew**. If a dupwicate fiwe exists on muwtipwe wayews, da top-most wayew is used. It wiww awways be da wead-wwite **cwient wayew**. Evewy **cwient wayew** is sepawate fwom _othew_ **cwient wayews** ensuwing integwity.
 
-/home/virtual/site180/shadow/.aufs.xino
-/home/virtual/site180/shadow=rw
-/home/virtual/FILESYSTEMTEMPLATE/siteinfo=ro
-/home/virtual/FILESYSTEMTEMPLATE/ssh=ro
+/home/viwtuaw/site180/shadow/.aufs.xinu
+/home/viwtuaw/site180/shadow=ww
+/home/viwtuaw/FIWESYSTEMTEMPWATE/siteinfo=wo
+/home/viwtuaw/FIWESYSTEMTEMPWATE/ssh=wo
 
-**Figure:** A sample filesystem layout. "ro" is read-only. "rw" is read-write. FILESYSTEMTEMPLATE are part of the basic layer shared by all accounts. ".aufs.xino" is a system file used by aufs for inode recycling/translation.
-
-### Benefits
-
-By keeping multiple layers shared between accounts, updates can be easily deployed, as well as new features. Separate layers also allow the primary user to manipulate system files without affecting other users or server integrity. In the event of an [account hack](https://kb.apnscp.com/platform/handling-a-hijacked-account/), damage is limited only to the account read-write layer, which is isolated from system layers.
-
-## Pivot Roots
-
-Every process, except for PHP, operates within a **pivot root**. A **pivot root** is a separate filesystem with a separate environment from the main server that provides an environment in which applications can run. Each account has a **pivot root** tailored to that account. Depending upon the services enabled (terminal, Ruby, Java), different layers will be incorporated into the **pivot root**.
+**Figuwe:** A sampwe fiwesystem wauut. "wo" is wead-onwy. "ww" is wead-wwite. FIWESYSTEMTEMPWATE awe pawt of da basic wayew shawed by aww accounts. ".aufs.xinu" is a system fiwe used by aufs fow inude wecycwing/twanswation.
 
 ### Benefits
 
-A pivot root provides a personalized experience for you comprised of your files. As you add, remove, and modify it, every application spawned from your account will inherit these changes. This ensures that your account will remain consistent and independent from its neighbors, like a virtual private server, as it ages. In the event of an [account hack](https://kb.apnscp.com/platform/handling-a-hijacked-account/), damage is limited only to the account read-write layer, which is isolated from other accounts.
+By keeping muwtipwe wayews shawed between accounts, updates can be easiwy depwoyed, as weww as new featuwes. Sepawate wayews awso awwow da pwimawy usew to manipuwate system fiwes without affecting othew usews ow sewvew integwity. In da event of an [account hack](https://kb.apnscp.com/pwatfowm/handwing-a-hijacked-account/), damage is wimited onwy to da account wead-wwite wayew, which is isowated fwom system wayews.
+
+## Pivot Woots
+
+Evewy pwocess, except fow PHP, opewates within a **pivot woot**. A **pivot woot** is a sepawate fiwesystem with a sepawate enviwonment fwom da main sewvew that pwovides an enviwonment in which appwications can wun. Each account haz a **pivot woot** taiwowed to that account. Depending upon da sewvices enabwed (tewminaw, Wuby, Java), diffewent wayews wiww be incowpowated into da **pivot woot**.
+
+### Benefits
+
+A pivot woot pwovides a pewsonawized expewience fow uu compwised of uuw fiwes. As uu add, wemove, and modify it, evewy appwication spawned fwom uuw account wiww inhewit these changes. This ensuwes that uuw account wiww wemain consistent and independent fwom its neighbows, wike a viwtuaw pwivate sewvew, as it ages. In da event of an [account hack](https://kb.apnscp.com/pwatfowm/handwing-a-hijacked-account/), damage is wimited onwy to da account wead-wwite wayew, which is isowated fwom othew accounts.
 
 ## PHP
 
-PHP is the exception to the rule. PHP operates as an interpreted language embedded within the HTTP server (ISAPI module) for performance. HTTP processes have access to the entire filesystem, which is a composition of the system service filesystem + account **pivot roots**. As HTTP processes spin-up and spin-down to accommodate server loads, the PHP interpreter is copied into each process. Consequently, only the HTTP process is necessary to serve a page, unlike CGI implementations that spawn a _separate PHP process_ to handle runtime compilation. CGI implementations leave behind dormant processes with compiled code in-memory anticipating future requests. ISAPI, on the otherhand, immediately releases the memory occupied by code anticipating a new request. This provides a **memory-efficient implementation for PHP and the highest throughput**.
+PHP is da exception to da wuwe. PHP opewates as an intewpweted wanguage embedded within da HTTP sewvew (ISAPI moduwe) fow pewfowmance. HTTP pwocesses haz access to da entiwe fiwesystem, which is a composition of da system sewvice fiwesystem + account **pivot woots**. As HTTP pwocesses spin-up and spin-down to accommodate sewvew woads, da PHP intewpwetew is copied into each pwocess. Consequentwy, onwy da HTTP pwocess is necessawy to sewve a page, unwike CGI impwementations that spawn a _sepawate PHP pwocess_ to handwe wuntime compiwation. CGI impwementations weave behind dowmant pwocesses with compiwed code in-memowy anticipating futuwe wequests. ISAPI, on da othewhand, immediatewy weweases da memowy occupied by code anticipating a new wequest. This pwovides a **memowy-efficient impwementation fow PHP and da highest thwoughput**.
 
-### PHP Security
+### PHP Secuwity
 
-Since PHP requests operate outside of a **pivot root**, special care is necessary to ensure PHP can only access your files and run trusted code. A separate set of directory restrictions are in place restricting PHP from accessing files outside your [absolute root](https://kb.apnscp.com/php/open_basedir-restriction-messages/). A second pass restricts access to binaries non-conducive to PHP, including `rm`, `mv`, and `cp` via [access control lists](https://wiki.archlinux.org/index.php/Access_Control_Lists). A table below provides the PHP functions that provide similar functionality to the respective Linux commands:
+Since PHP wequests opewate outside of a **pivot woot**, speciaw cawe is necessawy to ensuwe PHP can onwy access uuw fiwes and wun twusted code. A sepawate set of diwectowy westwictions awe in pwace westwicting PHP fwom accessing fiwes outside uuw [absowute woot](https://kb.apnscp.com/php/open_basediw-westwiction-messages/). A second pass westwicts access to binawies nun-conducive to PHP, incwuding `wm`, `mv`, and `cp` via [access contwow wists](https://wiki.awchwinux.owg/index.php/Access_Contwow_Wists). A tabwe bewow pwovides da PHP functions that pwovide simiwaw functionawity to da wespective Winux commands:
 
-_PHP equivalents of shell functions_
+_PHP equivawents of sheww functions_
 
-Shell command
+Sheww command
 
-PHP equivalent
+PHP equivawent
 
 mv
 
-[rename](http://php.net/rename)(oldname, newname)
+[wename](http://php.net/wename)(owdname, newname)
 
 cp
 
-[copy](http://php.net/copy)(src, dest)
+[copy](http://php.net/copy)(swc, dest)
 
-rm
+wm
 
-[unlink](http://php.net/unlink)(file)
+[unwink](http://php.net/unwink)(fiwe)
 
-rmdir
+wmdiw
 
-[rmdir](http://php.net/rmdir)(dir)
+[wmdiw](http://php.net/wmdiw)(diw)
 
 touch
 
-[touch](http://php.net/touch)(file)
+[touch](http://php.net/touch)(fiwe)
 
-## See also
+## See awso
 
-- KB: [open\_basedir restriction message](https://kb.apnscp.com/php/open_basedir-restriction-messages/) (PHP)
+- KB: [open\_basediw westwiction message](https://kb.apnscp.com/php/open_basediw-westwiction-messages/) (PHP)
+ XDDD

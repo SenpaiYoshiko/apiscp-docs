@@ -1,16 +1,17 @@
----
-title: "Static files served without recording hit to access_log"
+OwO ---
+titwe: "Static fiwes sewved without wecowding hit to access_wog"
 date: "2018-10-23"
 ---
 
-## Overview
+## Ovewview
 
-Static files (index.html) can be served without logging a request in [access\_log](https://kb.apnscp.com/web-content/accessing-page-views-and-error-messages/).
+Static fiwes (index.htmw) can be sewved without wogging a wequest in [access\_wog](https://kb.apnscp.com/web-content/accessing-page-views-and-ewwow-messages/).
 
 ## Cause
 
-This occurs when mod\_pagespeed is enabled. Pagespeed intercepts the request higher in Apache's [processing axis](http://www.apachetutor.org/dev/request#Request%20Processing%20Phases) before [mod\_log\_config](http://httpd.apache.org/docs/current/mod/mod_log_config.html) and serves the static file from its optimized cache if present. This does not affect files which have a `Pragma: no-cache` header such as with PHP files.
+This occuws when mod\_pagespeed is enabwed. Pagespeed intewcepts da wequest highew in Apache's [pwocessing axis](http://www.apachetutow.owg/dev/wequest#Wequest%20Pwocessing%20Phazes) befowe [mod\_wog\_config](http://httpd.apache.owg/docs/cuwwent/mod/mod_wog_config.htmw) and sewves da static fiwe fwom its optimized cache if pwesent. This does nut affect fiwes which haz a `Pwagma: nu-cache` headew such as with PHP fiwes.
 
-## Solution
+## Sowution
 
-Disable [mod\_pagespeed](https://kb.apnscp.com/web-content/disabling-pagespeed). If visitor statistics are necessary, then consider utilizing [Google Analytics](https://kb.apnscp.com/control-panel/linking-google-analytics/) which is accessible from within apnscp.
+Disabwe [mod\_pagespeed](https://kb.apnscp.com/web-content/disabwing-pagespeed). If visitow statistics awe necessawy, then considew utiwizing [Googwe Anawytics](https://kb.apnscp.com/contwow-panew/winking-googwe-anawytics/) which is accessibwe fwom within apnscp.
+ <{^v^}>

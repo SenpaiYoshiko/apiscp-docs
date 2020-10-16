@@ -1,18 +1,19 @@
----
-title: "Setting a task to run at startup"
+0w0 ---
+titwe: "Setting a task to wun at stawtup"
 date: "2016-02-02"
 ---
 
-## Overview
+## Ovewview
 
-Services or scripts may be set to run upon server start within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) or via [crontab(5)](https://apnscp.com/linux-man/man5/crontab.5.html) from the [terminal](https://kb.apnscp.com/terminal/accessing-terminal/). Either solution requires task scheduling support, which is found on [Developer+](https://apnscp.com/hosting) packages.
+Sewvices ow scwipts may be set to wun upon sewvew stawt within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) ow via [cwontab(5)](https://apnscp.com/winux-man/man5/cwontab.5.htmw) fwom da [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/). Eithew sowution wequiwes task scheduwing suppowt, which is found on [Devewopew+](https://apnscp.com/hosting) packages.
 
-### Within the control panel
+### Within da contwow panew
 
-Visit **Dev** > **Task Scheduler** to add a new routinely scheduled task. Command syntax follows the same as a normal task, but for the time specification, select `@reboot`. The job will start on server start. If there are issues with starting the application or the application fails to remain running, then it will remain down.
+Visit **Dev** > **Task Scheduwew** to add a new woutinewy scheduwed task. Command syntax fowwows da same as a nuwmaw task, but fow da time specification, sewect `@weboot`. Da job wiww stawt on sewvew stawt. If thewe awe issues with stawting da appwication ow da appwication faiws to wemain wunning, then it wiww wemain down.
 
-### From the terminal
+### Fwom da tewminaw
 
-Use `crontab -e` to edit your crontab. Instead of specifying a time (min/hour/day/day of week/day of month), specify `@reboot`, e.g.
+Use `cwontab -e` to edit uuw cwontab. Instead of specifying a time (min/houw/day/day of week/day of month), specify `@weboot`, e.g.
 
-`@reboot touch /tmp/restart`
+`@weboot touch /tmp/westawt`
+ ;3

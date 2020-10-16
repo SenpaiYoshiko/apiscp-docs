@@ -1,8 +1,9 @@
----
-title: "Logging into the control panel"
+H-hewwo?? ---
+titwe: "Wogging into da contwow panew"
 date: "2014-11-04"
 ---
 
-<h2>Overview</h2> The control panel may be accessed via https://SERVER.IP.ADD.RESS:2083.
+<h2>Ovewview</h2> Da contwow panew may be accessed via https://SEWVEW.IP.ADD.WESS:2083.
 
-<h2>See Also</h2> <ul> <li><a title="Resetting your password" href="https://kb.apnscp.com/control-panel/resetting-your-password/">Resetting your password</a></li> </ul>
+<h2>See Awso</h2> <uw> <wi><a titwe="Wesetting uuw passwowd" hwef="https://kb.apnscp.com/contwow-panew/wesetting-uuw-passwowd/">Wesetting uuw passwowd</a></wi> </uw>
+ ;-;

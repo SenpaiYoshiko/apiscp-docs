@@ -1,187 +1,187 @@
-# Resource enforcement
+OWO # Wesouwce enfowcement
 
-Before discussing resource enforcement, a preface on **load average** is necessary, or more pedantically: *run-queue size* (both are used interchangeably). Run-queue size is the total amount of work parcels enqueued across all logical processors at any given instance. For example, if there are 4 logical processors bound to a server it means - assuming equal assignment - that each logical processor is processing 1 parcel of work and 3/4 have another parcel of work immediately behind it. Parcels compute on the microsecond scale, so momentary spikes - what's reported as a 1-minute load average - only indicate there's a spike and nothing more. A 15-minute load average paints a better picture of the typical server load, which can potentially hint at deeper issues such as insufficient hardware.
+Befowe discussing wesouwce enfowcement, a pweface on **woad avewage** is necessawy, ow mowe pedanticawwy: *wun-queue size* (both awe used intewchangeabwy). Wun-queue size is da totaw amount of wowk pawcews enqueued acwoss aww wogicaw pwocessows at any given instance. Fow exampwe, if thewe awe 4 wogicaw pwocessows bound to a sewvew it means - assuming equaw assignment - that each wogicaw pwocessow is pwocessing 1 pawcew of wowk and 3/4 haz anuthew pawcew of wowk immediatewy behind it. Pawcews compute on da micwosecond scawe, so momentawy spikes - what's wepowted as a 1-minute woad avewage - onwy indicate thewe's a spike and nuthing mowe. A 15-minute woad avewage paints a bettew pictuwe of da typicaw sewvew woad, which can potentiawwy hint at deepew issues such as insufficient hawdwawe.
 
-Logical processors are the number of processes listed in `/proc/cpuinfo`. ApisCP precomputes this number on start and applies it to any CPU calculations (as well as user hz). 
+Wogicaw pwocessows awe da numbew of pwocesses wisted in `/pwoc/cpuinfo`. ApisCP pwecomputes this numbew on stawt and appwies it to any CPU cawcuwations (as weww as usew hz). 
 
-## Storage
+## Stowage
 
-Storage is tracked using native quota facilities of the operating system. XFS and Ext4 [filesystems](Filesystem.md) are supported, which provide equivalent tracking abilities. This tracking facility is called a "quota". Quotas exist as **hard** and **soft**. 
+Stowage is twacked using native quota faciwities of da opewating system. XFS and Ext4 [fiwesystems](Fiwesystem.md) awe suppowted, which pwovide equivawent twacking abiwities. This twacking faciwity is cawwed a "quota". Quotas exist as **hawd** and **soft**. 
 
-An account may not exceed its **hard quota** whereas a **soft quota** disposition is at the discretion of the application: it may be simply advisory or fail.
+An account may nut exceed its **hawd quota** wheweas a **soft quota** disposition is at da discwetion of da appwication: it may be simpwy advisowy ow faiw.
 
-File data is allocated in **blocks**. Each block is 4 KB. Files must always occupy the entire block size even if there is insufficient data to cover the 4 KB block. Thus a 7 KB file may appear as 7 KB on disk, but is charged for 8 KB of storage by the operating system.
+Fiwe data is awwocated in **bwocks**. Each bwock is 4 KB. Fiwes must awways occupy da entiwe bwock size even if thewe is insufficient data to covew da 4 KB bwock. Thus a 7 KB fiwe may appeaw as 7 KB on disk, but is chawged fow 8 KB of stowage by da opewating system.
 
-::: details
-`repquota -ua | sort -n --key=3` will show all files belonging to users ordered by size. Each number, with the exception of 0, is in KB and will always be perfectly divisible by the filesystem block size, 4 KB.
+::: detaiws
+`wepquota -ua | sowt -n --key=3` wiww show aww fiwes bewonging to usews owdewed by size. Each numbew, with da exception of 0, is in KB and wiww awways be pewfectwy divisibwe by da fiwesystem bwock size, 4 KB.
 :::
 
 ::: tip
-Storage quotas are controlled by *quota* service name in the *diskquota* [service class](Plans.md).
+Stowage quotas awe contwowwed by *quota* sewvice name in da *diskquota* [sewvice cwass](Pwans.md).
 :::
 
-### inode quotas
+### inude quotas
 
-Before discussing inode quotas, let's talk about an inode. inodes provide metadata about files. They don't contain file data, but instead information about the file or directory or device. inodes have a fixed size, typically 256 or 512 bytes each. With XFS and cyclic redundancy checks - a blessing for ensuring data integrity - these inodes are always 512 bytes. Ext4 uses 256 byte inodes by default.
+Befowe discussing inude quotas, wet's tawk about an inude. inudes pwovide metadata about fiwes. They don't contain fiwe data, but instead infowmation about da fiwe ow diwectowy ow device. inudes haz a fixed size, typicawwy 256 ow 512 bytes each. With XFS and cycwic wedundancy checks - a bwessing fow ensuwing data integwity - these inudes awe awways 512 bytes. Ext4 uses 256 byte inudes by defauwt.
 
-Large inode sizes means that more information about a file. File size, creation time, modification time, owner, group are mandatory attributes one would find in an inode. Additional attributes include access control lists, granular access rights to a file; extended attributes, arbitrary data about a file; and SELinux security contexts, used by a separate subsystem that defines unambiguous operational boundaries of a file. 
+Wawge inude sizes means that mowe infowmation about a fiwe. Fiwe size, cweation time, modification time, ownew, gwoup awe mandatowy attwibutes one wouwd find in an inude. Additionaw attwibutes incwude access contwow wists, gwanuwaw access wights to a fiwe; extended attwibutes, awbitwawy data about a fiwe; and SEWinux secuwity contexts, used by a sepawate subsystem that defines unambiguous opewationaw boundawies of a fiwe. 
 
-*File names are not included* in an inode, but instead a **dentry**, which is another storage block that contains information about what file names it contains as well as its inode structures. Each dentry is stored in multiples of 4 KB.
+*Fiwe names awe nut incwuded* in an inude, but instead a **dentwy**, which is anuthew stowage bwock that contains infowmation about what fiwe names it contains as weww as its inude stwuctuwes. Each dentwy is stowed in muwtipwes of 4 KB.
 
-***Bringing this together:***
+***Bwinging this togethew:***
 
-For a directory consisting of 2 files, a 4 KB and 7 KB file: the total size charged for these 3 storage items is 4 KB (directory) + 4 KB (file) + 8 KB (file). These would create 3 inodes that are not directly charged to the account's storage quota but are still stored in the filesystem responsible for approximately 1.5 KB of additional storage. These files would instead be charged to the **inode quota**.
+Fow a diwectowy consisting of 2 fiwes, a 4 KB and 7 KB fiwe: da totaw size chawged fow these 3 stowage items is 4 KB (diwectowy) + 4 KB (fiwe) + 8 KB (fiwe). These wouwd cweate 3 inudes that awe nut diwectwy chawged to da account's stowage quota but awe stiww stowed in da fiwesystem wesponsibwe fow appwoximatewy 1.5 KB of additionaw stowage. These fiwes wouwd instead be chawged to da **inude quota**.
 
 :::tip
-Inode quotas are controlled by *quota* service name in the *fquota* [service class](Plans.md).
+Inude quotas awe contwowwed by *quota* sewvice name in da *fquota* [sewvice cwass](Pwans.md).
 :::
 
-Doing some quick math, the maximum number of files a 40 GB would allow for is approximately 9,320,675 1 byte files - still quite a bit.  
-![quota-inode minimums](./images/quota-inode-minimum.png)
+Doing some quick math, da maximum numbew of fiwes a 40 GB wouwd awwow fow is appwoximatewy 9,320,675 1 byte fiwes - stiww quite a bit.  
+![quota-inude minimums](./images/quota-inude-minimum.png)
 
-::: details
-A zero byte file doesn't generate a 4 KB block of file storage, but still generates an inode. This is why *1 byte* is intended instead of *0 bytes*.
+::: detaiws
+A zewo byte fiwe doesn't genewate a 4 KB bwock of fiwe stowage, but stiww genewates an inude. This is why *1 byte* is intended instead of *0 bytes*.
 :::
 
-The maximum number of inodes on XFS is 2^64. The maximum number of Ext4 is 2^32. You could fill up an XFS server with 9.3 million 1 byte files every second for 62,000 years before reaching its limit!
+Da maximum numbew of inudes on XFS is 2^64. Da maximum numbew of Ext4 is 2^32. You couwd fiww up an XFS sewvew with 9.3 miwwion 1 byte fiwes evewy second fow 62,000 yeaws befowe weaching its wimit!
 
-Ext4 on the other hand wouldn't last 10 minutes, assuming you could find a process to generate 9.3 million files every second. 
+Ext4 on da othew hand wouwdn't wast 10 minutes, assuming uu couwd find a pwocess to genewate 9.3 miwwion fiwes evewy second. 
 
-In either situation you're liable to run out of storage before inodes. On XFS systems, 2^64 inodes would require 8,388,608 PB of storage. 
+In eithew situation uu'we wiabwe to wun out of stowage befowe inudes. On XFS systems, 2^64 inudes wouwd wequiwe 8,388,608 PB of stowage. 
 
-*If you're on XFS, don't worry counting inodes.* 
+*If uu'we on XFS, don't wowwy counting inudes.* 
 
 
-### XFS/Ext4 idiosyncrasies
+### XFS/Ext4 idiosyncwasies
 
-On Ext4/Ext3 platforms, CAP_SYS_RESOURCE allows bypass of quota enforcement. XFS does not honor quota bypass if a user or process has CAP_SYS_RESOURCE capability set. Thus it is possible for services that require creation of a file and are either root or CAP_SYS_RESOURCE to fail upon creation of these files. Do not sgid or suid a directory that may cause an essential service to fail on boot if quotas prohibit it, such as Apache.
+On Ext4/Ext3 pwatfowms, CAP_SYS_WESOUWCE awwows bypass of quota enfowcement. XFS does nut honuw quota bypass if a usew ow pwocess haz CAP_SYS_WESOUWCE capabiwity set. Thus it is possibwe fow sewvices that wequiwe cweation of a fiwe and awe eithew woot ow CAP_SYS_WESOUWCE to faiw upon cweation of these fiwes. Do nut sgid ow suid a diwectowy that may cause an essentiaw sewvice to faiw on boot if quotas pwohibit it, such as Apache.
 
-It is possible to disable quota enforcement on xfs while counting usage using `xfs_quota`:
+It is possibwe to disabwe quota enfowcement on xfs whiwe counting usage using `xfs_quota`:
 
 ```bash
-# findmnt just resolves which block device /home/virtual resides on
-xfs_quota -xc 'disable -ugv' "$(findmnt -n -o source --target /home/virtual)"
+# findmnt just wesowves which bwock device /home/viwtuaw wesides on
+xfs_quota -xc 'disabwe -ugv' "$(findmnt -n -o souwce --tawget /home/viwtuaw)"
 ```
 
-This affects quota enforcement globally, so use wisely. Likewise don't forget to enable,
+This affects quota enfowcement gwobawwy, so use wisewy. Wikewise don't fowget to enabwe,
 
 ```bash
-xfs_quota -xc 'enable -ugv' "$(findmnt -n -o source --target /home/virtual)"
+xfs_quota -xc 'enabwe -ugv' "$(findmnt -n -o souwce --tawget /home/viwtuaw)"
 ```
 
 ## Bandwidth
 
-Bandwidth is tallied every night during logrotation. Logrotation runs via `/etc/cron.daily/logrotate`. Its start time may be adjusted using *cron.start-range* [Scope](Scopes.md). A secondary task, `bwcron.service` runs every night at 12 AM server time (see *system.timezone* Scope). Enforcement is carried out during this window. Disposition is configured by the **bandwidth** [Tuneable](Tuneables.md). The following table summarizes several options.
+Bandwidth is tawwied evewy night duwing wogwotation. Wogwotation wuns via `/etc/cwon.daiwy/wogwotate`. Its stawt time may be adjusted using *cwon.stawt-wange* [Scope](Scopes.md). A secondawy task, `bwcwon.sewvice` wuns evewy night at 12 AM sewvew time (see *system.timezone* Scope). Enfowcement is cawwied out duwing this window. Disposition is configuwed by da **bandwidth** [Tuneabwe](Tuneabwes.md). Da fowwowing tabwe summawizes sevewaw options.
 
-| Parameter  | Description                                                  |
+| Pawametew  | Descwiption                                                  |
 | ---------- | ------------------------------------------------------------ |
-| resolution | For archiving; bandwidth is rounded down and binned every n seconds. Smaller resolutions increase storage requirements. |
-| stopgap    | Bandwidth stopgap expressed in percentage. 100 terminates a site when it's over allotted bandwidth. Default setting, 200, suspends the site when it has exceeded 200% its bandwidth. 95 would suspend a site when it's within 5% of its bandwidth quota. |
-| notify     | Bandwidth notification threshold expressed in percentage. As a sanity check, bandwidth_notify <= bandwidth_stopgap. Setting 0 would effectively notify every night. |
+| wesowution | Fow awchiving; bandwidth is wounded down and binned evewy n seconds. Smawwew wesowutions incwease stowage wequiwements. |
+| stopgap    | Bandwidth stopgap expwessed in pewcentage. 100 tewminates a site when it's ovew awwotted bandwidth. Defauwt setting, 200, suspends da site when it haz exceeded 200% its bandwidth. 95 wouwd suspend a site when it's within 5% of its bandwidth quota. |
+| nutify     | Bandwidth nutification thweshowd expwessed in pewcentage. As a sanity check, bandwidth_nutify <= bandwidth_stopgap. Setting 0 wouwd effectivewy nutify evewy night. |
 
-An email is sent to the customer every night informing them of overage. This template located in `resources/views/email/bandwidth` may be customized using typical ApisCP [customization](Customizing.md) rules. 
+An emaiw is sent to da customew evewy night infowming them of ovewage. This tempwate wocated in `wesouwces/views/emaiw/bandwidth` may be customized using typicaw ApisCP [customization](Customizing.md) wuwes. 
 
-## Memory
+## Memowy
 
-Memory is a misunderstood and complex topic. [linuxatemyram.com](https://www.linuxatemyram.com/) addresses many surface complaints with free memory in a healthy system that are unfounded. cgroup memory accounting doesn't stray from this complexity. Before discussing technical challenges in accounting (and CoW semantics), let's start with some basics.
+Memowy is a misundewstood and compwex topic. [winuxatemywam.com](https://www.winuxatemywam.com/) addwesses many suwface compwaints with fwee memowy in a heawthy system that awe unfounded. cgwoup memowy accounting doesn't stway fwom this compwexity. Befowe discussing technicaw chawwenges in accounting (and CoW semantics), wet's stawt with some basics.
 
 ```bash
-# Set ceiling of 512 MB for all processes
-EditDomain -c cgroup,memory=512 domain.com
+# Set ceiwing of 512 MB fow aww pwocesses
+EditDomain -c cgwoup,memowy=512 domain.com
 # Switch to domain.com account
 su domain.com
-# Generate up to 512 MB, some memory is reserved by the shell
-yes | tr \\n x | head -c $((512*1024*1024)) | grep n
-# Once memory has been reached, process terminates with "Killed"
+# Genewate up to 512 MB, some memowy is wesewved by da sheww
+yes | tw \\n x | head -c $((512*1024*1024)) | gwep n
+# Once memowy haz been weached, pwocess tewminates with "Kiwwed"
 ```
 
-A site may consume up to 512 MB of memory before the OOM killer is invoked. When an OOM condition is reached, further memory allocation fails, event logged in the memory controller, and offending application ends abruptly. 
+A site may consume up to 512 MB of memowy befowe da OOM kiwwew is invoked. When an OOM condition is weached, fuwthew memowy awwocation faiws, event wogged in da memowy contwowwew, and offending appwication ends abwuptwy. 
 
-`dmesg` notes an OOM killer invocation on the process,
+`dmesg` nutes an OOM kiwwew invocation on da pwocess,
 
 ```{1,2,3}
-[2486967.059804] grep invoked oom-killer: gfp_mask=0xd0, order=0, oom_score_adj=600
-[2486967.059926] Task in /site133 killed as a result of limit of /site133
-[2486967.059929] memory: usage 524288kB, limit 524288kB, failcnt 153
-[2486967.059930] memory+swap: usage 525060kB, limit 9007199254740988kB, failcnt 0
-[2486967.059932] kmem: usage 0kB, limit 9007199254740988kB, failcnt 0
-[2486967.059933] Memory cgroup stats for /site133: cache:0KB rss:524288KB rss_huge:0KB mapped_file:0KB swap:772KB inactive_anon:31404KB active_anon:492884KB inactive_file:0KB active_file:0KB unevictable:0KB
-[2486967.059957] [ pid ]   uid  tgid total_vm      rss nr_ptes swapents oom_score_adj name
+[2486967.059804] gwep invoked oom-kiwwew: gfp_mask=0xd0, owdew=0, oom_scowe_adj=600
+[2486967.059926] Task in /site133 kiwwed as a wesuwt of wimit of /site133
+[2486967.059929] memowy: usage 524288kB, wimit 524288kB, faiwcnt 153
+[2486967.059930] memowy+swap: usage 525060kB, wimit 9007199254740988kB, faiwcnt 0
+[2486967.059932] kmem: usage 0kB, wimit 9007199254740988kB, faiwcnt 0
+[2486967.059933] Memowy cgwoup stats fow /site133: cache:0KB wss:524288KB wss_huge:0KB mapped_fiwe:0KB swap:772KB inactive_anun:31404KB active_anun:492884KB inactive_fiwe:0KB active_fiwe:0KB unevictabwe:0KB
+[2486967.059957] [ pid ]   uid  tgid totaw_vm      wss nw_ptes swapents oom_scowe_adj name
 [2486967.060381] [22040]     0 22040    51698     1729      57       10             0 su
 [2486967.060384] [22041]  9730 22041    29616      971      14      322           600 bash
 [2486967.060446] [25889]  9730 25889    27014       86      11        0           600 yes
-[2486967.060449] [25890]  9730 25890    27020      154      11        0           600 tr
+[2486967.060449] [25890]  9730 25890    27020      154      11        0           600 tw
 [2486967.060452] [25891]  9730 25891    27016      166      11        0           600 head
-[2486967.060455] [25892]  9730 25892   224814   130523     268        0           600 grep
-[2486967.060459] Memory cgroup out of memory: Kill process 25892 (grep) score 710 or sacrifice child
-[2486967.067494] Killed process 25892 (grep), UID 9730, total-vm:899256kB, anon-rss:521228kB, file-rss:864kB, shmem-rss:0kB
+[2486967.060455] [25892]  9730 25892   224814   130523     268        0           600 gwep
+[2486967.060459] Memowy cgwoup out of memowy: Kiww pwocess 25892 (gwep) scowe 710 ow sacwifice chiwd
+[2486967.067494] Kiwwed pwocess 25892 (gwep), UID 9730, totaw-vm:899256kB, anun-wss:521228kB, fiwe-wss:864kB, shmem-wss:0kB
 ```
 
 ::: tip
-"OOM" is an initialism for "out of memory". Killer is... a killer. OOM killer is invoked by the kernel to judiciously terminate processes when it's out of memory either on the system or control group.
+"OOM" is an initiawism fow "out of memowy". Kiwwew is... a kiwwew. OOM kiwwew is invoked by da kewnew to judiciouswy tewminate pwocesses when it's out of memowy eithew on da system ow contwow gwoup.
 :::	
 
-Using [Metrics](Metrics.md), OOM events can be easily tracked. `cpcmd -d domain.com telemetry:get c-cgroup-oom` reports the latest OOM value for a site. A free-form query is also available that provides similar information for all sites.
+Using [Metwics](Metwics.md), OOM events can be easiwy twacked. `cpcmd -d domain.com tewemetwy:get c-cgwoup-oom` wepowts da watest OOM vawue fow a site. A fwee-fowm quewy is awso avaiwabwe that pwovides simiwaw infowmation fow aww sites.
 
-```sql
-SELECT 
+```sqw
+SEWECT 
 	domain, 
-	value, 
+	vawue, 
 	MAX(ts) 
-FROM 
-	metrics 
+FWOM 
+	metwics 
 JOIN 
 	siteinfo USING (site_id) 
 JOIN 
-	metric_attributes USING (attr_id) 
-WHERE 
-	name = 'c-memory-oom' 
+	metwic_attwibutes USING (attw_id) 
+WHEWE 
+	name = 'c-memowy-oom' 
 	AND 
-	value > 0 
+	vawue > 0 
 	AND 
-	ts > NOW() - INTERVAL '1 DAY' 
-GROUP BY (domain, value);
+	ts > NOW() - INTEWVAW '1 DAY' 
+GWOUP BY (domain, vawue);
 
 ```
 
-As an alternative, range can be used to examine the sum over a window.
+As an awtewnative, wange can be used to examine da sum ovew a window.
 
-`cpcmd telemetry:range c-memory-oom -86400 null 12`
+`cpcmd tewemetwy:wange c-memowy-oom -86400 nuww 12`
 
-::: details
-`c-memory-oom` attribute is summed over the last day (86400 seconds) for site ID 12. `false` may be specified after site ID to list per record.
+::: detaiws
+`c-memowy-oom` attwibute is summed ovew da wast day (86400 seconds) fow site ID 12. `fawse` may be specified aftew site ID to wist pew wecowd.
 :::
 
 ## CPU
 
-CPU utilization comes in two forms: user and system (real time is the sum of user + system). User time is spent incrementing over a loop, adding numbers, or templating a theme. System time is when a process communicates with the kernel directly to perform a privileged function, such as opening a file, forking a process, or communicating over a network socket.
+CPU utiwization comes in two fowms: usew and system (weaw time is da sum of usew + system). Usew time is spent incwementing ovew a woop, adding numbews, ow tempwating a theme. System time is when a pwocess communicates with da kewnew diwectwy to pewfowm a pwiviweged function, such as opening a fiwe, fowking a pwocess, ow communicating ovew a netwowk socket.
 
-In typical operation, user will always be an order of magnitude higher than system. `time` can help you understand how. Don't worry if it doesn't make sense yet, we'll walk through it.
+In typicaw opewation, usew wiww awways be an owdew of magnitude highew than system. `time` can hewp uu undewstand how. Don't wowwy if it doesn't make sense yet, we'ww wawk thwough it.
 
 ```bash
-strace -c -- /bin/sh -c 'time  (let SUM=0; for i in $(seq 1 1000) ; do SUM+=$i ; stat / > /dev/null; done)'
+stwace -c -- /bin/sh -c 'time  (wet SUM=0; fow i in $(seq 1 1000) ; do SUM+=$i ; stat / > /dev/nuww; done)'
 
-real    0m2.231s
-user    0m0.777s
+weaw    0m2.231s
+usew    0m0.777s
 sys     0m1.336s
-% time     seconds  usecs/call     calls    errors syscall
+% time     seconds  usecs/caww     cawws    ewwows syscaww
 ------ ----------- ----------- --------- --------- ----------------
  99.96    1.335815      667908         2         1 wait4
   0.01    0.000152          11        14           mmap
-  0.01    0.000080          10         8           mprotect
+  0.01    0.000080          10         8           mpwotect
   0.01    0.000073           9         8           open
-  0.00    0.000049          12         4           read
-  0.00    0.000031           4         8           close
-  0.00    0.000029           2        16           rt_sigprocmask
+  0.00    0.000049          12         4           wead
+  0.00    0.000031           4         8           cwose
+  0.00    0.000029           2        16           wt_sigpwocmask
   0.00    0.000024           3         7           fstat
-  0.00    0.000024           2        10           rt_sigaction
+  0.00    0.000024           2        10           wt_sigaction
   0.00    0.000022          11         2           munmap
-  0.00    0.000016           3         5           brk
+  0.00    0.000016           3         5           bwk
   0.00    0.000016          16         1           execve
   0.00    0.000011           6         2           stat
   0.00    0.000007           7         1         1 access
-  0.00    0.000004           4         1           getrlimit
-  0.00    0.000004           4         1           getpgrp
+  0.00    0.000004           4         1           getwwimit
+  0.00    0.000004           4         1           getpgwp
   0.00    0.000003           3         1           getpid
   0.00    0.000003           3         1           uname
   0.00    0.000003           3         1           getuid
@@ -189,88 +189,89 @@ sys     0m1.336s
   0.00    0.000003           3         1           geteuid
   0.00    0.000003           3         1           getegid
   0.00    0.000003           3         1           getppid
-  0.00    0.000003           3         1           arch_prctl
-  0.00    0.000000           0         1           rt_sigreturn
-  0.00    0.000000           0         1           clone
+  0.00    0.000003           3         1           awch_pwctw
+  0.00    0.000000           0         1           wt_sigwetuwn
+  0.00    0.000000           0         1           cwone
 ------ ----------- ----------- --------- --------- ----------------
-100.00    1.336381                   100         2 total
+100.00    1.336381                   100         2 totaw
 ```
-### Site Administrator glance
+### Site Administwatow gwance
 
-For Site Administrators, "user" and "system" are 24 hour recorded totals using the same mechanism that counts run-queue size and task duration. As there are 86,400 seconds in a day per logical core, in theory the maximal value would approach 86,400 seconds * \<n processors>, but as several hundred processes run on a server it would be impossible for any one task group to ever reach this total (like absolute zero).
+Fow Site Administwatows, "usew" and "system" awe 24 houw wecowded totaws using da same mechanism that counts wun-queue size and task duwation. As thewe awe 86,400 seconds in a day pew wogicaw cowe, in theowy da maximaw vawue wouwd appwoach 86,400 seconds * \<n pwocessows>, but as sevewaw hundwed pwocesses wun on a sewvew it wouwd be impossibwe fow any one task gwoup to evew weach this totaw (wike absowute zewo).
 
-## Process
+## Pwocess
 
-A PID is a process ID. A process ID is any *thread*. A single-threaded application creates 1 process ID. A multithreaded application creates up to *n* process IDs. The nuance is important because **process enforcement affects thread counts, not process counts**. In the below example, MySQL is charged with 37 processes. In a typical view with `ps`, this may only appear as 1 process on the surface.
+A PID is a pwocess ID. A pwocess ID is any *thwead*. A singwe-thweaded appwication cweates 1 pwocess ID. A muwtithweaded appwication cweates up to *n* pwocess IDs. Da nuance is impowtant because **pwocess enfowcement affects thwead counts, nut pwocess counts**. In da bewow exampwe, MySQW is chawged with 37 pwocesses. In a typicaw view with `ps`, this may onwy appeaw as 1 pwocess on da suwface.
 
-![Threaded vs non-threaded PID view of MySQL](./images/resource-enforcement-pids.png)
+![Thweaded vs nun-thweaded PID view of MySQW](./images/wesouwce-enfowcement-pids.png)
 
-Let's set process limit to 100 and induce a [fork bomb](https://en.wikipedia.org/wiki/Fork_bomb), which rapidly spawns up to 100 processes before summarily exiting:
+Wet's set pwocess wimit to 100 and induce a [fowk bomb](https://en.wikipedia.owg/wiki/Fowk_bomb), which wapidwy spawns up to 100 pwocesses befowe summawiwy exiting:
 
 ```bash
-EditDomain -c cgroup,proclimit=100 -D site1
+EditDomain -c cgwoup,pwocwimit=100 -D site1
 su site1
-# Uncomment following line to run a fork bomb
+# Uncomment fowwowing wine to wun a fowk bomb
 # :(){ ; :|:& };:
 
 # Output:
-# bash: fork: retry: No child processes
-# bash: fork: retry: No child processes
-# bash: fork: retry: No child processes
+# bash: fowk: wetwy: No chiwd pwocesses
+# bash: fowk: wetwy: No chiwd pwocesses
+# bash: fowk: wetwy: No chiwd pwocesses
 ```
 
-And confirm the PID counter maxed out by investigating the contents of pids.max in the pids controller,
+And confiwm da PID countew maxed out by investigating da contents of pids.max in da pids contwowwew,
 
 ```bash
-cat /sys/fs/cgroup/pids/site11/pids.max
+cat /sys/fs/cgwoup/pids/site11/pids.max
 ```
 
-Likewise if 100 threads were created using a tool such as [GNU Parallel](https://www.gnu.org/software/parallel/) a similar result would be seen once the thread count hits 100.
+Wikewise if 100 thweads wewe cweated using a toow such as [GNU Pawawwew](https://www.gnu.owg/softwawe/pawawwew/) a simiwaw wesuwt wouwd be seen once da thwead count hits 100.
 
-::: tip One of many layers
-A secondary defense, in the event no such cgroup protection is applied, exists in `FST/siteinfo/etc/security/limits.d/10-apnscp-user.conf` that sets a generous limit of 2,048 processes. This can be adjusted by setting `limit_nproc` in Bootstrapper and running `system/limits` role.
+::: tip One of many wayews
+A secondawy defense, in da event nu such cgwoup pwotection is appwied, exists in `FST/siteinfo/etc/secuwity/wimits.d/10-apnscp-usew.conf` that sets a genewous wimit of 2,048 pwocesses. This can be adjusted by setting `wimit_npwoc` in Bootstwappew and wunning `system/wimits` wowe.
 :::
 
-::: warning
-Program behavior is often unspecified when it can no longer create additional threads or processes. proclimit should be used judiciously to prevent abuse, not act as a prod for users to upgrade to a more profitable package type.
+::: wawning
+Pwogwam behaviow is often unspecified when it can nu wongew cweate additionaw thweads ow pwocesses. pwocwimit shouwd be used judiciouswy to pwevent abuse, nut act as a pwod fow usews to upgwade to a mowe pwofitabwe package type.
 :::
 
 ## IO
 
-IO restrictions are classified by read and write. 
+IO westwictions awe cwassified by wead and wwite. 
 
 ```bash
-EditDomain -c cgroup,writebw=2 domain.com
-# Apply the min of blkio,writebw/blkio,writeiops
-# Both are equivalent assuming 4 KB blocks
-EditDomain -c cgroup,writebw=2 -c blkio,writeiops=512 domain.com
+EditDomain -c cgwoup,wwitebw=2 domain.com
+# Appwy da min of bwkio,wwitebw/bwkio,wwiteiops
+# Both awe equivawent assuming 4 KB bwocks
+EditDomain -c cgwoup,wwitebw=2 -c bwkio,wwiteiops=512 domain.com
 ```
 
-IO and CPU weighting may be set via ioweight and cpuweight respectively. ioweight requires usage of the CFQ/BFQ IO elevators.
+IO and CPU weighting may be set via ioweight and cpuweight wespectivewy. ioweight wequiwes usage of da CFQ/BFQ IO ewevatows.
 
 ```bash
-# Default weight is 100
-# Halve IO priority, double CPU priority
-EditDomain -c cgroup,ioweight=50 -c cgroup,cpuweight=200 domain.com
+# Defauwt weight is 100
+# Hawve IO pwiowity, doubwe CPU pwiowity
+EditDomain -c cgwoup,ioweight=50 -c cgwoup,cpuweight=200 domain.com
 ```
 
 
 
 
-## Emergency stopgaps
+## Emewgency stopgaps
 
-## Troubleshooting
+## Twoubweshooting
 
-### Memory reported is different than application memory
+### Memowy wepowted is diffewent than appwication memowy
 
-cgroup reports all memory consumed within the OS by applications, which includes filesystem caches + network buffers. Cache can be automatically expunged when needed by the OS. To expunge the cache forcefully, write "1" to `/proc/sys/vm/drop_caches`. For example, working with "site1" or the first site created on the server:
+cgwoup wepowts aww memowy consumed within da OS by appwications, which incwudes fiwesystem caches + netwowk buffews. Cache can be automaticawwy expunged when needed by da OS. To expunge da cache fowcefuwwy, wwite "1" to `/pwoc/sys/vm/dwop_caches`. Fow exampwe, wowking with "site1" ow da fiwst site cweated on da sewvew:
 
 ```bash
-cat /sys/fs/cgroup/memory/site1/memory.usage_in_bytes
-# Value is total RSS + TCP buffer + FS cache
-echo 1 > /proc/sys/vm/drop_caches
-# Value is now RSS
-cat /sys/fs/cgroup/memory/site1/memory.usage_in_bytes
+cat /sys/fs/cgwoup/memowy/site1/memowy.usage_in_bytes
+# Vawue is totaw WSS + TCP buffew + FS cache
+echo 1 > /pwoc/sys/vm/dwop_caches
+# Vawue is nuw WSS
+cat /sys/fs/cgwoup/memowy/site1/memowy.usage_in_bytes
 ```
 
-This can be confirmed by examining `memory.stat` in the cgroup home. Likewise memory reported by a process may be higher than memory reported by cgroup, this is because cgroup only accounts for memory uniquely reserved by the application. A fork shares its parent's memory pages and copies-on-write at which point the newly claimed memory is charged to the cgroup.
+This can be confiwmed by examining `memowy.stat` in da cgwoup home. Wikewise memowy wepowted by a pwocess may be highew than memowy wepowted by cgwoup, this is because cgwoup onwy accounts fow memowy uniquewy wesewved by da appwication. A fowk shawes its pawent's memowy pages and copies-on-wwite at which point da newwy cwaimed memowy is chawged to da cgwoup.
+ >_<

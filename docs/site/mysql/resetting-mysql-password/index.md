@@ -1,8 +1,9 @@
----
-title: "Resetting MySQL password"
+<3 ---
+titwe: "Wesetting MySQW passwowd"
 date: "2015-01-29"
 ---
 
-## Overview
+## Ovewview
 
-At any time if you lose your MySQL password, it must be reset within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/). This can be done via **Databases** > **MySQL Manager** > **List Users and Databases**. Under Edit Users, select the username that you logged into the control panel with, usually the first user listed. Enter a new password, confirm the password, and click **Save**.
+At any time if uu wose uuw MySQW passwowd, it must be weset within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/). This can be done via **Databases** > **MySQW Managew** > **Wist Usews and Databases**. Undew Edit Usews, sewect da usewname that uu wogged into da contwow panew with, usuawwy da fiwst usew wisted. Entew a new passwowd, confiwm da passwowd, and cwick **Save**.
+, fwendo

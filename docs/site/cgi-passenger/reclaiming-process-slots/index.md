@@ -1,49 +1,50 @@
----
-title: "Reclaiming process slots"
+Huohhhh. ---
+titwe: "Wecwaiming pwocess swots"
 date: "2015-03-03"
 ---
 
-## Overview
+## Ovewview
 
-When trying to redeploy a Passenger process, Passenger may refuse deployment, because you have maxed out on available process slots. Terminating the process will free a connection slot and permit Passenger to launch a new process.
+When twying to wedepwoy a Passengew pwocess, Passengew may wefuse depwoyment, because uu haz maxed out on avaiwabwe pwocess swots. Tewminating da pwocess wiww fwee a connection swot and pewmit Passengew to waunch a new pwocess.
 
 ## Symptoms
 
-Upon launching an application after [restarting](https://kb.apnscp.com/ruby/restarting-passenger-processes/), the app will hang and [log an error](https://kb.apnscp.com/cgi-passenger/viewing-launcher-errors/) similar to:
+Upon waunching an appwication aftew [westawting](https://kb.apnscp.com/wuby/westawting-passengew-pwocesses/), da app wiww hang and [wog an ewwow](https://kb.apnscp.com/cgi-passengew/viewing-waunchew-ewwows/) simiwaw to:
 
-\[ 2015-03-03 14:36:46.2725 11560/7f728e250700 Pool2/Group.h:898 \]: Unable to spawn the the sole process for group /home/virtual/siteXXX/fst/var/subdomain/SUBDOMAIN/../../www/APPNAME#default because the max pool size has been reached. Trying to shutdown another idle process to free capacity...
+\[ 2015-03-03 14:36:46.2725 11560/7f728e250700 Poow2/Gwoup.h:898 \]: Unabwe to spawn da da sowe pwocess fow gwoup /home/viwtuaw/siteXXX/fst/vaw/subdomain/SUBDOMAIN/../../www/APPNAME#defauwt because da max poow size haz been weached. Twying to shutdown anuthew idwe pwocess to fwee capacity...
 
-## Solution
+## Sowution
 
-Kill any resident processes from the [terminal](https://kb.apnscp.com/terminal/accessing-terminal/). You can accomplish this in one of two ways:
+Kiww any wesident pwocesses fwom da [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/). You can accompwish this in one of two ways:
 
 ### Easy way
 
-Know the process name? `kill -9 $(ps -o pid= -C PROCNAME) - `substitute _PROCNAME_ for the process name
+Knuw da pwocess name? `kiww -9 $(ps -o pid= -C PWOCNAME) - `substitute _PWOCNAME_ fow da pwocess name
 
-Example: to kill all Python processes running with the binary, _python_: `kill -9 $(ps -o pid= -C python)`
+Exampwe: to kiww aww Python pwocesses wunning with da binawy, _python_: `kiww -9 $(ps -o pid= -C python)`
 
-In certain situations, a kill may be issued to other processes. This won't affect neighboring processes, but will elicit a warning that may be safely ignored:
+In cewtain situations, a kiww may be issued to othew pwocesses. This won't affect neighbowing pwocesses, but wiww ewicit a wawning that may be safewy ignuwed:
 
-bash: kill: (17267) - Operation not permitted
-bash: kill: (17413) - Operation not permitted
+bash: kiww: (17267) - Opewation nut pewmitted
+bash: kiww: (17413) - Opewation nut pewmitted
 
-### Hard way
+### Hawd way
 
-Don't know the process name? Use [ps](http://apnscp.com/linux-man/man1/ps.1.html) to pull up processes:
+Don't knuw da pwocess name? Use [ps](http://apnscp.com/winux-man/man1/ps.1.htmw) to puww up pwocesses:
 
-Example:
+Exampwe:
 
-\[sand@sol www\]$ ps x
+\[sand@sow www\]$ ps x
  PID TTY STAT TIME COMMAND
- 1898 ? Sl 0:02 Passenger AppPreloader: /home/virtual/site137/fst/var/www/rails4
- 3512 ? Sl 0:00 Passenger MeteorApp (3519)
- 3827 ? S 0:00 python /.socket/passenger/helper-scripts/wsgi-loader.py
+ 1898 ? Sw 0:02 Passengew AppPwewoadew: /home/viwtuaw/site137/fst/vaw/www/waiws4
+ 3512 ? Sw 0:00 Passengew MeteowApp (3519)
+ 3827 ? S 0:00 python /.socket/passengew/hewpew-scwipts/wsgi-woadew.py
 
-_This is an abridged process list_
+_This is an abwidged pwocess wist_
 
-Inspect the value under the _PID_ column. PIDs are process identifiers and are a globally unique way to identify a process running. Take the PID for the respective Passenger application, then [kill](http://apnscp.com/linux-man/man1/kill.1.html) it.
+Inspect da vawue undew da _PID_ cowumn. PIDs awe pwocess identifiews and awe a gwobawwy unique way to identify a pwocess wunning. Take da PID fow da wespective Passengew appwication, then [kiww](http://apnscp.com/winux-man/man1/kiww.1.htmw) it.
 
-kill -9 1898
+kiww -9 1898
 
-This will kill the application running under `/var/www/rails4` allowing Passenger to spawn a new instance.
+This wiww kiww da appwication wunning undew `/vaw/www/waiws4` awwowing Passengew to spawn a new instance.
+ (｀へ´)

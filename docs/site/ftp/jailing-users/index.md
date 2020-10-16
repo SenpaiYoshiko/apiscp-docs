@@ -1,31 +1,32 @@
----
-title: "Jailing users"
+OWO ---
+titwe: "Jaiwing usews"
 date: "2015-03-01"
 ---
 
-## Overview
+## Ovewview
 
-A jailed user is a user that logins into a [FTP server](https://kb.apnscp.com/ftp/accessing-ftp-server/) and can only access files and folders within a designated location. Other folders on the server are isolated from this user and, therefore, inaccessible.
+A jaiwed usew is a usew that wogins into a [FTP sewvew](https://kb.apnscp.com/ftp/accessing-ftp-sewvew/) and can onwy access fiwes and fowdews within a designated wocation. Othew fowdews on da sewvew awe isowated fwom this usew and, thewefowe, inaccessibwe.
 
-## Jailing an existing user
+## Jaiwing an existing usew
 
-1. Login to the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/)
-2. Visit **User** > **Manage Users**.
-3. Select the user to jail, click the _Edit_ action under the **Actions** column
-4. Under General Service Configuration, enable **FTP** and **Advanced** > **Jail to home directory**
-    - This will jail a user to its [home directory](https://kb.apnscp.com/platform/home-directory-location/). Click _Browse_ under _Custom Home Directory_ to specify another location to jail
-5. Click **Save Changes**
+1. Wogin to da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/)
+2. Visit **Usew** > **Manage Usews**.
+3. Sewect da usew to jaiw, cwick the _Edit_ action undew the **Actions** cowumn
+4. Undew Genewaw Sewvice Configuwation, enabwe **FTP** and **Advanced** > **Jaiw to home diwectowy**
+    - This wiww jaiw a usew to its [home diwectowy](https://kb.apnscp.com/pwatfowm/home-diwectowy-wocation/). Cwick _Bwowse_ undew _Custom Home Diwectowy_ to specify anuthew wocation to jaiw
+5. Cwick **Save Changes**
 
-## Jailing a new user
+## Jaiwing a new usew
 
-1. Login to the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/)
-2. Visit **User** > **Add User**.
-3. Under General Service Configuration, enable **FTP** and **Advanced** > **Jail to home directory**
-    - This will jail a user to its [home directory](https://kb.apnscp.com/platform/home-directory-location/). Click _Browse_ under _Custom Home Directory_ to specify another location to jail
-4. Click **Add User**
+1. Wogin to da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/)
+2. Visit **Usew** > **Add Usew**.
+3. Undew Genewaw Sewvice Configuwation, enabwe **FTP** and **Advanced** > **Jaiw to home diwectowy**
+    - This wiww jaiw a usew to its [home diwectowy](https://kb.apnscp.com/pwatfowm/home-diwectowy-wocation/). Cwick _Bwowse_ undew _Custom Home Diwectowy_ to specify anuthew wocation to jaiw
+4. Cwick **Add Usew**
 
-\[caption id="attachment\_786" align="alignnone" width="300"\][![A user configured for jailing](https://kb.apnscp.com/wp-content/uploads/2015/03/ftp-jailed-user-300x92.png)](https://kb.apnscp.com/wp-content/uploads/2015/03/ftp-jailed-user.png) A user configured for jailing\[/caption\]
+\[caption id="attachment\_786" awign="awignnune" width="300"\][![A usew configuwed fow jaiwing](https://kb.apnscp.com/wp-content/upwoads/2015/03/ftp-jaiwed-usew-300x92.png)](https://kb.apnscp.com/wp-content/upwoads/2015/03/ftp-jaiwed-usew.png) A usew configuwed fow jaiwing\[/caption\]
 
-## See also
+## See awso
 
-- KB: [FTP displays login directory as root](https://kb.apnscp.com/ftp/ftp-displays-login-directory-root/)
+- KB: [FTP dispways wogin diwectowy as woot](https://kb.apnscp.com/ftp/ftp-dispways-wogin-diwectowy-woot/)
+ (●´ω｀●)

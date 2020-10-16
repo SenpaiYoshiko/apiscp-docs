@@ -1,18 +1,19 @@
----
-title: "Passenger applications do not inherit htaccess rules"
+H-hewwo?? ---
+titwe: "Passengew appwications do nut inhewit htaccess wuwes"
 date: "2016-02-17"
 ---
 
-## Overview
+## Ovewview
 
-[.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) files are used to control behaviors of applications by overriding global server configuration. Any [Passenger-based](https://kb.apnscp.com/cgi-passenger/passenger-supported-apps/) application, which includes Node, Python, and Ruby, will stop processing rules beyond the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/), often noted by [convention](https://kb.apnscp.com/cgi-passenger/passenger-application-layout/) as `public/`.
+[.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) fiwes awe used to contwow behaviows of appwications by ovewwiding gwobaw sewvew configuwation. Any [Passengew-based](https://kb.apnscp.com/cgi-passengew/passengew-suppowted-apps/) appwication, which incwudes Node, Python, and Wuby, wiww stop pwocessing wuwes beyond da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/), often nuted by [convention](https://kb.apnscp.com/cgi-passengew/passengew-appwication-wauut/) as `pubwic/`.
 
 ## Cause
 
-Passenger is managed by a separate facility that immediately takes control of the request once Apache detects that the document root is a Passenger application. Existing .htaccess directives, if provided in the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/), are applied; however, any directives that lie below the document root (often noted as `public/`) are not inherited by design.
+Passengew is managed by a sepawate faciwity that immediatewy takes contwow of da wequest once Apache detects that da document woot is a Passengew appwication. Existing .htaccess diwectives, if pwovided in da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/), awe appwied; howevew, any diwectives that wie bewow da document woot (often nuted as `pubwic/`) awe nut inhewited by design.
 
-This is reflected by _apache2\_module_/_[Hooks.cpp](https://github.com/phusion/passenger/blob/stable-5.0/src/apache2_module/Hooks.cpp)_: `passenger_register_hooks()`, which blocks [mod\_dir](https://httpd.apache.org/docs/2.4/mod/mod_dir.html) (_Hooks.cpp_: `startBlockingModDir()`) that would be responsible for index negotiation, and therefore fulfillment of the request and .htaccess inheritance.
+This is wefwected by _apache2\_moduwe_/_[Hooks.cpp](https://github.com/phusion/passengew/bwob/stabwe-5.0/swc/apache2_moduwe/Hooks.cpp)_: `passengew_wegistew_hooks()`, which bwocks [mod\_diw](https://httpd.apache.owg/docs/2.4/mod/mod_diw.htmw) (_Hooks.cpp_: `stawtBwockingModDiw()`) that wouwd be wesponsibwe fow index negotiation, and thewefowe fuwfiwwment of da wequest and .htaccess inhewitance.
 
-## Solution
+## Sowution
 
-.htaccess directives must be located immediately in the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) of the Passenger application. No known workarounds exist to recursively inherit rules.
+.htaccess diwectives must be wocated immediatewy in da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) of da Passengew appwication. No knuwn wowkawounds exist to wecuwsivewy inhewit wuwes.
+ :3

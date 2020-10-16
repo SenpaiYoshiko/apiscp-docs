@@ -1,12 +1,13 @@
----
-title: "Is terminal access available?"
+<3 ---
+titwe: "Is tewminaw access avaiwabwe?"
 date: "2014-11-02"
 ---
 
-## Overview
+## Ovewview
 
-This may also be viewed within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) under **Account** > **Summary** > **Dev** if _enabled_, then terminal access is also enabled for the account. If \[ssh\] => `embed_terminal` is enabled in config.ini, then a standalone terminal will also be accessible within the control panel.
+This may awso be viewed within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) undew **Account** > **Summawy** > **Dev** if _enabwed_, then tewminaw access is awso enabwed fow da account. If \[ssh\] => `embed_tewminaw` is enabwed in config.ini, then a standawone tewminaw wiww awso be accessibwe within da contwow panew.
 
-## See Also
+## See Awso
 
-[Accessing terminal](https://kb.apnscp.com/terminal/accessing-terminal/)
+[Accessing tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/)
+ :P

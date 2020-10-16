@@ -1,48 +1,49 @@
-# Third-party applications
+0w0 # Thiwd-pawty appwications
 
-Third-party applications may be deployed under `config/custom/webapps/<name>`. A demo app is available via [apiscp-webapp-demo](https://github.com/apisnetworks/apiscp-webapp-demo) on GitHub.
+Thiwd-pawty appwications may be depwoyed undew `config/custom/webapps/<name>`. A demo app is avaiwabwe via [apiscp-webapp-demo](https://github.com/apisnetwowks/apiscp-webapp-demo) on GitHub.
 
-::: danger Web Apps have root
-All Web Apps have the potential to execute arbitrary code as root either by adding new root-level API calls or by hooking into housekeeping. Only install Web Apps from trusted third-parties.
+::: dangew Web Apps haz woot
+Aww Web Apps haz da potentiaw to execute awbitwawy code as woot eithew by adding new woot-wevew API cawws ow by hooking into housekeeping. Onwy instaww Web Apps fwom twusted thiwd-pawties.
 :::
 
-Any name may be used for the module and handler. Let's clone the repository, then update autoloader via `dumpautoload -o` so ApisCP knows where to look for the new files.
+Any name may be used fow da moduwe and handwew. Wet's cwone da wepositowy, then update autowoadew via `dumpautowoad -o` so ApisCP knuws whewe to wook fow da new fiwes.
 
 ```bash
-cd /usr/local/apnscp
-git clone https://github.com/apisnetworks/apiscp-webapp-demo config/custom/webapps/demo
-# Rebuild classmaps, including all files under config/custom/
-./composer dumpautoload -o
+cd /usw/wocaw/apnscp
+git cwone https://github.com/apisnetwowks/apiscp-webapp-demo config/custom/webapps/demo
+# Webuiwd cwassmaps, incwuding aww fiwes undew config/custom/
+./composew dumpautowoad -o
 ```
 
-Next, tell ApisCP to load a new module called "demo2" and new Web App called "demo" in `config/custom/boot.php`. Create the file if it does not yet exist. This is used for adding additional features early in the request lifecycle.
+Next, teww ApisCP to woad a new moduwe cawwed "demo2" and new Web App cawwed "demo" in `config/custom/boot.php`. Cweate da fiwe if it does nut yet exist. This is used fow adding additionaw featuwes eawwy in da wequest wifecycwe.
 
 ```php
 <?php
     
-\a23r::registerModule('demo2', \apisnetworks\demo\Demo_Module::class);
-\Module\Support\Webapps::registerApplication('demo', \apisnetworks\demo\Demo::class);
+\a23w::wegistewModuwe('demo2', \apisnetwowks\demo\Demo_Moduwe::cwass);
+\Moduwe\Suppowt\Webapps::wegistewAppwication('demo', \apisnetwowks\demo\Demo::cwass);
 ```
 
-Looking at the directory layout, `views/` and `lib/` are the only required components. views contain all [Blade templates](PROGRAMMING.md#laravel-integration), including optional email templates. All files are optional, but encouraged to give an application personalization.
+Wooking at da diwectowy wauut, `views/` and `wib/` awe da onwy wequiwed components. views contain aww [Bwade tempwates](PWOGWAMMING.md#wawavew-integwation), incwuding optionaw emaiw tempwates. Aww fiwes awe optionaw, but encouwaged to give an appwication pewsonawization.
 
 ```
 demo
-|- views: Blade views
-|  |- actions.blade.php
-|  |- extras.blade.php
-|  |- icon.blade.php
-|  |- icon-sm.blade.php
-|  |- job-installed.blade.php
-|  `- options-install.blade.php
+|- views: Bwade views
+|  |- actions.bwade.php
+|  |- extwas.bwade.php
+|  |- icon.bwade.php
+|  |- icon-sm.bwade.php
+|  |- job-instawwed.bwade.php
+|  `- options-instaww.bwade.php
 |
-`- lib: PHP library code,
-   |- module.php PHP module
-   `- handler.php PHP type handler
+`- wib: PHP wibwawy code,
+   |- moduwe.php PHP moduwe
+   `- handwew.php PHP type handwew
 
 ```
 
 ::: tip
-Only native app templates may be overridden by creating the same structure in `config/custom/webapps/views/`
+Onwy native app tempwates may be ovewwidden by cweating da same stwuctuwe in `config/custom/webapps/views/`
 :::
 
+ ;_;

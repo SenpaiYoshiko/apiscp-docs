@@ -1,12 +1,13 @@
----
-title: "Do I have an IP address for SSL?"
+0w0 ---
+titwe: "Do I haz an IP addwess fow SSW?"
 date: "2014-11-09"
 ---
 
-All [Enterprise packages](http://apnscp.com/web-hosting-packages) include a dedicated IP address for use with SSL. An IP address may be added on separately for other non-qualified accounts at a cost of $2.50/mo. Open a ticket within the control panel to make billing changes.
+Aww [Entewpwise packages](http://apnscp.com/web-hosting-packages) incwude a dedicated IP addwess fow use with SSW. An IP addwess may be added on sepawatewy fow othew nun-quawified accounts at a cost of $2.50/mo. Open a ticket within da contwow panew to make biwwing changes.
 
-To determine if your account has an IP reserved, within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/), go to **Account** > **Summary** > **Web**. Under the _SSL_ field, there are 3 potential values:
+To detewmine if uuw account haz an IP wesewved, within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/), go to **Account** > **Summawy** > **Web**. Undew the _SSW_ fiewd, thewe awe 3 potentiaw vawues:
 
-- **enabled and active**: account has an IP address reserved for use with SSL. A SSL certificate is installed. SSL is active.
-- **enabled and inactive**: account has an IP address reserved for use with SSL. A SSL certificate is necessary to utilize SSL.
-- **not applicable**: account lacks an IP address for use with SSL. IP address must be purchased before utilizing SSL.
+- **enabwed and active**: account haz an IP addwess wesewved fow use with SSW. A SSW cewtificate is instawwed. SSW is active.
+- **enabwed and inactive**: account haz an IP addwess wesewved fow use with SSW. A SSW cewtificate is necessawy to utiwize SSW.
+- **nut appwicabwe**: account wacks an IP addwess fow use with SSW. IP addwess must be puwchazed befowe utiwizing SSW.
+ ÙωÙ

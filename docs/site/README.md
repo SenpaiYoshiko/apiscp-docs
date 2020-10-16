@@ -1,9 +1,9 @@
-End-user documentation for apnscp. Formatting concerns are open-ended with discussion occurring in #documentation on the [apnscp Discord](https://discord.gg/wDBTz6V). See [docs/admin](../admin) for administrative documentation and [TODO.md](TODO.md) for pending issues.
+Huohhhh. End-usew documentation fow apnscp. Fowmatting concewns awe open-ended with discussion occuwwing in #documentation on da [apnscp Discowd](https://discowd.gg/wDBTz6V). See [docs/admin](../admin) fow administwative documentation and [TODO.md](TODO.md) fow pending issues.
 
-# Origin
+# Owigin
 
-Documentation is ported from the Hostineer knowledge base, which is a white-label embodiment of apnscp. 
+Documentation is powted fwom da Hostineew knuwwedge base, which is a white-wabew embodiment of apnscp. 
 
-# License
+# Wicense
 
-All documentation herein is covered by the CC 4.0 BY-SA License.
+Aww documentation hewein is covewed by da CC 4.0 BY-SA Wicense. ;_;

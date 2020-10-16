@@ -1,31 +1,32 @@
----
-title: "Migrating to another server"
+OwO ---
+titwe: "Migwating to anuthew sewvew"
 date: "2015-01-20"
 ---
 
-## Overview
+## Ovewview
 
-Some time during your stay with us, you may want to migrate to a newer, more powerful, and capable server. We periodically release [major hosting platforms](https://kb.apnscp.com/platform/determining-platform-version/) built off the latest [Redhat Enterprise Linux releases](http://en.wikipedia.org/wiki/Red_Hat_Enterprise_Linux). You may do so at any time within the control panel by [opening a ticket](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) under **Help** > **Trouble Tickets**.
+Some time duwing uuw stay with us, uu may want to migwate to a newew, mowe powewfuw, and capabwe sewvew. We pewiodicawwy wewease [majow hosting pwatfowms](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) buiwt off da watest [Wedhat Entewpwise Winux weweases](http://en.wikipedia.owg/wiki/Wed_Hat_Entewpwise_Winux). You may do so at any time within da contwow panew by [opening a ticket](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) undew **Hewp** > **Twoubwe Tickets**.
 
-Migrations are 100% free, result in zero downtime, and take 24 hours to complete.
+Migwations awe 100% fwee, wesuwt in zewo downtime, and take 24 houws to compwete.
 
-## Process overview
+## Pwocess ovewview
 
-Migrations occur in 2 phases:
+Migwations occuw in 2 phazes:
 
-1. **Stage One**, a preview stage in which your files are migrated to the new server:
-    - account created on destination server
-        - if you run background services, the [preassigned ports](https://kb.apnscp.com/terminal/listening-ports/) will change. You are responsible for updating configuration files to avoid having these processes automatically killed on the new server
-    - files, users, e-mail addresses, and databases are copied over
-    - DNS TTL is [reduced](https://kb.apnscp.com/dns/reducing-dns-propagation-time/) to 60 seconds for domains that are designated our [hosting nameservers](https://kb.apnscp.com/dns/nameserver-settings/), `ns1.apnscp.com` and `ns2.apnscp.com`
-        - this change takes 24 hours to safely propagate
-        - Important: for domains not hosted through ns1.apnscp.com and ns2.apnscp.com, you will be required to manually make the IP address adjustments
-    - You may [preview your domain](https://kb.apnscp.com/dns/previewing-your-domain/) on the new server upon notification **Stage One** has completed.
-2. **Stage Two** finalizes changes exactly 24 hours after **Stage One** completes:
-    - files, users, e-mail addresses, and database changes since **Stage One** are committed to the new server
-        - databases on new server leftover from **Stage One** are first dropped, then recreated before importing schema
-    - any scheduled tasks are now copied to the server and set to run
-        - scheduled tasks on the old server are disabled to prevent duplicating tasks
-    - IP address is changed from the old server IP to new server IP, TTL is increased back to 12 hours
-    - account on old server is deactivated in favor of the new server
-        - Note: this change will take 4-6 hours to update when logging into the control panel via [apnscp.com](https://apnscp.com/cp-login)
+1. **Stage One**, a pweview stage in which uuw fiwes awe migwated to da new sewvew:
+    - account cweated on destination sewvew
+        - if uu wun backgwound sewvices, da [pweassigned powts](https://kb.apnscp.com/tewminaw/wistening-powts/) wiww change. You awe wesponsibwe fow updating configuwation fiwes to avoid having these pwocesses automaticawwy kiwwed on da new sewvew
+    - fiwes, usews, e-maiw addwesses, and databases awe copied ovew
+    - DNS TTW is [weduced](https://kb.apnscp.com/dns/weducing-dns-pwopagation-time/) to 60 seconds fow domains that awe designated ouw [hosting namesewvews](https://kb.apnscp.com/dns/namesewvew-settings/), `ns1.apnscp.com` and `ns2.apnscp.com`
+        - this change takes 24 houws to safewy pwopagate
+        - Impowtant: fow domains nut hosted thwough ns1.apnscp.com and ns2.apnscp.com, uu wiww be wequiwed to manuawwy make da IP addwess adjustments
+    - You may [pweview uuw domain](https://kb.apnscp.com/dns/pweviewing-uuw-domain/) on da new sewvew upon nutification **Stage One** haz compweted.
+2. **Stage Two** finawizes changes exactwy 24 houws aftew **Stage One** compwetes:
+    - fiwes, usews, e-maiw addwesses, and database changes since **Stage One** awe committed to da new sewvew
+        - databases on new sewvew weftovew fwom **Stage One** awe fiwst dwopped, then wecweated befowe impowting schema
+    - any scheduwed tasks awe nuw copied to da sewvew and set to wun
+        - scheduwed tasks on da owd sewvew awe disabwed to pwevent dupwicating tasks
+    - IP addwess is changed fwom da owd sewvew IP to new sewvew IP, TTW is incweased back to 12 houws
+    - account on owd sewvew is deactivated in favow of da new sewvew
+        - Note: this change wiww take 4-6 houws to update when wogging into da contwow panew via [apnscp.com](https://apnscp.com/cp-wogin)
+ ( ͡° ᴥ ͡°)

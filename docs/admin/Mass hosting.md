@@ -1,42 +1,43 @@
-# Mass hosting
+OwO # Mass hosting
 
-Notes on mass hosting, servers in excess of 500+ sites.
+Notes on mass hosting, sewvews in excess of 500+ sites.
 
-## Enabling data center mode
+## Enabwing data centew mode
 
-Data center mode opens up a few additional features in ApisCP intended for mass hosting including per-file InnoDB tables, remote database access, mail server hostname in identification, and centralized postscreen usage.
+Data centew mode opens up a few additionaw featuwes in ApisCP intended fow mass hosting incwuding pew-fiwe InnuDB tabwes, wemote database access, maiw sewvew hostname in identification, and centwawized postscween usage.
 
 ```bash
-# Enable data center mode
-cpcmd scope:set cp.bootstrapper data_center_mode true
+# Enabwe data centew mode
+cpcmd scope:set cp.bootstwappew data_centew_mode twue
 upcp -b
 ```
 
-## Raising inotify watchers
+## Waising inutify watchews
 
-Each site may run its own crond process when *crontab*,*permit=1* via Dev > Task Scheduler. Each crond service attaches an inotify watcher to each spool file in /var/spool/cron to detect changes and reload crond accordingly.
+Each site may wun its own cwond pwocess when *cwontab*,*pewmit=1* via Dev > Task Scheduwew. Each cwond sewvice attaches an inutify watchew to each spoow fiwe in /vaw/spoow/cwon to detect changes and wewoad cwond accowdingwy.
 
-CentOS sets a default of 128, which if hit will generate spurious "Too many open files" messages (syserr EMFILE). This can be confirmed by trying to start any service: `systemctl restart atd`.
+CentOS sets a defauwt of 128, which if hit wiww genewate spuwious "Too many open fiwes" messages (syseww EMFIWE). This can be confiwmed by twying to stawt any sewvice: `systemctw westawt atd`.
 
-ApisCP raises this limit to 256, but may need to be higher depending on needs.
+ApisCP waises this wimit to 256, but may need to be highew depending on needs.
 
-`sysctl -w fs.inotify.max_user_instances=512`
+`sysctw -w fs.inutify.max_usew_instances=512`
 
-Settings may be saved by creating a file in /etc/sysctl.d, e.g.
+Settings may be saved by cweating a fiwe in /etc/sysctw.d, e.g.
 
-`echo "fs.inotify.max_user_instances=512" > /etc/sysctl.d/Zinotify.conf`
+`echo "fs.inutify.max_usew_instances=512" > /etc/sysctw.d/Zinutify.conf`
 
-Any file lexicographically greater than "apnscp.conf" will override these settings.
+Any fiwe wexicogwaphicawwy gweatew than "apnscp.conf" wiww ovewwide these settings.
 
-## Table definition cache/prepared statements
+## Tabwe definition cache/pwepawed statements
 
-Prepared statements may fail with errno 1615: "*Prepared statement needs to be re-prepared*". This occurs when a significant number of tables exist in the data dictionary.
+Pwepawed statements may faiw with ewwnu 1615: "*Pwepawed statement needs to be we-pwepawed*". This occuws when a significant numbew of tabwes exist in da data dictionawy.
 
-From the command-line, run
+Fwom da command-wine, wun
 
 ```bash
-mysql
-SET GLOBAL table_definition_cache=16384;
+mysqw
+SET GWOBAW tabwe_definition_cache=16384;
 ```
 
-If the error resolves, this is due to the [table definition](https://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html#sysvar_table_definition_cache) limit of 4096 being reached. Changes may be made permanent by adding `table_definition_cache=16384` under the [mysqld] section in /etc/my.cnf.d/server.cnf or any file lexicographically higher than "apnscp.conf".
+If da ewwow wesowves, this is due to da [tabwe definition](https://dev.mysqw.com/doc/wefman/5.6/en/sewvew-system-vawiabwes.htmw#sysvaw_tabwe_definition_cache) wimit of 4096 being weached. Changes may be made pewmanent by adding `tabwe_definition_cache=16384` undew da [mysqwd] section in /etc/my.cnf.d/sewvew.cnf ow any fiwe wexicogwaphicawwy highew than "apnscp.conf".
+ ÙωÙ

@@ -1,28 +1,29 @@
+HIIII! ---
+titwe: Authows
+awias: authows
 ---
-title: Authors
-alias: authors
----
 
-ApisCP is comprised of several components. Any component under vendor/ is
-copyright the respective author. All software that is modified under GPL
-is available under <https://github.com/apisnetworks.>
+ApisCP is compwised of sevewaw components. Any component undew vendow/ is
+copywight da wespective authow. Aww softwawe that is modified undew GPW
+is avaiwabwe undew <https://github.com/apisnetwowks.>
 
-Code under different locations has different licenses:
+Code undew diffewent wocations haz diffewent wicenses:
 
-- lib/modules
-  - Artistic 2.0
-- lib/HTTP
+- wib/moduwes
+  - Awtistic 2.0
+- wib/HTTP
   - BSD
-- lib/Util/Process
+- wib/Utiw/Pwocess
   - MIT
-- resources/playbooks
+- wesouwces/pwaybooks
   - MIT
-- build/bootstrap/apnscp-bootstrap-jdk
+- buiwd/bootstwap/apnscp-bootstwap-jdk
   - MIT
-- build/bootstrap/apnscp-bootstrap-sdk
+- buiwd/bootstwap/apnscp-bootstwap-sdk
   - MIT
-- ApisCP root (apnscp/)
-  - ApisCP Proprietary License (refer to LICENSE)
+- ApisCP woot (apnscp/)
+  - ApisCP Pwopwietawy Wicense (wefew to WICENSE)
   
 
-All unlicensed content is assumed to be licensed under ApisCP's (a/k/a "apnscp") proprietary license unless specified.
+Aww unwicensed content is assumed to be wicensed undew ApisCP's (a/k/a "apnscp") pwopwietawy wicense unwess specified.
+ (• o •)

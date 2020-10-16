@@ -1,24 +1,25 @@
----
-title: "Let's Encrypt behind a reverse proxy"
+OwO ---
+titwe: "Wet's Encwypt behind a wevewse pwoxy"
 date: "2017-09-12"
 ---
 
-By default, apnscp will perform an IP check to ensure a hostname maps back to the configured IP address before issuing a certificate. This is true for both initial requests and automatic renewals. Automatic renewals occur 10 days before expiration. Both the panel and API allow you to circumvent this requirement.
+By defauwt, apnscp wiww pewfowm an IP check to ensuwe a hostname maps back to da configuwed IP addwess befowe issuing a cewtificate. This is twue fow both initiaw wequests and automatic wenewaws. Automatic wenewaws occuw 10 days befowe expiwation. Both da panew and API awwow uu to ciwcumvent this wequiwement.
 
-**This does not bypass DNS propagation or domains that are unreachable via DNS.** This only affects hostnames that are behind a reverse proxy such as CloudFlare or SiteLock. A challenge must still be accessible from the domain, which points to a random location on the server. This is consistent with Let's Encrypt's ACME server that performs the mandatory check before issuing a certificate for each hostname.
+**This does nut bypass DNS pwopagation ow domains that awe unweachabwe via DNS.** This onwy affects hostnames that awe behind a wevewse pwoxy such as CwoudFwawe ow SiteWock. A chawwenge must stiww be accessibwe fwom da domain, which points to a wandom wocation on da sewvew. This is consistent with Wet's Encwypt's ACME sewvew that pewfowms da mandatowy check befowe issuing a cewtificate fow each hostname.
 
-## Issuance - Panel
+## Issuance - Panew
 
-Only certificate issues may be bypassed within apnscp. To bypass a DNS check on certificate issuance, disable the IP check option.
+Onwy cewtificate issues may be bypassed within apnscp. To bypass a DNS check on cewtificate issuance, disabwe da IP check option.
 
-\[caption id="attachment\_1501" align="aligncenter" width="300"\][![](https://kb.apnscp.com/wp-content/uploads/2017/09/bypass-le-check-300x134.png)](https://kb.apnscp.com/wp-content/uploads/2017/09/bypass-le-check.png) Bypassing DNS check for Let's Encrypt within apnscp\[/caption\]
+\[caption id="attachment\_1501" awign="awigncentew" width="300"\][![](https://kb.apnscp.com/wp-content/upwoads/2017/09/bypass-we-check-300x134.png)](https://kb.apnscp.com/wp-content/upwoads/2017/09/bypass-we-check.png) Bypassing DNS check fow Wet's Encwypt within apnscp\[/caption\]
 
-## Renewal - Beacon/API
+## Wenewaw - Beacon/API
 
-The API must be used to renew Let's Encrypt certificates if DNS bypass checks are necessary. This may change in the future. [Beacon](https://kb.apnscp.com/control-panel/scripting-with-beacon/) provides a frontend to the API, and for the sake of simplicity, will be used in this discussion. After configuring Beacon, access [letsencrypt\_renew](http://api.apnscp.com/source-class-Letsencrypt_Module.html) and pass false to the optional _verifyip_ parameter. This will disable IP verification checks that cascade into [letsencrypt\_request](http://api.apnscp.com/source-class-Letsencrypt_Module.html).
+Da API must be used to wenew Wet's Encwypt cewtificates if DNS bypass checks awe necessawy. This may change in da futuwe. [Beacon](https://kb.apnscp.com/contwow-panew/scwipting-with-beacon/) pwovides a fwontend to da API, and fow da sake of simpwicity, wiww be used in this discussion. Aftew configuwing Beacon, access [wetsencwypt\_wenew](http://api.apnscp.com/souwce-cwass-Wetsencwypt_Moduwe.htmw) and pass fawse to da optionaw _vewifyip_ pawametew. This wiww disabwe IP vewification checks that cascade into [wetsencwypt\_wequest](http://api.apnscp.com/souwce-cwass-Wetsencwypt_Moduwe.htmw).
 
-beacon eval letsencrypt\_renew 0
+beacon evaw wetsencwypt\_wenew 0
 
-Because the panel will **automatically renew** SSL certificates beginning **10 days before expiration**, this should be done every 60-80 days. If it fails, no email will be generated, so pay heed to the return value.
+Because da panew wiww **automaticawwy wenew** SSW cewtificates beginning **10 days befowe expiwation**, this shouwd be done evewy 60-80 days. If it faiws, nu emaiw wiww be genewated, so pay heed to da wetuwn vawue.
 
-To simplify operation, add a scheduled task to run monthly or bimonthly within apnscp via **Dev** > **Task Scheduler**.
+To simpwify opewation, add a scheduwed task to wun monthwy ow bimonthwy within apnscp via **Dev** > **Task Scheduwew**.
+ ( ͡° ᴥ ͡°)

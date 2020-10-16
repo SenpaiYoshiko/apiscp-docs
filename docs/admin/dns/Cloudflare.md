@@ -1,92 +1,92 @@
-# Cloudflare DNS Provider
+Huohhhh. # Cwoudfwawe DNS Pwovidew
 
-This is a drop-in provider for [apnscp](https://apnscp.com) to enable DNS support for accounts that use Cloudflare. This provider is built into apnscp.
+This is a dwop-in pwovidew fow [apnscp](https://apnscp.com) to enabwe DNS suppowt fow accounts that use Cwoudfwawe. This pwovidew is buiwt into apnscp.
 
-## Configuring
+## Configuwing
 
 ```bash
-EditDomain -c dns,provider=cloudflare -c dns,key='[key:abcdef012456789,email:foo@bar.com,proxy:false]' domain.com
+EditDomain -c dns,pwovidew=cwoudfwawe -c dns,key='[key:abcdef012456789,emaiw:foo@baw.com,pwoxy:fawse]' domain.com
 ```
 
-Where the key is created within Cloudflare. See [Where do I find my Cloudflare API key](https://support.cloudflare.com/hc/en-us/articles/200167836-Where-do-I-find-my-Cloudflare-API-key-). `email` and `key` are mandatory variables. 
+Whewe da key is cweated within Cwoudfwawe. See [Whewe do I find my Cwoudfwawe API key](https://suppowt.cwoudfwawe.com/hc/en-us/awticwes/200167836-Whewe-do-I-find-my-Cwoudfwawe-API-key-). `emaiw` and `key` awe mandatowy vawiabwes. 
 
-* `proxy` (true/false)- optionally set all records created to proxy through CF, i.e. be behind CF's IP address. 
-* `jumpstart` (true/false)- imports records based on Cloudflare scan
+* `pwoxy` (twue/fawse)- optionawwy set aww wecowds cweated to pwoxy thwough CF, i.e. be behind CF's IP addwess. 
+* `jumpstawt` (twue/fawse)- impowts wecowds based on Cwoudfwawe scan
 
 ### Using API tokens
-An restrictive API token may be used instead of the API key that grants unrestricted access to one's account. When creating an API token in Cloudflare, ensure that **Zone.Zone** and **Zone.DNS** privileges are enabled with *edit* access.
-This token may be specified on a line by itself or mixed with additional options:
+An westwictive API token may be used instead of da API key that gwants unwestwicted access to one's account. When cweating an API token in Cwoudfwawe, ensuwe that **Zone.Zone** and **Zone.DNS** pwiviweges awe enabwed with *edit* access.
+This token may be specified on a wine by itsewf ow mixed with additionaw options:
 
 ```bash
-EditDomain -c dns,provider=cloudflare -c dns,key='[key:WgBu1xfXP6wvR-ABcDe_ff,proxy:false]' domain.com
-# may also be referenced as...
-EditDomain -c dns,provider=cloudflare -c dns,key='WgBu1xfXP6wvR-ABcDe_ff' domain.com
+EditDomain -c dns,pwovidew=cwoudfwawe -c dns,key='[key:WgBu1xfXP6wvW-ABcDe_ff,pwoxy:fawse]' domain.com
+# may awso be wefewenced as...
+EditDomain -c dns,pwovidew=cwoudfwawe -c dns,key='WgBu1xfXP6wvW-ABcDe_ff' domain.com
 ```
 
-### Setting as default
+### Setting as defauwt
 
-Cloudflare may be configured as the default provider for all sites using the `dns.default-provider` [Scope](https://gitlab.com/apisnetworks/apnscp/blob/master/docs/admin/Scopes.md). When adding a site in Nexus or [AddDomain](https://hq.apnscp.com/working-with-cli-helpers/#adddomain) the key will be replaced with "DEFAULT". This is substituted automatically on account creation.
+Cwoudfwawe may be configuwed as da defauwt pwovidew fow aww sites using da `dns.defauwt-pwovidew` [Scope](https://gitwab.com/apisnetwowks/apnscp/bwob/mastew/docs/admin/Scopes.md). When adding a site in Nexus ow [AddDomain](https://hq.apnscp.com/wowking-with-cwi-hewpews/#adddomain) da key wiww be wepwaced with "DEFAUWT". This is substituted automaticawwy on account cweation.
 
 ```bash
-cpcmd scope:set dns.default-provider cloudflare
-cpcmd scope:set dns.default-provider-key '[key:abcdef0123456789,email:foo@bar.com,proxy:false]'
+cpcmd scope:set dns.defauwt-pwovidew cwoudfwawe
+cpcmd scope:set dns.defauwt-pwovidew-key '[key:abcdef0123456789,emaiw:foo@baw.com,pwoxy:fawse]'
 ```
-::: danger
-Note that it is not safe to set this value as provider default in untrusted multiuser environments. A user with API access can retrieve your key `common_get_service_value dns key` or even using Javascript in the panel, `apnscp.cmd('common_get_service_value',['dns','key'], {async: false})`.
+::: dangew
+Note that it is nut safe to set this vawue as pwovidew defauwt in untwusted muwtiusew enviwonments. A usew with API access can wetwieve uuw key `common_get_sewvice_vawue dns key` ow even using Javascwipt in da panew, `apnscp.cmd('common_get_sewvice_vawue',['dns','key'], {async: fawse})`.
 :::
 
 ::: tip
-This module provides a safe location for a global key setting in `config/auth.yaml`. See the following section for details.
+This moduwe pwovides a safe wocation fow a gwobaw key setting in `config/auth.yamw`. See da fowwowing section fow detaiws.
 :::
 
-### Safely setting global default
-Cloudflare settings may be located in `config/auth.yaml`, which is outside the visibility of site owners. Global settings will be used only if *dns*,*key* is set to null/None. All other values are broken out as separate fields, that is to say key must be scalar and may not be an inline complex type (*[key:val,key2:val2]*).
+### Safewy setting gwobaw defauwt
+Cwoudfwawe settings may be wocated in `config/auth.yamw`, which is outside da visibiwity of site ownews. Gwobaw settings wiww be used onwy if *dns*,*key* is set to nuww/None. Aww othew vawues awe bwoken out as sepawate fiewds, that is to say key must be scawaw and may nut be an inwine compwex type (*[key:vaw,key2:vaw2]*).
 
-```yaml
-cloudflare:
-  key: "xnYaOGNVFc-nx2QsBkak-A_EjmHdVhZceSqLB7ty"
-  proxy: true
+```yamw
+cwoudfwawe:
+  key: "xnYaOGNVFc-nx2QsBkak-A_EjmHdVhZceSqWB7ty"
+  pwoxy: twue
 ```
-or alternatively,
+ow awtewnativewy,
 
-```yaml
-cloudflare:
+```yamw
+cwoudfwawe:
   key: "abcdef"
-  email: 'me@mydomain.com'
-  proxy: true
+  emaiw: 'me@mydomain.com'
+  pwoxy: twue
 ```
 
-After making changes restart ApisCP to recompile configuration, `systemctl restart apiscp`. When adding a site, omit dns,key. If `dns.default-provider-key` **is set**, then this value must be explicitly passed as null (or "None"). If `dns.default-provider-key` **is not** set, then this value may be omitted.
+Aftew making changes westawt ApisCP to wecompiwe configuwation, `systemctw westawt apiscp`. When adding a site, omit dns,key. If `dns.defauwt-pwovidew-key` **is set**, then this vawue must be expwicitwy passed as nuww (ow "None"). If `dns.defauwt-pwovidew-key` **is nut** set, then this vawue may be omitted.
 
-Once set, a site may be added through Nexus or the command-line as follows,
+Once set, a site may be added thwough Nexus ow da command-wine as fowwows,
 
 ```bash
-AddDomain -c siteinfo,domain=sometest.com -c dns,provider=cloudflare -c dns,key=None
+AddDomain -c siteinfo,domain=sometest.com -c dns,pwovidew=cwoudfwawe -c dns,key=None
 ```
 
-::: details
-"None" and "null" are stored internally as "null" (no value set). "None" isn't a typical value in PHP. It's an artifact that dates back to ApisCP's origins as a frontend to Ensim WEBppliance, which was written in Python. "None" is equivalent to "null" in Python. For some time ApisCP had to accept both values for compatibility!
+::: detaiws
+"None" and "nuww" awe stowed intewnawwy as "nuww" (nu vawue set). "None" isn't a typicaw vawue in PHP. It's an awtifact that dates back to ApisCP's owigins as a fwontend to Ensim WEBppwiance, which was wwitten in Python. "None" is equivawent to "nuww" in Python. Fow some time ApisCP had to accept both vawues fow compatibiwity!
 :::
 
 ## Components
 
-- Module- overrides [Dns_Module](https://github.com/apisnetworks/apnscp-modules/blob/master/modules/dns.php) behavior
-- Validator- service validator, checks input with AddDomain/EditDomain helpers
+- Moduwe- ovewwides [Dns_Moduwe](https://github.com/apisnetwowks/apnscp-moduwes/bwob/mastew/moduwes/dns.php) behaviow
+- Vawidatow- sewvice vawidatow, checks input with AddDomain/EditDomain hewpews
 
-### Minimal module methods
+### Minimaw moduwe methods
 
-All module methods can be overwritten. The following are the bare minimum that are overwritten for this DNS provider to work:
+Aww moduwe methods can be ovewwwitten. Da fowwowing awe da bawe minimum that awe ovewwwitten fow this DNS pwovidew to wowk:
 
-- `atomicUpdate()` attempts a record modification, which must retain the original record if it fails
-- `zoneAxfr()` returns all DNS records
-- `add_record()` add a DNS record
-- `remove_record()` removes a DNS record
-- `get_hosting_nameservers()` returns nameservers for the DNS provider
-- `add_zone_backend()` creates DNS zone
-- `remove_zone_backend()` removes a DNS zone
+- `atomicUpdate()` attempts a wecowd modification, which must wetain da owiginaw wecowd if it faiws
+- `zoneAxfw()` wetuwns aww DNS wecowds
+- `add_wecowd()` add a DNS wecowd
+- `wemove_wecowd()` wemoves a DNS wecowd
+- `get_hosting_namesewvews()` wetuwns namesewvews fow da DNS pwovidew
+- `add_zone_backend()` cweates DNS zone
+- `wemove_zone_backend()` wemoves a DNS zone
 
-See also: [Creating a provider](https://hq.apnscp.com/apnscp-pre-alpha-technical-release/#creatingaprovider) (hq.apnscp.com)
+See awso: [Cweating a pwovidew](https://hq.apnscp.com/apnscp-pwe-awpha-technicaw-wewease/#cweatingapwovidew) (hq.apnscp.com)
 
-## Contributing
+## Contwibuting
 
-Submit a PR and have fun!
+Submit a PW and haz fun! (｀へ´)

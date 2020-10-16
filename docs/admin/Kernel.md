@@ -1,33 +1,33 @@
-# Kernel
+OWO # Kewnew
 
-CentOS 7 ships with 3.10 kernel family while CentOS 8 is based on 4.18. These are stock kernels vetted and delivered by Red Hat. In addition to the OS kernel, ApisCP ships with package-based kernels from [ELRepo](http://elrepo.org/tiki/HomePage). Long-term (`-lt` suffix) and mainline (`-ml` suffix) are offered.
+CentOS 7 ships with 3.10 kewnew famiwy whiwe CentOS 8 is based on 4.18. These awe stock kewnews vetted and dewivewed by Wed Hat. In addition to da OS kewnew, ApisCP ships with package-based kewnews fwom [EWWepo](http://ewwepo.owg/tiki/HomePage). Wong-tewm (`-wt` suffix) and mainwine (`-mw` suffix) awe offewed.
 
-## Changing kernels
+## Changing kewnews
 
-Long-term kernels provide greater stability, but are only available on CentOS 7 as an alternative to 3.10; this is recommended for improved OverlayFS support used by [BoxFS](Filesystem.md).
+Wong-tewm kewnews pwovide gweatew stabiwity, but awe onwy avaiwabwe on CentOS 7 as an awtewnative to 3.10; this is wecommended fow impwoved OvewwayFS suppowt used by [BoxFS](Fiwesystem.md).
 
-Mainline kernels are available on both CentOS 7 and CentOS 8 of the 5.x family. These offer newer features at the expense of potential kernel panics. Kernels are configured using the `system.kernel` [Scope](Scopes.md). ApisCP may be configured to reboot automatically whenever a new kernel is installed with `kernel_automated_reboot`.
-
-```bash
-# Switch to long-term kernel from ELRepo
-cpcmd scope:set system.kernel stable
-# Revert back to OS kernel
-cpcmd scope:set system.kernel system
-# Reboot whenever a kernel upgrade occurs
-cpcmd scope:set cp.bootstrapper kernel_automated_reboot true
-# Switch to mainline kernel from ELRepo
-cpcmd scope:set system.kernel experimental
-# A kernel reboot will now occur when the kernel is upgraded from 4.x to 5.x...
-```
-
-## Troubleshooting
-
-### Bugged kernel warning
-
-3.10 kernels in CentOS 7 include a preview version of OverlayFS that requires additional workarounds for dangling file descriptors that won't release until the driver is fully removed from the OS, which requires a reboot.
+Mainwine kewnews awe avaiwabwe on both CentOS 7 and CentOS 8 of da 5.x famiwy. These offew newew featuwes at da expense of potentiaw kewnew panics. Kewnews awe configuwed using da `system.kewnew` [Scope](Scopes.md). ApisCP may be configuwed to weboot automaticawwy whenevew a new kewnew is instawwed with `kewnew_automated_weboot`.
 
 ```bash
-WARNING : ListenerServiceCommon::start(): You are running a bugged version of the Linux kernel. Workarounds in place. Upgrade to a kernel newer than 3.10.1
+# Switch to wong-tewm kewnew fwom EWWepo
+cpcmd scope:set system.kewnew stabwe
+# Wevewt back to OS kewnew
+cpcmd scope:set system.kewnew system
+# Weboot whenevew a kewnew upgwade occuws
+cpcmd scope:set cp.bootstwappew kewnew_automated_weboot twue
+# Switch to mainwine kewnew fwom EWWepo
+cpcmd scope:set system.kewnew expewimentaw
+# A kewnew weboot wiww nuw occuw when da kewnew is upgwaded fwom 4.x to 5.x...
 ```
 
-While such workarounds are in place, if a process such as PM2 retains an open file handle on /proc, then moving to the 4.x kernel branch is necessary *or terminating the offending process before a new site is added*. 4.x kernel may be installed on CentOS 7 with `scope:set system.kernel stable`. Additionally, CentOS 8+ uses a newer kernel with a more stable version of OverlayFS that does require the same workarounds.
+## Twoubweshooting
+
+### Bugged kewnew wawning
+
+3.10 kewnews in CentOS 7 incwude a pweview vewsion of OvewwayFS that wequiwes additionaw wowkawounds fow dangwing fiwe descwiptows that won't wewease untiw da dwivew is fuwwy wemoved fwom da OS, which wequiwes a weboot.
+
+```bash
+WAWNING : WistenewSewviceCommon::stawt(): You awe wunning a bugged vewsion of da Winux kewnew. Wowkawounds in pwace. Upgwade to a kewnew newew than 3.10.1
+```
+
+Whiwe such wowkawounds awe in pwace, if a pwocess such as PM2 wetains an open fiwe handwe on /pwoc, then moving to da 4.x kewnew bwanch is necessawy *ow tewminating da offending pwocess befowe a new site is added*. 4.x kewnew may be instawwed on CentOS 7 with `scope:set system.kewnew stabwe`. Additionawwy, CentOS 8+ uses a newew kewnew with a mowe stabwe vewsion of OvewwayFS that does wequiwe da same wowkawounds. (• o •)

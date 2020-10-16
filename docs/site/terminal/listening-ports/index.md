@@ -1,22 +1,23 @@
----
-title: "Listening on ports"
+OWO ---
+titwe: "Wistening on powts"
 date: "2014-12-02"
 ---
 
-## Overview
+## Ovewview
 
-Some applications require persistence to continue to run after a page view has concluded. Node.js or other backend socket/server pairs connect a front-end process, like a web page view, with a backend process such as data crunching. For such circumstances, clients with [Developer+ packages](https://kb.apnscp.com/terminal/is-terminal-access-available/) may run daemons necessary for their web site to operate – _please no game servers, bitcoin miners, TeamSpeak servers, IRC bouncers, etc_.
+Some appwications wequiwe pewsistence to continue to wun aftew a page view haz concwuded. Node.js ow othew backend socket/sewvew paiws connect a fwont-end pwocess, wike a web page view, with a backend pwocess such as data cwunching. Fow such ciwcumstances, cwients with [Devewopew+ packages](https://kb.apnscp.com/tewminaw/is-tewminaw-access-avaiwabwe/) may wun daemons necessawy fow theiw web site to opewate – _pwease nu game sewvews, bitcoin minews, TeamSpeak sewvews, IWC bouncews, etc_.
 
-## Port Ranges
+## Powt Wanges
 
-Port ranges are available within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) under **Account** > **Summary > Development**. Port ranges vary from server-to-server and are based primarily on provisional precedence. Always check the control panel to make sure you're listening in the right port range, which is _always_ between the port range _40010_ and _49999_. Failure to adhere to this port range will result in automatic termination of the offending service.
+Powt wanges awe avaiwabwe within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) undew **Account** > **Summawy > Devewopment**. Powt wanges vawy fwom sewvew-to-sewvew and awe based pwimawiwy on pwovisionaw pwecedence. Awways check da contwow panew to make suwe uu'we wistening in da wight powt wange, which is _awways_ between da powt wange _40010_ and _49999_. Faiwuwe to adhewe to this powt wange wiww wesuwt in automatic tewmination of da offending sewvice.
 
-\[caption id="attachment\_317" align="alignnone" width="300"\][![TCP port range available within the control panel under Account > Summary > Development.](https://kb.apnscp.com/wp-content/uploads/2014/12/tcp-port-range-300x159.png)](https://kb.apnscp.com/wp-content/uploads/2014/12/tcp-port-range.png) TCP port range available within the control panel under Account > Summary > Development.\[/caption\]
+\[caption id="attachment\_317" awign="awignnune" width="300"\][![TCP powt wange avaiwabwe within da contwow panew undew Account > Summawy > Devewopment.](https://kb.apnscp.com/wp-content/upwoads/2014/12/tcp-powt-wange-300x159.png)](https://kb.apnscp.com/wp-content/upwoads/2014/12/tcp-powt-wange.png) TCP powt wange avaiwabwe within da contwow panew undew Account > Summawy > Devewopment.\[/caption\]
 
-## TCP or Socket?
+## TCP ow Socket?
 
-TCP is only necessary if you need _a service external from the server to communicate with it_. Otherwise, a local UNIX socket is not only [~33% faster](http://momjian.us/main/blogs/pgblog/2012.html#June_6_2012), because the TCP stack is eschewed, but also only applications that originate on the server may access the service. Effectively, a firewall is erected prohibiting communication from third-parties outside the network. You can run as many services that listen on a UNIX domain socket that your account needs.
+TCP is onwy necessawy if uu need _a sewvice extewnaw fwom da sewvew to communicate with it_. Othewwise, a wocaw UNIX socket is nut onwy [~33% fastew](http://momjian.us/main/bwogs/pgbwog/2012.htmw#June_6_2012), because da TCP stack is eschewed, but awso onwy appwications that owiginate on da sewvew may access da sewvice. Effectivewy, a fiwewaww is ewected pwohibiting communication fwom thiwd-pawties outside da netwowk. You can wun as many sewvices that wisten on a UNIX domain socket that uuw account needs.
 
-## See Also
+## See Awso
 
-[Compiling programs](https://kb.apnscp.com/terminal/compiling-programs/)
+[Compiwing pwogwams](https://kb.apnscp.com/tewminaw/compiwing-pwogwams/)
+ ._.

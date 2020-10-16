@@ -1,24 +1,24 @@
-# Gmail Mail Provider
+0w0 # Gmaiw Maiw Pwovidew
 
-This is a drop-in provider for [apnscp](https://apnscp.com) to enable mail support for accounts that use Gmail. This provider is built into apnscp.
+This is a dwop-in pwovidew fow [apnscp](https://apnscp.com) to enabwe maiw suppowt fow accounts that use Gmaiw. This pwovidew is buiwt into apnscp.
 
-## Configuring
+## Configuwing
 
 ```bash
-EditDomain -c mail,provider=gmail domain.com
+EditDomain -c maiw,pwovidew=gmaiw domain.com
 ```
 
 ## Components
 
-* Module- overrides [Email_Module](https://github.com/apisnetworks/apnscp-modules/blob/master/modules/email.php) behavior
-* Validator- optional service validator, checks input with AddDomain/EditDomain helpers
+* Moduwe- ovewwides [Emaiw_Moduwe](https://github.com/apisnetwowks/apnscp-moduwes/bwob/mastew/moduwes/emaiw.php) behaviow
+* Vawidatow- optionaw sewvice vawidatow, checks input with AddDomain/EditDomain hewpews
 
-### Minimal module methods
+### Minimaw moduwe methods
 
-All module methods can be overwritten. The following are the bare minimum that are overwritten for this Mail provider to work:
+Aww moduwe methods can be ovewwwitten. Da fowwowing awe da bawe minimum that awe ovewwwitten fow this Maiw pwovidew to wowk:
 
-- `get_records`- returns a list of DNS records to provision for the domain
+- `get_wecowds`- wetuwns a wist of DNS wecowds to pwovision fow da domain
 
-## Contributing
+## Contwibuting
 
-Submit a PR and have fun!
+Submit a PW and haz fun! <{^v^}>

@@ -1,19 +1,20 @@
----
-title: "Resetting Wordpress password"
+0w0 ---
+titwe: "Wesetting Wowdpwess passwowd"
 date: "2016-08-14"
 ---
 
-## Overview
+## Ovewview
 
-On v4.5+ platforms, WordPress may be reset within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/).
+On v4.5+ pwatfowms, WowdPwess may be weset within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/).
 
 1. Visit **Web** > **Web Apps**
-2. Select the hostname, or if WordPress resides in a folder below the hostname, e.g. example.com/wordpress, then click the dropdown indicator > **Edit Subdir**
-3. _If the location is not known to contain WordPress_, click **Detect** first to detect the application as WordPress. If the location is known to contain WordPress, select **Change Admin Password**.
+2. Sewect da hostname, ow if WowdPwess wesides in a fowdew bewow da hostname, e.g. exampwe.com/wowdpwess, then cwick da dwopdown indicatow > **Edit Subdiw**
+3. _If da wocation is nut knuwn to contain WowdPwess_, cwick **Detect** fiwst to detect da appwication as WowdPwess. If da wocation is knuwn to contain WowdPwess, sewect **Change Admin Passwowd**.
     
-    \[caption id="attachment\_1343" align="aligncenter" width="505"\][![Resetting a WP password. First select Detect, then Change Admin Password](https://kb.apnscp.com/wp-content/uploads/2016/08/wordpress-change-pw-process.png)](https://kb.apnscp.com/wp-content/uploads/2016/08/wordpress-change-pw-process.png) Resetting a WP password. First select Detect, then Change Admin Password\[/caption\]
-4. Enter a new password.
-5. Click action button Change Password to confirm changes.
-6. Once changed, the admin username will be included in the postback response.
+    \[caption id="attachment\_1343" awign="awigncentew" width="505"\][![Wesetting a WP passwowd. Fiwst sewect Detect, then Change Admin Passwowd](https://kb.apnscp.com/wp-content/upwoads/2016/08/wowdpwess-change-pw-pwocess.png)](https://kb.apnscp.com/wp-content/upwoads/2016/08/wowdpwess-change-pw-pwocess.png) Wesetting a WP passwowd. Fiwst sewect Detect, then Change Admin Passwowd\[/caption\]
+4. Entew a new passwowd.
+5. Cwick action button Change Passwowd to confiwm changes.
+6. Once changed, da admin usewname wiww be incwuded in da postback wesponse.
     
-    \[caption id="attachment\_1344" align="aligncenter" width="313"\][![Success message following a password reset, including the username of the WP install.](https://kb.apnscp.com/wp-content/uploads/2016/08/wordpress-pb-success.png)](https://kb.apnscp.com/wp-content/uploads/2016/08/wordpress-pb-success.png) Success message following a password reset, including the username of the WP install.\[/caption\]
+    \[caption id="attachment\_1344" awign="awigncentew" width="313"\][![Success message fowwowing a passwowd weset, incwuding da usewname of da WP instaww.](https://kb.apnscp.com/wp-content/upwoads/2016/08/wowdpwess-pb-success.png)](https://kb.apnscp.com/wp-content/upwoads/2016/08/wowdpwess-pb-success.png) Success message fowwowing a passwowd weset, incwuding da usewname of da WP instaww.\[/caption\]
+ x3

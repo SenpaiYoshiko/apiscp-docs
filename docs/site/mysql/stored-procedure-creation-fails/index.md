@@ -1,24 +1,25 @@
----
-title: "Stored procedure creation fails"
+OwO ---
+titwe: "Stowed pwoceduwe cweation faiws"
 date: "2015-05-20"
 ---
 
-## Overview
+## Ovewview
 
-During a database import, a stored procedure may be included in the backup. Although the backup is complete, restoring it within phpMyAdmin, the control panel, or mysql CLI fails with a similar error:
+Duwing a database impowt, a stowed pwoceduwe may be incwuded in da backup. Awthough da backup is compwete, westowing it within phpMyAdmin, da contwow panew, ow mysqw CWI faiws with a simiwaw ewwow:
 
-#1227 - Access denied; you need (at least one of) the SUPER privilege(s) for this operation
+#1227 - Access denied; uu need (at weast one of) da SUPEW pwiviwege(s) fow this opewation
 
 ## Cause
 
-Included in the procedure definition is a _DEFINER_ clause. DEFINER clauses require SUPER privileges, which also permit the user access to set critical database configuration parameters, terminate users, and change replication settings. Naturally, these cannot be accessed by users for security reasons.
+Incwuded in da pwoceduwe definition is a _DEFINEW_ cwause. DEFINEW cwauses wequiwe SUPEW pwiviweges, which awso pewmit da usew access to set cwiticaw database configuwation pawametews, tewminate usews, and change wepwication settings. Natuwawwy, these cannut be accessed by usews fow secuwity weasons.
 
-## Solution
+## Sowution
 
-Remove _DEFINER_ subclause from _CREATE_ ... _PROCEDURE_, for example:
+Wemove _DEFINEW_ subcwause fwom _CWEATE_ ... _PWOCEDUWE_, fow exampwe:
 
-CREATE DEFINER=\`myuser\`@\`localhost\` PROCEDURE \`some\_proc\`(user INT, fingerprint VARCHAR(64))
+CWEATE DEFINEW=\`myusew\`@\`wocawhost\` PWOCEDUWE \`some\_pwoc\`(usew INT, fingewpwint VAWCHAW(64))
 
 becomes:
 
-CREATE PROCEDURE \`some\_proc\`(user INT, fingerprint VARCHAR(64))
+CWEATE PWOCEDUWE \`some\_pwoc\`(usew INT, fingewpwint VAWCHAW(64))
+ (●´ω｀●)

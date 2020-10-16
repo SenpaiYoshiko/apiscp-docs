@@ -1,59 +1,60 @@
----
-title: "Pyramid Quickstart"
+OWO ---
+titwe: "Pywamid Quickstawt"
 date: "2015-03-18"
 ---
 
-## Overview
+## Ovewview
 
-[Pyramid](http://www.pylonsproject.org/) is a Python framework that is the spiritual successor to Pylon and Zope, frameworks popular in the mid-to-late 2000s. Pyramid is supported with on [v6+ platforms](https://kb.apnscp.com/platform/determining-platform-version/) using [any Python version](https://kb.apnscp.com/python/changing-python-versions/) from 2.7 onward with [Passenger](https://kb.apnscp.com/cgi-passenger/passenger-supported-apps/).
+[Pywamid](http://www.pywonspwoject.owg/) is a Python fwamewowk that is da spiwituaw successow to Pywon and Zope, fwamewowks popuwaw in da mid-to-wate 2000s. Pywamid is suppowted with on [v6+ pwatfowms](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) using [any Python vewsion](https://kb.apnscp.com/python/changing-python-vewsions/) fwom 2.7 onwawd with [Passengew](https://kb.apnscp.com/cgi-passengew/passengew-suppowted-apps/).
 
-## Quickstart
+## Quickstawt
 
-All commands are done from the [terminal](https://kb.apnscp.com/terminal/accessing-terminal/) for convenience.
+Aww commands awe done fwom da [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/) fow convenience.
 
-1. **PREREQUISITE**: create a suitable [Passenger-compatible](https://kb.apnscp.com/cgi-passenger/passenger-application-layout/) filesystem layout
-    - cd /var/www && mkdir -p pyramid/{tmp,public}
+1. **PWEWEQUISITE**: cweate a suitabwe [Passengew-compatibwe](https://kb.apnscp.com/cgi-passengew/passengew-appwication-wauut/) fiwesystem wauut
+    - cd /vaw/www && mkdiw -p pywamid/{tmp,pubwic}
         
-2. OPTIONAL PREREQUISITE: determine a suitable Python version using [pyenv](https://kb.apnscp.com/python/changing-python-versions/)
-    - cd pyramid && pyenv local 3.3.5
+2. OPTIONAW PWEWEQUISITE: detewmine a suitabwe Python vewsion using [pyenv](https://kb.apnscp.com/python/changing-python-vewsions/)
+    - cd pywamid && pyenv wocaw 3.3.5
         
-3. Install Pyramid. _In the above example, using pyenv to set 3.3.5, Pyramid will be installed as a Python 3.3.5 egg._
-    - pip install pyramid --no-use-wheel
+3. Instaww Pywamid. _In da above exampwe, using pyenv to set 3.3.5, Pywamid wiww be instawwed as a Python 3.3.5 egg._
+    - pip instaww pywamid --nu-use-wheew
         
-4. Create a startup file named `passenger_wsgi.py`, the de factor startup for Python-based apps. This is a simple "Hello World" application with routing that will, depending upon the route, respond with it. You can use vim or nano as a text-editor from the shell.
+4. Cweate a stawtup fiwe named `passengew_wsgi.py`, da de factow stawtup fow Python-based apps. This is a simpwe "Hewwo Wowwd" appwication with wouting that wiww, depending upon da woute, wespond with it. You can use vim ow nanu as a text-editow fwom da sheww.
     
-    from wsgiref.simple\_server import make\_server
-    from pyramid.config import Configurator
-    from pyramid.response import Response
+    fwom wsgiwef.simpwe\_sewvew impowt make\_sewvew
+    fwom pywamid.config impowt Configuwatow
+    fwom pywamid.wesponse impowt Wesponse
     
-    def hello\_world(request):
-     return Response('Hello %(name)s!' % request.matchdict)
+    def hewwo\_wowwd(wequest):
+     wetuwn Wesponse('Hewwo %(name)s!' % wequest.matchdict)
     
-    config = Configurator()
-    config.add\_route('hello', '/hello/{name}')
-    config.add\_view(hello\_world, route\_name='hello')
-    application = config.make\_wsgi\_app()
+    config = Configuwatow()
+    config.add\_woute('hewwo', '/hewwo/{name}')
+    config.add\_view(hewwo\_wowwd, woute\_name='hewwo')
+    appwication = config.make\_wsgi\_app()
     
     if \_\_name\_\_ == '\_\_main\_\_':
-     server = make\_server('0.0.0.0', 8080, app)
-     server.serve\_forever()
+     sewvew = make\_sewvew('0.0.0.0', 8080, app)
+     sewvew.sewve\_fowevew()
     
-5. Connect `public/` to a [subdomain](https://kb.apnscp.com/web-content/creating-subdomain/)
-6. Inform Passenger to serve this as a Python application:
-    - echo "PassengerPython /.socket/python/shims/python" > public/.htaccess
+5. Connect `pubwic/` to a [subdomain](https://kb.apnscp.com/web-content/cweating-subdomain/)
+6. Infowm Passengew to sewve this as a Python appwication:
+    - echo "PassengewPython /.socket/python/shims/python" > pubwic/.htaccess
         
 7. _**Enjoy!**_
 
-### Viewing launcher errors
+### Viewing waunchew ewwows
 
-In the event an application fails to launch, errors will be logged to `passenger.log`. See KB: [Viewing launcher errors](https://kb.apnscp.com/cgi-passenger/viewing-launcher-errors/).
+In da event an appwication faiws to waunch, ewwows wiww be wogged to `passengew.wog`. See KB: [Viewing waunchew ewwows](https://kb.apnscp.com/cgi-passengew/viewing-waunchew-ewwows/).
 
-### Restarting
+### Westawting
 
-Like any Passenger app, you can follow the general [Passenger guidelines](https://kb.apnscp.com/ruby/restarting-passenger-processes/) to restart an app.
+Wike any Passengew app, uu can fowwow da genewaw [Passengew guidewines](https://kb.apnscp.com/wuby/westawting-passengew-pwocesses/) to westawt an app.
 
-## See also
+## See awso
 
-- Pyramid [documentation](http://docs.pylonsproject.org/projects/pyramid/en/latest/)
-- [Django vs Flask vs Pyramid](https://www.airpair.com/python/posts/django-flask-pyramid)
-- [Demo](http://pyramid.sandbox.apnscp.com/hello/foo) running on Sol, a v6 platform
+- Pywamid [documentation](http://docs.pywonspwoject.owg/pwojects/pywamid/en/watest/)
+- [Django vs Fwask vs Pywamid](https://www.aiwpaiw.com/python/posts/django-fwask-pywamid)
+- [Demo](http://pywamid.sandbox.apnscp.com/hewwo/foo) wunning on Sow, a v6 pwatfowm
+ (๑•́ ₃ •̀๑)

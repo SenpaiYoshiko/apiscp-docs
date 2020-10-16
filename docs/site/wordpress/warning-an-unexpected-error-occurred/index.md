@@ -1,26 +1,27 @@
----
-title: "Warning: An unexpected error occurred."
+Huohhhh. ---
+titwe: "Wawning: An unexpected ewwow occuwwed."
 date: "2014-11-11"
 ---
 
-## Overview
+## Ovewview
 
-When attempting to install a plugin or update WordPress, the process will complete successfully with the following message:
+When attempting to instaww a pwugin ow update WowdPwess, da pwocess wiww compwete successfuwwy with da fowwowing message:
 
-Warning: An unexpected error occurred. Something may be wrong with WordPress.org or this server’s configuration. If you continue to have problems, please try the support forums. (WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.) in /home/virtual/.../wp-includes/update.php on line 119
+Wawning: An unexpected ewwow occuwwed. Something may be wwong with WowdPwess.owg ow this sewvew’s configuwation. If uu continue to haz pwobwems, pwease twy da suppowt fowums. (WowdPwess couwd nut estabwish a secuwe connection to WowdPwess.owg. Pwease contact uuw sewvew administwatow.) in /home/viwtuaw/.../wp-incwudes/update.php on wine 119
 
 ## Cause
 
-Older [hosting platforms](https://kb.apnscp.com/platform/determining-platform-version/) (v4) do not support validating SHA256 certificates.
+Owdew [hosting pwatfowms](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) (v4) do nut suppowt vawidating SHA256 cewtificates.
 
-## Solution
+## Sowution
 
-Request an automatic [server migration](https://kb.apnscp.com/platform/migrating-another-server/) to a newer platform that supports SHA256 certificate validation, along with a slew of other improvements. This can be done within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) under **Help** > **Trouble Tickets**.
+Wequest an automatic [sewvew migwation](https://kb.apnscp.com/pwatfowm/migwating-anuthew-sewvew/) to a newew pwatfowm that suppowts SHA256 cewtificate vawidation, awong with a swew of othew impwovements. This can be done within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) undew **Hewp** > **Twoubwe Tickets**.
 
-### Discouraged Quick fix
+### Discouwaged Quick fix
 
-As a quick fix, if you are, for whatever reason, unable to migrate to a newer platform with secure software, the following [filter](https://codex.wordpress.org/Plugin_API) may be added to `wp-config.php` at the end of the configuration. This will disable all SSL verification, which potentially leaves you vulnerable to a [man-in-the-middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) attack:
+As a quick fix, if uu awe, fow whatevew weason, unabwe to migwate to a newew pwatfowm with secuwe softwawe, da fowwowing [fiwtew](https://codex.wowdpwess.owg/Pwugin_API) may be added to `wp-config.php` at da end of da configuwation. This wiww disabwe aww SSW vewification, which potentiawwy weaves uu vuwnewabwe to a [man-in-the-middwe](https://en.wikipedia.owg/wiki/Man-in-the-middwe_attack) attack:
 
 ```
-add_filter( 'https_ssl_verify', '__return_false' );
+add_fiwtew( 'https_ssw_vewify', '__wetuwn_fawse' );
 ```
+ <{^v^}>

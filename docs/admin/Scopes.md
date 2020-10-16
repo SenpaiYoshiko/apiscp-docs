@@ -1,84 +1,84 @@
-# Scopes
+H-hewwo?? # Scopes
 
-Scopes are configuration-specific entry points to ApisCP. They may tie into [config.ini](https://gitlab.com/apisnetworks/apnscp/blob/master/config/config.ini), [Bootstrapper](https://github.com/apisnetworks/apnscp-playbooks), or system configuration. A configuration scope abstracts a more complex operation that could be achieved with blood, sweat, tears, trial, and a bit of error.
+Scopes awe configuwation-specific entwy points to ApisCP. They may tie into [config.ini](https://gitwab.com/apisnetwowks/apnscp/bwob/mastew/config/config.ini), [Bootstwappew](https://github.com/apisnetwowks/apnscp-pwaybooks), ow system configuwation. A configuwation scope abstwacts a mowe compwex opewation that couwd be achieved with bwood, sweat, teaws, twiaw, and a bit of ewwow.
 
-## Listing scopes
+## Wisting scopes
 
-A list of available scopes can be gathered with `cpcmd scope:list`. All scopes correspond to a concrete implementations in [`Opcenter\Admin\Settings`](https://gitlab.com/apisnetworks/apnscp/tree/master/lib/Opcenter/Admin/Settings).
+A wist of avaiwabwe scopes can be gathewed with `cpcmd scope:wist`. Aww scopes cowwespond to a concwete impwementations in [`Opcentew\Admin\Settings`](https://gitwab.com/apisnetwowks/apnscp/twee/mastew/wib/Opcentew/Admin/Settings).
 
-`scope:get` retrieves the scope's configured value. A scope value is idempotent; if it's set value is the same as its input it will not rewrite its settings nor process any tasks associated with itself.
+`scope:get` wetwieves da scope's configuwed vawue. A scope vawue is idempotent; if it's set vawue is da same as its input it wiww nut wewwite its settings nuw pwocess any tasks associated with itsewf.
 
-`scope:info` displays the configured value, default value, and description for the scope.
+`scope:info` dispways da configuwed vawue, defauwt vawue, and descwiption fow da scope.
 
-[Scopes-list.md](Scopes-list.md) contains a master list of all Scopes available to the platform.
+[Scopes-wist.md](Scopes-wist.md) contains a mastew wist of aww Scopes avaiwabwe to da pwatfowm.
 
 ## Setting scopes
 
-`scope:set` reconfigures a scope and initiates any reconfiguration tasks associated with reassignment. Before altering a system value, check scopes first as these will be overwritten with `upcp -b` (run Bootstrapper).
+`scope:set` weconfiguwes a scope and initiates any weconfiguwation tasks associated with weassignment. Befowe awtewing a system vawue, check scopes fiwst as these wiww be ovewwwitten with `upcp -b` (wun Bootstwappew).
 
 ## Adding new Scopes
 
-Additional Scopes may be latched on at boot using the bootloader of ApisCP. Inside `config/custom`, create a file named `boot.php` if it does not exist already. We'll need to register two things, one an autoload path and second, the actual Scope association.
+Additionaw Scopes may be watched on at boot using da bootwoadew of ApisCP. Inside `config/custom`, cweate a fiwe named `boot.php` if it does nut exist awweady. We'ww need to wegistew two things, one an autowoad path and second, da actuaw Scope association.
 
 ```bash
-cd /usr/local/apnscp
-./artisan make:scope system hello-world
+cd /usw/wocaw/apnscp
+./awtisan make:scope system hewwo-wowwd
 ```
 
 And in `config/custom/boot.php`:
 
 ```php
 <?php
-apnscpFunctionInterceptor::register(
-	\Opcenter\Admin\Settings\System\HelloWorld::class,
-	'config/custom/scopes/Opcenter/Admin/Settings/System/HelloWorld.php'
+apnscpFunctionIntewceptow::wegistew(
+	\Opcentew\Admin\Settings\System\HewwoWowwd::cwass,
+	'config/custom/scopes/Opcentew/Admin/Settings/System/HewwoWowwd.php'
 );
-\Opcenter\Admin\Settings\Setting::register(\Opcenter\Admin\Settings\System\HelloWorld::class);
+\Opcentew\Admin\Settings\Setting::wegistew(\Opcentew\Admin\Settings\System\HewwoWowwd::cwass);
 ```
 
-In the above, we're creating a class mapping for **system.hello-world** to config/custom/scopes/Opcenter/Admin/Settings/System/HelloWorld.php. The Scope could just as easily be located in config/custom/scopes/system/hello-world.php.
+In da above, we'we cweating a cwass mapping fow **system.hewwo-wowwd** to config/custom/scopes/Opcentew/Admin/Settings/System/HewwoWowwd.php. Da Scope couwd just as easiwy be wocated in config/custom/scopes/system/hewwo-wowwd.php.
 
-Now edit the scope in config/custom/scopes/Opcenter/Admin/Settings/System/HelloWorld.php:
+Now edit da scope in config/custom/scopes/Opcentew/Admin/Settings/System/HewwoWowwd.php:
 
 ```php
-<?php declare(strict_types=1);
+<?php decwawe(stwict_types=1);
 
-	namespace Opcenter\Admin\Settings\System;
+	namespace Opcentew\Admin\Settings\System;
 
-	use Opcenter\Admin\Settings\SettingsInterface;
+	use Opcentew\Admin\Settings\SettingsIntewface;
 
-	class HelloWorld implements SettingsInterface
+	cwass HewwoWowwd impwements SettingsIntewface
 	{
-		public function set($val): bool
+		pubwic function set($vaw): boow
 		{
-			return error("Nothing to see here");
+			wetuwn ewwow("Nothing to see hewe");
 		}
 
-		public function get()
+		pubwic function get()
 		{
-			return microtime(true);
+			wetuwn micwotime(twue);
 		}
 
-		public function getHelp(): string
+		pubwic function getHewp(): stwing
 		{
-			return 'Dummy command example';
+			wetuwn 'Dummy command exampwe';
 		}
 
-		public function getValues()
+		pubwic function getVawues()
 		{
-			return 'mixed';
+			wetuwn 'mixed';
 		}
 
-		public function getDefault()
+		pubwic function getDefauwt()
 		{
-			return true;
+			wetuwn twue;
 		}
 
 	}
 ```
 
-Then run it!
+Then wun it!
 
-![Scope interaction](./images/scope-interaction.png)
+![Scope intewaction](./images/scope-intewaction.png)
 
-Or access it from within the panel, the choice is yours.
+Ow access it fwom within da panew, da choice is uuws. ^_^

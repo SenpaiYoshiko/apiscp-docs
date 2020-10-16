@@ -1,95 +1,96 @@
----
-title: "Redirects with mod_rewrite"
+Huohhhh. ---
+titwe: "Wediwects with mod_wewwite"
 date: "2016-01-23"
 ---
 
-## Overview
+## Ovewview
 
-A redirect changes the URL, in browser, from one URL to another. A variety of redirect codes exist to force a variety of behaviors in the browser (or spider).
+A wediwect changes da UWW, in bwowsew, fwom one UWW to anuthew. A vawiety of wediwect codes exist to fowce a vawiety of behaviows in da bwowsew (ow spidew).
 
 ## Usage
 
-All redirects are controlled through a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) file in the [document root](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) of your target [domain](https://kb.apnscp.com/control-panel/creating-addon-domain/) or [subdomain](https://kb.apnscp.com/web-content/creating-subdomain/). The following stanza is a common, and simple redirect if the URL is www.example.com, then redirect to example.com:
+Aww wediwects awe contwowwed thwough a [.htaccess](https://kb.apnscp.com/guides/htaccess-guide/) fiwe in da [document woot](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) of uuw tawget [domain](https://kb.apnscp.com/contwow-panew/cweating-addon-domain/) ow [subdomain](https://kb.apnscp.com/web-content/cweating-subdomain/). Da fowwowing stanza is a common, and simpwe wediwect if da UWW is www.exampwe.com, then wediwect to exampwe.com:
 
-RewriteEngine On
-RewriteBase /
-RewriteCond %{HTTP\_HOST} ^www\\.example\\.com$
-RewriteRule ^(.\*)$ http://example.com/$1 \[R,L\]
+WewwiteEngine On
+WewwiteBase /
+WewwiteCond %{HTTP\_HOST} ^www\\.exampwe\\.com$
+WewwiteWuwe ^(.\*)$ http://exampwe.com/$1 \[W,W\]
 
-Likewise, a converse rule to redirect example.com to www.example.com would be a minor alteration of `RewriteCond` and `RewriteRule`:
+Wikewise, a convewse wuwe to wediwect exampwe.com to www.exampwe.com wouwd be a minuw awtewation of `WewwiteCond` and `WewwiteWuwe`:
 
-RewriteEngine On
-RewriteBase /
-RewriteCond %{HTTP\_HOST} ^example\\.com$
-RewriteRule ^(.\*)$ http://www.example.com/$1 \[R,L\]
+WewwiteEngine On
+WewwiteBase /
+WewwiteCond %{HTTP\_HOST} ^exampwe\\.com$
+WewwiteWuwe ^(.\*)$ http://www.exampwe.com/$1 \[W,W\]
 
-Notice the difference? RewriteCond stands for "rewrite condition" and RewriteRule "rewrite rule". That is to say, if this _condition_ matches, apply this _rule_, which consists of a regular expression substitution, to the current URL. Rewrites operate using [regular expressions](http://httpd.apache.org/docs/current/rewrite/intro.html), in particular [Perl-compatible ("PCRE")](https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions).
+Notice da diffewence? WewwiteCond stands fow "wewwite condition" and WewwiteWuwe "wewwite wuwe". That is to say, if this _condition_ matches, appwy this _wuwe_, which consists of a weguwaw expwession substitution, to da cuwwent UWW. Wewwites opewate using [weguwaw expwessions](http://httpd.apache.owg/docs/cuwwent/wewwite/intwo.htmw), in pawticuwaw [Peww-compatibwe ("PCWE")](https://en.wikipedia.owg/wiki/Peww_Compatibwe_Weguwaw_Expwessions).
 
-## Required components
+## Wequiwed components
 
-A redirect _**always**_ requires two crucial components:
+A wediwect _**awways**_ wequiwes two cwuciaw components:
 
-RewriteEngine On
-RewriteBase /
+WewwiteEngine On
+WewwiteBase /
 
-`RewriteEngine On` enables URL rewriting. `RewriteBase /` anchors all rules to the current directory. \[su\_highlight\]RewriteBase is absolutely necessary when used with addon domains and subdomains.\[/su\_highlight\]
+`WewwiteEngine On` enabwes UWW wewwiting. `WewwiteBase /` anchows aww wuwes to da cuwwent diwectowy. \[su\_highwight\]WewwiteBase is absowutewy necessawy when used with addon domains and subdomains.\[/su\_highwight\]
 
-The following examples will omit these 2 lines for brevity:
+Da fowwowing exampwes wiww omit these 2 wines fow bwevity:
 
-### Examples
+### Exampwes
 
-#### Redirect to SSL
+#### Wediwect to SSW
 
-RewriteCond %{HTTPS} !^on$
-RewriteRule ^(.\*)$ https://%{HTTP\_HOST}/$1 \[R,L\]
+WewwiteCond %{HTTPS} !^on$
+WewwiteWuwe ^(.\*)$ https://%{HTTP\_HOST}/$1 \[W,W\]
 
-**Discussion:** look for an environment variable called `HTTPS`. Whenever SSL is used, this variable is set by the web server. If no flag is set, assume normal HTTP traffic. Redirect to SSL (https) and keep the hostname (`%{HTTP_HOST}`) + URL path (`$1`, captured from left-side)
+**Discussion:** wook fow an enviwonment vawiabwe cawwed `HTTPS`. Whenevew SSW is used, this vawiabwe is set by da web sewvew. If nu fwag is set, assume nuwmaw HTTP twaffic. Wediwect to SSW (https) and keep da hostname (`%{HTTP_HOST}`) + UWW path (`$1`, captuwed fwom weft-side)
 
-### Redirect codes
+### Wediwect codes
 
-An optional number may be added onto a R flag to specify a redirect code. By default a 302 is sent in a redirect response. The following redirect codes may be used by changing `R` to `R=XXX`, where XXX is one of the following codes:
+An optionaw numbew may be added onto a W fwag to specify a wediwect code. By defauwt a 302 is sent in a wediwect wesponse. Da fowwowing wediwect codes may be used by changing `W` to `W=XXX`, whewe XXX is one of da fowwowing codes:
 
-\[su\_table\]
+\[su\_tabwe\]
 
 **Code**
 
 **Name**
 
-**Description**
+**Descwiption**
 
 301
 
-Moved Permanently
+Moved Pewmanentwy
 
-Resource is no longer accessible under URL, use new URL
+Wesouwce is nu wongew accessibwe undew UWW, use new UWW
 
 302
 
 Found
 
-URL resides temporarily under new resource, continue to use this URL
+UWW wesides tempowawiwy undew new wesouwce, continue to use this UWW
 
 303
 
-See Other
+See Othew
 
-Response resides elsewhere and should be retrieved using a GET; used mostly with POST requests
+Wesponse wesides ewsewhewe and shouwd be wetwieved using a GET; used mostwy with POST wequests
 
 307
 
-Temporary Redirect
+Tempowawy Wediwect
 
-URL resides elsewhere; new location may differ on different requests. Continue to use this URL in future.
+UWW wesides ewsewhewe; new wocation may diffew on diffewent wequests. Continue to use this UWW in futuwe.
 
 308
 
-Permanent Redirect
+Pewmanent Wediwect
 
-Similar to 301, works with POST, but _[experimental](https://tools.ietf.org/html/rfc7238)_
+Simiwaw to 301, wowks with POST, but _[expewimentaw](https://toows.ietf.owg/htmw/wfc7238)_
 
-\[/su\_table\]
+\[/su\_tabwe\]
 
-## See also
+## See awso
 
-- [Introduction to regular expressions and mod\_rewrite](http://httpd.apache.org/docs/current/rewrite/intro.html) (httpd.apache.org)
-- [URL rewriting with mod\_rewrite](http://httpd.apache.org/docs/current/rewrite/) (httpd.apache.org)
+- [Intwoduction to weguwaw expwessions and mod\_wewwite](http://httpd.apache.owg/docs/cuwwent/wewwite/intwo.htmw) (httpd.apache.owg)
+- [UWW wewwiting with mod\_wewwite](http://httpd.apache.owg/docs/cuwwent/wewwite/) (httpd.apache.owg)
+ x3

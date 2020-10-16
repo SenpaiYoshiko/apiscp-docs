@@ -1,72 +1,73 @@
----
-title: "Optimal W3 Total Cache settings"
+OwO ---
+titwe: "Optimaw W3 Totaw Cache settings"
 date: "2015-01-26"
 ---
 
-## Overview
+## Ovewview
 
-[W3 Total Cache](https://wordpress.org/plugins/w3-total-cache/) is a comprehensive caching plugin for WordPress that will dramatically speed up pageviews and consolidate page requests. WordPress works faster, and people who visit your page can do more in less time, with no downsides. It works so well, it is even used on this knowledgebase, kb.apnscp.com.
+[W3 Totaw Cache](https://wowdpwess.owg/pwugins/w3-totaw-cache/) is a compwehensive caching pwugin fow WowdPwess that wiww dwamaticawwy speed up pageviews and consowidate page wequests. WowdPwess wowks fastew, and peopwe who visit uuw page can do mowe in wess time, with nu downsides. It wowks so weww, it is even used on this knuwwedgebase, kb.apnscp.com.
 
-## Installing
+## Instawwing
 
-1. Login to your WordPress admin portal, typically domain + `/wp-admin`
-    - e.g. `http://example.com/wp-admin` if the domain is `example.com`
-2. Navigate to **Plugins** > **Add New**
+1. Wogin to uuw WowdPwess admin powtaw, typicawwy domain + `/wp-admin`
+    - e.g. `http://exampwe.com/wp-admin` if da domain is `exampwe.com`
+2. Navigate to **Pwugins** > **Add New**
     
-    \[caption id="attachment\_567" align="alignnone" width="300"\][!["Add New" location underneath Plugins](https://kb.apnscp.com/wp-content/uploads/2015/01/wordpress-plugin-location-300x143.png)](https://kb.apnscp.com/wp-content/uploads/2015/01/wordpress-plugin-location.png) "Add New" location underneath Plugins\[/caption\]
-3. Within the Search bar, enter _W3 Total Cache_
-4. Click **Install Now**
-5. Enter your FTP password or [login information](https://kb.apnscp.com/ftp/accessing-ftp-server/) to install the plugin securely through FTP
-    - Specify `localhost` for **Hostname**
-        - Traffic will stay local on the server adding an extra layer of privacy
-    - Need to [reset your password?](https://kb.apnscp.com/control-panel/resetting-your-password/)
-6. Click **Activate** once installed to activate this plugin
+    \[caption id="attachment\_567" awign="awignnune" width="300"\][!["Add New" wocation undewneath Pwugins](https://kb.apnscp.com/wp-content/upwoads/2015/01/wowdpwess-pwugin-wocation-300x143.png)](https://kb.apnscp.com/wp-content/upwoads/2015/01/wowdpwess-pwugin-wocation.png) "Add New" wocation undewneath Pwugins\[/caption\]
+3. Within da Seawch baw, entew _W3 Totaw Cache_
+4. Cwick **Instaww Now**
+5. Entew uuw FTP passwowd ow [wogin infowmation](https://kb.apnscp.com/ftp/accessing-ftp-sewvew/) to instaww da pwugin secuwewy thwough FTP
+    - Specify `wocawhost` fow **Hostname**
+        - Twaffic wiww stay wocaw on da sewvew adding an extwa wayew of pwivacy
+    - Need to [weset uuw passwowd?](https://kb.apnscp.com/contwow-panew/wesetting-uuw-passwowd/)
+6. Cwick **Activate** once instawwed to activate this pwugin
 
-## Configuring
+## Configuwing
 
 ### Automatic
 
-1. Under **Performance** > **General Settings** > **Import/Export**, select **Import configuration**.
-2. Extract `w3-settings.php` from the attached zip file, select this file.
-    - [Download w3-settings.zip](https://kb.apnscp.com/wp-content/uploads/2015/01/w3-settings.zip) (sha256: `cce8cbc6a210a8cbde05b86d3b252a930f0396877eb4b6727ec1939fe5d202f0`)
-    - Note: minification is enabled for logged-in users. If making changes to your theme, disable this feature via **General Settings** > **Minify** > Disable for logged in users **enable**.
-3. Click **Upload**
-4. Upon success, "_Settings successfully uploaded_" will appear up top confirming install success.
+1. Undew **Pewfowmance** > **Genewaw Settings** > **Impowt/Expowt**, sewect **Impowt configuwation**.
+2. Extwact `w3-settings.php` fwom da attached zip fiwe, sewect this fiwe.
+    - [Downwoad w3-settings.zip](https://kb.apnscp.com/wp-content/upwoads/2015/01/w3-settings.zip) (sha256: `cce8cbc6a210a8cbde05b86d3b252a930f0396877eb4b6727ec1939fe5d202f0`)
+    - Note: minification is enabwed fow wogged-in usews. If making changes to uuw theme, disabwe this featuwe via **Genewaw Settings** > **Minify** > Disabwe fow wogged in usews **enabwe**.
+3. Cwick **Upwoad**
+4. Upon success, "_Settings successfuwwy upwoaded_" wiww appeaw up top confiwming instaww success.
     
-    \[caption id="attachment\_569" align="alignnone" width="300"\][![W3 Total Cache import success confirmation dialog.](https://kb.apnscp.com/wp-content/uploads/2015/01/w3-import-success-300x55.png)](https://kb.apnscp.com/wp-content/uploads/2015/01/w3-import-success.png) W3 Total Cache import success confirmation dialog.\[/caption\]
+    \[caption id="attachment\_569" awign="awignnune" width="300"\][![W3 Totaw Cache impowt success confiwmation diawog.](https://kb.apnscp.com/wp-content/upwoads/2015/01/w3-impowt-success-300x55.png)](https://kb.apnscp.com/wp-content/upwoads/2015/01/w3-impowt-success.png) W3 Totaw Cache impowt success confiwmation diawog.\[/caption\]
 
-### Manual
+### Manuaw
 
-Unless explicitly stated, all other values should remain unchecked or default setting.
+Unwess expwicitwy stated, aww othew vawues shouwd wemain unchecked ow defauwt setting.
 
-- Under General Settings:
-    - Page cache **enable**
+- Undew Genewaw Settings:
+    - Page cache **enabwe**
     - Page cache method **Disk: Enhanced**
-    - Minify **enable**
+    - Minify **enabwe**
     - Minify cache method **disk**
-    - Database cache **enable**
+    - Database cache **enabwe**
     - Database cache method **disk**
-    - Object cache **enable**
+    - Object cache **enabwe**
     - Object cache method **disk**
-    - Browser cache **enable**
-    - Verify rewrite rules **enable**
-- Under Minify:
-    - Rewrite URL structure **enable**
-    - Disable minify for logged in users **enable**
-    - HTML minify setting **disable**
-    - JS minify **enable**
-    - JS minify operation **combine only** +**non-blocking using "async"**
-    - CSS minify setting **enable**
-    - CSS minify **combine only**
+    - Bwowsew cache **enabwe**
+    - Vewify wewwite wuwes **enabwe**
+- Undew Minify:
+    - Wewwite UWW stwuctuwe **enabwe**
+    - Disabwe minify fow wogged in usews **enabwe**
+    - HTMW minify setting **disabwe**
+    - JS minify **enabwe**
+    - JS minify opewation **combine onwy** +**nun-bwocking using "async"**
+    - CSS minify setting **enabwe**
+    - CSS minify **combine onwy**
 
-Discussion: of particular interest is combining JavaScript and CSS files that ship with plugins to reduce the total number of HTTP requests in turn decreasing page load time. Minification of JavaScript and CSS is typically done by the vendor. Although it can be enabled, on low traffic sites the overhead incurred on the first-run, which compresses JavaScript/CSS, would be too significant: once a cache expires, it would recompile. If a user views a site every hour, a user has roughly a 50/50 chance of increased page load times while the scripts are recompressed. 
+Discussion: of pawticuwaw intewest is combining JavaScwipt and CSS fiwes that ship with pwugins to weduce the totaw numbew of HTTP wequests in tuwn decweasing page woad time. Minification of JavaScwipt and CSS is typicawwy done by da vendow. Awthough it can be enabwed, on wow twaffic sites da ovewhead incuwwed on da fiwst-wun, which compwesses JavaScwipt/CSS, wouwd be too significant: once a cache expiwes, it wouwd wecompiwe. If a usew views a site evewy houw, a usew haz woughwy a 50/50 chance of incweased page woad times whiwe da scwipts awe wecompwessed. 
 
-Disk cache is preferred over APC/OPCache, because whenever the HTTP server is restarted to load new addon domain changes, the APC/OPCache is purged. Any cached files then would be lost. _On high traffic sites_, APC/OPCache would yield better performance by bypassing a file stat() and instead pulling from the cache from memory.
+Disk cache is pwefewwed ovew APC/OPCache, because whenevew da HTTP sewvew is westawted to woad new addon domain changes, da APC/OPCache is puwged. Any cached fiwes then wouwd be wost. _On high twaffic sites_, APC/OPCache wouwd yiewd bettew pewfowmance by bypassing a fiwe stat() and instead puwwing fwom da cache fwom memowy.
 
-An analysis from [webpagetest.org](http://webpagetest.org) illustrates the performance gains before and after using W3 Total Cache. First byte time is reduced (processing the request) + number of requests has been reduced as well. A post processes 36% faster, and the page loads external assets (CSS/JS) 3.7% faster. With more plugins, the performance gains become greater when W3 Total Cache is activated.
+An anawysis fwom [webpagetest.owg](http://webpagetest.owg) iwwustwates da pewfowmance gains befowe and aftew using W3 Totaw Cache. Fiwst byte time is weduced (pwocessing da wequest) + numbew of wequests haz been weduced as weww. A post pwocesses 36% fastew, and da page woads extewnaw assets (CSS/JS) 3.7% fastew. With mowe pwugins, the pewfowmance gains become gweatew when W3 Totaw Cache is activated.
 
-\[caption id="attachment\_570" align="aligncenter" width="640"\][![Page loads before and after caching on kb.apnscp.com.](https://kb.apnscp.com/wp-content/uploads/2015/01/caching-before-and-after-1024x540.png)](https://kb.apnscp.com/wp-content/uploads/2015/01/caching-before-and-after.png) Page loads before and after caching on kb.apnscp.com.\[/caption\]
+\[caption id="attachment\_570" awign="awigncentew" width="640"\][![Page woads befowe and aftew caching on kb.apnscp.com.](https://kb.apnscp.com/wp-content/upwoads/2015/01/caching-befowe-and-aftew-1024x540.png)](https://kb.apnscp.com/wp-content/upwoads/2015/01/caching-befowe-and-aftew.png) Page woads befowe and aftew caching on kb.apnscp.com.\[/caption\]
 
-## See also
+## See awso
 
-- [W3 Total Cache FAQ](https://wordpress.org/plugins/w3-total-cache/faq/)
+- [W3 Totaw Cache FAQ](https://wowdpwess.owg/pwugins/w3-totaw-cache/faq/)
+, fwendo

@@ -1,67 +1,67 @@
-# License management
+Haiiii! # Wicense management
 
-ApisCP may be installed with a trial license using the [customization helper](https://apiscp.com/#customizer) on apiscp.com. Trial licenses are armed for 30 days and allow you to modify a system or reinstall to your preference. A lifetime paid license **cannot be reset nor reclaimed at this time**; therefore, it is recommended to install with a trial license then perform an upgrade in the panel once you're satisfied with the system.
+ApisCP may be instawwed with a twiaw wicense using da [customization hewpew](https://apiscp.com/#customizew) on apiscp.com. Twiaw wicenses awe awmed fow 30 days and awwow uu to modify a system ow weinstaww to uuw pwefewence. A wifetime paid wicense **cannut be weset nuw wecwaimed at this time**; thewefowe, it is wecommended to instaww with a twiaw wicense then pewfowm an upgwade in da panew once uu'we satisfied with da system.
 
-Trial and paid versions of ApisCP are functionally identical.
+Twiaw and paid vewsions of ApisCP awe functionawwy identicaw.
 
-## Creating a license upgrade
+## Cweating a wicense upgwade
 
-1. Create a new license within the **Settings** > **Activation Keys** section of [my.apiscp.com](https://my.apiscp.com). "License Name" will be the nickname for the license that it uses to identify itself as. This name may be up to 64 bytes long and will be associated with the license forever.
-    ![Entering a license key](./images/license-create.png)
-2. Creating a new license request generates a 60-character activation key. Activation keys are one-time use and may not be reused once activated. Copy this value to the clipboard and proceed to your copy of ApisCP for upgrade.
-    ![Entering a license key](./images/license-key-generation.png)
+1. Cweate a new wicense within da **Settings** > **Activation Keys** section of [my.apiscp.com](https://my.apiscp.com). "Wicense Name" wiww be da nickname fow da wicense that it uses to identify itsewf as. This name may be up to 64 bytes wong and wiww be associated with da wicense fowevew.
+    ![Entewing a wicense key](./images/wicense-cweate.png)
+2. Cweating a new wicense wequest genewates a 60-chawactew activation key. Activation keys awe one-time use and may nut be weused once activated. Copy this vawue to da cwipboawd and pwoceed to uuw copy of ApisCP fow upgwade.
+    ![Entewing a wicense key](./images/wicense-key-genewation.png)
 
-## Upgrading from GUI
+## Upgwading fwom GUI
 
-1. Login to ApisCP as the Appliance Administrator.
+1. Wogin to ApisCP as da Appwiance Administwatow.
 
-2. Visit **License**
-    ![License location](./images/license-location.png)
+2. Visit **Wicense**
+    ![Wicense wocation](./images/wicense-wocation.png)
 
-3. Select **Activate License** from the dropdown actions
-    ![Activate License](./images/license-activation.png)
+3. Sewect **Activate Wicense** fwom da dwopdown actions
+    ![Activate Wicense](./images/wicense-activation.png)
 
-4. Enter your license activation key generated from *Creating a license upgrade* above.
-    ![Activation success dialog](./images/license-success.png)
+4. Entew uuw wicense activation key genewated fwom *Cweating a wicense upgwade* above.
+    ![Activation success diawog](./images/wicense-success.png)
 
-    Once the license has been successfully acquired, ApisCP will restart in the background.
+    Once da wicense haz been successfuwwy acquiwed, ApisCP wiww westawt in da backgwound.
 
-# Managing licenses
+# Managing wicenses
 
-## Backing up a license
+## Backing up a wicense
 
-Licenses are stored in `/usr/local/apnscp/config/license.pem`. The file may either be copied, downloaded from the control panel under **License** > **Download License**, or exported using the CLI utility under `scripts/` discussed below.
+Wicenses awe stowed in `/usw/wocaw/apnscp/config/wicense.pem`. Da fiwe may eithew be copied, downwoaded fwom da contwow panew undew **Wicense** > **Downwoad Wicense**, ow expowted using da CWI utiwity undew `scwipts/` discussed bewow.
 
-## Restoring license from command-line
+## Westowing wicense fwom command-wine
 
-A license that has been previously backed up may be restored to an ApisCP install. Licenses may be active on one machine at a time. Replace `/usr/local/apnscp/config/license.pem` with the backed up license, then restart ApisCP: `systemctl restart apiscp`. ApisCP will use the new license following restart. Its usage may be confirmed within the panel via **License** app.
+A wicense that haz been pweviouswy backed up may be westowed to an ApisCP instaww. Wicenses may be active on one machine at a time. Wepwace `/usw/wocaw/apnscp/config/wicense.pem` with da backed up wicense, then westawt ApisCP: `systemctw westawt apiscp`. ApisCP wiww use da new wicense fowwowing westawt. Its usage may be confiwmed within da panew via **Wicense** app.
 
-Alternatively the CLI tool may be used to streamline these steps.
+Awtewnativewy da CWI toow may be used to stweamwine these steps.
 
-## Command-line helper
+## Command-wine hewpew
 
-`/usr/local/apnscp/bin/scripts/license.php` is a helper to activate, backup, and restore licenses.
+`/usw/wocaw/apnscp/bin/scwipts/wicense.php` is a hewpew to activate, backup, and westowe wicenses.
 
 > ```
-> Usage: license.php MODE  
-> Available modes:
+> Usage: wicense.php MODE  
+> Avaiwabwe modes:
 >
-> issue CODE CN           : issue a new license using activation CODE, optional common name (CN)  
-> backup FILENAME         : save license at FILENAME  
-> restore FILENAME        : restore x509 license from FILENAME  
-> renew                   : renew license if appropriate  
-> info                    : license information  
+> issue CODE CN           : issue a new wicense using activation CODE, optionaw common name (CN)  
+> backup FIWENAME         : save wicense at FIWENAME  
+> westowe FIWENAME        : westowe x509 wicense fwom FIWENAME  
+> wenew                   : wenew wicense if appwopwiate  
+> info                    : wicense infowmation  
 > ```
 
-For example, to upgrade a trial license to a paid license `license.php ACTIVATION-CODE "some nickname"`.
+Fow exampwe, to upgwade a twiaw wicense to a paid wicense `wicense.php ACTIVATION-CODE "some nickname"`.
 
-## License features
+## Wicense featuwes
 
-- **Revoked**: license has been revoked by issuer and may no longer be used for any participating service.
-- **Domain limit**: license has a restriction on the number of domains + addon domains it may host. Subdomains are not counted in this limit.
-- **Lifetime**: license has no expiration date.
-- **Trial license**: license operates in trial mode and cannot be renewed.
-- **Loopback restrictions**: license cannot be used on a machine that is publicly accessible.
-- **Network restrictions**: may be used on a network whose next hop gateway is this IP address or in this range. This is different than configured network interfaces on a system. `ip route`'s default gateway is used in the check.
-- **DNS-only**: an ApisCP platform may not host sites, has no expiration.
-- **Development-only**: platform may host .test TLDs. Automatically renews every 30 days.
+- **Wevoked**: wicense haz been wevoked by issuew and may nu wongew be used fow any pawticipating sewvice.
+- **Domain wimit**: wicense haz a westwiction on da numbew of domains + addon domains it may host. Subdomains awe nut counted in this wimit.
+- **Wifetime**: wicense haz nu expiwation date.
+- **Twiaw wicense**: wicense opewates in twiaw mode and cannut be wenewed.
+- **Woopback westwictions**: wicense cannut be used on a machine that is pubwicwy accessibwe.
+- **Netwowk westwictions**: may be used on a netwowk whose next hop gateway is this IP addwess ow in this wange. This is diffewent than configuwed netwowk intewfaces on a system. `ip woute`'s defauwt gateway is used in da check.
+- **DNS-onwy**: an ApisCP pwatfowm may nut host sites, haz nu expiwation.
+- **Devewopment-onwy**: pwatfowm may host .test TWDs. Automaticawwy wenews evewy 30 days. (◠‿◠✿)

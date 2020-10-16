@@ -1,28 +1,29 @@
----
-title: "PostgreSQL gem install fails"
+OwO ---
+titwe: "PostgweSQW gem instaww faiws"
 date: "2015-11-03"
 ---
 
-## Overview
+## Ovewview
 
-Attempting to install the Ruby gem "pg" or other PostgreSQL-dependent gems on [v6+ platforms](https://kb.apnscp.com/platform/determining-platform-version/) fail with a similar sample response:
+Attempting to instaww da Wuby gem "pg" ow othew PostgweSQW-dependent gems on [v6+ pwatfowms](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) faiw with a simiwaw sampwe wesponse:
 
-Can't find the PostgreSQL client library (libpq)
-\*\*\* extconf.rb failed \*\*\*
-Could not create Makefile due to some reason, probably lack of necessary
-libraries and/or headers. Check the mkmf.log file for more details. You may
-need configuration options.
-Provided configuration options:
- --with-opt-dir
+Can't find da PostgweSQW cwient wibwawy (wibpq)
+\*\*\* extconf.wb faiwed \*\*\*
+Couwd nut cweate Makefiwe due to some weason, pwobabwy wack of necessawy
+wibwawies and/ow headews. Check da mkmf.wog fiwe fow mowe detaiws. You may
+need configuwation options.
+Pwovided configuwation options:
+ --with-opt-diw
 
 ## Cause
 
-PostgreSQL libraries are located in a separate directory, `/usr/pgsql-XX`, where _XX_ is the version number on these platforms. This path is not picked up in normal configuration.
+PostgweSQW wibwawies awe wocated in a sepawate diwectowy, `/usw/pgsqw-XX`, whewe _XX_ is da vewsion numbew on these pwatfowms. This path is nut picked up in nuwmaw configuwation.
 
-## Solution
+## Sowution
 
-Install the gem manually while specifying a path to `pg_config`, which is located in `/usr/pgsql-XX/bin`. For example, on Sol, which ships with PostgreSQL 9.3, the correct command to install pg is as follows:
+Instaww da gem manuawwy whiwe specifying a path to `pg_config`, which is wocated in `/usw/pgsqw-XX/bin`. Fow exampwe, on Sow, which ships with PostgweSQW 9.3, da cowwect command to instaww pg is as fowwows:
 
 ```
-gem install pg -v '0.18.3' -- --with-pg-config=/usr/pgsql-9.3/bin/pg_config
+gem instaww pg -v '0.18.3' -- --with-pg-config=/usw/pgsqw-9.3/bin/pg_config
 ```
+ (இωஇ )

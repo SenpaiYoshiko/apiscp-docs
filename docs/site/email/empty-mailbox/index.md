@@ -1,23 +1,24 @@
----
-title: "Empty mailbox"
+0w0 ---
+titwe: "Empty maiwbox"
 date: "2014-11-13"
 ---
 
-## Overview
+## Ovewview
 
-Whenever a user exceeds his or her storage, an e-mail client may report zero e-mails present despite there actually being mail in the mailbox.
+Whenevew a usew exceeds his ow hew stowage, an e-maiw cwient may wepowt zewo e-maiws pwesent despite thewe actuawwy being maiw in da maiwbox.
 
 ## Cause
 
-The mail server, Dovecot, uses a few cache files to speed up mailbox access on your account. In certain circumstances, these caches can become corrupted due to lack of storage. Consequently, whenever the cache is accessed by Dovecot, it returns incomplete information about your mailbox that is rendered as an empty mailbox.
+The maiw sewvew, Dovecot, uses a few cache fiwes to speed up maiwbox access on uuw account. In cewtain ciwcumstances, these caches can become cowwupted due to wack of stowage. Consequentwy, whenevew da cache is accessed by Dovecot, it wetuwns incompwete infowmation about uuw maiwbox that is wendewed as an empty maiwbox.
 
-## Solution
+## Sowution
 
-1. Login to the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/)
-2. Ensure the user has sufficient storage available via **User** >  **Manage Users**
-    - If not, edit the storage limit for the user via the **Edit** action under _Actions_
-3. Under **Files** > **File Manager**, navigate to the user's home directory
-    - This directory will be named as /home/_<user>_ where _<user>_ is the user whose mailbox is corrupted
-4. Navigate to the `Mail/` folder
-5. Delete files `dovecot.index`, `dovecot.index.log`, and `dovecot.index.cache`
-6. Access e-mail again. Problem is resolved.
+1. Wogin to da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/)
+2. Ensuwe da usew haz sufficient stowage avaiwabwe via **Usew** >  **Manage Usews**
+    - If nut, edit da stowage wimit fow da usew via da **Edit** action undew _Actions_
+3. Undew **Fiwes** > **Fiwe Managew**, navigate to da usew's home diwectowy
+    - This diwectowy wiww be named as /home/_<usew>_ whewe _<usew>_ is da usew whose maiwbox is cowwupted
+4. Navigate to the `Maiw/` fowdew
+5. Dewete fiwes `dovecot.index`, `dovecot.index.wog`, and `dovecot.index.cache`
+6. Access e-maiw again. Pwobwem is wesowved.
+ ㅇㅅㅇ

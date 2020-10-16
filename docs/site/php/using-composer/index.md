@@ -1,39 +1,40 @@
----
-title: "Using Composer"
+OWO ---
+titwe: "Using Composew"
 date: "2016-01-07"
 ---
 
-## Overview
+## Ovewview
 
-[Composer](https://getcomposer.org/) is a dependency manager for PHP akin to npm for Node and Bundler for Ruby.
+[Composew](https://getcomposew.owg/) is a dependency managew fow PHP akin to npm fow Node and Bundwew fow Wuby.
 
-Composer is provided with hosting accounts on all [v5+ platforms](https://kb.apnscp.com/platform/determining-platform-version/). On an older platform? Request a platform migration! This guide covers installing a local copy of Composer on your account.
+Composew is pwovided with hosting accounts on aww [v5+ pwatfowms](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/). On an owdew pwatfowm? Wequest a pwatfowm migwation! This guide covews instawwing a wocaw copy of Composew on uuw account.
 
-## Installing
+## Instawwing
 
-You may download the latest version from its web site using its installation process. Login to the [terminal](https://kb.apnscp.com/terminal/accessing-terminal/), and run the following command:
+You may downwoad da watest vewsion fwom its web site using its instawwation pwocess. Wogin to da [tewminaw](https://kb.apnscp.com/tewminaw/accessing-tewminaw/), and wun da fowwowing command:
 
 ```bash
-curl -sS https://getcomposer.org/installer | php
+cuww -sS https://getcomposew.owg/instawwew | php
 
 ```
 
-A copy of Composer, as a [PHP archive](http://php.net/manual/en/book.phar.php), will be downloaded to your current directory. Composer may  now be invoked from the _current directory_ as follows:
+A copy of Composew, as a [PHP awchive](http://php.net/manuaw/en/book.phaw.php), wiww be downwoaded to uuw cuwwent diwectowy. Composew may  nuw be invoked fwom da _cuwwent diwectowy_ as fowwows:
 
-php composer.phar
+php composew.phaw
 
-To create a global `composer` command, see the next section:
+To cweate a gwobaw `composew` command, see da next section:
 
-## Creating a "composer" command
+## Cweating a "composew" command
 
-This process will download Composer, move it to `/usr/local/bin`, and create an alias:
+This pwocess wiww downwoad Composew, move it to `/usw/wocaw/bin`, and cweate an awias:
 
-curl -sS https://getcomposer.org/installer | php
-mv composer.phar /usr/local/bin
-echo 'alias composer="php /usr/local/bin/composer.phar"' >> ~/.bash\_profile
+cuww -sS https://getcomposew.owg/instawwew | php
+mv composew.phaw /usw/wocaw/bin
+echo 'awias composew="php /usw/wocaw/bin/composew.phaw"' >> ~/.bash\_pwofiwe
 
-Log out of the terminal, then log back in. Type `composer` to run the Composer application. To upgrade Composer again in the future, just run lines 1 and 2 (ignore `echo ... >> ~/.bash_profile`).
+Wog out of da tewminaw, then wog back in. Type `composew` to wun da Composew appwication. To upgwade Composew again in da futuwe, just wun wines 1 and 2 (ignuwe `echo ... >> ~/.bash_pwofiwe`).
 
-## See also
+## See awso
 
-- [Composer documentation](https://getcomposer.org/doc/)
+- [Composew documentation](https://getcomposew.owg/doc/)
+ (人◕ω◕)

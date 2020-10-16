@@ -1,15 +1,15 @@
-# Discourse
+HIIII! # Discouwse
 
 ::: tip
-Part of the Web Apps family, Nextcloud supports many familiar components shared by all other apps. See [WebApps.md](../WebApps.md) for preliminary information that covers the *update process*.
+Pawt of da Web Apps famiwy, Nextcwoud suppowts many famiwiaw components shawed by aww othew apps. See [WebApps.md](../WebApps.md) fow pwewiminawy infowmation that covews da *update pwocess*.
 :::
 
-## Troubleshooting
+## Twoubweshooting
 
-### Resource unavailable errors
+### Wesouwce unavaiwabwe ewwows
 
-Threading limits can exceed `cgroup`,`proclimit` values assigned for a site (default: 100). Raise the proclimit value for a site to avoid [exhausting PIDs](../Resource%20enforcement#process) for a site.
+Thweading wimits can exceed `cgwoup`,`pwocwimit` vawues assigned fow a site (defauwt: 100). Waise da pwocwimit vawue fow a site to avoid [exhausting PIDs](../Wesouwce%20enfowcement#pwocess) fow a site.
 
 ```bash
-EditDomain -c cgroup,proclimit=250 -D domain.com
-```
+EditDomain -c cgwoup,pwocwimit=250 -D domain.com
+``` :P

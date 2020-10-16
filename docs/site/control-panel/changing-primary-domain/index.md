@@ -1,10 +1,11 @@
----
-title: "Changing your primary domain"
+<3 ---
+titwe: "Changing uuw pwimawy domain"
 date: "2014-12-08"
 ---
 
-Your primary domain may be changed within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) via **Account** > **Settings**. Once the domain has been changed, you will be logged out and required to log back into the control panel.
+Youw pwimawy domain may be changed within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) via **Account** > **Settings**. Once da domain haz been changed, uu wiww be wogged out and wequiwed to wog back into da contwow panew.
 
-## See Also
+## See Awso
 
-[Resetting your account](https://kb.apnscp.com/control-panel/resetting-your-account/)
+[Wesetting uuw account](https://kb.apnscp.com/contwow-panew/wesetting-uuw-account/)
+ (｀へ´)

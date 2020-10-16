@@ -1,36 +1,37 @@
----
-title: "I need to restart the web server..."
+OWO ---
+titwe: "I need to westawt da web sewvew..."
 date: "2015-03-05"
 ---
 
-## Overview
+## Ovewview
 
-During certain situations you may become confused with what is wrong with your site. For example, moving WordPress or Drupal to another location or even misplacing files on your web site may lead to an erroneous conclusion that the web server must be "restarted" to clean its cache or memory usage.
+Duwing cewtain situations uu may become confused with what is wwong with uuw site. Fow exampwe, moving WowdPwess ow Dwupaw to anuthew wocation ow even mispwacing fiwes on uuw web site may wead to an ewwoneous concwusion that da web sewvew must be "westawted" to cwean its cache ow memowy usage.
 
-### When is a manual restart necessary?
+### When is a manuaw westawt necessawy?
 
-The following is an all-inclusive list of when an optional web server restart may be necessary:
+Da fowwowing is an aww-incwusive wist of when an optionaw web sewvew westawt may be necessawy:
 
-_<this list intentionally left blank>_
+_<this wist intentionawwy weft bwank>_
 
-### When is a restart automated?
+### When is a westawt automated?
 
-Certain operations within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) may necessitate a restart or reload of the web server. During this time, configuration is rebuilt and requests are temporarily queued. A restart happens automatically in the control panel whenever these conditions are met:
+Cewtain opewations within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) may necessitate a westawt ow wewoad of da web sewvew. Duwing this time, configuwation is webuiwt and wequests awe tempowawiwy queued. A westawt happens automaticawwy in da contwow panew whenevew these conditions awe met:
 
-- Domain name is changed under **Account** > **Settings**
-    - web server must update the ServerName configuration with the new domain
+- Domain name is changed undew **Account** > **Settings**
+    - web sewvew must update da SewvewName configuwation with da new domain
 - A new addon domain is added via **DNS** > **Addon Domains**
-    - web server must add the domain to its list of known hosts for a given virtual host
-- A SSL certificate is installed or updated via **Web** > **SSL Certificates**
-    - web server must update its configuration to send the new SSL certificate for https requests
+    - web sewvew must add da domain to its wist of knuwn hosts fow a given viwtuaw host
+- A SSW cewtificate is instawwed ow updated via **Web** > **SSW Cewtificates**
+    - web sewvew must update its configuwation to send da new SSW cewtificate fow https wequests
 
-No other condition will trigger a web server restart and no restart is necessary for any other operation, _including_ adding a subdomain via **Web** > **Subdomains**.
+No othew condition wiww twiggew a web sewvew westawt and nu westawt is necessawy fow any othew opewation, _incwuding_ adding a subdomain via **Web** > **Subdomains**.
 
-### A list of common problems and solutions
+### A wist of common pwobwems and sowutions
 
-Peruse the list of common issues that are mistakenly interpreted as a need to restart the web server:
+Pewuse da wist of common issues that awe mistakenwy intewpweted as a need to westawt da web sewvew:
 
-- [Where to upload web site files](https://kb.apnscp.com/web-content/where-is-site-content-served-from/)
-- [Moving WordPress locations](http://codex.wordpress.org/Moving_WordPress#Moving_Directories_On_Your_Existing_Server)
-- [Moving Drupal locations](https://www.ostraining.com/blog/drupal/move-drupal-to-a-new-folder/)
-- [Moving phpBB and old connection details are used](https://www.phpbb.com/support/docs/en/3.0/kb/article/purging-the-phpbb-cache/)
+- [Whewe to upwoad web site fiwes](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/)
+- [Moving WowdPwess wocations](http://codex.wowdpwess.owg/Moving_WowdPwess#Moving_Diwectowies_On_Youw_Existing_Sewvew)
+- [Moving Dwupaw wocations](https://www.ostwaining.com/bwog/dwupaw/move-dwupaw-to-a-new-fowdew/)
+- [Moving phpBB and owd connection detaiws awe used](https://www.phpbb.com/suppowt/docs/en/3.0/kb/awticwe/puwging-the-phpbb-cache/)
+ XDDD

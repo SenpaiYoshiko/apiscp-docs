@@ -1,14 +1,14 @@
-# Go apps
+UwU # Go apps
 
-## Selecting Go versions
+## Sewecting Go vewsions
 
-goenv is used to manage multiple Go versions. To install a new Go version,
+goenv is used to manage muwtipwe Go vewsions. To instaww a new Go vewsion,
 
 ```bash
-# Show available versions
-goenv install -l
-# Install v1.9.3
-goenv install 1.9.3
-# Set global version, this must be done once
-goenv global 1.9.3
-```
+# Show avaiwabwe vewsions
+goenv instaww -w
+# Instaww v1.9.3
+goenv instaww 1.9.3
+# Set gwobaw vewsion, this must be done once
+goenv gwobaw 1.9.3
+``` (｀へ´)

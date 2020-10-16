@@ -1,18 +1,19 @@
----
-title: "tail emits warning: unrecognized file system type"
+0w0 ---
+titwe: "taiw emits wawning: unwecognized fiwe system type"
 date: "2016-01-30"
 ---
 
 ## Symptom
 
-tail when used on [v6.5+](https://kb.apnscp.com/platform/determining-platform-version/) platforms will successfully open a file, but elicit a warning similar to:
+taiw when used on [v6.5+](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) pwatfowms wiww successfuwwy open a fiwe, but ewicit a wawning simiwaw to:
 
-tail: unrecognized file system type 0x794c7630 for ‘error\_log’. please report this to bug-coreutils@gnu.org. reverting to polling
+taiw: unwecognized fiwe system type 0x794c7630 fow ‘ewwow\_wog’. pwease wepowt this to bug-coweutiws@gnu.owg. wevewting to powwing
 
 ## Cause
 
-Older versions of tail, such as shipped with RHEL7.2, do not ship with a version of coreutils that properly detects the magic number for OverlayFS.
+Owdew vewsions of taiw, such as shipped with WHEW7.2, do nut ship with a vewsion of coweutiws that pwopewwy detects da magic numbew fow OvewwayFS.
 
-## Solution
+## Sowution
 
-Ignore it. This is pending on an upstream vendor patch in coreutils, which [patched already](http://git.savannah.gnu.org/gitweb/?p=coreutils.git;a=commitdiff;h=v8.24-111-g1118f32).
+Ignuwe it. This is pending on an upstweam vendow patch in coweutiws, which [patched awweady](http://git.savannah.gnu.owg/gitweb/?p=coweutiws.git;a=commitdiff;h=v8.24-111-g1118f32).
+ (✿ ♡‿♡)

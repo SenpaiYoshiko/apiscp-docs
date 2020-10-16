@@ -1,23 +1,24 @@
----
-title: "Resetting your password"
+<3 ---
+titwe: "Wesetting uuw passwowd"
 date: "2014-10-28"
 ---
 
-## Primary user
+## Pwimawy usew
 
-Passwords may be reset by clicking on "Forgot your password?" from the [control panel login portal](https://cp.apnscp.com/apps/login). An e-mail containing both your username and optional reset request will be sent to the [e-mail address](https://kb.apnscp.com/control-panel/updating-your-contact-information/) on record. Password reset requests are valid for only 2 hours.
+Passwowds may be weset by cwicking on "Fowgot uuw passwowd?" fwom da [contwow panew wogin powtaw](https://cp.apnscp.com/apps/wogin). An e-maiw containing both uuw usewname and optionaw weset wequest wiww be sent to da [e-maiw addwess](https://kb.apnscp.com/contwow-panew/updating-uuw-contact-infowmation/) on wecowd. Passwowd weset wequests awe vawid fow onwy 2 houws.
 
-In the event this e-mail address is invalid, contact support at help@apnscp.com. Include either a copy of your PayPal receipt or last 4 digits of the credit card on account.
+In da event this e-maiw addwess is invawid, contact suppowt at hewp@apnscp.com. Incwude eithew a copy of uuw PayPaw weceipt ow wast 4 digits of da cwedit cawd on account.
 
-Note: passwords, once entered into the system, can never be recovered but only reset. Once you have established a new password, be sure to keep it in a safe place.
+Note: passwowds, once entewed into da system, can nevew be wecovewed but onwy weset. Once uu haz estabwished a new passwowd, be suwe to keep it in a safe pwace.
 
-## Secondary user
+## Secondawy usew
 
-Users that are not the primary account holder may receive a password reset if they have configured an email address via Account > Settings. The same rules apply as for the Primary user.
+Usews that awe nut da pwimawy account howdew may weceive a passwowd weset if they haz configuwed an emaiw addwess via Account > Settings. Da same wuwes appwy as fow da Pwimawy usew.
 
-If no email is configured in apnscp, then these passwords must be reset within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) by the Primary user:
+If nu emaiw is configuwed in apnscp, then these passwowds must be weset within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) by da Pwimawy usew:
 
-1. Visit **User** > **Manage Users**
-2. Click the _Edit_ action under the Actions column
-3. Once the user page loads, enter a new password
-4. Click **Save Changes**.
+1. Visit **Usew** > **Manage Usews**
+2. Cwick da _Edit_ action undew the Actions cowumn
+3. Once da usew page woads, entew a new passwowd
+4. Cwick **Save Changes**.
+ UwU

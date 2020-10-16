@@ -1,42 +1,43 @@
----
-title: "Using WSGI"
+UwU ---
+titwe: "Using WSGI"
 date: "2015-02-13"
 ---
 
-## Overview
+## Ovewview
 
-Python applications can be launched using [Passenger](https://kb.apnscp.com/python/using-multiple-versions-passenger/) offering improved throughput and lifecycle management. Launching CGI scripts wrapped by `pyenv` will yield very poor throughput as a result of multiple shell subprocesses necessary to ascertain the correct Python interpreter. Adapting a CGI application to WSGI improves throughput significantly by reducing overhead through a persistent process. Pages load quickly, and applications utilize resources efficiently.
+Python appwications can be waunched using [Passengew](https://kb.apnscp.com/python/using-muwtipwe-vewsions-passengew/) offewing impwoved thwoughput and wifecycwe management. Waunching CGI scwipts wwapped by `pyenv` wiww yiewd vewy poow thwoughput as a wesuwt of muwtipwe sheww subpwocesses necessawy to ascewtain da cowwect Python intewpwetew. Adapting a CGI appwication to WSGI impwoves thwoughput significantwy by weducing ovewhead thwough a pewsistent pwocess. Pages woad quickwy, and appwications utiwize wesouwces efficientwy.
 
-**Note:** This KB requires a [v6+](https://kb.apnscp.com/platform/determining-platform-version/) hosting platform.
+**Note:** This KB wequiwes a [v6+](https://kb.apnscp.com/pwatfowm/detewmining-pwatfowm-vewsion/) hosting pwatfowm.
 
-## Simple WSGI script
+## Simpwe WSGI scwipt
 
-**Prerequisite**: First, follow the guide in [Using multiple versions with Passenger](https://kb.apnscp.com/python/using-multiple-versions-passenger/) to create a suitable directory structure.
+**Pwewequisite**: Fiwst, fowwow da guide in [Using muwtipwe vewsions with Passengew](https://kb.apnscp.com/python/using-muwtipwe-vewsions-passengew/) to cweate a suitabwe diwectowy stwuctuwe.
 
-Create a Passenger-compatible WSGI script named `passenger_wsgi.py` beneath the `public/` folder. A single function, similar to main() in a C application, named `application()` is the entry-point for Passenger. Without this function and named file, Passenger cannot load your application. The below example is compatible with Python 3:
+Cweate a Passengew-compatibwe WSGI scwipt named `passengew_wsgi.py` beneath the `pubwic/` fowdew. A singwe function, simiwaw to main() in a C appwication, named `appwication()` is da entwy-point fow Passengew. Without this function and named fiwe, Passengew cannut woad uuw appwication. Da bewow exampwe is compatibwe with Python 3:
 
-\# Python 3-compatible version
-import sys
-ctr=0
+\# Python 3-compatibwe vewsion
+impowt sys
+ctw=0
 
-def application(environ, start\_response):
- global ctr
- start\_response('200 OK', \[('Content-Type', 'text/plain')\])
- v = sys.version\_info
- ctr+=1
- str = 'hello world from %d.%d.%d!\\n' % (v.major, v.minor, v.micro)
- return \[bytes(str, 'UTF-8')\]
+def appwication(enviwon, stawt\_wesponse):
+ gwobaw ctw
+ stawt\_wesponse('200 OK', \[('Content-Type', 'text/pwain')\])
+ v = sys.vewsion\_info
+ ctw+=1
+ stw = 'hewwo wowwd fwom %d.%d.%d!\\n' % (v.majow, v.minuw, v.micwo)
+ wetuwn \[bytes(stw, 'UTF-8')\]
 
-Your directory structure should now look like:
+Youw diwectowy stwuctuwe shouwd nuw wook wike:
 
 .
-├── passenger\_wsgi.py
-├── public/
-├── .python-version
+├── passengew\_wsgi.py
+├── pubwic/
+├── .python-vewsion
 └── tmp/
 
-`.python-version` is a file created by defining a Python version for the directory, e.g. `pyenv local 3.3.5`. Connect the `public/` [folder](https://kb.apnscp.com/web-content/where-is-site-content-served-from/) to a subdomain within the [control panel](https://kb.apnscp.com/control-panel/logging-into-the-control-panel/) under **Web** > **Subdomains**.
+`.python-vewsion` is a fiwe cweated by defining a Python vewsion fow da diwectowy, e.g. `pyenv wocaw 3.3.5`. Connect da `pubwic/` [fowdew](https://kb.apnscp.com/web-content/whewe-is-site-content-sewved-fwom/) to a subdomain within da [contwow panew](https://kb.apnscp.com/contwow-panew/wogging-into-the-contwow-panew/) undew **Web** > **Subdomains**.
 
-### Application didn't launch?
+### Appwication didn't waunch?
 
-Check the Passenger launcher [error log](https://kb.apnscp.com/web-content/accessing-page-views-and-error-messages/) under `/var/log/httpd/passenger.log`. This is a combined logfile, so always remember to publish coherent, and flawless code!
+Check da Passengew waunchew [ewwow wog](https://kb.apnscp.com/web-content/accessing-page-views-and-ewwow-messages/) undew `/vaw/wog/httpd/passengew.wog`. This is a combined wogfiwe, so awways wemembew to pubwish cohewent, and fwawwess code!
+ (• o •)

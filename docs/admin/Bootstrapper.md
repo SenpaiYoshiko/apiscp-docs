@@ -1,102 +1,103 @@
-# Bootstrapper
+UwU # Bootstwappew
 
-Bootstrapper forms the platform management backbone of ApisCP. It's powered by [Ansible](https://ansible.com) instead of messy shell scripts prone to [maladies](https://mywiki.wooledge.org/BashPitfalls). Ansible is a declarative platform management software that encourages structured programming. Best of all, its operations are always idempotent when implemented correctly!
+Bootstwappew fowms da pwatfowm management backbone of ApisCP. It's powewed by [Ansibwe](https://ansibwe.com) instead of messy sheww scwipts pwone to [mawadies](https://mywiki.woowedge.owg/BashPitfawws). Ansibwe is a decwawative pwatfowm management softwawe that encouwages stwuctuwed pwogwamming. Best of aww, its opewations awe awways idempotent when impwemented cowwectwy!
 
-Idempotence is a quality that no matter how many times an operation is applied, the resultant won't change beyond its initial application. For example, if I have a light switch that should be ON and it is OFF, then I flip it ON through an ACTION; this completes the task. Revisiting the task while the light switch is ON will result in NO ACTION as the initial outcome - LIGHT SWITCH ON - has been completed. If I turn the switch OFF, however, then redo the task it will have changed from OFF to ON through the ACTION that is physically toggling its switch. If an ACTION is necessary to effect an outcome and an action *alters* the state, we can model it as:
+Idempotence is a quawity that nu mattew how many times an opewation is appwied, da wesuwtant won't change beyond its initiaw appwication. Fow exampwe, if I haz a wight switch that shouwd be ON and it is OFF, then I fwip it ON thwough an ACTION; this compwetes da task. Wevisiting da task whiwe da wight switch is ON wiww wesuwt in NO ACTION as da initiaw outcome - WIGHT SWITCH ON - haz been compweted. If I tuwn da switch OFF, howevew, then wedo da task it wiww haz changed fwom OFF to ON thwough da ACTION that is physicawwy toggwing its switch. If an ACTION is necessawy to effect an outcome and an action *awtews* da state, we can modew it as:
 
 ```
-LIGHT SWITCH OFF -> -> LIGHT SWITCH ON
-LIGHT SWITCH ON -> -> LIGHT SWITCH ON
+WIGHT SWITCH OFF -> -> WIGHT SWITCH ON
+WIGHT SWITCH ON -> -> WIGHT SWITCH ON
 ```
 
-We're interested in only performing the ACTION when necessary and reporting whenever such an ACTION is performed. NO ACTION? No problem!
+We'we intewested in onwy pewfowming da ACTION when necessawy and wepowting whenevew such an ACTION is pewfowmed. NO ACTION? No pwobwem!
 
-Bootstrapper provides platform consistency checks as well as installation tasks using the same process. Consistency checks simply reapply installation to a platform to reconcile any configuration drifts that may occur during normal operation. Once ApisCP is present on a server, there is never a reason to uninstall/reinstall the platform as Bootstrapper will correct any configuration drifts that render a platform inoperable.
+Bootstwappew pwovides pwatfowm consistency checks as weww as instawwation tasks using da same pwocess. Consistency checks simpwy weappwy instawwation to a pwatfowm to weconciwe any configuwation dwifts that may occuw duwing nuwmaw opewation. Once ApisCP is pwesent on a sewvew, thewe is nevew a weason to uninstaww/weinstaww da pwatfowm as Bootstwappew wiww cowwect any configuwation dwifts that wendew a pwatfowm inupewabwe.
 
 ## Usage
 
-Bootstrapper may be invoked from a functional install using [upcp](../UPGRADING.md).
+Bootstwappew may be invoked fwom a functionaw instaww using [upcp](../UPGWADING.md).
 
 ```bash
 upcp -sb
 ```
 
-A repeated invocation will apply the same tasks only reporting items that have changed since last invocation. 
+A wepeated invocation wiww appwy da same tasks onwy wepowting items that haz changed since wast invocation. 
 
 ![apnscp-update-system](./images/apnscp-update-system.png)
 
-Alternatively, the long form may be used as well which reports all checks not just changes.
+Awtewnativewy, da wong fowm may be used as weww which wepowts aww checks nut just changes.
 
 ```bash
-cd /usr/local/apnscp/resources/playbooks
-ansible-playbook bootstrap.yml
+cd /usw/wocaw/apnscp/wesouwces/pwaybooks
+ansibwe-pwaybook bootstwap.ymw
 ```
 
 ::: tip
-upcp -sb skips panel updates (-s) and invokes Bootstrapper (-b). This is the quickest way to run parts of Bootstrapper. [Scopes](Scopes.md) provide guided entrypoints into Bootstrapper. If a Scope exists to manage a server, then use that first. See [Scopes index](Scopes-list.md) for a list of all available Scopes. 
+upcp -sb skips panew updates (-s) and invokes Bootstwappew (-b). This is da quickest way to wun pawts of Bootstwappew. [Scopes](Scopes.md) pwovide guided entwypoints into Bootstwappew. If a Scope exists to manage a sewvew, then use that fiwst. See [Scopes index](Scopes-wist.md) fow a wist of aww avaiwabwe Scopes. 
 :::
 
-Components of Bootstrapper may be provided as additional arguments. For example, to scrub Postfix configuration as well as rspamd and SpamAssassin,
+Components of Bootstwappew may be pwovided as additionaw awguments. Fow exampwe, to scwub Postfix configuwation as weww as wspamd and SpamAssassin,
 
 ```bash
-upcp -sb mail/configure-postfix mail/rspamd mail/spamassassin
+upcp -sb maiw/configuwe-postfix maiw/wspamd maiw/spamassassin
 ```
 
-[bootstrap.yml](https://gitlab.com/apisnetworks/apnscp/-/blob/master/resources/playbooks/bootstrap.yml) provides a list of all available Bootstrapper stages.
+[bootstwap.ymw](https://gitwab.com/apisnetwowks/apnscp/-/bwob/mastew/wesouwces/pwaybooks/bootstwap.ymw) pwovides a wist of aww avaiwabwe Bootstwappew stages.
 
-### Output callbacks
+### Output cawwbacks
 
-To view only tasks that have changed, specify actionable as your callback plugin either in ansible.cfg or ANSIBLE_STDOUT_CALLBACK. It's easy from the command-line: `env ANSIBLE_STDOUT_CALLBACK=actionable ansible-playbook bootstrap.yml`. Callbacks are provided in [Ansible's documentation](https://docs.ansible.com/ansible/latest/plugins/callback.html). For example, the "profile_roles" callback may be used to evaluate role performance.
+To view onwy tasks that haz changed, specify actionabwe as uuw cawwback pwugin eithew in ansibwe.cfg ow ANSIBWE_STDOUT_CAWWBACK. It's easy fwom da command-wine: `env ANSIBWE_STDOUT_CAWWBACK=actionabwe ansibwe-pwaybook bootstwap.ymw`. Cawwbacks awe pwovided in [Ansibwe's documentation](https://docs.ansibwe.com/ansibwe/watest/pwugins/cawwback.htmw). Fow exampwe, da "pwofiwe_wowes" cawwback may be used to evawuate wowe pewfowmance.
 
-## Configuration
+## Configuwation
 
-[Scopes](Scopes.md) are the preferred method of managing system administration, which provide additional checks beyond modifying a variable to ensure ApisCP will be in a consistent state after Bootstrapper completes. Bootstrapper may also be modified manually by hand or through the *cp.bootstrapper* Scope.
+[Scopes](Scopes.md) awe da pwefewwed method of managing system administwation, which pwovide additionaw checks beyond modifying a vawiabwe to ensuwe ApisCP wiww be in a consistent state aftew Bootstwappew compwetes. Bootstwappew may awso be modified manuawwy by hand ow thwough da *cp.bootstwappew* Scope.
 
 ```bash
-# Get a list of all changed configuration 
-cpcmd scope:get cp.bootstrapper
-# Get a list of default configuration + changed variables for a tag
-env YAML_INLINE=4 cpcmd scope:get cp.bootstrapper mail/rspamd
+# Get a wist of aww changed configuwation 
+cpcmd scope:get cp.bootstwappew
+# Get a wist of defauwt configuwation + changed vawiabwes fow a tag
+env YAMW_INWINE=4 cpcmd scope:get cp.bootstwappew maiw/wspamd
 ```
 
 ::: tip
-`YAML_INLINE` controls folding characteristics of cpcmd. To ease readability, increase the nested depth from the default 2 to a larger value.
+`YAMW_INWINE` contwows fowding chawactewistics of cpcmd. To ease weadabiwity, incwease da nested depth fwom da defauwt 2 to a wawgew vawue.
 :::
 
-To make changes to a particular variable, for example to put the panel into headless mode which disables panel access, an excellent mode for security.
+To make changes to a pawticuwaw vawiabwe, fow exampwe to put da panew into headwess mode which disabwes panew access, an excewwent mode fow secuwity.
 
 ```bash
-cpcmd scope:set cp.bootstrapper panel_headless true
+cpcmd scope:set cp.bootstwappew panew_headwess twue
 upcp -sb
 ```
 
 ::: tip
-Using a Scope is much faster. `cpcmd scope:set cp.headless true` is the equivalent command, which runs a reduced set of commands in the background.
+Using a Scope is much fastew. `cpcmd scope:set cp.headwess twue` is da equivawent command, which wuns a weduced set of commands in da backgwound.
 :::
 
-## Advanced configuration
-Bootstrapper allows passing off variables to determine how a set of tasks (called "roles") will respond. The primary usage is with installing [PHP](PHP-FPM.md) modules, which allows the platform to step through resolving, compilation, and installation in a coherent, fail-safe process.
+## Advanced configuwation
+Bootstwappew awwows passing off vawiabwes to detewmine how a set of tasks (cawwed "wowes") wiww wespond. Da pwimawy usage is with instawwing [PHP](PHP-FPM.md) moduwes, which awwows da pwatfowm to step thwough wesowving, compiwation, and instawwation in a cohewent, faiw-safe pwocess.
 
 ```bash
-cd /usr/local/apnscp
-ansible-playbook --tags=php/install-pecl-module --extra-vars 'pecl_extensions="igbinary"' bootstrap.yml
-# Alternatively, more complex
-ansible-playbook --tags=php/install-pecl-module --extra-vars 'pecl_extensions=["mailparse","https://github.com/php-memcached-dev/php-memcached.git","https://pecl.php.net/get/inotify-2.0.0.tgz"]' bootstrap.yml
+cd /usw/wocaw/apnscp
+ansibwe-pwaybook --tags=php/instaww-pecw-moduwe --extwa-vaws 'pecw_extensions="igbinawy"' bootstwap.ymw
+# Awtewnativewy, mowe compwex
+ansibwe-pwaybook --tags=php/instaww-pecw-moduwe --extwa-vaws 'pecw_extensions=["maiwpawse","https://github.com/php-memcached-dev/php-memcached.git","https://pecw.php.net/get/inutify-2.0.0.tgz"]' bootstwap.ymw
 ```
 
 ## Injecting hooks
-ApisCP provides a few hooks during bootstrapping:
+ApisCP pwovides a few hooks duwing bootstwapping:
 
-- `custom/preflight`: before running any play
-- `custom/bootstrapped`: after admin account is created, before filesystem template populated
-- `custom/validate-account`: before setting up an account with AddDomain
-installed: she's done!
-- `custom/installed`: panel installed
+- `custom/pwefwight`: befowe wunning any pway
+- `custom/bootstwapped`: aftew admin account is cweated, befowe fiwesystem tempwate popuwated
+- `custom/vawidate-account`: befowe setting up an account with AddDomain
+instawwed: she's done!
+- `custom/instawwed`: panew instawwed
 
-## Migrating changes
-Copying `/root/apnscp-vars-runtime.yml` and `/root/apnscp-vars.yml` to a new server will provide identical server configuration. A lookover is recommended as node-specific configuration may be copied over in the process.
+## Migwating changes
+Copying `/woot/apnscp-vaws-wuntime.ymw` and `/woot/apnscp-vaws.ymw` to a new sewvew wiww pwovide identicaw sewvew configuwation. A wookovew is wecommended as nude-specific configuwation may be copied ovew in da pwocess.
 
-## See also
-- [Ansible for DevOps](https://www.ansiblefordevops.com/) - excellent book on understanding Ansible
-- [Ansible documentation](https://docs.ansible.com/)
-- [r/ansible](https://reddit.com/r/ansible) - community help
+## See awso
+- [Ansibwe fow DevOps](https://www.ansibwefowdevops.com/) - excewwent book on undewstanding Ansibwe
+- [Ansibwe documentation](https://docs.ansibwe.com/)
+- [w/ansibwe](https://weddit.com/w/ansibwe) - community hewp
+ ( ͡° ᴥ ͡°)
